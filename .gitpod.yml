@@ -26,3 +26,4 @@ tasks:
 vscode:
   extensions:
     - esbenp.prettier-vscode
+    - adpyke.codesnap
