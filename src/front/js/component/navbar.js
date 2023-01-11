@@ -15,7 +15,7 @@ export const Navbar = () => {
           <span className="navbar-brand mb-0 h1">React Boilerplate</span>
         </Link>
         <div className="d-flex flex-row p-1 text-center">
-          <div className="d-flex align-items-end">
+          <div className="d-flex align-items-end me-4">
             {!store.token ? (
               <Signup />
             ) : (
