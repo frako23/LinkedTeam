@@ -47,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
+          console.log(data);
           setStore({ token: data.access_token });
           return true;
         } catch (error) {

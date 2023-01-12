@@ -22,7 +22,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-api.route("/token", methods=["POST"])
+@api.route("/token", methods=["POST"])
 def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
@@ -31,6 +31,7 @@ def login():
         return jsonify({"msg": "Mal Email o Password"}), 401
 
     access_token = create_access_token(identity=user.id)
+    # print(access_token)
     return jsonify(access_token=access_token)
 
 

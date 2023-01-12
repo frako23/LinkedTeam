@@ -2,17 +2,23 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-import { Carousel } from "../component/carousel";
-import { Segmento } from "../component/segments";
+import { First } from "../component/first";
+import { Second } from "../component/second";
+import { Third } from "../component/third";
+import { Fourth } from "../component/fourth";
+import { Fifth } from "../component/fifth";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
 
   return (
     <div className="text-center mt-5">
-      <Carousel />
+      <First />
 
-      <Segmento />
+      <Second />
+      <Third />
+      <Fourth />
+      <Fifth />
       <h1>Hello Rigo!!</h1>
       <p>
         <img src={rigoImageUrl} />

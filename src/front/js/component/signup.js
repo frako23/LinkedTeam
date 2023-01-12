@@ -25,7 +25,7 @@ export const Signup = () => {
 
   const sendData = (event) => {
     event.preventDefault();
-    actions.signup(name, lastname, phone, email, password);
+    actions.signup(name, lastname, phone, email, password, agency);
     if (
       name != "" &&
       lastname != "" &&
