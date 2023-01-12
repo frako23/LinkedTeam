@@ -34,9 +34,6 @@ def login():
     return jsonify(access_token=access_token)
 
 
-users = []
-
-
 @api.route('/users', methods=['GET', 'POST'])
 def get_users():
     if request.method == 'GET':
