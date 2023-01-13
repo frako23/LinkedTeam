@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Signup } from "./signup";
 import { Login } from "./login";
@@ -9,6 +9,16 @@ import Dropdown from "react-bootstrap/Dropdown";
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (store.token && store.token != "" && store.token !== undefined) {
+      console.log("Redireccionar a perfil");
+      navigate("/perfil");
+    } else {
+      navigate("/");
+    }
+  }, [store.token]);
+
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container">

@@ -25,9 +25,6 @@ export const Login = () => {
     actions.login(email, password);
   };
 
-  useEffect(() => {
-    if (store.token && store.token != "") navigate("/");
-  }, [store.token]);
   return (
     <>
       {show && (
