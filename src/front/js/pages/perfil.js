@@ -13,7 +13,7 @@ export const Perfil = () => {
           <div className="data-perfil">Hola, Francisco</div>
         </div>
       </div>
-      <div className="container-video">
+      <div className="container-video p-3">
         <div className="card">
           <div className="thumbnail-video">
             <img src="https://i3.ytimg.com/vi/djuWaNxpgig/maxresdefault.jpg" />
