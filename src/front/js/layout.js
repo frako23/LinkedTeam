@@ -11,6 +11,7 @@ import { Profile } from "./pages/profile";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Perfil } from "./pages/perfil";
+import { Video } from "./pages/video";
 
 //create your first component
 const Layout = () => {
@@ -29,6 +30,7 @@ const Layout = () => {
             <Route element={<Courses />} path="/courses" />
             <Route element={<Perfil />} path="/perfil" />
             <Route element={<Profile />} path="/profile" />
+            <Route element={<Video />} path="/video" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>

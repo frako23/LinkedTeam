@@ -1,8 +1,15 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/perfil.css";
 
 export const Perfil = () => {
+  const navigate = useNavigate();
+
+  const redirection = () => {
+    navigate("/video");
+  };
+
   return (
     <>
       <div className="info-user">
@@ -14,7 +21,7 @@ export const Perfil = () => {
         </div>
       </div>
       <div className="container-video p-3">
-        <div className="card">
+        <div className="card" onClick={redirection}>
           <div className="thumbnail-video">
             <img src="https://i3.ytimg.com/vi/djuWaNxpgig/maxresdefault.jpg" />
             <i className="fa-solid fa-play icono-play"></i>
