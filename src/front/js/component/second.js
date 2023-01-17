@@ -6,8 +6,8 @@ export const Second = () => {
     <div className="container mb-5">
       <div className="text-center">
         <div className="fs-1 fw-bolder text-white me-5">
-          LinkedTeam es una plataforma que busca cambiar la forma en la que los
-          equipos de trabajo se forman y conectan.
+          <span>LinkedTeam</span> es una plataforma que busca cambiar la forma
+          en la que los equipos de trabajo se forman y conectan.
         </div>
         <p className="fs-5 fw-bolder text-white">
           Nuestra app brinda una plataforma de formación asincrona, con la cual
