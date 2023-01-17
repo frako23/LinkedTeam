@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -22,9 +21,17 @@ export const Login = () => {
   // console.log("Este es tu token", store.token);
 
   const handleClick = () => {
+    // const success = await
     actions.login(email, password);
+    // success && navigate("/");
   };
 
+  useEffect(() => {
+    if (store.token && store.token != "" && store.token != undefined) {
+      console.log("entrando al use effect");
+      navigate("/perfil");
+    } else navigate("/");
+  }, [store.token]);
   return (
     <>
       {show && (
