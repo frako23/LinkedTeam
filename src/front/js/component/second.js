@@ -3,11 +3,19 @@ import "../../styles/home.css";
 
 export const Second = () => {
   return (
-    <div className="container">
-      <div>LinkedTeam</div>
-      <div>
-        <div>Mantente conectado con tu equipo de trabajo</div>
-        <img></img>
+    <div className="container mb-5">
+      <div className="text-center">
+        <div className="fs-1 fw-bolder text-white me-5">
+          <span>LinkedTeam</span> es una plataforma que busca cambiar la forma
+          en la que los equipos de trabajo se forman y conectan.
+        </div>
+        <p className="fs-5 fw-bolder text-white">
+          Nuestra app brinda una plataforma de formación asincrona, con la cual
+          cada nuevo miembro de la organización puede adquirir conocimientos
+          necesarios de forma inependiente, ademas de brindar herramientas de
+          para el seguimiento de la actividad de ventas
+        </p>
+        {/* <img src={one} className="" /> */}
       </div>
     </div>
   );

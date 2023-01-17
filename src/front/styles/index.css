@@ -112,3 +112,12 @@ body {
   background-image: linear-gradient(160deg, #eff0f0 70%, #eaebeb 100%);
   padding: 1rem 0;
 }
+
+img {
+  width: 40%;
+  border-radius: 10%;
+}
+
+span {
+  color: rgb(147, 64, 255);
+}
