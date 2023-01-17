@@ -4,11 +4,15 @@ import one from "../../img/1.jpg";
 
 export const First = () => {
   return (
-    <div className="container">
-      <div>LinkedTeam</div>
-      <div>
-        <div>Mantente conectado con tu equipo de trabajo</div>
-        <img src={one} />
+    <div className="container mb-5">
+      <div className="text-start fs-1 fw-bolder text-white mb-5">
+        LinkedTeam
+      </div>
+      <div className="d-flex justify-content-between">
+        <div className="fs-1 fw-bolder text-white me-5">
+          Mantente conectado con tu equipo de trabajo
+        </div>
+        <img src={one} className="" />
       </div>
     </div>
   );
