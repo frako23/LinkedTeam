@@ -12,3 +12,11 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   /* color: white; */
 }
+
+.font1 {
+  font-size: 75px;
+}
+
+.font2 {
+  font-size: 50px;
+}
