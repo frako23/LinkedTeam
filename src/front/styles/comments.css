@@ -5,7 +5,7 @@
   align-content: center;
   justify-content: center;
 }
-.comentario {
+.new-comentario {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,4 +24,37 @@
   resize: none;
   background-color: #03091e;
   color: #637b9d;
+}
+
+.comentario-publicado {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.comentario-content {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  justify-content: space-around;
+  padding: 1rem;
+  width: 50%;
+  min-height: 6rem;
+  gap: 1rem;
+  border-radius: 1rem;
+  background-color: #24385b;
+}
+
+.profile-img {
+  border-radius: 50%;
+  width: 4rem;
+  border: 1px solid black;
+}
+
+.comentario {
+  color: white;
+}
+
+.comentario p {
+  margin-bottom: 0px;
 }
