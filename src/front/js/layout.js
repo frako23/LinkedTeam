@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
-
+import { Dashboard } from "./pages/dashboard";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
@@ -23,9 +23,9 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
-          <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
+            <Route element={<Dashboard />} path="/dashboard" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Courses />} path="/courses" />
             <Route element={<Perfil />} path="/perfil" />

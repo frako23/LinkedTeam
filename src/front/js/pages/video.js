@@ -2,10 +2,12 @@ import React from "react";
 import ReactPlayer from "react-player";
 import "../../styles/video.css";
 import { Comentarios } from "../component/comentarios";
+import { Navbar } from "../component/navbar";
 
 export const Video = () => {
   return (
     <>
+      <Navbar />
       <div className="contenedor">
         <div className="contenedor-video">
           <ReactPlayer

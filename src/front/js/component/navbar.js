@@ -5,6 +5,7 @@ import { Login } from "./login";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
 import Dropdown from "react-bootstrap/Dropdown";
+import Nav from "react-bootstrap/Nav";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -20,28 +21,26 @@ export const Navbar = () => {
   }, [store.token]);
 
   return (
-    <nav className="navbar navbar-light bg-light">
-      <div className="container">
-        <Link to="/">
-          <span className="navbar-brand mb-0 h1">LinkedTeam</span>
+    <Nav defaultActiveKey="/home" className="flex-column">
+      <div className="ml-auto">
+        <Link to="/perfil">
+          <i className="fa-solid fa-user text-white mt-5 mb-5"></i>
         </Link>
-        <div className="d-flex flex-row p-1 text-center">
-          <div className="d-flex align-items-end me-4">
-            {!store.token ? (
-              <Signup />
-            ) : (
-              <>
-                <div className="ml-auto">
-                  <Link to="/courses">
-                    <button className="btn btn-primary">Cursos</button>
-                  </Link>
-                </div>
-                <div className="ml-auto">
-                  <Link to="/perfil">
-                    <button className="btn btn-primary">Perfil</button>
-                  </Link>
-                </div>
-                <Dropdown>
+      </div>
+      <div className="ml-auto">
+        <Link to="/courses">
+          <i className="fa-solid fa-video text-white mt-5 mb-5"></i>
+        </Link>
+      </div>
+      <div className="ml-auto">
+        <button
+          className="btn signup__button--login"
+          onClick={(event) => actions.logout()}
+        >
+          <i className="fa-solid fa-person-through-window text-white mt-5 mb-5"></i>
+        </button>
+      </div>
+      {/* <Dropdown>
                   <Dropdown.Toggle
                     className="btn signup__button--register ms-2"
                     variant="success"
@@ -67,36 +66,7 @@ export const Navbar = () => {
                       );
                     })}
                   </Dropdown.Menu>
-                </Dropdown>
-              </>
-            )}
-          </div>
-
-          <div className="d-flex align-items-between ms-1">
-            {!store.token ? (
-              <Login />
-            ) : (
-              <button
-                className="btn signup__button--login"
-                onClick={(event) => actions.logout()}
-              >
-                Salir
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-      <div>
-        {store.notification && (
-          <div
-            className="alert alert-success"
-            onClick={(e) => actions.setNotification(undefined)}
-            role="alert"
-          >
-            {store.notification}
-          </div>
-        )}
-      </div>
-    </nav>
+                </Dropdown> */}
+    </Nav>
   );
 };
