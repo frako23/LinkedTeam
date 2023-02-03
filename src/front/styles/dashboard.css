@@ -13,7 +13,6 @@ body {
 .container {
   width: 90%;
   min-width: 50%;
-  margin: auto;
   display: flex;
   flex-direction: column;
 }
@@ -147,19 +146,9 @@ body {
   box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#pendientes {
-  height: fit-content;
-  background-color: #fec6d1;
-}
-
-#procesos {
-  height: fit-content;
-  background-color: #ffaf00;
-}
-
-#completados {
-  height: fit-content;
-  background-color: #018b01;
+.tabla {
+  height: 82vh;
+  background-color: white;
 }
 
 .tarea {
@@ -169,4 +158,8 @@ body {
   border: 0.1rem solid black;
   border-radius: 0.5rem;
   padding: 0.5rem 0.2rem 0.5rem 2rem;
+}
+
+.datosTabla {
+  width: 6rem;
 }
