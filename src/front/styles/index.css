@@ -119,9 +119,14 @@ body {
 
 img {
   width: 40%;
-  border-radius: 10%;
+  border-radius: 12px;
 }
 
 span {
   color: rgb(147, 64, 255);
+}
+
+.icono {
+  font-size: 30px;
+  color: black;
 }

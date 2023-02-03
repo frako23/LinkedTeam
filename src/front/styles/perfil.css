@@ -129,7 +129,7 @@ body {
 }
 
 .menu {
-  width: 3vw;
+  width: 4vw;
   height: 100vh;
   font-size: 5 px;
   background-color: white;
@@ -138,4 +138,24 @@ body {
 .pagina {
   width: 95vw;
   height: 100vh;
+}
+
+.imgPerfil {
+  width: 50%;
+  height: auto;
+  position: absolute;
+  top: 35%;
+  left: 31%;
+  margin: -25px 0 0 -25p;
+}
+
+.prof-img {
+  border-radius: 5%;
+  width: 10rem;
+  border: 6px solid rgb(92, 150, 116);
+}
+
+.nombre-perfil {
+  font-size: 46px;
+  margin-right: 295px;
 }

@@ -104,6 +104,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log("Se han borrado todos los tokens");
         setStore({ token: null });
       },
+
       setNotification: (mensaje) => {
         setStore({ notification: mensaje });
         setTimeout(() => {

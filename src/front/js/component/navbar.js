@@ -11,62 +11,30 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (store.token && store.token != "" && store.token !== undefined) {
-      console.log("Redireccionar a perfil");
-      navigate("/perfil");
-    } else {
-      navigate("/");
-    }
-  }, [store.token]);
-
   return (
-    <Nav defaultActiveKey="/home" className="flex-column">
-      <div className="ml-auto">
+    <div className="menu">
+      <div className="text-center">
         <Link to="/perfil">
-          <i className="fa-solid fa-user text-white mt-5 mb-5"></i>
+          <i className="fa-solid fa-user mt-5 mb-5 icono text-center"></i>
         </Link>
       </div>
-      <div className="ml-auto">
+      <div className="text-center">
         <Link to="/courses">
-          <i className="fa-solid fa-video text-white mt-5 mb-5"></i>
+          <i className="fa-solid fa-video mt-5 mb-5 icono text-center"></i>
         </Link>
       </div>
-      <div className="ml-auto">
-        <button
-          className="btn signup__button--login"
-          onClick={(event) => actions.logout()}
-        >
-          <i className="fa-solid fa-person-through-window text-white mt-5 mb-5"></i>
-        </button>
+      <div className="text-center">
+        <Link to="/dashboard">
+          <i className="fa-solid fa-comment-dollar icono mt-5 mb-5 text-center"></i>
+        </Link>
       </div>
-      {/* <Dropdown>
-                  <Dropdown.Toggle
-                    className="btn signup__button--register ms-2"
-                    variant="success"
-                    id="dropdown-basic"
-                  >
-                    Favoritos (
-                    {store.favoritos.length > 0 ? store.favoritos.length : 0})
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {store.favoritos.map((fav) => {
-                      return (
-                        <Dropdown.Item key={fav} className="suggestions">
-                          {fav}{" "}
-                          <span
-                            type="button"
-                            className="btn btn-secondary btn-sm mx-2 boton"
-                            onClick={(event) => actions.toggleFavorite(fav)}
-                          >
-                            <i class="fa-solid fa-trash"></i>
-                          </span>
-                        </Dropdown.Item>
-                      );
-                    })}
-                  </Dropdown.Menu>
-                </Dropdown> */}
-    </Nav>
+      <div className="text-center">
+        <Link to="/">
+          <span className="" onClick={(event) => actions.logout()}>
+            <i className="fa-solid fa-person-through-window  icono mt-5 mb-5 text-center"></i>
+          </span>
+        </Link>
+      </div>
+    </div>
   );
 };

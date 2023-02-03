@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
+import { Link, useNavigate } from "react-router-dom";
+import { Navbar } from "../component/navbar";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
@@ -9,35 +11,11 @@ export const Dashboard = () => {
     <div className="d-flex">
       {/* barra de menu */}
 
-      <div className="menu">
-        <div className="btn signup__button--login">
-          <Link to="/perfil">
-            <i className="fa-solid fa-user mt-5 mb-5"></i>
-          </Link>
-        </div>
-        <div className="btn signup__button--login">
-          <Link to="/courses">
-            <i className="fa-solid fa-video mt-5 mb-5"></i>
-          </Link>
-        </div>
-        <div className="btn signup__button--login">
-          <Link to="/dashboard">
-            <i className="fa-solid fa-comment-dollar mt-5 mb-5"></i>
-          </Link>
-        </div>
-        <div className="ml-auto">
-          <button
-            className="btn signup__button--login"
-            onClick={(event) => actions.logout()}
-          >
-            <i className="fa-solid fa-person-through-window mt-5 mb-5"></i>
-          </button>
-        </div>
-      </div>
+      <Navbar />
 
       <div className="container">
         <div className="kanban-head">
-          <strong className="kanban-head-title">Kanban UI</strong>
+          <strong className="kanban-head-title">CRM</strong>
         </div>
 
         <div className="kanban-table">
