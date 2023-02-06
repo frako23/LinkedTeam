@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       notification: undefined,
       usuarios: [],
       favoritos: [],
+      clientes: [],
       demo: [
         {
           title: "FIRST",
@@ -111,6 +112,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ notification: undefined });
         }, 10000);
       },
+
+      setClientes: (nombre) => {
+        setStore({ notification: mensaje });
+        setTimeout(() => {
+          setStore({ notification: undefined });
+        }, 10000);
+      },
+
       toggleFavorite: (item) => {
         const store = getStore();
         const actions = getActions();

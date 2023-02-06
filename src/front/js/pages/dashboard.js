@@ -46,17 +46,25 @@ export const Dashboard = () => {
           <div
             className="kanban-block tabla"
             // id="pendientes"
-            ondrop="drop(event)"
-            ondragover="allowDrop(event)"
+            onDrop="drop(event)"
+            onDragOver="allowDrop(event)"
           >
             <strong>Prospectos</strong>
+            <div className="tarea text-white">
+              Lorem Ipsum
+              <br></br>
+              XX Años
+              <br></br>$ XXXXX
+              <br></br>
+              Confianza Alta
+            </div>
           </div>
 
           <div
             className="kanban-block tabla"
             // id="procesos"
-            ondrop="drop(event)"
-            ondragover="allowDrop(event)"
+            onDrop="drop(event)"
+            onDragOver="allowDrop(event)"
           >
             <strong>Prospecto Calificado</strong>
           </div>
@@ -64,32 +72,32 @@ export const Dashboard = () => {
           <div
             className="kanban-block tabla"
             // id="completados"
-            ondrop="drop(event)"
-            ondragover="allowDrop(event)"
+            onDrop="drop(event)"
+            onDragOver="allowDrop(event)"
           >
             <strong>Contacto realizado</strong>
           </div>
           <div
             className="kanban-block tabla"
             // id="completados"
-            ondrop="drop(event)"
-            ondragover="allowDrop(event)"
+            onDrop="drop(event)"
+            onDragOver="allowDrop(event)"
           >
             <strong>Primera Cita</strong>
           </div>
           <div
             className="kanban-block tabla"
             // id="completados"
-            ondrop="drop(event)"
-            ondragover="allowDrop(event)"
+            onDrop="drop(event)"
+            onDragOver="allowDrop(event)"
           >
             <strong>Negociación Iniciada</strong>
           </div>
           <div
             className="kanban-block tabla"
             // id="compltaetados"
-            ondrop="drop(event)"
-            ondragover="allowDrop(event)"
+            onDrop="drop(event)"
+            onDragOver="allowDrop(event)"
           >
             <strong>Venta Concretada</strong>
           </div>

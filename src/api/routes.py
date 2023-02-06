@@ -61,3 +61,29 @@ def get_users():
         return jsonify(new_user.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1]
+
+@api.route('/clientes', methods=['POST'])
+@jwt_required()
+def post_clientes():
+    user_id = get_jwt_identity()
+    new_cliente_data = request.json
+    try:
+        if "nombre" not in new_cliente_data or new_cliente_data["nombre"] == "":
+            raise Exception("No ingresaste el nombre", 400)
+        if "fecha" not in new_cliente_data or new_cliente_data["fecha"] == "":
+            raise Exception("No ingresaste la fecha", 400)
+        if "email" not in new_cliente_data or new_cliente_data["email"] == "":
+            raise Exception("No ingresaste el email", 400)
+        if "celular" not in new_cliente_data or new_cliente_data["celular"] == "":
+            raise Exception("No ingresaste el celular", 400)
+        if "monto" not in new_cliente_data or new_cliente_data["monto"] == "":
+            raise Exception("No ingresaste el monto", 400)
+        if "confianza" not in new_cliente_data or new_cliente_data["confianza"] == "":
+            raise Exception("No ingresaste el nivel de confianza", 400)
+        if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":
+            raise Exception("No ingresaste notas", 400)
+        new_cliente = Cliente.create(
+            **new_cliente_data, cliente_id=cliente_id)
+        return jsonify(new_cliente.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

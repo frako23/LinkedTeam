@@ -99,11 +99,12 @@ body {
 
 .tarea {
   text-align: start;
-  background-color: white;
+  background-color: rgb(72, 80, 72);
   margin: 0.2rem 0rem 0.3rem 0rem;
   border: 0.1rem solid black;
   border-radius: 0.5rem;
-  padding: 0.5rem 0.2rem 0.5rem 2rem;
+  padding: 0.5rem 0.2rem 0.5rem 0.5rem;
+  font-size: small;
 }
 
 .datosTabla {
