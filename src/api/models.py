@@ -54,12 +54,12 @@ class User(db.Model):
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), unique=False, nullable=False)
-    fecha = db.Column(db.String(50), unique=False, nullable=False)
+    fecha = db.Column(db.Date, unique=False, nullable=False)
     email = db.Column(db.String(50), unique=False, nullable=False)
-    celular = db.Column(db.String(120), unique=True, nullable=False)
-    monto = db.Column(db.String(80), unique=False, nullable=False)
-    confianza = db.Column(db.String(150), unique=False, nullable=False)
-    notas = db.Column(db.String(150), unique=False, nullable=False)
+    celular = db.Column(db.String(50), unique=True, nullable=False)
+    monto = db.Column(db.String(20), unique=False, nullable=False)
+    confianza = db.Column(db.String(20), unique=False, nullable=False)
+    notas = db.Column(db.String(1000), unique=False, nullable=False)
 
     def __init__(self, **kwargs):
         self.nombre = kwargs['nombre']
