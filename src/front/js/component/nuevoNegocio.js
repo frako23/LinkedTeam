@@ -65,7 +65,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Fecha de Nacimiento </strong>
                   <input
-                    type="date"
+                    type="input-text"
                     id="tarea-nombre"
                     className="input-text"
                     onChange={(e) => setFecha(e.target.value)}
@@ -133,6 +133,17 @@ export const Nuevonegocio = () => {
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
+                  onClick={() => {
+                    actions.postClientes({
+                      nombre: nombre,
+                      fecha: fecha,
+                      email: email,
+                      celular: celular,
+                      monto: monto,
+                      confianza: confianza,
+                      notas: notas,
+                    });
+                  }}
                 />
               </div>
             </div>
