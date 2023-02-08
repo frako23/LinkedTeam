@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 import { Nuevonegocio } from "../component/nuevoNegocio";
+import { Tarjetacliente } from "../component/tarjetaCliente";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
+  useEffect(() => {
+    actions.getClientes();
+  }, []);
 
   return (
     <div className="d-flex">
@@ -19,10 +23,7 @@ export const Dashboard = () => {
           <strong className="kanban-head-title">CRM</strong>
         </div>
         <div className="ms-2 d-flex position-relative mb-3">
-          <Nuevonegocio />
-          {/* <button type="button" className="btn btn-success me-5 ">
-            <strong>Nuevo Negocio</strong>
-          </button> */}
+          <Nuevonegocio />;
           <div className="texto text-center">
             <table
               className="table table-bordered text-white position-absolute top-0 end-0"
@@ -50,14 +51,9 @@ export const Dashboard = () => {
             onDragOver="allowDrop(event)"
           >
             <strong>Prospectos</strong>
-            <div className="tarea text-white">
-              Lorem Ipsum
-              <br></br>
-              XX Años
-              <br></br>$ XXXXX
-              <br></br>
-              Confianza Alta
-            </div>
+            {store.clientes.map((cliente, index) => {
+              return <Tarjetacliente cliente={cliente} key={index} />;
+            })}
           </div>
 
           <div
