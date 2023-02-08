@@ -100,6 +100,66 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      postClientes: async (
+        nombre,
+        fecha,
+        email,
+        celular,
+        monto,
+        confianza,
+        notas
+      ) => {
+        const store = getStore();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombre: nombre,
+            fecha: fecha,
+            email: email,
+            celular: celular,
+            monto: monto,
+            confianza: confianza,
+            notas: notas,
+          }),
+        };
+
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/clientes`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            alert(danger);
+            return false;
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar al cliente");
+        }
+      },
+
+      getClientes: () => {
+        const apiURL = `${process.env.BACKEND_URL}/api/clientes`;
+
+        fetch(apiURL)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ clientes: body }))
+          .catch((error) => console.log(error));
+      },
+
       logout: () => {
         const token = sessionStorage.removeItem("token");
         console.log("Se han borrado todos los tokens");

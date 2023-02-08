@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Cliente
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -62,10 +62,16 @@ def get_users():
     except Exception as error:
         return jsonify(error.args[0]), error.args[1]
 
-@api.route('/clientes', methods=['POST'])
-@jwt_required()
-def post_clientes():
-    user_id = get_jwt_identity()
+@api.route('/clientes', methods=['GET','POST'])
+# @jwt_required()
+def post_get_clientes():
+    # user_id = get_jwt_identity()
+    if request.method == 'GET':
+        clientes = Cliente.query.all()
+        clientes_dictionaries = []
+        for cliente in clientes:
+            clientes_dictionaries.append(cliente.serialize())
+        return jsonify(clientes_dictionaries), 200
     new_cliente_data = request.json
     try:
         if "nombre" not in new_cliente_data or new_cliente_data["nombre"] == "":
@@ -82,8 +88,7 @@ def post_clientes():
             raise Exception("No ingresaste el nivel de confianza", 400)
         if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":
             raise Exception("No ingresaste notas", 400)
-        new_cliente = Cliente.create(
-            **new_cliente_data, cliente_id=cliente_id)
+        new_cliente = Cliente.create(**new_cliente_data)
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
