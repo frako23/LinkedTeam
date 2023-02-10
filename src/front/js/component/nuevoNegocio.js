@@ -110,6 +110,7 @@ export const Nuevonegocio = () => {
                     onChange={(e) => setConfianza(e.target.value)}
                     value={confianza}
                   >
+                    <option value=""></option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
@@ -128,7 +129,7 @@ export const Nuevonegocio = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <input
+                <button
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
@@ -143,7 +144,9 @@ export const Nuevonegocio = () => {
                       notas: notas,
                     });
                   }}
-                />
+                >
+                  Enviar
+                </button>
               </div>
             </div>
           </div>
