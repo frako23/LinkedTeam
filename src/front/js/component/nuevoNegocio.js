@@ -35,14 +35,13 @@ export const Nuevonegocio = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setNombre(nombre);
           }}
         >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Cliente{" "}
+                  Cliente
                 </h5>
                 <button
                   type="button"
@@ -65,7 +64,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Fecha de Nacimiento </strong>
                   <input
-                    type="input-text"
+                    type="text"
                     id="tarea-nombre"
                     className="input-text"
                     onChange={(e) => setFecha(e.target.value)}
