@@ -32,12 +32,7 @@ export const Nuevonegocio = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setNombre(nombre);
-          }}
-        >
+        <form>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -65,7 +60,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Fecha de Nacimiento </strong>
                   <input
-                    type="input-text"
+                    type="text"
                     id="tarea-nombre"
                     className="input-text"
                     onChange={(e) => setFecha(e.target.value)}
@@ -111,6 +106,7 @@ export const Nuevonegocio = () => {
                     onChange={(e) => setConfianza(e.target.value)}
                     value={confianza}
                   >
+                    <option value=""></option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
@@ -129,7 +125,7 @@ export const Nuevonegocio = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <input
+                <button
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
@@ -144,7 +140,9 @@ export const Nuevonegocio = () => {
                       notas: notas,
                     });
                   }}
-                />
+                >
+                  Enviar
+                </button>
               </div>
             </div>
           </div>
