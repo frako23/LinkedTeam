@@ -142,6 +142,7 @@ export const Nuevonegocio = () => {
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
+                  data-bs-dismiss="modal"
                 >
                   Enviar
                 </button>
