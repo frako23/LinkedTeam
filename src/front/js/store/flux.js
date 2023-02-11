@@ -100,16 +100,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      postClientes: async (
+      postClientes: async ({
         nombre,
         fecha,
         email,
         celular,
         monto,
         confianza,
-        notas
-      ) => {
-        const store = getStore();
+        notas,
+      }) => {
+        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -125,7 +125,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             notas: notas,
           }),
         };
-
+        console.log(nombre, fecha, email, celular, monto, confianza, notas);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/api/clientes`,
@@ -139,6 +139,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
+          actions.getClientes();
           console.log("This came from the backend", data);
           return true;
         } catch (error) {

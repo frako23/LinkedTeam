@@ -35,6 +35,15 @@ export const Nuevonegocio = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            actions.postClientes({
+              nombre: nombre,
+              fecha: fecha,
+              email: email,
+              celular: celular,
+              monto: monto,
+              confianza: confianza,
+              notas: notas,
+            });
           }}
         >
           <div className="modal-dialog">
@@ -97,8 +106,8 @@ export const Nuevonegocio = () => {
                     id="tarea-nombre"
                     className="input-text"
                     placeholder="Coloca sólo números"
-                    onChange={(e) => setMonto(e.target.value)}
                     value={monto}
+                    onChange={(e) => setMonto(e.target.value)}
                   />
 
                   <label for="cars">
@@ -107,8 +116,8 @@ export const Nuevonegocio = () => {
                   <select
                     id="cars"
                     name="cars"
-                    onChange={(e) => setConfianza(e.target.value)}
                     value={confianza}
+                    onChange={(e) => setConfianza(e.target.value)}
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
@@ -123,8 +132,8 @@ export const Nuevonegocio = () => {
                     className="textarea-text"
                     rows="4"
                     placeholder="Breve descripción ¿hijos? ¿espos@?"
-                    onChange={(e) => setNotas(e.target.value)}
                     value={notas}
+                    onChange={(e) => setNotas(e.target.value)}
                   ></textarea>
                 </div>
               </div>
@@ -133,17 +142,6 @@ export const Nuevonegocio = () => {
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
-                  onClick={() => {
-                    actions.postClientes({
-                      nombre: nombre,
-                      fecha: fecha,
-                      email: email,
-                      celular: celular,
-                      monto: monto,
-                      confianza: confianza,
-                      notas: notas,
-                    });
-                  }}
                 >
                   Enviar
                 </button>
