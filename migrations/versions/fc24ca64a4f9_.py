@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a8d7a37e3d78
+Revision ID: fc24ca64a4f9
 Revises: 
-Create Date: 2023-02-10 16:40:12.353073
+Create Date: 2023-02-13 15:33:55.404626
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a8d7a37e3d78'
+revision = 'fc24ca64a4f9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,14 +21,16 @@ def upgrade():
     op.create_table('cliente',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nombre', sa.String(length=50), nullable=False),
-    sa.Column('fecha', sa.String(length=50), nullable=False),
+    sa.Column('fecha', sa.String(length=50), nullable=True),
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('celular', sa.String(length=50), nullable=False),
     sa.Column('monto', sa.String(length=20), nullable=False),
     sa.Column('confianza', sa.String(length=20), nullable=False),
     sa.Column('notas', sa.String(length=1000), nullable=False),
+    sa.Column('estatus', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('celular')
+    sa.UniqueConstraint('celular'),
+    sa.UniqueConstraint('estatus')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),

@@ -110,6 +110,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         notas,
       }) => {
         const store = getStore();
+        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
