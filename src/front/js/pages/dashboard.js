@@ -9,7 +9,9 @@ import { Tarjetacliente } from "../component/tarjetaCliente";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
   useEffect(() => {
+    // if (store.clientes.length > 0) {
     actions.getClientes();
+    // }
   }, []);
 
   return (

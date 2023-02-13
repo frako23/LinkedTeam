@@ -76,7 +76,7 @@ def post_get_clientes():
     try:
         if "nombre" not in new_cliente_data or new_cliente_data["nombre"] == "":
             raise Exception("No ingresaste el nombre", 400)
-        if "fecha" not in new_cliente_data or new_cliente_data["fecha"] == "":
+        if "fecha" in new_cliente_data["fecha"] == "":
             raise Exception("No ingresaste la fecha", 400)
         if "email" not in new_cliente_data or new_cliente_data["email"] == "":
             raise Exception("No ingresaste el email", 400)

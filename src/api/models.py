@@ -54,7 +54,7 @@ class User(db.Model):
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), unique=False, nullable=False)
-    fecha = db.Column(db.String(50), unique=False, nullable=False)
+    fecha = db.Column(db.String(50), unique=False, nullable=True)
     email = db.Column(db.String(50), unique=False, nullable=False)
     celular = db.Column(db.String(50), unique=True, nullable=False)
     monto = db.Column(db.String(20), unique=False, nullable=False)
