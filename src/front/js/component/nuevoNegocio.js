@@ -44,6 +44,14 @@ export const Nuevonegocio = () => {
               confianza: confianza,
               notas: notas,
             });
+            setNombre("");
+            setFecha("");
+            setEmail("");
+            setCelular("");
+            setMonto("");
+            setConfianza("");
+            setNotas("");
+            console.log("entro aqui");
           }}
         >
           <div className="modal-dialog">

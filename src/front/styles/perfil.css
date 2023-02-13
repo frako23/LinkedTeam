@@ -130,9 +130,12 @@ body {
 
 .menu {
   width: 52px;
-  height: auto;
+  min-height: 100vh;
   font-size: 5 px;
   background-color: white;
+  justify-content: space-around;
+  display: flex;
+  flex-direction: column;
 }
 
 .pagina {

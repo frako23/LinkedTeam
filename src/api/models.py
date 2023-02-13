@@ -60,7 +60,7 @@ class Cliente(db.Model):
     monto = db.Column(db.String(20), unique=False, nullable=False)
     confianza = db.Column(db.String(20), unique=False, nullable=False)
     notas = db.Column(db.String(1000), unique=False, nullable=False)
-    estatus = db.Column(db.String(50), unique=True, nullable=False)
+    estatus = db.Column(db.String(50), unique=False, nullable=False)
 
     def __init__(self, **kwargs):
         self.nombre = kwargs['nombre']

@@ -20,7 +20,7 @@ export const Dashboard = () => {
 
       <Navbar />
 
-      <div className="">
+      <div className="pagina">
         <div className="kanban-head">
           <strong className="kanban-head-title">CRM</strong>
         </div>
