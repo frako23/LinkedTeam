@@ -109,11 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         confianza,
         notas,
       }) => {
-<<<<<<< HEAD
-        const actions = getActions();
-=======
         const store = getStore();
->>>>>>> 9560628 (ajustes para poder hacer pull)
         const options = {
           method: "POST",
           headers: {
