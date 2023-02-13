@@ -129,8 +129,8 @@ body {
 }
 
 .menu {
-  width: 4vw;
-  height: 100vh;
+  width: 52px;
+  height: auto;
   font-size: 5 px;
   background-color: white;
 }

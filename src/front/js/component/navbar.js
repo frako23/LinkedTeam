@@ -13,27 +13,29 @@ export const Navbar = () => {
 
   return (
     <div className="menu">
-      <div className="text-center">
-        <Link to="/perfil">
-          <i className="fa-solid fa-user mt-5 mb-5 icono text-center"></i>
-        </Link>
-      </div>
-      <div className="text-center">
-        <Link to="/courses">
-          <i className="fa-solid fa-video mt-5 mb-5 icono text-center"></i>
-        </Link>
-      </div>
-      <div className="text-center">
-        <Link to="/dashboard">
-          <i className="fa-solid fa-comment-dollar icono mt-5 mb-5 text-center"></i>
-        </Link>
-      </div>
-      <div className="text-center">
-        <Link to="/">
-          <span className="" onClick={(event) => actions.logout()}>
-            <i className="fa-solid fa-person-through-window  icono mt-5 mb-5 text-center"></i>
-          </span>
-        </Link>
+      <div style={{ position: "fixed" }} className="ms-2">
+        <div className="text-center">
+          <Link to="/perfil">
+            <i className="fa-solid fa-user mt-5 mb-5 icono text-center"></i>
+          </Link>
+        </div>
+        <div className="text-center">
+          <Link to="/courses">
+            <i className="fa-solid fa-video mt-5 mb-5 icono text-center"></i>
+          </Link>
+        </div>
+        <div className="text-center">
+          <Link to="/dashboard">
+            <i className="fa-solid fa-comment-dollar icono mt-5 mb-5 text-center"></i>
+          </Link>
+        </div>
+        <div className="text-center">
+          <Link to="/">
+            <span className="" onClick={(event) => actions.logout()}>
+              <i className="fa-solid fa-person-through-window  icono mt-5 mb-5 text-center"></i>
+            </span>
+          </Link>
+        </div>
       </div>
     </div>
   );
