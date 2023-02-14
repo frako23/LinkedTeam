@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 import { Nuevonegocio } from "../component/nuevoNegocio";
 import { Tarjetacliente } from "../component/tarjetaCliente";
+import { Kanban } from "../component/kanban";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
@@ -25,6 +26,7 @@ export const Dashboard = () => {
           <strong className="kanban-head-title">CRM</strong>
         </div>
         <div className="ms-2 d-flex position-relative mb-3">
+          <Kanban />
           <Nuevonegocio />;
           <div className="texto text-center">
             <table
