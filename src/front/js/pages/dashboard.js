@@ -26,7 +26,6 @@ export const Dashboard = () => {
           <strong className="kanban-head-title">CRM</strong>
         </div>
         <div className="ms-2 d-flex position-relative mb-3">
-          <Kanban />
           <Nuevonegocio />;
           <div className="texto text-center">
             <table
@@ -46,62 +45,7 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        <div className="kanban-table">
-          {/* columnas */}
-          <div
-            className="kanban-block tabla"
-            // id="pendientes"
-            onDrop="drop(event)"
-            onDragOver="allowDrop(event)"
-          >
-            <strong>Prospectos</strong>
-            {store.clientes.map((cliente, index) => {
-              return <Tarjetacliente cliente={cliente} key={index} />;
-            })}
-          </div>
-
-          <div
-            className="kanban-block tabla"
-            // id="procesos"
-            onDrop="drop(event)"
-            onDragOver="allowDrop(event)"
-          >
-            <strong>Prospecto Calificado</strong>
-          </div>
-
-          <div
-            className="kanban-block tabla"
-            // id="completados"
-            onDrop="drop(event)"
-            onDragOver="allowDrop(event)"
-          >
-            <strong>Contacto realizado</strong>
-          </div>
-          <div
-            className="kanban-block tabla"
-            // id="completados"
-            onDrop="drop(event)"
-            onDragOver="allowDrop(event)"
-          >
-            <strong>Primera Cita</strong>
-          </div>
-          <div
-            className="kanban-block tabla"
-            // id="completados"
-            onDrop="drop(event)"
-            onDragOver="allowDrop(event)"
-          >
-            <strong>Negociación Iniciada</strong>
-          </div>
-          <div
-            className="kanban-block tabla"
-            // id="compltaetados"
-            onDrop="drop(event)"
-            onDragOver="allowDrop(event)"
-          >
-            <strong>Venta Concretada</strong>
-          </div>
-        </div>
+        <Kanban />
       </div>
     </div>
   );

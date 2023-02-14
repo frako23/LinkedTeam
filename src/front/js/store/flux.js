@@ -162,6 +162,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
+      updateClientStatus: (newList) => {
+        setStore({ clientes: newList });
+      },
+
       logout: () => {
         const token = sessionStorage.removeItem("token");
         console.log("Se han borrado todos los tokens");
