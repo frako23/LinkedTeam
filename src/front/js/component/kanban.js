@@ -1,5 +1,5 @@
 import React from "react";
 
 export const Kanban = () => {
-  return <div>Hola</div>;
+  return <div>Hola 2</div>;
 };
