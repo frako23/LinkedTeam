@@ -6,15 +6,18 @@ import { Tarjetacliente } from "./tarjetaCliente";
 
 export const Kanban = () => {
   const { store, actions } = useContext(Context);
-  console.log(store.clientes);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
     const { source, destination, draggableId } = result;
 
     if (source.droppableId !== destination.droppableId) {
+      const sourceColIndex = store.clientes.findIndex(
+        (e) => e.id === Number(draggableId)
+      );
+
       const newList = [...store.clientes];
-      newList[Number(draggableId) - 1].estatus = destination.droppableId;
+      newList[sourceColIndex].estatus = destination.droppableId;
       actions.updateClientStatus(newList);
     }
   };
