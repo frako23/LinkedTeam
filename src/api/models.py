@@ -72,6 +72,7 @@ class Cliente(db.Model):
         self.confianza = kwargs['confianza']
         self.notas = kwargs['notas']
         self.estatus = 'Prospecto'
+        self.user_id = kwargs['user_id']
 
     @classmethod
     def create(cls, **kwargs):
