@@ -9,11 +9,12 @@ import { Kanban } from "../component/kanban";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
+
   useEffect(() => {
-    // if (store.clientes.length > 0) {
-    actions.getClientes();
-    // }
-  }, []);
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      actions.getClientes();
+    }
+  }, [store.token]);
 
   return (
     <div className="d-flex">

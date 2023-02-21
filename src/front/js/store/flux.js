@@ -56,13 +56,18 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       syncTokenFromSessionStore: () => {
+        const actions = getActions();
         const token = sessionStorage.getItem("token");
         console.log(
           "La aplicacion acaba de cargar, sincronizando el token de session storage"
         );
-        if (token && token != "" && token != undefined)
+        if (token && token != "" && token != undefined) {
           setStore({ token: token });
+        } else {
+          actions.logout();
+        }
       },
+
       signup: async (name, lastname, phone, email, agency, password) => {
         const store = getStore();
         const options = {
@@ -115,6 +120,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
             nombre: nombre,
@@ -149,9 +155,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getClientes: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+          },
+        };
         const apiURL = `${process.env.BACKEND_URL}/api/clientes`;
 
-        fetch(apiURL)
+        fetch(apiURL, opts)
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -167,7 +179,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       logout: () => {
-        const token = sessionStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         console.log("Se han borrado todos los tokens");
         setStore({ token: null });
       },

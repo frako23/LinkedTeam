@@ -63,11 +63,11 @@ def get_users():
         return jsonify(error.args[0]), error.args[1]
 
 @api.route('/clientes', methods=['GET','POST'])
-# @jwt_required()
+@jwt_required()
 def post_get_clientes():
-    # user_id = get_jwt_identity()
+    user_id = get_jwt_identity()
     if request.method == 'GET':
-        clientes = Cliente.query.all()
+        clientes = Cliente.query.filter_by(user_id = user_id)
         clientes_dictionaries = []
         for cliente in clientes:
             clientes_dictionaries.append(cliente.serialize())
@@ -88,7 +88,7 @@ def post_get_clientes():
             raise Exception("No ingresaste el nivel de confianza", 400)
         if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":
             raise Exception("No ingresaste notas", 400)
-        new_cliente = Cliente.create(**new_cliente_data)
+        new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
