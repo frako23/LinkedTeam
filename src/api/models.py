@@ -61,6 +61,7 @@ class Cliente(db.Model):
     confianza = db.Column(db.String(20), unique=False, nullable=False)
     notas = db.Column(db.String(1000), unique=False, nullable=False)
     estatus = db.Column(db.String(50), unique=False, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
         self.nombre = kwargs['nombre']
@@ -71,6 +72,7 @@ class Cliente(db.Model):
         self.confianza = kwargs['confianza']
         self.notas = kwargs['notas']
         self.estatus = 'Prospecto'
+        self.user_id = kwargs['user_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -95,5 +97,6 @@ class Cliente(db.Model):
             "confianza": self.confianza,
             "notas": self.notas,
             "estatus": self.estatus,
+            "user_id": self.user_id
             # do not serialize the password, its a security breach
         }
