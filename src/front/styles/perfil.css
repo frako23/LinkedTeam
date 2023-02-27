@@ -129,13 +129,14 @@ body {
 }
 
 .menu {
-  width: 52px;
+  width: 3.25rem;
   min-height: 100vh;
   font-size: 5 px;
   background-color: white;
   justify-content: space-around;
   display: flex;
   flex-direction: column;
+  position: fixed;
 }
 
 .pagina {
