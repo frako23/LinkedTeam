@@ -2,6 +2,8 @@ import React from "react";
 import "../../styles/home.css";
 import one from "../../img/1.jpg";
 import { Login } from "../component/login";
+
+import { Signup } from "./signup";
 export const First = () => {
   return (
     <div className="container mb-5">
@@ -9,6 +11,7 @@ export const First = () => {
         <div className="text-start fs-1 fw-bolder text-white me-auto">
           LinkedTeam
         </div>
+        <Signup />
         <Login />
       </div>
       <div className="d-flex justify-content-between mt-5 ">

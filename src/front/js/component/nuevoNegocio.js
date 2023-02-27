@@ -146,14 +146,13 @@ export const Nuevonegocio = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button
+                <input
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
                   data-bs-dismiss="modal"
-                >
-                  Enviar
-                </button>
+                  value="Enviar"
+                ></input>
               </div>
             </div>
           </div>

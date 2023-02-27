@@ -132,7 +132,7 @@ export const Signup = () => {
           </Modal.Footer>
         </Modal>
       )}
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={handleShow} className="me-5">
         Regístrate
       </Button>
     </>
