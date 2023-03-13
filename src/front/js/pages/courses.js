@@ -25,7 +25,7 @@ export const Courses = () => {
               <i className="fa-solid fa-play icono-play"></i>
             </div>
 
-            <div className="info-video text-center">
+            <div className="info-video text-center fw-bolder">
               Taller de iniciación al negocio
             </div>
           </div>
@@ -35,7 +35,9 @@ export const Courses = () => {
               <i className="fa-solid fa-play icono-play"></i>
             </div>
 
-            <div className="info-video text-center">Comienza HOY!!</div>
+            <div className="info-video text-center fw-bolder">
+              Comienza HOY!!
+            </div>
           </div>
           <div className="card">
             <div className="thumbnail-video">
@@ -43,7 +45,9 @@ export const Courses = () => {
               <i className="fa-solid fa-play icono-play"></i>
             </div>
 
-            <div className="info-video text-center">El circulo de la vida</div>
+            <div className="info-video text-center fw-bolder">
+              El circulo de la vida
+            </div>
           </div>
           <div className="card">
             <div className="thumbnail-video">
@@ -51,7 +55,7 @@ export const Courses = () => {
               <i className="fa-solid fa-play icono-play"></i>
             </div>
 
-            <div className="info-video text-center">
+            <div className="info-video text-center fw-bolder">
               Lo que no sabias de los seguros de vida
             </div>
           </div>
