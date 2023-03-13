@@ -35,10 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
 
         try {
-          const resp = await fetch(
-            `${process.env.BACKEND_URL}/api/token`,
-            opts
-          );
+          const resp = await fetch(`${process.env.BACKEND_URL}/token`, opts);
           if (resp.status !== 200) {
             const mensaje = await resp.json();
             alert(mensaje.msg);
@@ -87,7 +84,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/users`,
+            `${process.env.BACKEND_URL}/users`,
             options
           );
 
@@ -135,7 +132,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(nombre, fecha, email, celular, monto, confianza, notas);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/clientes`,
+            `${process.env.BACKEND_URL}/clientes`,
             options
           );
 
@@ -161,7 +158,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token}`,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/api/clientes`;
+        const apiURL = `${process.env.BACKEND_URL}/clientes`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -228,7 +225,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getMessage: async () => {
         try {
           // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+          const resp = await fetch(process.env.BACKEND_URL + "/hello");
           const data = await resp.json();
           setStore({ message: data.message });
           // don't forget to return something, that is how the async resolves
