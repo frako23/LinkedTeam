@@ -7,6 +7,20 @@
   }
 }
 
+.login {
+  background-color: white;
+  display: grid;
+  margin: 0 auto;
+  padding: 2rem;
+  margin-top: 5rem;
+  border-radius: 5px;
+}
+
+.loginH1 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
 body {
   background-color: rgb(16, 23, 40);
   font-family: "Roboto", sans-serif;

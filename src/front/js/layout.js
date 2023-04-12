@@ -12,6 +12,7 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Perfil } from "./pages/perfil";
 import { Video } from "./pages/video";
+import { Login } from "./pages/login";
 
 //create your first component
 const Layout = () => {
@@ -26,6 +27,7 @@ const Layout = () => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Dashboard />} path="/dashboard" />
+            <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Courses />} path="/courses" />
             <Route element={<Perfil />} path="/perfil" />
