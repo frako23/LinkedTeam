@@ -26,81 +26,122 @@ export const Login = () => {
     }
   }, [store.token]);
   return (
-    <form style={{ width: "20rem" }} className="login">
-      <h1 className="loginH1">
-        <strong>Ingresa aqui</strong>
-      </h1>
-      {/* <!-- Email input --> */}
-      <div className="form-outline mb-4">
-        <input
-          type="email"
-          id="form2Example1"
-          className="form-control"
-          placeholder="tucorreo@correo.com"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label className="form-label" htmlFor="form2Example1">
-          Correo Electrónico
-        </label>
-      </div>
+    <>
+      <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+        <div className="row gx-lg-5 align-items-center mb-5">
+          <div className="col-lg-6 mb-5 mb-lg-0" style={{ z: "10" }}>
+            <h1
+              className="my-5 display-5 fw-bold ls-tight"
+              style={{ color: "hsl(218, 81%, 95%)" }}
+            >
+              La mejor herramienta <br />
+              <span style={{ color: "hsl(218, 81%, 75%)" }}>
+                para hacer crecer tu negocio
+              </span>
+            </h1>
+            <p
+              className="mb-4 opacity-70"
+              style={{ color: "hsl(218, 81%, 85%)" }}
+            >
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Temporibus, expedita iusto veniam atque, magni tempora mollitia
+              dolorum consequatur nulla, neque debitis eos reprehenderit quasi
+              ab ipsum nisi dolorem modi. Quos?
+            </p>
+          </div>
 
-      {/* <!-- Password input --> */}
-      <div className="form-outline mb-4">
-        <input
-          type="password"
-          id="form2Example2"
-          className="form-control"
-          placeholder="contraseña1234..."
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label className="form-label" htmlFor="form2Example2">
-          Contraseña
-        </label>
-      </div>
+          <div className="col-lg-6 mb-5 mb-lg-0 position-relative">
+            <div
+              id="radius-shape-1"
+              className="position-absolute rounded-circle shadow-5-strong"
+            ></div>
+            <div
+              id="radius-shape-2"
+              className="position-absolute shadow-5-strong"
+            ></div>
 
-      {/* <!-- 2 column grid layout for inline styling --> */}
-      <div className="row mb-4">
-        <div className="col d-flex justify-content-center">
-          {/* <!-- Checkbox --> */}
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="form2Example31"
-            />
-            <label className="form-check-label" htmlFor="form2Example31">
-              {" "}
-              Recuérdame{" "}
-            </label>
+            <div
+              className="card bg-glass"
+              style={{ width: "auto", height: "auto" }}
+            >
+              <div className="card-body text-dark px-4 py-5 px-md-5 ">
+                <form>
+                  {/* < />!-- 2 column grid layout with text inputs for the first and last names --> */}
+
+                  {/* < />!-- Email input --> */}
+                  <div className="form-outline mb-4">
+                    <input
+                      type="email"
+                      id="form2Example1"
+                      className="form-control"
+                      placeholder="tucorreo@correo.com"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <label className="form-label" htmlFor="form3Example3">
+                      Email address
+                    </label>
+                  </div>
+
+                  {/* < />!-- Password input --> */}
+                  <div className="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="form2Example2"
+                      className="form-control"
+                      placeholder="contraseña1234..."
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <label className="form-label" htmlFor="form3Example4">
+                      Password
+                    </label>
+                  </div>
+
+                  {/* < />!-- Checkbox --> */}
+                  <div className="form-check d-flex justify-content-center mb-4">
+                    <input
+                      className="form-check-input me-2"
+                      type="checkbox"
+                      value=""
+                      id="form2Example33"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="form2Example33"
+                    >
+                      Subscribe to our newsletter
+                    </label>
+                  </div>
+
+                  {/* < />!-- Submit button --> */}
+                  <div className="d-flex justify-content-evenly">
+                    <Link to="/">
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-block mb-4"
+                      >
+                        Regresar
+                      </button>
+                    </Link>
+                    <button
+                      type="button"
+                      className="btn btn-success btn-block mb-4"
+                      onClick={handleClick}
+                    >
+                      Ingresar
+                    </button>
+                  </div>
+                  {/* <!-- Register buttons --> */}
+                  <div className="text-center">
+                    <p>¿No estas inscito? escribe un correo para registrarte</p>
+                  </div>
+
+                  {/* < />!-- Register buttons --> */}
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="col">
-          {/* <!-- Simple link --> */}
-          <a href="#!">¿Olvidaste tu contraseña?</a>
-        </div>
       </div>
-
-      {/* Submit button */}
-      <div className="d-flex justify-content-evenly">
-        <Link to="/">
-          <button type="button" className="btn btn-danger btn-block mb-4">
-            Regresar
-          </button>
-        </Link>
-        <button
-          type="button"
-          className="btn btn-success btn-block mb-4"
-          onClick={handleClick}
-        >
-          Ingresar
-        </button>
-      </div>
-      {/* <!-- Register buttons --> */}
-      <div className="text-center">
-        <p>¿No estas inscito? escribe un correo para registrarte</p>
-      </div>
-    </form>
+    </>
   );
 };
