@@ -43,10 +43,10 @@ export const Login = () => {
               className="mb-4 opacity-70"
               style={{ color: "hsl(218, 81%, 85%)" }}
             >
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Temporibus, expedita iusto veniam atque, magni tempora mollitia
-              dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-              ab ipsum nisi dolorem modi. Quos?
+              Con LinkedTeam podrás no solo controlar tu gestión personal de
+              ventas sino también formarte y si tienes equipo podrás formarlos y
+              monitorear su desempeño, todo con el objetivo de incrementar tus
+              ventas
             </p>
           </div>
 
@@ -97,20 +97,6 @@ export const Login = () => {
                   </div>
 
                   {/* < />!-- Checkbox --> */}
-                  <div className="form-check d-flex justify-content-center mb-4">
-                    <input
-                      className="form-check-input me-2"
-                      type="checkbox"
-                      value=""
-                      id="form2Example33"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="form2Example33"
-                    >
-                      Subscribe to our newsletter
-                    </label>
-                  </div>
 
                   {/* < />!-- Submit button --> */}
                   <div className="d-flex justify-content-evenly">
