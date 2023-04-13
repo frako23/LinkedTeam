@@ -2,7 +2,8 @@ import React from "react";
 import "../../styles/home.css";
 import one from "../../img/1.jpg";
 import { Login } from "../component/login";
-
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import { Signup } from "./signup";
 export const First = () => {
   return (
@@ -13,6 +14,9 @@ export const First = () => {
         </div>
         <Signup />
         <Login />
+        <Link to="/login">
+          <Button variant="primary">Ingresa</Button>
+        </Link>
       </div>
       <div className="d-flex justify-content-between mt-5 ">
         <div className="fw-bolder text-white me-5 font1 text-start">

@@ -7,6 +7,8 @@ import { Second } from "../component/second";
 import { Third } from "../component/third";
 import { Fourth } from "../component/fourth";
 import { Fifth } from "../component/fifth";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
