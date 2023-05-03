@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/perfil.css";
+// import "../../styles/perfil.css";
 import { Navbar } from "../component/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import frase from "../../img/Quotefancy-7034132-3840x2160.jpg";
