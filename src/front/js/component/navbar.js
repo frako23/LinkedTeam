@@ -107,7 +107,7 @@ export const Navbar = () => {
             <Link to="/">
               <a href="#">
                 <i className="bx bx-log-out icon"></i>
-                <span className="text nav-text">Logout</span>
+                <span className="text nav-text">Salir</span>
               </a>
             </Link>
           </li>
