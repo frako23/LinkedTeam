@@ -177,11 +177,11 @@ body {
   padding: 1rem 0;
 }
 
-img {
+/* img {
   width: 40%;
   border-radius: 12px;
   object-fit: contain;
-}
+} */
 
 span {
   color: rgb(147, 64, 255);

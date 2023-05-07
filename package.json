@@ -57,6 +57,9 @@
 		"webpack-dev-server": "^4.6.0",
 		"webpack-merge": "^5.8.0"
 	},
+	"resolutions": {
+        "webpack": "5.41.1"
+    },
 	"babel": {
 		"presets": [
 			"@babel/preset-env",

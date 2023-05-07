@@ -19,3 +19,63 @@ body {
 .font2 {
   font-size: 50px;
 }
+
+/* COURSES SECTION */
+
+.courses {
+  margin-top: 10 rem;
+}
+
+.courses__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.course {
+  background: #2e3267;
+  color: white;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: all 400ms ease ;
+}
+
+.course:hover {
+  background: transparent;
+  border-color: white;
+  color: white;
+}
+
+.course__image {
+  object-fit: cover;
+  width:100%;
+  height:100%;
+  
+}
+
+
+
+.course__btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 1px solid transparent;
+  background-color: red;
+  color: white;
+  font-weight: 500;
+  transition: all 400ms ease;
+}
+
+.course__btn:hover {
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+
+.course__info {
+  padding: 2rem;
+}
+
+.course__info p {
+  margin: 1.2rem 0 2rem;
+  font-size: 0.9rem;
+}
