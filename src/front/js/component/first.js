@@ -21,7 +21,7 @@ export const First = () => {
         <div className="fw-bolder text-white me-5 font1 text-start">
           Mantente conectado con tu equipo de trabajo
         </div>
-        <img src={one} />
+        <img className="landing__img" src={one} />
       </div>
     </div>
   );
