@@ -58,8 +58,8 @@
 		"webpack-merge": "^5.8.0"
 	},
 	"resolutions": {
-        "webpack": "5.41.1"
-    },
+		"webpack": "5.41.1"
+	},
 	"babel": {
 		"presets": [
 			"@babel/preset-env",
@@ -76,11 +76,24 @@
 		]
 	},
 	"dependencies": {
+		"@emotion/react": "^11.11.0",
+		"@emotion/styled": "^11.11.0",
 		"@fortawesome/fontawesome-svg-core": "^6.2.1",
 		"@fortawesome/free-regular-svg-icons": "^6.2.1",
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
 		"@fortawesome/react-fontawesome": "^0.2.0",
+		"@fullcalendar/core": "^6.1.6",
+		"@fullcalendar/daygrid": "^6.1.6",
+		"@fullcalendar/list": "^6.1.6",
+		"@fullcalendar/timegrid": "^6.1.6",
 		"@hello-pangea/dnd": "^16.2.0",
+		"@mui/icons-material": "^5.11.16",
+		"@mui/material": "^5.12.3",
+		"@mui/x-data-grid": "^6.3.1",
+		"@nivo/bar": "^0.83.0",
+		"@nivo/core": "^0.83.0",
+		"@nivo/line": "^0.83.0",
+		"@nivo/pie": "^0.83.0",
 		"bootstrap": "^5.2.3",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",

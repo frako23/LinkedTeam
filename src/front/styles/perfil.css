@@ -1,164 +1,110 @@
-.info-user {
-  color: #becdc8;
+.main__container {
+  grid-area: main;
+  overflow-y: auto;
+  padding: 20px 20px;
+}
+.main__title {
   display: flex;
-  justify-content: space-around;
-  margin-top: 3rem;
+  justify-content: space-between;
 }
 
-.profile-img {
-  border-radius: 50%;
-  width: 12rem;
-  border: 1px solid black;
+.main__title > p {
+  font-size: 26px;
 }
 
-.container-video {
+.main__card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.card__profile {
   display: flex;
-  justify-content: space-around;
-  margin-top: 3rem;
+  flex-direction: colum;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border: 1px solid #d2d2d3;
+  border-radius: 5px;
+  box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
 }
 
-.card {
-  color: #becdc8;
-  width: 20rem;
-  margin: 1rem;
-  height: 20rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(0, 0, 0);
-  background: rgba(64, 88, 124, 0.85);
-  backdrop-filter: blur(10.5px);
-  -webkit-backdrop-filter: blur(10.5px);
-  box-shadow: -16px 9px 24px 1px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: -16px 9px 24px 1px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: -16px 9px 24px 1px rgba(0, 0, 0, 0.6);
+.card__profile:nth-child(2) {
+  border-left: 7px solid #246dec;
 }
 
-.img-background {
-  width: 100%;
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 1rem 1rem 0 0;
+.card__profile:nth-child(3) {
+  border-left: 7px solid #f5b74f;
 }
 
-.card img {
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem 1rem 0 0;
+.card__profile:nth-child(4) {
+  border-left: 7px solid #cc3c43;
 }
 
-.icono-play {
-  font-size: 2rem;
-  color: rgb(124, 118, 118);
-  position: absolute;
-  top: 20%;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
+.card__profile:nth-child(5) {
+  border-left: 7px solid #4ff0f5;
 }
 
-.thumbnail-video {
-  height: 91%;
+.card__profile:nth-child(6) {
+  border-left: 7px solid #f54fed;
 }
 
-.info-video {
-  height: 50%;
+.card__profile:nth-child(7) {
+  border-left: 7px solid #367952;
 }
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 800px) {
-  .profile-img {
-    border-radius: 50%;
-    width: 7rem;
-    border: 1px solid black;
-  }
-
-  .container-video {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 8rem;
-    width: 80%;
-    margin: 1rem;
-    border-radius: 1rem;
-    border: 1px solid black;
-  }
-
-  .icono-play {
-    font-size: 2rem;
-    color: rgb(124, 118, 118);
-    position: absolute;
-    top: 40%;
-    margin-left: auto;
-    margin-right: auto;
-    left: -50%;
-    right: 0;
-    text-align: center;
-  }
-
-  .thumbnail-video {
-    height: auto;
-    width: 93%;
-  }
-
-  .card img {
-    width: 100%;
-    height: 100%;
-    border-radius: 1rem 0 0 1rem;
-  }
-
-  .info-video {
-    height: auto;
-    width: 50%;
-  }
-}
-
-body {
-  background-color: rgb(16, 23, 40);
-
-  /* color: white; */
-}
-
-.menu {
-  width: 3.25rem;
-  min-height: 100vh;
-  font-size: 5 px;
-  background-color: white;
-  justify-content: space-around;
+.card__inner {
   display: flex;
-  flex-direction: column;
-  position: fixed;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.pagina {
-  width: 95vw;
-  height: 100vh;
+.card__inner > p {
+  font-size: 20px;
+  margin-bottom: 0px;
 }
 
-.imgPerfil {
-  width: 50%;
-  height: auto;
-  position: absolute;
-  top: 35%;
-  left: 31%;
-  margin: -25px 0 0 -25p;
+.numero {
+  font-size: 20px;
+  margin-bottom: 0px;
 }
 
-.prof-img {
-  border-radius: 5%;
-  width: 10rem;
-  border: 6px solid rgb(92, 150, 116);
+.card__inner > span {
+  font-size: 35px;
 }
 
-.nombre-perfil {
-  font-size: 46px;
-  margin-right: 295px;
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.history_lists {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60%;
+  width: 65%;
+  padding-left: 2rem;
+}
+
+table {
+  background: #fff;
+  padding: 1rem;
+  text-align: left;
+  border-radius: 10px;
+  width: 33rem;
+}
+table td,
+th {
+  padding: 0.2rem 0.8rem;
+}
+table th {
+  font-size: 15px;
+}
+table td {
+  font-size: 13px;
+  color: rgb(100, 100, 100);
 }

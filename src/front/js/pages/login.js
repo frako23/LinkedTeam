@@ -27,7 +27,10 @@ export const Login = () => {
   }, [store.token]);
   return (
     <>
-      <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+      <div
+        className="container px-4 py-5 px-md-5 text-center text-lg-start my-5"
+        style={{ height: "100vh" }}
+      >
         <div className="row gx-lg-5 align-items-center mb-5">
           <div className="col-lg-6 mb-5 mb-lg-0" style={{ z: "10" }}>
             <h1
