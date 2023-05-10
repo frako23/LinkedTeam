@@ -74,7 +74,7 @@ export const Nuevonegocio = () => {
                     type="text"
                     id="tarea-nombre"
                     className="input-text"
-                    placeholder="Nombre y Apellido"
+                    placeholder="Pedro Pérez"
                     onChange={(e) => setNombre(e.target.value)}
                     value={nombre}
                   />
@@ -84,6 +84,7 @@ export const Nuevonegocio = () => {
                     type="text"
                     id="tarea-nombre"
                     className="input-text"
+                    placeholder="07/01/1976"
                     onChange={(e) => setFecha(e.target.value)}
                     value={fecha}
                   />
@@ -113,7 +114,7 @@ export const Nuevonegocio = () => {
                     type="Number"
                     id="tarea-nombre"
                     className="input-text"
-                    placeholder="Coloca sólo números"
+                    placeholder="5000"
                     value={monto}
                     onChange={(e) => setMonto(e.target.value)}
                   />

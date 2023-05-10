@@ -109,3 +109,11 @@ body {
 .datosTabla {
   width: 6rem;
 }
+
+.pagina {
+  height: 100vh;
+}
+
+.texto {
+  float: right;
+}

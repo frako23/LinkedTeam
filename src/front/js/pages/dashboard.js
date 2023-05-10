@@ -26,23 +26,24 @@ export const Dashboard = () => {
         <div className="kanban-head">
           <strong className="kanban-head-title">CRM</strong>
         </div>
-        <div className="ms-2 d-flex position-relative mb-3">
+        <div className="ms-2 d-flex position-relative mb-3 ">
           <Nuevonegocio />;
-          <div className="texto text-center">
-            <table
-              className="table table-bordered text-white position-absolute top-0 end-0"
-              style={{
-                width: 600,
-              }}
+          <div className="position-absolute top-0 end-0 text-center">
+            <div
+              class="btn-group "
+              role="group"
+              aria-label="Basic mixed styles example"
             >
-              <thead>
-                <tr>
-                  <th scope="col">En Calle= $20.054</th>
-                  <th scope="col">Logrado= $15.024/75%</th>
-                  <th scope="col">Negocios= 15</th>
-                </tr>
-              </thead>
-            </table>
+              <button type="button" class="btn btn-warning fw-bold">
+                En Calle= $20.054
+              </button>
+              <button type="button" class="btn btn-success fw-bold">
+                Logrado= $15.024/75%
+              </button>
+              <button type="button" class="btn btn-primary fw-bold">
+                Negocios= 15
+              </button>
+            </div>
           </div>
         </div>
 
