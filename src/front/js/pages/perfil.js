@@ -4,6 +4,9 @@ import "../../styles/perfil.css";
 import { Navbar } from "../component/navbar";
 import { Box } from "../component/box";
 import { ToDoChart } from "../component/todo";
+import { ProfileCard } from "../component/profileCard";
+import { MyResponsiveBar } from "../component/charts";
+import { data } from "../data/nivoData";
 
 export const Perfil = () => {
   const navigate = useNavigate();
@@ -28,7 +31,9 @@ export const Perfil = () => {
         </div>
         <Box />
       </main>
-      <ToDoChart />
+      <ProfileCard />
+      <MyResponsiveBar data={data} />
+      {/* <ToDoChart /> */}
     </div>
   );
 };

@@ -85,3 +85,16 @@ body {
   -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 }
+
+.landing__text__color {
+  color: #9340ff;
+}
+
+.img__landing__logo {
+  width: 15%;
+  border-radius: 15px;
+  margin-right: 1rem;
+  box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
+  -webkit-box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
+  -moz-box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
+}

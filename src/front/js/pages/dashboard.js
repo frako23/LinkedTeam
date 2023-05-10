@@ -17,7 +17,7 @@ export const Dashboard = () => {
   }, [store.token]);
 
   return (
-    <div className="d-flex">
+    <div className="pagina" style={{ height: "100vh" }}>
       {/* barra de menu */}
 
       <Navbar />
@@ -30,7 +30,7 @@ export const Dashboard = () => {
           <Nuevonegocio />;
           <div className="position-absolute top-0 end-0 text-center">
             <div
-              class="btn-group "
+              class="btn-group pe-5"
               role="group"
               aria-label="Basic mixed styles example"
             >

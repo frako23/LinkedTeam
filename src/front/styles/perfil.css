@@ -85,7 +85,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60%;
+  height: 53%;
   width: 65%;
   padding-left: 2rem;
 }
@@ -107,4 +107,8 @@ table th {
 table td {
   font-size: 13px;
   color: rgb(100, 100, 100);
+}
+
+.img__profile {
+  width: 30%;
 }

@@ -7,6 +7,7 @@ import { Context } from "../store/appContext";
 import Dropdown from "react-bootstrap/Dropdown";
 import Nav from "react-bootstrap/Nav";
 import "../../styles/navbar.css";
+import logo from "../../img/logoNavBar.png";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -29,7 +30,7 @@ export const Navbar = () => {
       <header>
         <div className="image-text">
           <span className="image">
-            {/* <!--<img src="logo.png" alt="">--> */}
+            <img src={logo} alt="" />
           </span>
 
           <div className="text logo-text">
@@ -56,7 +57,7 @@ export const Navbar = () => {
               <Link to="/perfil">
                 <a href="#">
                   <i className="bx bx-bar-chart-alt-2 icon"></i>
-                  <span className="text nav-text">Dashboard</span>
+                  <span className="text nav-text">Tablero</span>
                 </a>
               </Link>
             </li>
@@ -65,7 +66,7 @@ export const Navbar = () => {
               <Link to="/courses">
                 <a href="#">
                   <i className="bx bxl-youtube icon"></i>
-                  <span className="text nav-text">Videos</span>
+                  <span className="text nav-text">Cursos y Videos</span>
                 </a>
               </Link>
             </li>

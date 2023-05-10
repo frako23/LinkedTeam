@@ -1,14 +1,13 @@
 import React from "react";
 import "../../styles/perfil.css";
+import rigo from "../../img/rigo-baby.jpg";
 
 export const ToDoChart = () => {
   return (
     <div class="history_lists">
       <div class="list1">
-        <div class="row">
-          <h4 className="text-white">Tareas Pendientes</h4>
-        </div>
         <table>
+          <img src={rigo} className="img__profile" />
           <thead>
             <tr>
               <th>#</th>

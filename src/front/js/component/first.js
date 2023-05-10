@@ -2,12 +2,14 @@ import React from "react";
 import "../../styles/home.css";
 import one from "../../img/1.jpg";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import logo from "../../img/logoNavBar.png";
+
 export const First = () => {
   return (
     <div className="container mb-5">
       <div className="d-flex">
         <div className="text-start fs-1 fw-bolder text-white me-auto">
+          <img src={logo} className="img__landing__logo" />
           LinkedTeam
         </div>
 
