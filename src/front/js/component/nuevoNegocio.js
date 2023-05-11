@@ -81,7 +81,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Fecha de Nacimiento </strong>
                   <input
-                    type="text"
+                    type="date"
                     id="tarea-nombre"
                     className="input-text"
                     placeholder="07/01/1976"
@@ -101,7 +101,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Celular </strong>
                   <input
-                    type="number"
+                    type="tel"
                     id="tarea-nombre"
                     className="input-text"
                     placeholder="04XX-XXXXXXX"
@@ -111,7 +111,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Monto </strong>
                   <input
-                    type="Number"
+                    type="number"
                     id="tarea-nombre"
                     className="input-text"
                     placeholder="5000"
