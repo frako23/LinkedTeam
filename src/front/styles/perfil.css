@@ -112,3 +112,9 @@ table td {
 .img__profile {
   width: 30%;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  color: white;
+}
