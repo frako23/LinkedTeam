@@ -15,24 +15,26 @@ export const Perfil = () => {
   };
 
   return (
-    <div className="d-flex" style={{ height: "100vh" }}>
+    <div className="" style={{ height: "100vh" }}>
       {/* barra de menu */}
       <Navbar />
 
       {/* pagina */}
 
-      <main
-        className="main__container d-grid gap-4"
-        style={{ paddingLeft: "8rem" }}
-      >
+      <main className="main__container d-grid" style={{ paddingLeft: "6rem" }}>
         <div className="main__title">
           <p className="font-weight-bold text-white">TABLERO DE CONTROL</p>
         </div>
         <Box />
       </main>
-      <ProfileCard />
-      <Example />
-      {/* <ToDoChart /> */}
+      <div
+        className="main__card"
+        style={{ paddingLeft: "6rem", marginTop: "0px" }}
+      >
+        <ProfileCard />
+        <Example />
+        {/* <ToDoChart /> */}
+      </div>
     </div>
   );
 };

@@ -32,13 +32,37 @@ body {
 }
 
 .kanban-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
   height: fit-content;
-  display: flex;
+  /* display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between; */
   margin-bottom: 2rem;
-  margin-left: 1rem;
-  width: fit-content;
+  margin-left: 3rem;
+  /* width: fit-content; */
+}
+
+.tabla:first-child {
+  border-left: 7px solid #246dec;
+}
+
+.tabla:nth-child(2) {
+  border-left: 7px solid #f5b74f;
+}
+
+.tabla:nth-child(3) {
+  border-left: 7px solid #cc3c43;
+}
+
+.tabla:nth-child(4) {
+  border-left: 7px solid #4ff0f5;
+}
+
+.tabla:nth-child(5) {
+  border-left: 7px solid #367952;
 }
 
 .kanban-block {
@@ -47,8 +71,8 @@ body {
   margin: 0.5rem;
   width: 30.5%;
   height: auto;
-  min-width: 12rem;
-  min-height: 4.5rem;
+  min-width: 13rem;
+  min-height: 6.5rem;
   border-radius: 0.3rem;
   box-shadow: 2px 2px 2px 4px rgba(255, 255, 255, 0.1);
 }
@@ -98,7 +122,7 @@ body {
 
 .tarea {
   text-align: start;
-  background-color: rgb(72, 80, 72);
+  background-color: rgb(255, 221, 163);
   margin: 0.2rem 0rem 0.3rem 0rem;
   border: 0.1rem solid black;
   border-radius: 0.5rem;
@@ -116,4 +140,10 @@ body {
 
 .texto {
   float: right;
+}
+
+.kanban-title {
+  font-size: var(--card-title);
+  margin-bottom: 0px;
+  font-weight: bold;
 }

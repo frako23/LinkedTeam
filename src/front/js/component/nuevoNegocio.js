@@ -12,6 +12,7 @@ export const Nuevonegocio = () => {
   const [celular, setCelular] = useState("");
   const [monto, setMonto] = useState("");
   const [confianza, setConfianza] = useState("");
+  const [estatus, setEstatus] = useState("");
   const [notas, setNotas] = useState("");
 
   return (
@@ -42,6 +43,7 @@ export const Nuevonegocio = () => {
               celular: celular,
               monto: monto,
               confianza: confianza,
+              estatus: estatus,
               notas: notas,
             });
             setNombre("");
@@ -50,6 +52,7 @@ export const Nuevonegocio = () => {
             setCelular("");
             setMonto("");
             setConfianza("");
+            setEstatus("");
             setNotas("");
             console.log("entro aqui");
           }}
@@ -118,6 +121,23 @@ export const Nuevonegocio = () => {
                     value={monto}
                     onChange={(e) => setMonto(e.target.value)}
                   />
+
+                  <label for="cars">
+                    <strong>Estatus:</strong>
+                  </label>
+                  <select
+                    id="cars"
+                    name="cars"
+                    value={estatus}
+                    onChange={(e) => setEstatus(e.target.value)}
+                  >
+                    <option value=""></option>
+                    <option value="Alta">Prospecto</option>
+                    <option value="Media">Contactado</option>
+                    <option value="Baja">Primera Cita</option>
+                    <option value="Baja">Negociación</option>
+                    <option value="Baja">Cerrado</option>
+                  </select>
 
                   <label for="cars">
                     <strong>Nivel de confianza:</strong>

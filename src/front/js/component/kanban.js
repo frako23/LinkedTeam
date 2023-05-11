@@ -33,9 +33,45 @@ export const Kanban = () => {
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong>Prospectos</strong>
+                <strong className="kanban-title text-primary">
+                  PROSPECTOS
+                </strong>
 
-                {store.clientes
+                {store.prospectsData.map((cliente, index) => (
+                  <Draggable
+                    key={cliente.id}
+                    draggableId={String(cliente.id)}
+                    index={index}
+                  >
+                    {(draggableProvided, snapshot) => (
+                      <div
+                        ref={draggableProvided.innerRef}
+                        {...draggableProvided.draggableProps}
+                        {...draggableProvided.dragHandleProps}
+                        style={{
+                          ...draggableProvided.draggableProps.style,
+                          opacity: snapshot.isDragging ? "0.5" : "1",
+                        }}
+                      >
+                        <Tarjetacliente>
+                          {cliente.nombre}
+                          <br></br>
+                          {cliente.fecha}
+                          <br></br>${cliente.monto}
+                          <br></br>
+                          Confianza {cliente.confianza}
+                        </Tarjetacliente>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {droppableProvided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          {/* --------------------------CODIGO ORIGINAL----------------------------- */}
+          {/* {store.clientes
                   .filter((cliente) => cliente.estatus === "Prospecto")
                   .map((cliente, index) => (
                     <Draggable
@@ -64,57 +100,7 @@ export const Kanban = () => {
                         </div>
                       )}
                     </Draggable>
-                  ))}
-                {droppableProvided.placeholder}
-              </div>
-            )}
-          </Droppable>
-
-          <Droppable droppableId="Prospecto Calificado">
-            {(droppableProvided) => (
-              <div
-                className="kanban-block tabla"
-                {...droppableProvided.droppableProps}
-                ref={droppableProvided.innerRef}
-              >
-                <strong>Prospecto Calificado</strong>
-
-                {store.clientes
-                  .filter(
-                    (cliente) => cliente.estatus === "Prospecto Calificado"
-                  )
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <Tarjetacliente>
-                            {cliente.nombre}
-                            <br></br>
-                            {cliente.fecha}
-                            <br></br>${cliente.monto}
-                            <br></br>
-                            Confianza {cliente.confianza}
-                          </Tarjetacliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                {droppableProvided.placeholder}
-              </div>
-            )}
-          </Droppable>
+                  ))} */}
 
           <Droppable droppableId="Contacto realizado">
             {(droppableProvided) => (
@@ -123,7 +109,9 @@ export const Kanban = () => {
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong>Contacto realizado</strong>
+                <strong className="kanban-title text-primary">
+                  CONTACTADOS
+                </strong>
 
                 {store.clientes
                   .filter((cliente) => cliente.estatus === "Contacto realizado")
@@ -166,7 +154,9 @@ export const Kanban = () => {
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong>Primera Cita</strong>
+                <strong className="kanban-title text-primary">
+                  PRIMERA CITA
+                </strong>
 
                 {store.clientes
                   .filter((cliente) => cliente.estatus === "Primera Cita")
@@ -209,7 +199,9 @@ export const Kanban = () => {
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong>Negociación Iniciada</strong>
+                <strong className="kanban-title text-primary">
+                  NEGOCIACIÓN
+                </strong>
 
                 {store.clientes
                   .filter(
@@ -254,7 +246,7 @@ export const Kanban = () => {
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong>Venta Concretada</strong>
+                <strong className="kanban-title text-primary">CIERRES</strong>
 
                 {store.clientes
                   .filter((cliente) => cliente.estatus === "Venta Concretada")

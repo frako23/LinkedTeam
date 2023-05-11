@@ -7,5 +7,5 @@ import { Link, useNavigate } from "react-router-dom";
 export const Tarjetacliente = ({ children }) => {
   const { store, actions } = useContext(Context);
 
-  return <div className="tarea text-white">{children}</div>;
+  return <div className="tarea fw-bold">{children}</div>;
 };

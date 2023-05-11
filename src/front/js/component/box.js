@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export const Box = () => {
   return (
-    <>
+    <div className="main__card">
       <div className="card__profile">
         <div className="card__inner ">
           <p className="text-primary">PROSPECTOS</p>
@@ -15,14 +15,7 @@ export const Box = () => {
 
       <div className="card__profile">
         <div className="card__inner">
-          <p className="text-primary">PRECALIFICADOS</p>
-        </div>
-        <span className="text-primary font-weight-bold numero">83</span>
-      </div>
-
-      <div className="card__profile">
-        <div className="card__inner">
-          <p className="text-primary">PRIMER CONTACTO</p>
+          <p className="text-primary">CONTACTADOS</p>
         </div>
         <span className="text-primary font-weight-bold numero">79</span>
       </div>
@@ -43,10 +36,10 @@ export const Box = () => {
 
       <div className="card__profile">
         <div className="card__inner">
-          <p className="text-primary">VENTA CONCRETADA</p>
+          <p className="text-primary">CIERRES</p>
         </div>
         <span className="text-primary font-weight-bold numero">24</span>
       </div>
-    </>
+    </div>
   );
 };

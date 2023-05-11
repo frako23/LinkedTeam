@@ -10,6 +10,12 @@ import { Kanban } from "../component/kanban";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
+  let amountSum = store.prospectsData.reduce(
+    (acum, index) => acum + index.monto,
+    0
+  );
+  console.log(amountSum);
+
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
       actions.getClientes();
@@ -17,7 +23,7 @@ export const Dashboard = () => {
   }, [store.token]);
 
   return (
-    <div className="pagina" style={{ height: "100vh" }}>
+    <div className="pagina">
       {/* barra de menu */}
 
       <Navbar />
@@ -35,13 +41,13 @@ export const Dashboard = () => {
               aria-label="Basic mixed styles example"
             >
               <button type="button" class="btn btn-warning fw-bold">
-                En Calle= $20.054
+                En Calle= ${amountSum}
               </button>
               <button type="button" class="btn btn-success fw-bold">
                 Logrado= $15.024/75%
               </button>
               <button type="button" class="btn btn-primary fw-bold">
-                Negocios= 15
+                Negocios= {store.prospectsData.length}
               </button>
             </div>
           </div>
