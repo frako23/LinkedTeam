@@ -71,7 +71,7 @@ class Cliente(db.Model):
         self.monto = kwargs['monto']
         self.confianza = kwargs['confianza']
         self.notas = kwargs['notas']
-        self.estatus = 'Prospecto'
+        self.estatus = kwargs['estatus']
         self.user_id = kwargs['user_id']
 
     @classmethod

@@ -37,7 +37,7 @@ export const Kanban = () => {
                   PROSPECTOS
                 </strong>
 
-                {store.prospectsData.map((cliente, index) => (
+                {store.clientes.map((cliente, index) => (
                   <Draggable
                     key={cliente.id}
                     draggableId={String(cliente.id)}

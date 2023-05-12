@@ -84,6 +84,8 @@ def post_get_clientes():
             raise Exception("No ingresaste el celular", 400)
         if "monto" not in new_cliente_data or new_cliente_data["monto"] == "":
             raise Exception("No ingresaste el monto", 400)
+        if "estatus" not in new_cliente_data or new_cliente_data["estatus"] == "":
+            raise Exception("No ingresaste el estatus", 400)
         if "confianza" not in new_cliente_data or new_cliente_data["confianza"] == "":
             raise Exception("No ingresaste el nivel de confianza", 400)
         if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":

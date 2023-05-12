@@ -298,6 +298,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         email,
         celular,
         monto,
+        estatus,
         confianza,
         notas,
       }) => {
@@ -307,7 +308,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4MzkxMTg2MiwianRpIjoiNmY5N2VhNjItYzRmYi00MDEyLWI0ODAtNWVlZjkwZDhiMDFjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjgzOTExODYyLCJleHAiOjE2ODM5MTI3NjJ9.qwL7OzUtVBHUyuSHB-LsHxGbT46d6FTz8LF-POF9TY0`,
           },
           body: JSON.stringify({
             nombre: nombre,
@@ -315,11 +316,21 @@ const getState = ({ getStore, getActions, setStore }) => {
             email: email,
             celular: celular,
             monto: monto,
+            estatus: estatus,
             confianza: confianza,
             notas: notas,
           }),
         };
-        console.log(nombre, fecha, email, celular, monto, confianza, notas);
+        console.log(
+          nombre,
+          fecha,
+          email,
+          celular,
+          monto,
+          estatus,
+          confianza,
+          notas
+        );
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/clientes`,
@@ -328,8 +339,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           if (!response.ok) {
             let danger = await response.json();
-            alert(danger);
-            return false;
+            throw new Error(danger);
           }
 
           const data = await response.json();
@@ -337,7 +347,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al registrar al cliente");
+          console.error("Ha habido un error al registrar al cliente", error);
         }
       },
 
@@ -345,7 +355,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const opts = {
           headers: {
-            Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4MzkxMTg2MiwianRpIjoiNmY5N2VhNjItYzRmYi00MDEyLWI0ODAtNWVlZjkwZDhiMDFjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjgzOTExODYyLCJleHAiOjE2ODM5MTI3NjJ9.qwL7OzUtVBHUyuSHB-LsHxGbT46d6FTz8LF-POF9TY0`,
           },
         };
         const apiURL = `${process.env.BACKEND_URL}/clientes`;

@@ -1,44 +1,72 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { Context } from "../store/appContext";
 import "../../styles/perfil.css";
 
-import { Link } from "react-router-dom";
-
 export const Box = () => {
+  const { store, actions } = useContext(Context);
+
   return (
     <div className="main__card">
       <div className="card__profile">
         <div className="card__inner ">
           <p className="text-primary">PROSPECTOS</p>
         </div>
-        <p className="text-primary font-weight-bold numero">249</p>
+        <p className="text-primary font-weight-bold numero">
+          {
+            store.prospectsData.filter((index) => index.estatus == "Prospecto")
+              .length
+          }
+        </p>
       </div>
 
       <div className="card__profile">
         <div className="card__inner">
           <p className="text-primary">CONTACTADOS</p>
         </div>
-        <span className="text-primary font-weight-bold numero">79</span>
+        <span className="text-primary font-weight-bold numero">
+          {
+            store.prospectsData.filter((index) => index.estatus == "Contactado")
+              .length
+          }
+        </span>
       </div>
 
       <div className="card__profile">
         <div className="card__inner">
           <p className="text-primary">PRIMERA CITA</p>
         </div>
-        <span className="text-primary font-weight-bold numero">56</span>
+        <span className="text-primary font-weight-bold numero">
+          {
+            store.prospectsData.filter(
+              (index) => index.estatus == "Primera Cita"
+            ).length
+          }
+        </span>
       </div>
 
       <div className="card__profile">
         <div className="card__inner">
           <p className="text-primary">NEGOCIACIÓN</p>
         </div>
-        <span className="text-primary font-weight-bold numero">43</span>
+        <span className="text-primary font-weight-bold numero">
+          {
+            store.prospectsData.filter(
+              (index) => index.estatus == "Negociación"
+            ).length
+          }
+        </span>
       </div>
 
       <div className="card__profile">
         <div className="card__inner">
           <p className="text-primary">CIERRES</p>
         </div>
-        <span className="text-primary font-weight-bold numero">24</span>
+        <span className="text-primary font-weight-bold numero">
+          {
+            store.prospectsData.filter((index) => index.estatus == "Cerrado")
+              .length
+          }
+        </span>
       </div>
     </div>
   );

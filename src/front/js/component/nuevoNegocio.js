@@ -42,6 +42,7 @@ export const Nuevonegocio = () => {
               email: email,
               celular: celular,
               monto: monto,
+              estatus: estatus,
               confianza: confianza,
               estatus: estatus,
               notas: notas,
@@ -119,7 +120,7 @@ export const Nuevonegocio = () => {
                     className="input-text"
                     placeholder="5000"
                     value={monto}
-                    onChange={(e) => setMonto(e.target.value)}
+                    onChange={(e) => setMonto(Number(e.target.value))}
                   />
 
                   <label for="cars">
@@ -132,11 +133,11 @@ export const Nuevonegocio = () => {
                     onChange={(e) => setEstatus(e.target.value)}
                   >
                     <option value=""></option>
-                    <option value="Alta">Prospecto</option>
-                    <option value="Media">Contactado</option>
-                    <option value="Baja">Primera Cita</option>
-                    <option value="Baja">Negociación</option>
-                    <option value="Baja">Cerrado</option>
+                    <option value="Prospecto">Prospecto</option>
+                    <option value="Contactado">Contactado</option>
+                    <option value="Primera Cita">Primera Cita</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Cerrado">Cerrado</option>
                   </select>
 
                   <label for="cars">
