@@ -8,6 +8,7 @@ export function Todo() {
     const { store, actions } = useContext(Context);
     const [dragOn, setDragOn] = useState(false)
 
+
     
     return (
         <div className="" style={{ height: "100vh" }}>
@@ -47,7 +48,15 @@ export function Todo() {
                 <div className="swim-lane">
                     <h3 className="heading">POR HACER</h3>
                     {store.tasks.map((task, index) => 
-                        <p className={`task`}  key={index} draggable="true">{task}</p>
+                        <p 
+                            className={`task ${dragOn == true ? "is-dragging" : ""}`}  
+                            key={index} 
+                            onDragStart= {(e) => setDragOn(true)} 
+                            onDragEnd={(e) => setDragOn(false)}
+                            draggable="true"
+                            >
+                            {task}
+                        </p>
                      )}
                     <p className="task" draggable="true">Agendar cierre con Gerardo Perdomo</p>
                     <p className="task" draggable="true">pago de Adriana Vazquez</p>
