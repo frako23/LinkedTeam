@@ -10,8 +10,8 @@ import { Kanban } from "../component/kanban";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
-  let amountSum = store.prospectsData.reduce(
-    (acum, index) => acum + index.monto,
+  let amountSum = store.clientes.reduce(
+    (acum, index) => acum + parseInt(index.monto),
     0
   );
   console.log(amountSum);
@@ -36,18 +36,18 @@ export const Dashboard = () => {
           <Nuevonegocio />;
           <div className="position-absolute top-0 end-0 text-center">
             <div
-              class="btn-group pe-5"
+              className="btn-group pe-5"
               role="group"
               aria-label="Basic mixed styles example"
             >
-              <button type="button" class="btn btn-warning fw-bold">
+              <button type="button" className="btn btn-warning fw-bold">
                 En Calle= ${amountSum}
               </button>
-              <button type="button" class="btn btn-success fw-bold">
+              <button type="button" className="btn btn-success fw-bold">
                 Logrado= $15.024/75%
               </button>
-              <button type="button" class="btn btn-primary fw-bold">
-                Negocios= {store.prospectsData.length}
+              <button type="button" className="btn btn-primary fw-bold">
+                Negocios= {store.clientes.length}
               </button>
             </div>
           </div>

@@ -124,10 +124,11 @@ body {
   text-align: start;
   background-color: rgb(255, 221, 163);
   margin: 0.2rem 0rem 0.3rem 0rem;
-  border: 0.1rem solid black;
   border-radius: 0.5rem;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
   padding: 0.5rem 0.2rem 0.5rem 0.5rem;
   font-size: small;
+  cursor: move;
 }
 
 .datosTabla {
@@ -136,6 +137,8 @@ body {
 
 .pagina {
   background-size: cover;
+  height: 100vh;
+  background-attachment: fixed;
 }
 
 .texto {

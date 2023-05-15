@@ -13,6 +13,7 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [toggle, setToggle] = useState("close");
+  // const [logOut, setLogOut] = useState(false)
 
   const toggleFunc = () => {
     if (toggle == "close") {
@@ -21,6 +22,13 @@ export const Navbar = () => {
       setToggle("close");
     }
   };
+
+  function handleLogOut () {
+    actions.logout();
+    navigate("/")
+  }
+
+
 
   return (
     <nav
@@ -81,10 +89,12 @@ export const Navbar = () => {
             </li>
 
             <li className="ps-0">
+              <Link to="/todo">
               <a href="#">
                 <i className="bx bx-list-ol icon"></i>
                 <span className="text nav-text">Tareas pendientes</span>
               </a>
+              </Link>
             </li>
 
             {/* <li className="nav-link">
@@ -105,12 +115,10 @@ export const Navbar = () => {
 
         <div className="bottom-content">
           <li className="">
-            <Link to="/">
-              <a href="#">
+              <a href="#" onClick={(event) => handleLogOut()}>
                 <i className="bx bx-log-out icon"></i>
-                <span className="text nav-text">Salir</span>
+                <span className="text nav-text" >Salir</span>
               </a>
-            </Link>
           </li>
           {/* 
           <li className="mode">

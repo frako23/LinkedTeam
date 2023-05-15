@@ -1,3 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
@@ -39,6 +51,8 @@ body {
       hsl(218, 41%, 19%) 80%,
       transparent 100%
     );
+    background-position: center;
+    background-size: cover;
 
   font-family: "Montserrat", sans-serif;
   /* color: white; */
@@ -134,7 +148,6 @@ body {
 
 body {
   font-weight: 1.3rem;
-  color: #444444;
   background-color: transparent;
 }
 

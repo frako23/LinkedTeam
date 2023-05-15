@@ -7,208 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usuarios: [],
       favoritos: [],
       clientes: [],
-      prospectsData: [
-        {
-          nombre: "Kesling García",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Prospecto",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Francisco Orozco",
-          fecha: "21/10/1985",
-          email: "frako23@gmail.com",
-          celular: "04242526757",
-          monto: 10000,
-          estatus: "Prospecto",
-          confianza: "Alta",
-          notas: "Programador con altos ingresos, casado con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Gerardo Perdomo",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Contactado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Juan Matos",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Contactado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Adriana Vazquez",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Prospecto",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Leslie",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Primera Cita",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Carla Loyo",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Negociación",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Sandra Afonzo",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Cerrado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Joana Capoano",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Prospecto",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Carolina",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Contactado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Patrizia Angelizanti",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Primera Cita",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Diego Arzola",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Negociación",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Diego Álvarez",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Cerrado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Antonio Álvarez",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Primera Cita",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Milagros Naranjo",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Cerrado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Yajaira Semeco",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Negociación",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Luz Marina Tosta",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Contactado",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Carlos León",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Negociación",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Ana de Abreu",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "Prospecto",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-        {
-          nombre: "Iliana",
-          fecha: "12/04/1986",
-          email: "keslinggarcia.cica@gmail.com",
-          celular: "04141878425",
-          monto: 5000,
-          estatus: "prospecto",
-          confianza: "Alta",
-          notas: "Casada, con 1 hijo de 2 años",
-        },
-      ],
+      tasks: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -230,8 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             const mensaje = await resp.json();
             alert(mensaje.msg);
             return false;
-          }
-
+          } 
           const data = await resp.json();
           console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
@@ -308,7 +106,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4MzkxMTg2MiwianRpIjoiNmY5N2VhNjItYzRmYi00MDEyLWI0ODAtNWVlZjkwZDhiMDFjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjgzOTExODYyLCJleHAiOjE2ODM5MTI3NjJ9.qwL7OzUtVBHUyuSHB-LsHxGbT46d6FTz8LF-POF9TY0`,
+            Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
             nombre: nombre,
@@ -355,7 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const opts = {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4MzkxMTg2MiwianRpIjoiNmY5N2VhNjItYzRmYi00MDEyLWI0ODAtNWVlZjkwZDhiMDFjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjgzOTExODYyLCJleHAiOjE2ODM5MTI3NjJ9.qwL7OzUtVBHUyuSHB-LsHxGbT46d6FTz8LF-POF9TY0`,
+            Authorization: `Bearer ${store.token} `,
           },
         };
         const apiURL = `${process.env.BACKEND_URL}/clientes`;
@@ -376,8 +174,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       logout: () => {
+        const store = getStore();
         sessionStorage.removeItem("token");
-        console.log("Se han borrado todos los tokens");
+        console.log("Se han borrado todos los tokens", store.token);
         setStore({ token: null });
       },
 

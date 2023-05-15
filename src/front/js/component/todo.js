@@ -4,8 +4,8 @@ import rigo from "../../img/rigo-baby.jpg";
 
 export const ToDoChart = () => {
   return (
-    <div class="history_lists">
-      <div class="list1">
+    <div className="history_lists">
+      <div className="list1">
         <table>
           <img src={rigo} className="img__profile" />
           <thead>
