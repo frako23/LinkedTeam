@@ -19,7 +19,7 @@ export const Courses = () => {
       <Navbar />
       <div className="pagina">
         <h1
-          className="text-white text-center mt-5"
+          className="text-white text-center mt-4 kanban-head-title"
           style={{ paddingBottom: "3rem" }}
         >
           Cursos disponibles

@@ -30,7 +30,7 @@ export const Dashboard = () => {
 
       <div className="pagina ps-5">
         <div className="kanban-head">
-          <strong className="kanban-head-title">CRM</strong>
+          <strong className="kanban-head-title mt-4">CRM</strong>
         </div>
         <div className="ms-2 d-flex position-relative mb-3 ">
           <Nuevonegocio />;

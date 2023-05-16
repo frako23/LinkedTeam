@@ -26,7 +26,7 @@ export function Todo() {
                     paddingRight: "6rem"
                     }}>
         <h1
-          className="text-white text-center mt-5"
+          className="text-white text-center mt-4 kanban-head-title"
         >
           Tareas pendientes
         </h1>

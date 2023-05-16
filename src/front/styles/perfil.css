@@ -15,18 +15,20 @@
 
 .main__card {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
   gap: 20px;
   margin: 20px 0;
+  width: 23%;
 }
 
 .main__title {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .main__title > p {
-  font-size: 26px;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 .card__profile {
