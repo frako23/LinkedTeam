@@ -17,10 +17,10 @@
   --tran-05: all 0.3s ease;
 }
 
-::selection {
+/* ::selection {
   background-color: var(--primary-color);
   color: #fff;
-}
+} */
 
 body.dark {
   --body-color: #18191a;

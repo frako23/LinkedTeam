@@ -49,14 +49,10 @@ def get_users():
             raise Exception("No ingresaste tu nombre", 400)
         if "lastname" not in new_user_data or new_user_data["lastname"] == "":
             raise Exception("No ingresaste tu apellido", 400)
-        if "phone" not in new_user_data or new_user_data["phone"] == "":
-            raise Exception("No ingresaste tu telefono", 400)
         if "email" not in new_user_data or new_user_data["email"] == "":
             raise Exception("No ingresaste el email", 400)
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
-        if "agency" not in new_user_data or new_user_data["agency"] == "":
-            raise Exception("No ingresaste el nombre de tu agencia", 400)
         new_user = User.create(**new_user_data)
         return jsonify(new_user.serialize()), 201
     except Exception as error:

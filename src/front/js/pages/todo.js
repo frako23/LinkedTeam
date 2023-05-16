@@ -7,17 +7,24 @@ export function Todo() {
     const [task, setTask] = useState("");
     const { store, actions } = useContext(Context);
     const [dragOn, setDragOn] = useState(false)
-
-
     
     return (
-        <div className="" style={{ height: "100vh" }}>
+        <div 
+            className="" 
+            style={{ 
+                    height: "100vh" 
+                    }}>
         {/* barra de menu */}
         <Navbar />
   
         {/* pagina */}
   
-        <main className="" style={{ paddingLeft: "4rem" }}>
+        <main 
+            className="" 
+            style={{ 
+                    paddingLeft: "10rem",
+                    paddingRight: "6rem"
+                    }}>
         <h1
           className="text-white text-center mt-5"
         >
@@ -44,16 +51,19 @@ export function Todo() {
                         Agregar tarea +
                     </button>
             </form>
-            <div className="lanes">
-                <div className="swim-lane">
-                    <h3 className="heading">POR HACER</h3>
+            <div className = "lanes">
+                <div className = "swim-lane">
+                    <h3 className = "heading">POR HACER</h3>
                     {store.tasks.map((task, index) => 
                         <p 
-                            className={`task ${dragOn == true ? "is-dragging" : ""}`}  
-                            key={index} 
-                            onDragStart= {(e) => setDragOn(true)} 
-                            onDragEnd={(e) => setDragOn(false)}
-                            draggable="true"
+                            className = {`task ${dragOn == true ? "is-dragging" : ""}`}  
+                            key = {index} 
+                            onDragStart = {(e) => setDragOn(true)} 
+                            onDragEnd = {(e) => setDragOn(false)}
+                            onDragOver = {(e) => {
+                                            e.preventDefault();
+                                        }}
+                            draggable = "true"
                             >
                             {task}
                         </p>

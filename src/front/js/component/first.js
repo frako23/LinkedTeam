@@ -10,11 +10,24 @@ export const First = () => {
       <div className="d-flex">
         <div className="text-start fs-1 fw-bolder text-white me-auto">
           <img src={logo} className="img__landing__logo" />
-          LinkedTeam
+          <span
+              style={{
+                color:"rgb(167, 100, 255",
+                fontSize: "3rem"
+              }}
+              >
+                LinkedTeam
+              </span> 
         </div>
 
-        <Link to="/login">
+        <Link to="/signup">
           <button className="coolbtn" variant="primary">
+            Regístrate
+          </button>
+        </Link>
+
+        <Link to="/login">
+          <button className="coolbtn ms-5" variant="primary">
             Ingresa
           </button>
         </Link>

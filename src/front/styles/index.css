@@ -51,8 +51,6 @@ body {
       hsl(218, 41%, 19%) 80%,
       transparent 100%
     );
-    background-position: center;
-    background-size: cover;
 
   font-family: "Montserrat", sans-serif;
   /* color: white; */

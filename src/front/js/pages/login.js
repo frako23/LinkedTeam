@@ -28,7 +28,7 @@ export const Login = () => {
   return (
     <>
       <div
-        className="container px-4 py-5 px-md-5 text-center text-lg-start my-5"
+        className="container px-4 py-5 px-md-5 text-center text-lg-start my-2"
         style={{ height: "100vh" }}
       >
         <div className="row gx-lg-5 align-items-center mb-5">
@@ -37,7 +37,16 @@ export const Login = () => {
               className="my-5 display-5 fw-bold ls-tight"
               style={{ color: "hsl(218, 81%, 95%)" }}
             >
-              La mejor herramienta <br />
+             <span
+              style={{
+                color:"rgb(167, 100, 255"
+              }}
+              >
+                LinkedTeam
+              </span> 
+              <br />
+              La mejor herramienta 
+              <br />
               <span style={{ color: "hsl(218, 81%, 75%)" }}>
                 para hacer crecer tu negocio
               </span>
@@ -76,6 +85,7 @@ export const Login = () => {
                     <input
                       type="email"
                       id="form2Example1"
+                      value={email}
                       className="form-control"
                       placeholder="tucorreo@correo.com"
                       onChange={(e) => setEmail(e.target.value)}
@@ -90,6 +100,7 @@ export const Login = () => {
                     <input
                       type="password"
                       id="form2Example2"
+                      value={password}
                       className="form-control"
                       placeholder="contraseña1234..."
                       onChange={(e) => setPassword(e.target.value)}
