@@ -7,7 +7,6 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 import { Courses } from "./pages/courses";
-import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { Perfil } from "./pages/perfil";
 import { Video } from "./pages/video";

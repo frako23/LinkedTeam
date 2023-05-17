@@ -63,7 +63,7 @@ export const Navbar = () => {
           <ul className="p-0">
             <li className="ps-0">
               <Link to="/perfil">
-                <a href="#">
+                <a href="#" >
                   <i className="bx bx-bar-chart-alt-2 icon"></i>
                   <span className="text nav-text">Tablero</span>
                 </a>
@@ -72,7 +72,7 @@ export const Navbar = () => {
 
             <li className="ps-0">
               <Link to="/courses">
-                <a href="#">
+                <a href="#" >
                   <i className="bx bxl-youtube icon"></i>
                   <span className="text nav-text">Cursos y Videos</span>
                 </a>
@@ -81,7 +81,7 @@ export const Navbar = () => {
 
             <li className="ps-0">
               <Link to="/dashboard">
-                <a href="#">
+                <a href="#" >
                   <i className="bx bxs-layout icon"></i>
                   <span className="text nav-text">CRM</span>
                 </a>
@@ -90,7 +90,7 @@ export const Navbar = () => {
 
             <li className="ps-0">
               <Link to="/todo">
-              <a href="#">
+              <a href="#" >
                 <i className="bx bx-list-ol icon"></i>
                 <span className="text nav-text">Tareas pendientes</span>
               </a>
@@ -98,14 +98,14 @@ export const Navbar = () => {
             </li>
 
             {/* <li className="nav-link">
-              <a href="#">
+              <button >
                 <i className="bx bx-heart icon"></i>
                 <span className="text nav-text">Likes</span>
               </a>
             </li>
 
             <li className="nav-link">
-              <a href="#">
+              <button >
                 <i className="bx bx-wallet icon"></i>
                 <span className="text nav-text">Wallets</span>
               </a>
@@ -115,7 +115,7 @@ export const Navbar = () => {
 
         <div className="bottom-content">
           <li className="">
-              <a href="#" onClick={(event) => handleLogOut()}>
+              <a href="#"  onClick={(event) => handleLogOut()}>
                 <i className="bx bx-log-out icon"></i>
                 <span className="text nav-text" >Salir</span>
               </a>

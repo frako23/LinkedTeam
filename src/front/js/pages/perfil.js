@@ -24,14 +24,16 @@ export const Perfil = () => {
 
       <main className="main__container d-grid" 
             style={{ 
-              paddingLeft: "11rem",
+              paddingLeft: "9rem",
               paddingRight: "6rem" 
               }}>
         <div className="main__title">
           <p className="font-weight-bold text-white mt-4">TABLERO DE CONTROL</p>
         </div>
-        <Box />
-      <FuelChart />
+        <div className="perfil-dashboard">
+          <Box />
+          <FuelChart />
+        </div>
       {/* <ToDoChart /> */}
       </main>
       

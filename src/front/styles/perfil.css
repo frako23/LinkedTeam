@@ -127,3 +127,21 @@ table td {
   font-family: sans-serif;
   text-align: center;
 }
+
+.perfil-dashboard {
+  display: flex;
+}
+
+.fuel-tag {
+  color: white;
+  font-weight: bold;
+  margin: 0 21%;
+  font-size: 1rem;
+}
+
+.fuel-div {
+
+  width: "20rem";
+  padding-left: "2rem";
+  
+}
