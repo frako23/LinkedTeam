@@ -49,14 +49,10 @@ def get_users():
             raise Exception("No ingresaste tu nombre", 400)
         if "lastname" not in new_user_data or new_user_data["lastname"] == "":
             raise Exception("No ingresaste tu apellido", 400)
-        if "phone" not in new_user_data or new_user_data["phone"] == "":
-            raise Exception("No ingresaste tu telefono", 400)
         if "email" not in new_user_data or new_user_data["email"] == "":
             raise Exception("No ingresaste el email", 400)
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
-        if "agency" not in new_user_data or new_user_data["agency"] == "":
-            raise Exception("No ingresaste el nombre de tu agencia", 400)
         new_user = User.create(**new_user_data)
         return jsonify(new_user.serialize()), 201
     except Exception as error:
@@ -84,6 +80,8 @@ def post_get_clientes():
             raise Exception("No ingresaste el celular", 400)
         if "monto" not in new_cliente_data or new_cliente_data["monto"] == "":
             raise Exception("No ingresaste el monto", 400)
+        if "estatus" not in new_cliente_data or new_cliente_data["estatus"] == "":
+            raise Exception("No ingresaste el estatus", 400)
         if "confianza" not in new_cliente_data or new_cliente_data["confianza"] == "":
             raise Exception("No ingresaste el nivel de confianza", 400)
         if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":

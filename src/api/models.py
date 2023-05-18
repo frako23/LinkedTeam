@@ -1,30 +1,30 @@
-import os
-import sys
-from datetime import datetime
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
+from enum import Enum
+import datetime
 
 db = SQLAlchemy()
+
+class Role(Enum):
+    manager = "manager"
+    associated = "associated"
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
     lastname = db.Column(db.String(50), unique=False, nullable=False)
-    phone = db.Column(db.String(50), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    agency = db.Column(db.String(150), unique=False, nullable=False)
+    salt = db.Column(db.String(80), unique=False, nullable=False)
+    role = db.Column(db.Enum(Role), nullable=False)
+
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
         self.lastname = kwargs['lastname']
-        self.phone = kwargs['phone']
         self.email = kwargs['email']
         self.password = kwargs['password']
-        self.agency = kwargs['agency']
+        self.salt = kwargs['salt']
+        self.role = kwargs['role']
 
     @classmethod
     def create(cls, **kwargs):
@@ -35,8 +35,7 @@ class User(db.Model):
             return new_user
         except Exception as error:
             raise Exception(error.args[0], 400)
-        print(new_user.id)
-        return new_user
+        
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -47,8 +46,7 @@ class User(db.Model):
             "email": self.email,
             "name": self.name,
             "lastname": self.lastname,
-            "phone": self.phone,
-            "agency": self.agency,
+            "role": self.role
             # do not serialize the password, its a security breach
         }
 class Cliente(db.Model):
@@ -71,7 +69,7 @@ class Cliente(db.Model):
         self.monto = kwargs['monto']
         self.confianza = kwargs['confianza']
         self.notas = kwargs['notas']
-        self.estatus = 'Prospecto'
+        self.estatus = kwargs['estatus']
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -83,8 +81,7 @@ class Cliente(db.Model):
             return new_cliente
         except Exception as error:
             raise Exception(error.args[0], 400)
-        print(new_cliente.id)
-        return new_cliente
+        
 
     def serialize(self):
         return {

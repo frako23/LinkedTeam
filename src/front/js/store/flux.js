@@ -7,18 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usuarios: [],
       favoritos: [],
       clientes: [],
-      demo: [
-        {
-          title: "FIRST",
-          background: "white",
-          initial: "white",
-        },
-        {
-          title: "SECOND",
-          background: "white",
-          initial: "white",
-        },
-      ],
+      tasks: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -35,16 +24,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
 
         try {
-          const resp = await fetch(
-            `${process.env.BACKEND_URL}/api/token`,
-            opts
-          );
+          const resp = await fetch(`${process.env.BACKEND_URL}/token`, opts);
           if (resp.status !== 200) {
             const mensaje = await resp.json();
             alert(mensaje.msg);
             return false;
-          }
-
+          } 
           const data = await resp.json();
           console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
@@ -68,7 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      signup: async (name, lastname, phone, email, agency, password) => {
+      signup: async (name, lastname, email, password) => {
         const store = getStore();
         const options = {
           method: "POST",
@@ -78,16 +63,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify({
             name: name,
             lastname: lastname,
-            phone: phone,
             email: email,
-            agency: agency,
             password: password,
           }),
         };
 
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/users`,
+            `${process.env.BACKEND_URL}/users`,
             options
           );
 
@@ -111,6 +94,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         email,
         celular,
         monto,
+        estatus,
         confianza,
         notas,
       }) => {
@@ -128,21 +112,30 @@ const getState = ({ getStore, getActions, setStore }) => {
             email: email,
             celular: celular,
             monto: monto,
+            estatus: estatus,
             confianza: confianza,
             notas: notas,
           }),
         };
-        console.log(nombre, fecha, email, celular, monto, confianza, notas);
+        console.log(
+          nombre,
+          fecha,
+          email,
+          celular,
+          monto,
+          estatus,
+          confianza,
+          notas
+        );
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/clientes`,
+            `${process.env.BACKEND_URL}/clientes`,
             options
           );
 
           if (!response.ok) {
             let danger = await response.json();
-            alert(danger);
-            return false;
+            throw new Error(danger);
           }
 
           const data = await response.json();
@@ -150,7 +143,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al registrar al cliente");
+          console.error("Ha habido un error al registrar al cliente", error);
         }
       },
 
@@ -158,10 +151,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const opts = {
           headers: {
-            Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/api/clientes`;
+        const apiURL = `${process.env.BACKEND_URL}/clientes`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -179,8 +172,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       logout: () => {
+        const store = getStore();
         sessionStorage.removeItem("token");
-        console.log("Se han borrado todos los tokens");
+        console.log("Se han borrado todos los tokens", store.token);
         setStore({ token: null });
       },
 
@@ -228,7 +222,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getMessage: async () => {
         try {
           // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+          const resp = await fetch(process.env.BACKEND_URL + "/hello");
           const data = await resp.json();
           setStore({ message: data.message });
           // don't forget to return something, that is how the async resolves

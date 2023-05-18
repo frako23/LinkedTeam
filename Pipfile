@@ -20,6 +20,8 @@ flask-admin = "*"
 typing-extensions = "*"
 flask-jwt-extended = "*"
 colorama = "*"
+importlib-metadata = "*"
+importlib-resources = "*"
 
 [requires]
 python_version = "3.10"

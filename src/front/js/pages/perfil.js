@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/perfil.css";
 import { Navbar } from "../component/navbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import frase from "../../img/Quotefancy-7034132-3840x2160.jpg";
+import { Box } from "../component/box";
+import { ToDoChart } from "../component/todo";
+import { FuelChart } from "../component/fuelChart";
+// import { ProfileCard } from "../component/profileCard";
+// import Example from "../component/charts";
 
 export const Perfil = () => {
   const navigate = useNavigate();
@@ -14,26 +16,27 @@ export const Perfil = () => {
   };
 
   return (
-    <div className="d-flex">
+    <div className="" style={{ height: "100vh" }}>
       {/* barra de menu */}
       <Navbar />
 
       {/* pagina */}
 
-      <div className="pagina">
-        <div className="info-user">
-          <div>
-            <img
-              className="prof-img"
-              src="http://www.flade.co/wp-content/uploads/2016/09/avatar-men.jpg"
-            />
-          </div>
-          <div>
-            <div className="nombre-perfil">Hola, Francisco, Bienvenido!</div>
-          </div>
+      <main className="main__container d-grid" 
+            style={{ 
+              paddingLeft: "9rem",
+              paddingRight: "6rem" 
+              }}>
+        <div className="main__title">
+          <p className="font-weight-bold text-white mt-4">TABLERO DE CONTROL</p>
         </div>
-        <img src={frase} className="imgPerfil" />
-      </div>
+        <div className="perfil-dashboard">
+          <Box />
+          <FuelChart />
+        </div>
+      {/* <ToDoChart /> */}
+      </main>
+      
     </div>
   );
 };

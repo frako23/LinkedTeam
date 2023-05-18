@@ -12,6 +12,7 @@ export const Nuevonegocio = () => {
   const [celular, setCelular] = useState("");
   const [monto, setMonto] = useState("");
   const [confianza, setConfianza] = useState("");
+  const [estatus, setEstatus] = useState("");
   const [notas, setNotas] = useState("");
 
   return (
@@ -41,7 +42,9 @@ export const Nuevonegocio = () => {
               email: email,
               celular: celular,
               monto: monto,
+              estatus: estatus,
               confianza: confianza,
+              estatus: estatus,
               notas: notas,
             });
             setNombre("");
@@ -50,6 +53,7 @@ export const Nuevonegocio = () => {
             setCelular("");
             setMonto("");
             setConfianza("");
+            setEstatus("");
             setNotas("");
             console.log("entro aqui");
           }}
@@ -74,16 +78,17 @@ export const Nuevonegocio = () => {
                     type="text"
                     id="tarea-nombre"
                     className="input-text"
-                    placeholder="Nombre y Apellido"
+                    placeholder="Pedro Pérez"
                     onChange={(e) => setNombre(e.target.value)}
                     value={nombre}
                   />
 
                   <strong className="strong-input">Fecha de Nacimiento </strong>
                   <input
-                    type="text"
+                    type="date"
                     id="tarea-nombre"
                     className="input-text"
+                    placeholder="07/01/1976"
                     onChange={(e) => setFecha(e.target.value)}
                     value={fecha}
                   />
@@ -100,7 +105,7 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Celular </strong>
                   <input
-                    type="number"
+                    type="tel"
                     id="tarea-nombre"
                     className="input-text"
                     placeholder="04XX-XXXXXXX"
@@ -110,13 +115,30 @@ export const Nuevonegocio = () => {
 
                   <strong className="strong-input">Monto </strong>
                   <input
-                    type="Number"
+                    type="number"
                     id="tarea-nombre"
                     className="input-text"
-                    placeholder="Coloca sólo números"
+                    placeholder="5000"
                     value={monto}
-                    onChange={(e) => setMonto(e.target.value)}
+                    onChange={(e) => setMonto(Number(e.target.value))}
                   />
+
+                  <label for="cars">
+                    <strong>Estatus:</strong>
+                  </label>
+                  <select
+                    id="cars"
+                    name="cars"
+                    value={estatus}
+                    onChange={(e) => setEstatus(e.target.value)}
+                  >
+                    <option value=""></option>
+                    <option value="Prospecto">Prospecto</option>
+                    <option value="Contactado">Contactado</option>
+                    <option value="Primera Cita">Primera Cita</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Cerrado">Cerrado</option>
+                  </select>
 
                   <label for="cars">
                     <strong>Nivel de confianza:</strong>
@@ -146,14 +168,13 @@ export const Nuevonegocio = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button
+                <input
                   type="submit"
                   id="tarea-nombre"
                   className="btn btn-success"
                   data-bs-dismiss="modal"
-                >
-                  Enviar
-                </button>
+                  value="Enviar"
+                ></input>
               </div>
             </div>
           </div>

@@ -10,6 +10,12 @@ import { Kanban } from "../component/kanban";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
+  let amountSum = store.clientes.reduce(
+    (acum, index) => acum + parseInt(index.monto),
+    0
+  );
+  console.log(amountSum);
+
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
       actions.getClientes();
@@ -17,32 +23,33 @@ export const Dashboard = () => {
   }, [store.token]);
 
   return (
-    <div className="d-flex">
+    <div className="pagina">
       {/* barra de menu */}
 
       <Navbar />
 
-      <div className="pagina">
+      <div className="pagina ps-5">
         <div className="kanban-head">
-          <strong className="kanban-head-title">CRM</strong>
+          <strong className="kanban-head-title mt-4">CRM</strong>
         </div>
-        <div className="ms-2 d-flex position-relative mb-3">
+        <div className="ms-2 d-flex position-relative mb-3 ">
           <Nuevonegocio />;
-          <div className="texto text-center">
-            <table
-              className="table table-bordered text-white position-absolute top-0 end-0"
-              style={{
-                width: 600,
-              }}
+          <div className="position-absolute top-0 end-0 text-center">
+            <div
+              className="btn-group pe-5"
+              role="group"
+              aria-label="Basic mixed styles example"
             >
-              <thead>
-                <tr>
-                  <th scope="col">En Calle= $20.054</th>
-                  <th scope="col">Logrado= $15.024/75%</th>
-                  <th scope="col">Negocios= 15</th>
-                </tr>
-              </thead>
-            </table>
+              <button type="button" className="btn btn-warning fw-bold">
+                En Calle= ${amountSum}
+              </button>
+              <button type="button" className="btn btn-success fw-bold">
+                Logrado= $15.024/75%
+              </button>
+              <button type="button" className="btn btn-primary fw-bold">
+                Negocios= {store.clientes.length}
+              </button>
+            </div>
           </div>
         </div>
 

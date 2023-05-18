@@ -6,7 +6,7 @@ import { Navbar } from "../component/navbar";
 
 export const Video = () => {
   return (
-    <>
+    <div className="d-flex">
       <Navbar />
       <div className="contenedor">
         <div className="contenedor-video">
@@ -18,10 +18,10 @@ export const Video = () => {
             controls
           />
         </div>
+        <div>
+          <Comentarios />
+        </div>
       </div>
-      <div>
-        <Comentarios />
-      </div>
-    </>
+    </div>
   );
 };
