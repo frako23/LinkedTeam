@@ -5,6 +5,7 @@ import datetime
 db = SQLAlchemy()
 
 class Role(Enum):
+    admin = "admin"
     manager = "manager"
     associated = "associated"
 
