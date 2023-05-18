@@ -20,3 +20,7 @@ body {
 .font2 {
   font-size: 50px;
 }
+
+.container-video {
+  width: 100%;
+}
