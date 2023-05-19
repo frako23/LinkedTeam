@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role
+from api.models import db, User, Cliente, Role, Comment, Response
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -24,13 +24,19 @@ def check_password(hash_password, password, salt):
 def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    user = User.query.filter_by(email=email, password=password).first()
-    if user is None:
+    if email is None or password is None:
         return jsonify({"msg": "Mal Email o Password"}), 401
-
-    access_token = create_access_token(identity=user.id)
-    # print(access_token)
-    return jsonify(access_token=access_token)
+    else:
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            return jsonify({"msg":"credenciales invalidas"}), 401 
+        else:
+            if check_password(user.password, password, user.salt):
+                access_token = create_access_token(identity=user.id)
+                return jsonify(access_token=access_token)
+            else:
+                return jsonify({"msg":"credenciales invalidas"}), 401 
+                
 
 
 @api.route('/users', methods=['GET'])
@@ -65,7 +71,7 @@ def add_user():
        
         return jsonify(new_user.serialize()), 201
     except Exception as error:
-        return jsonify(error.args[0]), 500
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 @api.route('/clientes', methods=['GET','POST'])
 @jwt_required()
@@ -99,3 +105,29 @@ def post_get_clientes():
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+@api.route('/comments/<int:video_id>', methods=['GET'])
+def get_comments(video_id):
+    comments = Comment.query.filter_by(video_id=video_id)
+    
+    return jsonify(
+            [comment.serialize() for comment in comments]
+        ),200
+
+@api.route('/comments/<int:video_id>', methods=['POST'])
+@jwt_required()
+def add_comment(video_id):
+    user_id = get_jwt_identity()
+    body = request.json
+    content = body.get("content", None)
+    
+    if content is None:
+            return jsonify({"msg":"No se ingreso comentario"})
+    try:
+        comentario = Comment.create(content = content, video_id = video_id, user_id=user_id)
+        return comentario
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
+
+    

@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask import jsonify
 from enum import Enum
 import datetime
 
@@ -109,6 +110,22 @@ class Comment(db.Model):
     
     def __repr__(self):
         return '<Comment %r>' % self.id
+    
+    def __init__(self, **kwargs):
+        self.content = kwargs['content']
+        self.video_id = kwargs['video_id']
+        self.user_id = kwargs['user_id']
+
+    
+    @classmethod
+    def create(cls, **kwargs):
+        new_comment = cls(**kwargs)
+        db.session.add(new_comment)
+        try:
+            db.session.commit()
+            return jsonify({"msg":"Comentario creado"})
+        except Exception as error:
+            raise Exception(error.args[0], 400)
 
     def serialize(self):
         return {
