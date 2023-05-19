@@ -2,8 +2,10 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente
+from api.models import db, User, Cliente, Role
 from api.utils import generate_sitemap, APIException
+from werkzeug.security import generate_password_hash, check_password_hash
+from base64 import b64encode
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -12,15 +14,11 @@ import os
 
 api = Blueprint('api', __name__)
 
+def set_password(password, salt):
+    return generate_password_hash(f"{password}{salt}")
 
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
+def check_password(hash_password, password, salt):
+    return check_password_hash(hash_password, f"{password}{salt}")
 
 @api.route("/token", methods=["POST"])
 def login():
@@ -35,7 +33,7 @@ def login():
     return jsonify(access_token=access_token)
 
 
-@api.route('/users', methods=['GET', 'POST'])
+@api.route('/users', methods=['GET'])
 def get_users():
     if request.method == 'GET':
         users = User.query.all()
@@ -43,6 +41,9 @@ def get_users():
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
+   
+@api.route('/user', methods=['POST'])
+def add_user():
     new_user_data = request.json
     try:
         if "name" not in new_user_data or new_user_data["name"] == "":
@@ -53,10 +54,18 @@ def get_users():
             raise Exception("No ingresaste el email", 400)
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
-        new_user = User.create(**new_user_data)
+        if "role" not in new_user_data or new_user_data["role"] == "":
+            raise Exception("No ingresaste el role",400)
+        if new_user_data["role"] not in Role.__members__:
+            return {"error": f"No existe en los roles disponibles"},400
+        
+        salt = b64encode(os.urandom(32)).decode('utf-8')
+        new_user_data["password"] = set_password(new_user_data["password"], salt)
+        new_user = User.create(**new_user_data, salt=salt)
+       
         return jsonify(new_user.serialize()), 201
     except Exception as error:
-        return jsonify(error.args[0]), error.args[1]
+        return jsonify(error.args[0]), 500
 
 @api.route('/clientes', methods=['GET','POST'])
 @jwt_required()
