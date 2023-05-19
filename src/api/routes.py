@@ -129,5 +129,16 @@ def add_comment(video_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
+@api.route('/comments/<int:id>', methods=['DELETE'])
+def delete_comment(id):
+    comment = Comment.query.get(id)
 
+    if not comment:
+        return jsonify({"msg": "No existe el comentario"}),404
     
+    db.session.delete(comment)
+    try:
+        db.session.commit()
+        return jsonify({"msg": "Se elimino el comentario"}),200 
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
