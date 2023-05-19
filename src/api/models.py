@@ -98,3 +98,45 @@ class Cliente(db.Model):
             "user_id": self.user_id
             # do not serialize the password, its a security breach
         }
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(240), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+    video_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    user = db.relationship('User')
+    
+    def __repr__(self):
+        return '<Comment %r>' % self.id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "name": self.user.name,
+            "created_at": self.created_at,
+
+        }
+
+class Response(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(240), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+ 
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    comment = db.relationship('Comment')
+    
+    def __repr__(self):
+        return '<Comment %r>' % self.id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "name": self.user.name,
+            "created_at": self.created_at,
+
+        }
