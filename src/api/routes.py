@@ -106,6 +106,7 @@ def post_get_clientes():
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
+#endpoints comentarios
 @api.route('/comments/<int:video_id>', methods=['GET'])
 def get_comments(video_id):
     comments = Comment.query.filter_by(video_id=video_id)
@@ -114,7 +115,7 @@ def get_comments(video_id):
             [comment.serialize() for comment in comments]
         ),200
 
-@api.route('/comments/<int:video_id>', methods=['POST'])
+@api.route('/comment/<int:video_id>', methods=['POST'])
 @jwt_required()
 def add_comment(video_id):
     user_id = get_jwt_identity()
@@ -129,7 +130,7 @@ def add_comment(video_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
-@api.route('/comments/<int:id>', methods=['DELETE'])
+@api.route('/comment/<int:id>', methods=['DELETE'])
 def delete_comment(id):
     comment = Comment.query.get(id)
 
@@ -140,5 +141,47 @@ def delete_comment(id):
     try:
         db.session.commit()
         return jsonify({"msg": "Se elimino el comentario"}),200 
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+#enpoints responses
+@api.route('/responses/<int:comment_id>', methods=['GET'])
+def get_responses(comment_id):
+    responses = Response.query.filter_by(comment_id=comment_id)
+    
+    return jsonify(
+            [response.serialize() for response in responses]
+        ),200
+
+@api.route('/response/<int:comment_id>', methods=['POST'])
+@jwt_required()
+def add_response(comment_id):
+    user_id = get_jwt_identity()
+    body = request.json
+    content = body.get("content", None)
+    
+    if content is None:
+        return jsonify({"msg":"No se ingreso comentario"})
+    comment = Comment.query.get(comment_id)
+    if not comment:
+        return jsonify({"msg":"No existe el comentario"})
+    try:
+        response = Response.create(content = content, comment_id = comment_id, user_id=user_id)
+        return response
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
+
+@api.route('/response/<int:id>', methods=['DELETE'])
+def delete_response(id):
+    response = Response.query.get(id)
+
+    if not response:
+        return jsonify({"msg": "No existe la respuesta"}),404
+    
+    db.session.delete(response)
+    try:
+        db.session.commit()
+        return jsonify({"msg": "Se elimino la respuesta"}),200 
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   

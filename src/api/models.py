@@ -148,6 +148,21 @@ class Response(db.Model):
     
     def __repr__(self):
         return '<Comment %r>' % self.id
+    
+    def __init__(self, **kwargs):
+        self.content = kwargs['content']
+        self.comment_id = kwargs['comment_id']
+        self.user_id = kwargs['user_id']
+    
+    @classmethod
+    def create(cls, **kwargs):
+        new_response = cls(**kwargs)
+        db.session.add(new_response)
+        try:
+            db.session.commit()
+            return jsonify({"msg":"Respuesta creada"})
+        except Exception as error:
+            raise Exception(error.args[0], 400)
 
     def serialize(self):
         return {
