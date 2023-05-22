@@ -7,7 +7,14 @@ export function Todo() {
     const [task, setTask] = useState("");
     const { store, actions } = useContext(Context);
     const [dragOn, setDragOn] = useState(false)
-    
+    useEffect(() => {
+        if (store.token && store.token !== "" && store.token !== undefined) {
+          actions.getTareas();
+        }
+      }, [store.token]);
+
+    let estatus = "por realizar" 
+
     return (
         <div 
             className="" 
@@ -35,7 +42,10 @@ export function Todo() {
                 id="todo-form"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    store.tasks.push(task)
+                    actions.postTareas({
+                        tarea: task,
+                        estatus:estatus
+                    })
                     setTask("");
                     console.log("entro aqui");
                   }} >
@@ -54,7 +64,7 @@ export function Todo() {
             <div className = "lanes">
                 <div className = "swim-lane">
                     <h3 className = "heading">POR HACER</h3>
-                    {store.tasks.map((task, index) => 
+                    {store.tareas.map((task, index) => 
                         <p 
                             className = {`task ${dragOn == true ? "is-dragging" : ""}`}  
                             key = {index} 
@@ -65,27 +75,20 @@ export function Todo() {
                                         }}
                             draggable = "true"
                             >
-                            {task}
+                            {task.tarea}
                         </p>
                      )}
-                    <p className="task" draggable="true">Agendar cierre con Gerardo Perdomo</p>
-                    <p className="task" draggable="true">pago de Adriana Vazquez</p>
+                    
                 </div>
 
                 <div className="swim-lane">
                     <h3 className="heading">EN PROCESO</h3>
 
-                    <p className="task" draggable="true">llamar a Pedro Perez</p>
-                    <p className="task" draggable="true">Agendar cierre con Gerardo Perdomo</p>
-                    <p className="task" draggable="true">pago de Adriana Vazquez</p>
                 </div>
 
                 <div className="swim-lane">
                     <h3 className="heading">REALIZADO</h3>
 
-                    <p className="task" draggable="true">llamar a Pedro Perez</p>
-                    <p className="task" draggable="true">Agendar cierre con Gerardo Perdomo</p>
-                    <p className="task" draggable="true">pago de Adriana Vazquez</p>
                 </div>
             </div>
         </div>

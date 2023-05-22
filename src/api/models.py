@@ -172,3 +172,36 @@ class Response(db.Model):
             "created_at": self.created_at,
 
         }
+
+# Tabla de tareas para la sección TAREAS PENDIENTES
+
+class Tarea(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tarea = db.Column(db.String(250), unique=False, nullable=False)
+    estatus = db.Column(db.String(20), unique=False, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self, **kwargs):
+        self.tarea = kwargs['tarea']
+        self.estatus = kwargs['estatus']
+        self.user_id = kwargs['user_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_tarea = cls(**kwargs)
+        db.session.add(new_tarea)
+        try:
+            db.session.commit()
+            return new_tarea
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "tarea": self.tarea,
+            "estatus": self.estatus,
+            "user_id": self.user_id
+            # do not serialize the password, its a security breach
+        }

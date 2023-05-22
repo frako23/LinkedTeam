@@ -13,7 +13,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const token = sessionStorage.getItem("token");
 
-
+  const role = "associated";
   return (
     <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-2"
           style={{heigth: "100vh"}}>
@@ -62,7 +62,7 @@ export const SignUp = () => {
             onSubmit={
               (e) => {
                 e.preventDefault();
-                actions.signup(name, lastname, email, password);
+                actions.signup(name, lastname, email, password, role);
                 if (
                   name != "" &&
                   lastname != "" &&

@@ -7,7 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usuarios: [],
       favoritos: [],
       clientes: [],
-      tasks: [],
+      tareas: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -53,7 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      signup: async (name, lastname, email, password) => {
+      signup: async (name, lastname, email, password, role) => {
         const store = getStore();
         const options = {
           method: "POST",
@@ -65,12 +65,13 @@ const getState = ({ getStore, getActions, setStore }) => {
             lastname: lastname,
             email: email,
             password: password,
+            role: role,
           }),
         };
 
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/users`,
+            `${process.env.BACKEND_URL}/user`,
             options
           );
 
@@ -84,7 +85,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("There has been an error login in");
+          console.error("There has been an error login in from the backend");
         }
       },
 
@@ -244,6 +245,69 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         //reset the global store
         setStore({ demo: demo });
+  
+      },
+      
+      // obtener y agregar tareas
+      postTareas: async ({
+        tarea,
+        estatus,
+      }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            tarea: tarea,
+            estatus: estatus,
+          }),
+        };
+        console.log(
+          tarea,
+          estatus,
+        );
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/tareas`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getTareas();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar la tarea, problemas con el backend", error);
+        }
+      },
+
+      getTareas: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/tareas`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ tareas: body }))
+          .catch((error) => console.log(error));
       },
     },
   };

@@ -10,6 +10,7 @@ import { FuelChart } from "../component/fuelChart";
 
 export const Perfil = () => {
   const navigate = useNavigate();
+  
 
   const redirection = () => {
     navigate("/video");

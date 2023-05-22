@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -185,3 +185,25 @@ def delete_response(id):
         return jsonify({"msg": "Se elimino la respuesta"}),200 
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+# endpoint para TAREAS
+@api.route('/tareas', methods=['GET','POST'])
+@jwt_required()
+def post_get_tareas():
+    user_id = get_jwt_identity()
+    if request.method == 'GET':
+        tareas = Tarea.query.filter_by(user_id = user_id)
+        tareas_dictionaries = []
+        for tarea in tareas:
+            tareas_dictionaries.append(tarea.serialize())
+        return jsonify(tareas_dictionaries), 200
+    new_tarea_data = request.json
+    try:
+        if "tarea" not in new_tarea_data or new_tarea_data["tarea"] == "":
+            raise Exception("No ingresaste la tarea", 400)
+        if "estatus" not in new_tarea_data or new_tarea_data["estatus"] == "":
+            raise Exception("No ingresaste el estatus", 400)
+        new_tarea = Tarea.create(**new_tarea_data, user_id = user_id)
+        return jsonify(new_tarea.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

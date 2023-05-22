@@ -10,11 +10,27 @@ import { Kanban } from "../component/kanban";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
-  let amountSum = store.clientes.reduce(
+  let notClosedArray = store.clientes.filter((index) => index.estatus != "Cerrado")
+
+  // console.log(notClosedArray);
+
+  let amountSum = notClosedArray.reduce(
     (acum, index) => acum + parseInt(index.monto),
     0
   );
-  console.log(amountSum);
+
+  // console.log(amountSum);
+
+  let closedArray = store.clientes.filter((index) => index.estatus == "Cerrado")
+
+  // console.log(closedArray);
+
+  let amountSumClosedSales = closedArray.reduce(
+    (acum, index) => acum + parseInt(index.monto),
+    0
+  );
+
+  // console.log(amountSumClosedSales);
 
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
@@ -44,7 +60,7 @@ export const Dashboard = () => {
                 En Calle= ${amountSum}
               </button>
               <button type="button" className="btn btn-success fw-bold">
-                Logrado= $15.024/75%
+                Logrado= ${amountSumClosedSales}
               </button>
               <button type="button" className="btn btn-primary fw-bold">
                 Negocios= {store.clientes.length}

@@ -1,10 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/perfil.css";
 
 export const Box = () => {
   const { store, actions } = useContext(Context);
-
+  useEffect(() => {
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      actions.getClientes();
+    }
+  }, [store.token]);
   return (
     <div className="main__card">
       <div className="card__profile">
