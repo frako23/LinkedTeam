@@ -115,7 +115,7 @@ def get_comments(video_id):
             [comment.serialize() for comment in comments]
         ),200
 
-@api.route('/comment/<int:video_id>', methods=['POST'])
+@api.route('/comments/<int:video_id>', methods=['POST'])
 @jwt_required()
 def add_comment(video_id):
     user_id = get_jwt_identity()

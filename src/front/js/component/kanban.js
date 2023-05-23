@@ -8,6 +8,7 @@ export const Kanban = () => {
   const { store, actions } = useContext(Context);
 
   const onDragEnd = (result) => {
+    console.log(result);
     if (!result.destination) return;
     const { source, destination, draggableId } = result;
 
@@ -15,10 +16,14 @@ export const Kanban = () => {
       const sourceColIndex = store.clientes.findIndex(
         (e) => e.id === Number(draggableId)
       );
-
+      console.log(sourceColIndex);
       const newList = [...store.clientes];
+      console.log(newList);
       newList[sourceColIndex].estatus = destination.droppableId;
+      console.log(newList[sourceColIndex].estatus);
       actions.updateClientStatus(newList);
+      console.log(store.clientes);
+      actions.getClientes();
     }
   };
   return (

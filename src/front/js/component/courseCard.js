@@ -14,17 +14,17 @@ let fullData = coursesData;
         { 
             fullData.map ( data => {
                 return (
-                        <article className="course">
+                        <article className="course" key={data.id}>
                             <div >
                                 <img className="course__image" src={data.imgUrl} />
                             </div>
-                            <div className="course__info">
+                            <div className="course__info" >
                                 <h4>{data.title}</h4>
                                 <p>   
-                               {data.description}
+                                {data.description}
                                 </p>
-                                <Link to={data.linkUrl}>
-                                    <a href="#" className="course__btn">Ver curso</a>
+                                <Link to={data.linkUrl} className="course__btn">
+                                    Ver curso
                                 </Link>
                             </div>
                         </article>

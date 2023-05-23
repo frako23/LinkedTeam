@@ -61,41 +61,41 @@ export const Navbar = () => {
           </li> */}
 
           <ul className="p-0">
-            <li className="ps-0">
               <Link to="/perfil">
-                <a href="#" >
+            <li className="ps-0">
+               
                   <i className="bx bx-bar-chart-alt-2 icon"></i>
                   <span className="text nav-text">Tablero</span>
-                </a>
-              </Link>
+                
             </li>
+              </Link>
 
-            <li className="ps-0">
               <Link to="/courses">
-                <a href="#" >
+            <li className="ps-0">
+            
                   <i className="bx bxl-youtube icon"></i>
                   <span className="text nav-text">Cursos y Videos</span>
-                </a>
-              </Link>
+                
             </li>
+              </Link>
 
-            <li className="ps-0">
               <Link to="/dashboard">
-                <a href="#" >
+            <li className="ps-0">
+                
                   <i className="bx bxs-layout icon"></i>
                   <span className="text nav-text">CRM</span>
-                </a>
-              </Link>
+                
             </li>
+              </Link>
 
-            <li className="ps-0">
               <Link to="/todo">
-              <a href="#" >
+            <li className="ps-0">
+              
                 <i className="bx bx-list-ol icon"></i>
                 <span className="text nav-text">Tareas pendientes</span>
-              </a>
-              </Link>
+           
             </li>
+              </Link>
 
             {/* <li className="nav-link">
               <button >
@@ -114,11 +114,11 @@ export const Navbar = () => {
         </div>
 
         <div className="bottom-content">
-          <li className="">
-              <a href="#"  onClick={(event) => handleLogOut()}>
+          <li className="pe-auto" onClick={(event) => handleLogOut()}>
+              
                 <i className="bx bx-log-out icon"></i>
                 <span className="text nav-text" >Salir</span>
-              </a>
+              
           </li>
           {/* 
           <li className="mode">

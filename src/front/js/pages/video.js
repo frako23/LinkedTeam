@@ -3,8 +3,11 @@ import ReactPlayer from "react-player";
 import "../../styles/video.css";
 import { Comentarios } from "../component/comentarios";
 import { Navbar } from "../component/navbar";
+import { Link, useParams } from "react-router-dom";
 
 export const Video = () => {
+  const params = useParams();
+  
   return (
     <div className="d-flex">
       <Navbar />

@@ -53,6 +53,7 @@ body.dark {
   list-style: none;
   display: flex;
   align-items: center;
+  /* justify-content: center; */
   margin-top: 10px;
 }
 
@@ -173,7 +174,7 @@ body.dark .sidebar header .toggle {
   font-weight: 500;
   transition: var(--tran-05);
 }
-.sidebar li a {
+.sidebar li {
   list-style: none;
   height: 100%;
   background-color: transparent;
@@ -181,20 +182,21 @@ body.dark .sidebar header .toggle {
   align-items: center;
   height: 100%;
   width: 100%;
+  padding-block: 1rem;
   border-radius: 6px;
   text-decoration: none;
   transition: var(--tran-03);
 }
 
-.sidebar li a:hover {
+.sidebar li:hover {
   background-color: var(--primary-color);
 }
-.sidebar li a:hover .icon,
-.sidebar li a:hover .text {
+.sidebar li:hover .icon,
+.sidebar li:hover .text {
   color: var(--sidebar-color);
 }
-body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:hover .text {
+body.dark .sidebar li:hover .icon,
+body.dark .sidebar li:hover .text {
   color: var(--text-color);
 }
 

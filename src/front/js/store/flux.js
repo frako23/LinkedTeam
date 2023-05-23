@@ -8,6 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       favoritos: [],
       clientes: [],
       tareas: [],
+      comentarios: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -307,6 +308,62 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ tareas: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // obtener y agregar comentarios
+      postComentarios: async (
+        data, video_id
+      ) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(data),
+        };
+        console.log(data);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/comments/${video_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getComentarios(video_id);
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar el comentario, problemas con el backend", error);
+        }
+      },
+
+      getComentarios: (id) => {
+        console.log(id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/comments/${id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ comentarios: body }))
           .catch((error) => console.log(error));
       },
     },
