@@ -20,10 +20,12 @@ export const Kanban = () => {
       const newList = [...store.clientes];
       console.log(newList);
       newList[sourceColIndex].estatus = destination.droppableId;
-      console.log(newList[sourceColIndex].estatus);
+      console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
       actions.updateClientStatus(newList);
       console.log(store.clientes);
-      actions.getClientes();
+      actions.putCliente({
+        estatus:newList[sourceColIndex].estatus, 
+        video_id:newList[sourceColIndex].id});
     }
   };
   return (

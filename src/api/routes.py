@@ -20,6 +20,7 @@ def set_password(password, salt):
 def check_password(hash_password, password, salt):
     return check_password_hash(hash_password, f"{password}{salt}")
 
+# endpoint para registrar usuarios
 @api.route("/token", methods=["POST"])
 def login():
     email = request.json.get("email", None)
@@ -38,7 +39,7 @@ def login():
                 return jsonify({"msg":"credenciales invalidas"}), 401 
                 
 
-
+# endpoints de usuarios
 @api.route('/users', methods=['GET'])
 def get_users():
     if request.method == 'GET':
@@ -73,6 +74,7 @@ def add_user():
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
+# endpoints de clientes
 @api.route('/clientes', methods=['GET','POST'])
 @jwt_required()
 def post_get_clientes():
@@ -105,6 +107,38 @@ def post_get_clientes():
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+@api.route('/cliente/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_cliente(id):
+    cliente = Cliente.query.get(id)
+
+    if not cliente:
+        return jsonify({"msg": "No existe el cliente"}),404
+    
+    db.session.delete(cliente)
+    try:
+        db.session.commit()
+        return jsonify({"msg": "Se elimino el cliente"}),200 
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+@api.route('/cliente/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_cliente(id):
+
+    try:
+        cliente = Cliente.query.get(id)
+        
+        cliente.estatus = request.json['estatus']
+
+        db.session.commit()
+        return jsonify(cliente.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+
 
 #endpoints comentarios
 @api.route('/comments/<int:video_id>', methods=['GET'])

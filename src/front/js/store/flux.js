@@ -169,6 +169,45 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
+      putCliente: async ({
+        estatus, cliente_id
+      }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            estatus: estatus,
+          }),
+        };
+        console.log(
+          estatus,
+        );
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/cliente/${cliente_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getClientes();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al cambiar es estatus del cliente desde el backend", error);
+        }
+      },
+
+
       updateClientStatus: (newList) => {
         setStore({ clientes: newList });
       },
