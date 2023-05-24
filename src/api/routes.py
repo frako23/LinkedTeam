@@ -124,7 +124,6 @@ def delete_cliente(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
 @api.route('/cliente/<int:id>', methods=['PUT'])
-@jwt_required()
 def update_cliente(id):
 
     try:

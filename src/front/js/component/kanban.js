@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import "../../styles/dashboard.css";
 import { Context } from "../store/appContext";
+import { useParams } from "react-router-dom";
 import { Tarjetacliente } from "./tarjetaCliente";
 
 export const Kanban = () => {
   const { store, actions } = useContext(Context);
+  let { theid } = useParams();
 
   const onDragEnd = (result) => {
     console.log(result);
@@ -20,12 +22,13 @@ export const Kanban = () => {
       const newList = [...store.clientes];
       console.log(newList);
       newList[sourceColIndex].estatus = destination.droppableId;
+      theid = newList[sourceColIndex].id
       console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
       actions.updateClientStatus(newList);
       console.log(store.clientes);
       actions.putCliente({
         estatus:newList[sourceColIndex].estatus, 
-        video_id:newList[sourceColIndex].id});
+        cliente_id:theid});
     }
   };
   return (
@@ -123,7 +126,7 @@ export const Kanban = () => {
                 </strong>
 
                 {store.clientes
-                  .filter((cliente) => cliente.estatus === "Contactado")
+                  .filter((cliente) => cliente.estatus === "Contacto realizado")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -214,7 +217,7 @@ export const Kanban = () => {
 
                 {store.clientes
                   .filter(
-                    (cliente) => cliente.estatus === "Negociación"
+                    (cliente) => cliente.estatus === "Negociación Iniciada"
                   )
                   .map((cliente, index) => (
                     <Draggable
@@ -258,7 +261,7 @@ export const Kanban = () => {
                 <strong className="kanban-title text-primary">CIERRES</strong>
 
                 {store.clientes
-                  .filter((cliente) => cliente.estatus === "Cerrado")
+                  .filter((cliente) => cliente.estatus === "Venta Concretada")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
