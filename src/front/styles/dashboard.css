@@ -151,3 +151,7 @@ body {
   margin-bottom: 0px;
   font-weight: bold;
 }
+
+.single-view-card {
+  margin: 5rem 12rem 0 17rem  ;
+}

@@ -5,12 +5,13 @@ import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
 import { Tarjetacliente } from "./tarjetaCliente";
 
+
 export const Kanban = () => {
   const { store, actions } = useContext(Context);
   let { theid } = useParams();
 
   const onDragEnd = (result) => {
-    console.log(result);
+    // console.log(result);
     if (!result.destination) return;
     const { source, destination, draggableId } = result;
 
@@ -20,12 +21,12 @@ export const Kanban = () => {
       );
       console.log(sourceColIndex);
       const newList = [...store.clientes];
-      console.log(newList);
+      // console.log(newList);
       newList[sourceColIndex].estatus = destination.droppableId;
       theid = newList[sourceColIndex].id
-      console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
+      // console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
       actions.updateClientStatus(newList);
-      console.log(store.clientes);
+      // console.log(store.clientes);
       actions.putCliente({
         estatus:newList[sourceColIndex].estatus, 
         cliente_id:theid});
@@ -46,6 +47,7 @@ export const Kanban = () => {
                 <strong className="kanban-title text-primary">
                   PROSPECTOS
                 </strong>
+                
 
                 {store.clientes
                   .filter((cliente) => cliente.estatus === "Prospecto")
@@ -65,13 +67,14 @@ export const Kanban = () => {
                           opacity: snapshot.isDragging ? "0.5" : "1",
                         }}
                       >
-                        <Tarjetacliente>
+                        <Tarjetacliente cliente={cliente}>
                           {cliente.nombre}
                           <br></br>
                           {cliente.fecha}
                           <br></br>${cliente.monto}
                           <br></br>
                           Confianza {cliente.confianza}
+                          
                         </Tarjetacliente>
                       </div>
                     )}
@@ -143,7 +146,7 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente>
+                          <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {cliente.fecha}
@@ -188,7 +191,7 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente>
+                          <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {cliente.fecha}
@@ -235,7 +238,7 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente>
+                          <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {cliente.fecha}
@@ -278,7 +281,7 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente>
+                          <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {cliente.fecha}

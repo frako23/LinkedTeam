@@ -10,27 +10,27 @@ import { Kanban } from "../component/kanban";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
-  let notClosedArray = store.clientes.filter((index) => index.estatus != "Cerrado")
+  let notClosedArray = store.clientes.filter((index) => index.estatus != "Venta Concretada")
 
-  // console.log(notClosedArray);
+  console.log(notClosedArray);
 
   let amountSum = notClosedArray.reduce(
     (acum, index) => acum + parseInt(index.monto),
     0
   );
 
-  // console.log(amountSum);
+  console.log(amountSum);
 
-  let closedArray = store.clientes.filter((index) => index.estatus == "Cerrado")
+  let closedArray = store.clientes.filter((index) => index.estatus == "Venta Concretada")
 
-  // console.log(closedArray);
+  console.log(closedArray);
 
   let amountSumClosedSales = closedArray.reduce(
     (acum, index) => acum + parseInt(index.monto),
     0
   );
 
-  // console.log(amountSumClosedSales);
+  console.log(amountSumClosedSales);
 
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
@@ -57,13 +57,12 @@ export const Dashboard = () => {
               aria-label="Basic mixed styles example"
             >
               <button type="button" className="btn btn-warning fw-bold">
-                En Calle= ${amountSum}
+                En Calle= ${amountSum} 
+                Negocios= {notClosedArray.length}
               </button>
               <button type="button" className="btn btn-success fw-bold">
                 Logrado= ${amountSumClosedSales}
-              </button>
-              <button type="button" className="btn btn-primary fw-bold">
-                Negocios= {store.clientes.length}
+                Negocios= {closedArray.length}
               </button>
             </div>
           </div>
