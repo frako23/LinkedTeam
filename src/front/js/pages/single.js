@@ -23,21 +23,21 @@ export const Single = props => {
 				<ul className="nav nav-tabs card-header-tabs">
 				<li className="nav-item">
 					<button 
-						className={`nav-link ${indicador == "información" ? "active" : ""} `}
+						className={`nav-link ${indicador == "información" ? "active" : ""} fw-bolder`}
 						
 						onClick={(e) => setIndicador("información")}
 						>Información</button>
 				</li>
 				<li className="nav-item">
 					<button 
-						className={`nav-link ${indicador == "registrar" ? "active" : ""} `} 
+						className={`nav-link ${indicador == "registrar" ? "active" : ""} fw-bolder`} 
 						
 						onClick={(e) => setIndicador("registrar")}
 						>Registrar Actividad</button>
 				</li>
 				<li className="nav-item">
 					<button 
-						className={`nav-link ${indicador == "historico" ? "active" : ""} `}  
+						className={`nav-link ${indicador == "historico" ? "active" : ""} fw-bolder`}  
 						
 						onClick={(e) => setIndicador("historico")}
 						>Histórico</button>
@@ -104,40 +104,63 @@ export const Single = props => {
 
 			{/* tablar de historico de actividad */}
 			{indicador == "historico" ?
-				<table className="table">
-					<thead>
-						<tr>
-						<th scope="col">#</th>
-						<th scope="col">First</th>
-						<th scope="col">Last</th>
-						<th scope="col">Handle</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						</tr>
-						<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						</tr>
-						<tr>
-						<th scope="row">3</th>
-						<td colSpan="2">Larry the Bird</td>
-						<td>@twitter</td>
-						</tr>
-					</tbody>
-					</table>
+				<table className="table table-dark table-bordered mb-0">
+					    <thead>
+							<tr>
+							<th>Fecha</th>
+							<th>Tipo</th>
+							<th>comentario</th>
+							
+							</tr>
+						</thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">FECHA DE NACIMIENTO</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+					<td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">EDAD</th>
+                    <td className="fw-bolder">pendiente</td>
+					<td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">CORREO ELECTRÓNICO</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).email}</td>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">CELULAR</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).celular}</td>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">MONTO</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).monto}</td>
+					<td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">NIVEL DE CONFIANZA</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).confianza}</td>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">ESTATUS</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).estatus}</td>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+				  <tr>
+                    <th scope="row">NOTAS</th>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).notas}</td>
+                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                  </tr>
+                </tbody>
+              </table>
 					: ""
 				}
 			</div> 
 				<Link to="/dashboard">
-					<span className="btn btn-primary btn-lg" href="#" role="button">
+					<span className="btn btn-primary btn-lg mb-3" href="#" role="button">
 						Regresar
 					</span>
 				</Link>

@@ -101,22 +101,24 @@
 }
 
 table {
-  background: #fff;
+  /* background: #fff; */
   padding: 1rem;
-  text-align: left;
-  border-radius: 10px;
-  width: 33rem;
+  border: black 1px solid;
+
+
 }
 table td,
 th {
   padding: 0.2rem 0.8rem;
+  border: black 1px solid;
 }
 table th {
   font-size: 15px;
 }
 table td {
   font-size: 13px;
-  color: rgb(100, 100, 100);
+  font-weight: bold;
+  /* color:black; */
 }
 
 .img__profile {
@@ -144,4 +146,14 @@ table td {
   width: "15rem";
   padding-left: "2rem";
   
+}
+
+.table-color-closed {
+  background-color: #367952;
+  color: white;
+}
+
+.table-color-not-closed {
+  background-color: #f5b74f;
+  color: black;
 }

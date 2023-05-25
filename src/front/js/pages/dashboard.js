@@ -56,14 +56,43 @@ export const Dashboard = () => {
               role="group"
               aria-label="Basic mixed styles example"
             >
-              <button type="button" className="btn btn-warning fw-bold">
-                En Calle= ${amountSum} 
-                Negocios= {notClosedArray.length}
-              </button>
-              <button type="button" className="btn btn-success fw-bold">
-                Logrado= ${amountSumClosedSales}
-                Negocios= {closedArray.length}
-              </button>
+              <table className="table-color-not-closed">
+                <tr className="">
+                  <td className="">
+                En Calle  
+                  </td>
+                  <td className="">
+                    ${amountSum} 
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="">
+                Negocios 
+                  </td>
+                  <td className="">
+                  {notClosedArray.length}
+                  </td>
+                </tr>
+              </table>
+              <table className="ms-2 table-color-closed">
+                <tr className="">
+                  <td className="">
+                  Logrado 
+                  </td>
+                  <td className="">
+                  ${amountSumClosedSales} 
+                  </td>
+                </tr>
+                <tr className="">
+                  <td className="">
+                Negocios 
+                  </td>
+                  <td className="">
+                  {closedArray.length}
+                  </td>
+                </tr>
+              </table>
+              
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ export const Tarjetacliente = ({ children, cliente}) => {
   return <div 
             className="tarea fw-bold">{children}
             <Link to={`/single/${cliente?.id}`} 
-              className="btn btn-primary">
+              className="button-single mt-1">
             Detalle
             </Link>
           </div>;
