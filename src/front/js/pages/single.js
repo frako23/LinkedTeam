@@ -8,9 +8,14 @@ import "../../styles/single.css"
 
 
 export const Single = props => {
-	const { store, actions } = useContext(Context);
+	const [fecha, setFecha] = useState("");
+  const [tipoDeContacto, setTipoDeContacto] = useState("");
+  const [comentario,setComentario] = useState("");
+  const { store, actions } = useContext(Context);
 	const [indicador, setIndicador] = useState("información");
 	const params = useParams();
+
+
 	console.log(params);
 
 	return (
@@ -98,8 +103,93 @@ export const Single = props => {
 				}
 
 			{/* formulario de ingreso de actividad */}
+      {indicador == "registrar" ?
+          <form>
+            <div className="form-group row">
+              <label for="inputEmail3" className="col-sm-2 col-form-label">Fecha</label>
+              <div className="col-sm-10">
+                <input 
+                      type="date" 
+                      className="form-control" 
+                      id="inputEmail3" 
+                      value = {fecha}
+                      onChange = {(e)=> setFecha(e.target.value)}
+                      />
+              </div>
+            </div>
+            
+            <fieldset className="form-group">
+              <div className="row">
+                <legend className="col-form-label col-sm-2 pt-0">Tipo de contacto</legend>
+                <div className="col-sm-10">
+                  <div className="form-check">
+                    <input 
+                          className="form-check-input" 
+                          type="radio" 
+                          name="gridRadios" 
+                          id="gridRadios1" 
+                          value = {tipoDeContacto}
+                          onClick = {(e)=> setTipoDeContacto("Llamada")}
+                          />
+                    <label className="form-check-label" for="gridRadios1">
+                      Llamada {" "} <i class='bx bx-phone-call'></i>
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input 
+                          className="form-check-input" 
+                          type="radio" 
+                          name="gridRadios" 
+                          id="gridRadios2" 
+                          value = {tipoDeContacto}
+                          onClick = {(e)=> setTipoDeContacto("Mensaje o correo")}/>
+                    <label className="form-check-label" for="gridRadios2">
+                      Mensaje o correo {" "} <i class='bx bx-chat' ></i>
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input 
+                          className="form-check-input" 
+                          type="radio" 
+                          name="gridRadios" 
+                          id="gridRadios3" 
+                          value = {tipoDeContacto}
+                          onClick = {(e)=> setTipoDeContacto("Cita")}/>
+                    <label className="form-check-label" for="gridRadios3">
+                      Cita {" "} <i class='bx bx-male-female' ></i>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div className="form-group row">
+              <div className="" 
+                    style={{width: "100%",
+                            flex: "0 0 auto"}}>
+              <div class="input-group">
+                <div class="input-group-prepend" style={{height: "7rem"}}>
+                  <span class="input-group-text" style={{height: "inherit"}}>Comentarios</span>
+                </div>
+                <textarea 
+                          class="form-control" 
+                          aria-label="With textarea"
+                          value = {comentario}
+                          onChange = {(e)=> setComentario(e.target.value)}>
 
-
+                </textarea>
+              </div>
+            </div>
+            </div>
+            <div className="form-group row">
+              <div className=""
+                    style={{width: "100%",
+                    flex: "0 0 auto"}}>
+                <button type="submit" className="btn btn-primary">Registrar actividad</button>
+              </div>
+            </div>
+          </form>
+          : ""
+				}
 
 
 			{/* tablar de historico de actividad */}
@@ -108,52 +198,18 @@ export const Single = props => {
 					    <thead>
 							<tr>
 							<th>Fecha</th>
-							<th>Tipo</th>
-							<th>comentario</th>
+							<th>Tipo de contacto</th>
+							<th>Comentario</th>
 							
 							</tr>
 						</thead>
                 <tbody>
                   <tr>
-                    <th scope="row">FECHA DE NACIMIENTO</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-					<td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
+                    <td scope="row">{fecha}</td>
+                    <td className="fw-bolder">{tipoDeContacto}</td>
+				          	<td className="fw-bolder">{comentario}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">EDAD</th>
-                    <td className="fw-bolder">pendiente</td>
-					<td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">CORREO ELECTRÓNICO</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).email}</td>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">CELULAR</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).celular}</td>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">MONTO</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).monto}</td>
-					<td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">NIVEL DE CONFIANZA</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).confianza}</td>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">ESTATUS</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).estatus}</td>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
-				  <tr>
-                    <th scope="row">NOTAS</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).notas}</td>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).fecha}</td>
-                  </tr>
+                  
                 </tbody>
               </table>
 					: ""
