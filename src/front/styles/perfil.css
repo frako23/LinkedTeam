@@ -7,12 +7,6 @@
   --cierres: #367952;
 }
 
-.main__container {
-  grid-area: main;
-  overflow-y: auto;
-  padding: 20px 20px;
-}
-
 .main__card {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
@@ -156,4 +150,57 @@ table td {
 .table-color-not-closed {
   background-color: #f5b74f;
   color: black;
+}
+
+.intro-square {
+  height: 15rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.main-intro {
+  margin-inline: 5rem;
+}
+
+.wrapper-intro {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.one-intro {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #77dd77;
+}
+
+.two-intro {
+  grid-column: 2;
+  grid-row: 1;
+  background-color: #fdcae1;
+}
+
+.three-intro {
+  grid-column: 1;
+  grid-row: 2;
+  background-color: #fdfd96;
+}
+.four-intro {
+  grid-column: 2;
+  grid-row: 2;
+  background-color: #ff6961;
+}
+
+.main-wrapper-intro {
+  padding-left: 2rem;
+  width: 37%;
+}
+
+.img-intro {
+  width: 40%;
 }

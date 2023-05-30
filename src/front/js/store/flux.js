@@ -9,8 +9,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       clientes: [],
       tareas: [],
       comentarios: [],
+      clientActivity: [],
     },
     actions: {
+      
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
         const opts = {
@@ -403,6 +405,62 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ comentarios: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // obtener y agregar registros de actividad a clientes
+      postClientActivy: async (
+        fecha, tipoDeContacto, comentario, user_id, client_id
+      ) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(data),
+        };
+        console.log(data);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/client_activity/${user_id}/${client_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getClientActivy(user_id, client_id);
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar la actividad del cliente, problemas con el backend", error);
+        }
+      },
+
+      getClientActivity: (user_id, client_id) => {
+        console.log(user_id, client_id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/client_activity/${user_id}/${client_id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ clientActivity: body }))
           .catch((error) => console.log(error));
       },
     },

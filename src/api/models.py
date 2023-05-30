@@ -10,6 +10,11 @@ class Role(Enum):
     manager = "manager"
     associated = "associated"
 
+class TipoDeContacto(Enum):
+    llamada = "llamada"
+    mensaje = "mensaje"
+    cita = "cita"
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
@@ -51,6 +56,9 @@ class User(db.Model):
             "role": self.role.value
             # do not serialize the password, its a security breach
         }
+
+# tabla de registro de clientes
+
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), unique=False, nullable=False)
@@ -203,5 +211,42 @@ class Tarea(db.Model):
             "tarea": self.tarea,
             "estatus": self.estatus,
             "user_id": self.user_id
-            # do not serialize the password, its a security breach
         }
+
+# tabla de registro de actividades de interacciones con clientes
+
+class Client_Activity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fecha = db.Column(db.String(10), nullable=False)
+    tipo_de_contacto = db.Column(db.Enum(TipoDeContacto), nullable=False)
+    comentario = db.Column(db.String(250), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+
+def __init__(self, **kwargs):
+    self.fecha = kwargs['fecha']
+    self.tipo_de_contacto = kwargs['tipo_de_contacto']
+    self.comentario = kwargs['comentario']
+    self.user_id = kwargs['user_id']
+    self.client_id = kwargs['client_id']
+
+
+@classmethod
+def create(cls, **kwargs):
+    new_activity = cls(**kwargs)
+    db.session.add(new_activity)
+    try:
+        db.session.commit()
+        return jsonify({"msg":"Actividad creada"})
+    except Exception as error:
+        raise Exception(error.args[0], 400)
+
+def serialize(self):
+    return {
+        "id": self.id,
+        "fecha": self.fecha,
+        "tipo_de_contacto": self.tipo_de_contacto,
+        "comentario": self.comentario,
+        "user_id": self.user_id,
+        "client_id": self.client_id
+    }

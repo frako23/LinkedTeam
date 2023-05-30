@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -238,5 +238,33 @@ def post_get_tareas():
             raise Exception("No ingresaste el estatus", 400)
         new_tarea = Tarea.create(**new_tarea_data, user_id = user_id)
         return jsonify(new_tarea.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# rutas de actividades de clientes
+
+@api.route('/client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
+def get_client_activity(user_id, client_id):
+    client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
+    print(client_activities)
+    return jsonify(
+            [client_activity.serialize() for client_activity in client_activities]
+        ),200
+
+@api.route('/client_activity/<int:client_id>', methods=['POST'])
+@jwt_required()
+def add_client_activity(client_id):
+    user_id = get_jwt_identity()
+    new_client_activity_data = request.json
+    try:
+        if "fecha" not in new_client_activity_data or new_client_activity_data["fecha"] == "":
+            raise Exception("No ingresaste la fecha", 400)
+        if "tipo_de_contacto" not in new_client_activity_data or new_client_activity_data["tipo_de_contacto"] == "":
+            raise Exception("No ingresaste el tipo de contacto", 400)
+        if "comentario" not in new_client_activity_data or new_client_activity_data["comentario"] == "":
+            raise Exception("No ingresaste el tipo de contacto", 400)
+
+        new_client_activity = Client_Activity.create(**new_client_activity_data, client_id = client_id)
+        return jsonify(new_client_activity.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

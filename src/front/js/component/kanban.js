@@ -129,7 +129,7 @@ export const Kanban = () => {
                 </strong>
 
                 {store.clientes
-                  .filter((cliente) => cliente.estatus === "Contacto realizado")
+                  .filter((cliente) => cliente.estatus === "Contactado")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -220,7 +220,7 @@ export const Kanban = () => {
 
                 {store.clientes
                   .filter(
-                    (cliente) => cliente.estatus === "Negociación Iniciada"
+                    (cliente) => cliente.estatus === "Negociación"
                   )
                   .map((cliente, index) => (
                     <Draggable
@@ -264,7 +264,7 @@ export const Kanban = () => {
                 <strong className="kanban-title text-primary">CIERRES</strong>
 
                 {store.clientes
-                  .filter((cliente) => cliente.estatus === "Venta Concretada")
+                  .filter((cliente) => cliente.estatus === "Cerrado")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}

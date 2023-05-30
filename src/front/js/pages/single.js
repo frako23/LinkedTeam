@@ -8,15 +8,32 @@ import "../../styles/single.css"
 
 
 export const Single = props => {
-	const [fecha, setFecha] = useState("");
-  const [tipoDeContacto, setTipoDeContacto] = useState("");
-  const [comentario,setComentario] = useState("");
+
+	const [activity, setActivity] = useState({
+    fecha: "",
+    tipoDeContacto: "",
+    comentario: ""
+  });
   const { store, actions } = useContext(Context);
 	const [indicador, setIndicador] = useState("información");
 	const params = useParams();
+	
+  console.log(params);
 
+  const handleActivity = ((e) =>{ setActivity({...activity, [e.target.name]: e.target.value})})
 
-	console.log(params);
+  useEffect(() => {
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      actions.getClientActivity(params.theid);
+    }
+  }, [store.token]);
+
+  useEffect(() => {
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      actions.getClientActivity(params.theid);
+    }
+  }, [store.token]);
+
 
 	return (
 		<div className="pagina">
@@ -104,16 +121,23 @@ export const Single = props => {
 
 			{/* formulario de ingreso de actividad */}
       {indicador == "registrar" ?
-          <form>
+
+
+
+          <form 
+                onSubmit= {(e) => {
+                  e.preventDefault();
+                  setActivity("")}}>
             <div className="form-group row">
               <label for="inputEmail3" className="col-sm-2 col-form-label">Fecha</label>
               <div className="col-sm-10">
                 <input 
                       type="date" 
                       className="form-control" 
+                      name="fecha"
                       id="inputEmail3" 
-                      value = {fecha}
-                      onChange = {(e)=> setFecha(e.target.value)}
+                      value = {activity.fecha}
+                      onChange = {(e)=> handleActivity(e)}
                       />
               </div>
             </div>
@@ -122,43 +146,19 @@ export const Single = props => {
               <div className="row">
                 <legend className="col-form-label col-sm-2 pt-0">Tipo de contacto</legend>
                 <div className="col-sm-10">
-                  <div className="form-check">
-                    <input 
-                          className="form-check-input" 
-                          type="radio" 
-                          name="gridRadios" 
-                          id="gridRadios1" 
-                          value = {tipoDeContacto}
-                          onClick = {(e)=> setTipoDeContacto("Llamada")}
-                          />
-                    <label className="form-check-label" for="gridRadios1">
-                      Llamada {" "} <i class='bx bx-phone-call'></i>
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input 
-                          className="form-check-input" 
-                          type="radio" 
-                          name="gridRadios" 
-                          id="gridRadios2" 
-                          value = {tipoDeContacto}
-                          onClick = {(e)=> setTipoDeContacto("Mensaje o correo")}/>
-                    <label className="form-check-label" for="gridRadios2">
-                      Mensaje o correo {" "} <i class='bx bx-chat' ></i>
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input 
-                          className="form-check-input" 
-                          type="radio" 
-                          name="gridRadios" 
-                          id="gridRadios3" 
-                          value = {tipoDeContacto}
-                          onClick = {(e)=> setTipoDeContacto("Cita")}/>
-                    <label className="form-check-label" for="gridRadios3">
-                      Cita {" "} <i class='bx bx-male-female' ></i>
-                    </label>
-                  </div>
+                <select 
+                      className="form-select" 
+                      aria-label="Default select example"
+                      name="tipoDeContacto"
+                      value = {activity.tipoDeContacto}
+                      onChange = {(e)=> handleActivity(e)}>
+                  <option value="">Selectionar tipo de contacto</option>
+                  <option value="Llamada">Llamada</option>
+                  <option value="Mensaje">Mensaje o correo</option> 
+                  <option value="Cita">Cita </option>
+                </select>
+   
+
                 </div>
               </div>
             </fieldset>
@@ -166,15 +166,16 @@ export const Single = props => {
               <div className="" 
                     style={{width: "100%",
                             flex: "0 0 auto"}}>
-              <div class="input-group">
-                <div class="input-group-prepend" style={{height: "7rem"}}>
-                  <span class="input-group-text" style={{height: "inherit"}}>Comentarios</span>
+              <div className="input-group">
+                <div className="input-group-prepend" style={{height: "7rem"}}>
+                  <span className="input-group-text" style={{height: "inherit"}}>Comentarios</span>
                 </div>
                 <textarea 
-                          class="form-control" 
+                          className="form-control" 
                           aria-label="With textarea"
-                          value = {comentario}
-                          onChange = {(e)=> setComentario(e.target.value)}>
+                          name="comentario"
+                          value = {activity.comentario}
+                          onChange = {(e)=> handleActivity(e)}>
 
                 </textarea>
               </div>
@@ -184,7 +185,11 @@ export const Single = props => {
               <div className=""
                     style={{width: "100%",
                     flex: "0 0 auto"}}>
-                <button type="submit" className="btn btn-primary">Registrar actividad</button>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary"
+                  
+                  >Registrar actividad</button>
               </div>
             </div>
           </form>
@@ -204,11 +209,16 @@ export const Single = props => {
 							</tr>
 						</thead>
                 <tbody>
-                  <tr>
-                    <td scope="row">{fecha}</td>
-                    <td className="fw-bolder">{tipoDeContacto}</td>
-				          	<td className="fw-bolder">{comentario}</td>
+                  { activity.map( (act, index) => (
+
+                  <tr key={index}>
+                    <td scope="row">{act.fecha}</td>
+                    <td className="fw-bolder">{act.tipoDeContacto}</td>
+				          	<td className="fw-bolder">{act.comentario}</td>
                   </tr>
+
+                  ))}
+                 
                   
                 </tbody>
               </table>
@@ -216,7 +226,9 @@ export const Single = props => {
 				}
 			</div> 
 				<Link to="/dashboard">
-					<span className="btn btn-primary btn-lg mb-3" href="#" role="button">
+					<span 
+            className="btn btn-primary btn-lg mb-3" 
+            role="button">
 						Regresar
 					</span>
 				</Link>

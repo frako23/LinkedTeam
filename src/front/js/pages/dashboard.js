@@ -38,6 +38,8 @@ export const Dashboard = () => {
     }
   }, [store.token]);
 
+console.log(store.client);
+
   return (
     <div className="pagina">
       {/* barra de menu */}
@@ -59,7 +61,7 @@ export const Dashboard = () => {
               <table className="table-color-not-closed">
                 <tr className="">
                   <td className="">
-                En Calle  
+                En la calle  
                   </td>
                   <td className="">
                     ${amountSum} 
