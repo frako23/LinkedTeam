@@ -10,7 +10,7 @@ import { Kanban } from "../component/kanban";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
-  let notClosedArray = store.clientes.filter((index) => index.estatus != "Venta Concretada")
+  let notClosedArray = store.clientes.filter((index) => index.estatus != "Cerrado")
 
   console.log(notClosedArray);
 
@@ -21,7 +21,7 @@ export const Dashboard = () => {
 
   console.log(amountSum);
 
-  let closedArray = store.clientes.filter((index) => index.estatus == "Venta Concretada")
+  let closedArray = store.clientes.filter((index) => index.estatus == "Cerrado")
 
   console.log(closedArray);
 

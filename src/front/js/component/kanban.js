@@ -117,7 +117,7 @@ export const Kanban = () => {
                     </Draggable>
                   ))} */}
 
-          <Droppable droppableId="Contacto realizado">
+          <Droppable droppableId="Contactado">
             {(droppableProvided) => (
               <div
                 className="kanban-block tabla"
@@ -207,7 +207,7 @@ export const Kanban = () => {
               </div>
             )}
           </Droppable>
-          <Droppable droppableId="Negociación Iniciada">
+          <Droppable droppableId="Negociación">
             {(droppableProvided) => (
               <div
                 className="kanban-block tabla"
@@ -254,7 +254,7 @@ export const Kanban = () => {
               </div>
             )}
           </Droppable>
-          <Droppable droppableId="Venta Concretada">
+          <Droppable droppableId="Cerrado">
             {(droppableProvided) => (
               <div
                 className="kanban-block tabla"
