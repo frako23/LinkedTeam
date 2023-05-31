@@ -240,11 +240,41 @@ def post_get_tareas():
         return jsonify(new_tarea.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+        
+@api.route('/tareas/<int:id>', methods=['PUT'])
+def update_tarea(id):
+
+    try:
+        tarea = Tarea.query.get(id)
+        
+        tarea.estatus = request.json['estatus']
+
+        db.session.commit()
+        return jsonify(tarea.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+@api.route('/tareas/<int:id>', methods=['DELETE'])
+def delete_tarea(id):
+    tarea = Tarea.query.get(id)
+
+    if not tarea:
+        return jsonify({"msg": "No existe la tarea"}),404
+    
+    db.session.delete(tarea)
+    try:
+        db.session.commit()
+        return jsonify({"msg": "Se elimino la tarea"}),200 
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
 # rutas de actividades de clientes
 
 @api.route('/client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
+@jwt_required()
 def get_client_activity(user_id, client_id):
+    user_id = get_jwt_identity()
     client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
     print(client_activities)
     return jsonify(
@@ -268,3 +298,12 @@ def add_client_activity(client_id):
         return jsonify(new_client_activity.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# endpoints de usuarios
+@api.route('/user', methods=['GET'])
+@jwt_required()
+def get_user():
+    user_id = get_jwt_identity()
+    if request.method == 'GET':
+        user = User.query.filter_by(user_id=user_id)
+        return jsonify(user.serialize()), 200

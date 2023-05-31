@@ -39,19 +39,19 @@ export const Perfil = () => {
               <div className="wrapper-intro">
                   <div className="intro-square one-intro">
                       <h5>Fórmate</h5>
-                      <p>En la sección "Cursos y videos" tendrás una galeria con todos el contenido disponible para tu formación, el contenido es dinámico asi que siempre conseguiras algo nuevo que aprender</p>
+                      <p>En CURSOS Y VIDEOS encontrarás contenido de alto valor para seguir mejorando de forma profesional y persona</p>
                   </div>
                   <div className="intro-square two-intro">
                     <h5>Tu propio CRM</h5>
-                    <p>En la sección "CRM" en donde podras guardar cada uno de tus prospectos, y usar el embudo de ventas para colocarlo en el lugar adecuado </p>
+                    <p>Con esta APP podrás guardar cada uno de tus prospectos, y usar el embudo de ventas para hacerle un seguimiento efectivo</p>
                   </div>
                   <div className="intro-square three-intro">
-                    <h5>Formate</h5>
-                    <p>En la sección "Cursos y videos" tendrás una galeria con todos el contenido disponible para tu formación, el contenido es dinámico asi que siempre conseguiras algo nuevo que aprender</p>
+                    <h5>Registra tus actividades</h5>
+                    <p>Al registrar un cliente verás el boton DETALLE con el que podrás agregar todas las activiades que haz realizado</p>
                   </div>
                   <div className="intro-square four-intro">
-                    <h5>Formate</h5>
-                    <p>En la sección "Cursos y videos" tendrás una galeria con todos el contenido disponible para tu formación, el contenido es dinámico asi que siempre conseguiras algo nuevo que aprender</p>
+                    <h5>Anota tus pendientes</h5>
+                    <p>En TAREAS PENDIENTES podrás anotar esas actividades claves, y hacerles seguimiento con las 3 columnas</p>
                   </div>
               </div>
           </div>

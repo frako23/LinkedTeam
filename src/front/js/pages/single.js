@@ -200,28 +200,24 @@ export const Single = props => {
 			{/* tablar de historico de actividad */}
 			{indicador == "historico" ?
 				<table className="table table-dark table-bordered mb-0">
-					    <thead>
+				  <thead>
 							<tr>
 							<th>Fecha</th>
 							<th>Tipo de contacto</th>
-							<th>Comentario</th>
-							
+							<th>Comentario</th>		
 							</tr>
-						</thead>
-                <tbody>
-                  { activity.map( (act, index) => (
+					</thead>
+          <tbody>
+            { store.clientActivity.map( (act, index) => (
+            <tr key={index}>
+              <td scope="row">{act.fecha}</td>
+              <td className="fw-bolder">{act.tipoDeContacto}</td>
+              <td className="fw-bolder">{act.comentario}</td>
+            </tr>
 
-                  <tr key={index}>
-                    <td scope="row">{act.fecha}</td>
-                    <td className="fw-bolder">{act.tipoDeContacto}</td>
-				          	<td className="fw-bolder">{act.comentario}</td>
-                  </tr>
-
-                  ))}
-                 
-                  
-                </tbody>
-              </table>
+            ))} 
+          </tbody>
+        </table>
 					: ""
 				}
 			</div> 

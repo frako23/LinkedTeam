@@ -160,6 +160,10 @@ table td {
   font-weight: bold;
 }
 
+.intro-square h5 {
+  font-weight: bold;
+}
+
 .main-intro {
   margin-inline: 5rem;
 }
