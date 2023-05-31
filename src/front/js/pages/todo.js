@@ -128,14 +128,12 @@ export function Todo() {
 
                                         <button 
                                             className="badge rounded-pill bg-danger"
-                                            value={task.id}
-                                            onClick={(e) => {
-                                                actions.deleteTarea(e.target.value);
-                                                console.log(e.target.value);}}>
+                                            onClick={(e) => 
+                                                actions.deleteTarea(task.id)
+                                                }>
                                             <i 
                                             className='bx bx-trash fs-5'
-                                            value={task.id}
-                                            onClick={(e) => console.log(e.target.value)}
+
                                             ></i>
                                         </button>
                                     </p>
@@ -189,14 +187,10 @@ export function Todo() {
 
                                         <button 
                                             className="badge rounded-pill bg-danger"
-                                            value={task.id}
                                             onClick={(e) => {
-                                                actions.deleteTarea(e.target.value);
-                                                console.log(e.target.value);}}>
+                                                actions.deleteTarea(task.id)}}>
                                             <i 
                                             className='bx bx-trash fs-5'
-                                            value={task.id}
-                                            onClick={(e) => console.log(e.target.value)}
                                             ></i>
                                         </button>
                                     </p>
@@ -250,14 +244,12 @@ export function Todo() {
 
                                         <button 
                                             className="badge rounded-pill bg-danger"
-                                            value={task.id}
+                                            
                                             onClick={(e) => {
-                                                actions.deleteTarea(e.target.value);
-                                                console.log(e.target.value);}}>
+                                                actions.deleteTarea(task.id);
+                                                }}>
                                             <i 
                                             className='bx bx-trash fs-5'
-                                            value={task.id}
-                                            onClick={(e) => console.log(e.target.value)}
                                             ></i>
                                         </button>
                                     </p>

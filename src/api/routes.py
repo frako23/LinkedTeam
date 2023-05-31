@@ -271,9 +271,9 @@ def delete_tarea(id):
 
 # rutas de actividades de clientes
 
-@api.route('/client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
+@api.route('/client_activity/<int:client_id>', methods=['GET'])
 @jwt_required()
-def get_client_activity(user_id, client_id):
+def get_client_activity(client_id):
     user_id = get_jwt_identity()
     client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
     print(client_activities)
@@ -294,8 +294,8 @@ def add_client_activity(client_id):
         if "comentario" not in new_client_activity_data or new_client_activity_data["comentario"] == "":
             raise Exception("No ingresaste el tipo de contacto", 400)
 
-        new_client_activity = Client_Activity.create(**new_client_activity_data, client_id = client_id)
-        return jsonify(new_client_activity.serialize()), 201
+        new_client_activity = Client_Activity.create(**new_client_activity_data, user_id = user_id, client_id = client_id)
+        return new_client_activity, 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 

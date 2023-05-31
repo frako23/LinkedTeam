@@ -223,30 +223,29 @@ class Client_Activity(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
 
-def __init__(self, **kwargs):
-    self.fecha = kwargs['fecha']
-    self.tipo_de_contacto = kwargs['tipo_de_contacto']
-    self.comentario = kwargs['comentario']
-    self.user_id = kwargs['user_id']
-    self.client_id = kwargs['client_id']
+    def __init__(self, **kwargs):
+        self.fecha = kwargs['fecha']
+        self.tipo_de_contacto = kwargs['tipo_de_contacto']
+        self.comentario = kwargs['comentario']
+        self.user_id = kwargs['user_id']
+        self.client_id = kwargs['client_id']
 
+    @classmethod
+    def create(cls, **kwargs):
+        new_activity = cls(**kwargs)
+        db.session.add(new_activity)
+        try:
+            db.session.commit()
+            return jsonify({"msg":"Actividad creada"})
+        except Exception as error:
+            raise Exception(error.args[0], 400)
 
-@classmethod
-def create(cls, **kwargs):
-    new_activity = cls(**kwargs)
-    db.session.add(new_activity)
-    try:
-        db.session.commit()
-        return jsonify({"msg":"Actividad creada"})
-    except Exception as error:
-        raise Exception(error.args[0], 400)
-
-def serialize(self):
-    return {
-        "id": self.id,
-        "fecha": self.fecha,
-        "tipo_de_contacto": self.tipo_de_contacto,
-        "comentario": self.comentario,
-        "user_id": self.user_id,
-        "client_id": self.client_id
-    }
+    def serialize(self):
+        return {
+            "id": self.id,
+            "fecha": self.fecha,
+            "tipo_de_contacto": self.tipo_de_contacto.value,
+            "comentario": self.comentario,
+            "user_id": self.user_id,
+            "client_id": self.client_id
+        }
