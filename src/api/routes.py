@@ -1,15 +1,14 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-import os
+from flask_jwt_extended import create_access_token, get_jwt_identity,jwt_required
+
 
 
 api = Blueprint('api', __name__)
