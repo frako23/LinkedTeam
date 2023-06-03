@@ -60,16 +60,15 @@ def add_user():
             raise Exception("No ingresaste el email", 400)
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
-        if "role" not in new_user_data or new_user_data["role"] == "":
-            raise Exception("No ingresaste el role",400)
-        if new_user_data["role"] not in Role.__members__:
-            return {"error": f"No existe en los roles disponibles"},400
+        if  "role" in new_user_data:
+            if new_user_data["role"] not in Role.__members__:
+                return {"error": f"No existe en los roles disponibles"},400
         
         salt = b64encode(os.urandom(32)).decode('utf-8')
         new_user_data["password"] = set_password(new_user_data["password"], salt)
         new_user = User.create(**new_user_data, salt=salt)
-       
         return jsonify(new_user.serialize()), 201
+       
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 

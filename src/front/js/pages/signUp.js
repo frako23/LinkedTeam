@@ -11,9 +11,7 @@ export const SignUp = () => {
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
-  const token = sessionStorage.getItem("token");
 
-  const role = "associated";
   return (
     <div
       className="container px-4 py-5 px-md-5 text-center text-lg-start my-2"
@@ -70,7 +68,7 @@ export const SignUp = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  actions.signup(name, lastname, email, password, role);
+                  actions.signup(name, lastname, email, password);
                   if (
                     name != "" &&
                     lastname != "" &&
