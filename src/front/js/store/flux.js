@@ -209,10 +209,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-
       updateClientStatus: (newList) => {
         setStore({ clientes: newList });
       },
+
+        calcularEdad:(fecha) => {
+        let hoy = new Date();
+        let fechaDeNacimiento = new Date(fecha);
+        let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
+        let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
+    
+        if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
+            edad--;
+        }
+    
+        return edad;
+    },
 
       logout: () => {
         const store = getStore();
@@ -233,61 +245,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         setTimeout(() => {
           setStore({ notification: undefined });
         }, 10000);
-      },
-
-      toggleFavorite: (item) => {
-        const store = getStore();
-        const actions = getActions();
-        if (actions.isFavorite(item)) {
-          const newfavoritos = store.favoritos.filter((fav) => {
-            return fav !== item;
-          });
-          setStore({
-            favoritos: newfavoritos,
-          });
-        } else {
-          setStore({
-            favoritos: [...store.favoritos, item],
-          });
-        }
-      },
-      isFavorite: (name) => {
-        const store = getStore();
-        return store.favoritos.find((favoritos) => {
-          return favoritos == name;
-        });
-      },
-
-      exampleFunction: () => {
-        getActions().changeColor(0, "green");
-      },
-
-      getMessage: async () => {
-        try {
-          // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/hello");
-          const data = await resp.json();
-          setStore({ message: data.message });
-          // don't forget to return something, that is how the async resolves
-          return data;
-        } catch (error) {
-          console.log("Error loading message from backend", error);
-        }
-      },
-      changeColor: (index, color) => {
-        //get the store
-        const store = getStore();
-
-        //we have to loop the entire demo array to look for the respective index
-        //and change its color
-        const demo = store.demo.map((elm, i) => {
-          if (i === index) elm.background = color;
-          return elm;
-        });
-
-        //reset the global store
-        setStore({ demo: demo });
-  
       },
       
       // obtener y agregar tareas
@@ -470,7 +427,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         const apiURL = `${process.env.BACKEND_URL}/comments/${id}`;
-
         fetch(apiURL, opts)
           .then((response) => {
             if (response.ok) {
@@ -483,8 +439,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener y agregar registros de actividad a clientes
-      postClientActivy: async (
-        fecha, tipoDeContacto, comentario, user_id, client_id
+      postClientActivity: async (
+        activity, client_id
       ) => {
         const store = getStore();
         const actions = getActions();
@@ -494,12 +450,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(activity)
         };
-        console.log(data);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/client_activity/${user_id}/${client_id}`,
+            `${process.env.BACKEND_URL}/client_activity/${client_id}`,
             options
           );
 
@@ -509,7 +464,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          actions.getClientActivy(user_id, client_id);
+          actions.getClientActivity(client_id);
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
@@ -517,15 +472,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      getClientActivity: (user_id, client_id) => {
-        console.log(user_id, client_id);
+      getClientActivity: (client_id) => {
+        console.log(client_id);
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/client_activity/${user_id}/${client_id}`;
+        const apiURL = `${process.env.BACKEND_URL}/client_activity/${client_id}`;
 
         fetch(apiURL, opts)
           .then((response) => {

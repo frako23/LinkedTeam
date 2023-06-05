@@ -11,14 +11,14 @@ export const Single = props => {
 
 	const [activity, setActivity] = useState({
     fecha: "",
-    tipoDeContacto: "",
+    tipo_de_contacto: "",
     comentario: ""
   });
   const { store, actions } = useContext(Context);
 	const [indicador, setIndicador] = useState("información");
 	const params = useParams();
 	
-  console.log(params);
+  // console.log(params);
 
   const handleActivity = ((e) =>{ setActivity({...activity, [e.target.name]: e.target.value})})
 
@@ -80,7 +80,7 @@ export const Single = props => {
                   </tr>
                   <tr>
                     <th scope="row">EDAD</th>
-                    <td className="fw-bolder">pendiente</td>
+                    <td className="fw-bolder">{actions.calcularEdad(store.clientes.find( cliente => cliente.id == params.theid).fecha) + " años"}</td>
                 
                   </tr>
                   <tr>
@@ -95,7 +95,7 @@ export const Single = props => {
                   </tr>
                   <tr>
                     <th scope="row">MONTO</th>
-                    <td className="fw-bolder">{store.clientes.find( cliente => cliente.id == params.theid).monto}</td>
+                    <td className="fw-bolder">{`$ ${store.clientes.find( cliente => cliente.id == params.theid).monto}`}</td>
                    
                   </tr>
                   <tr>
@@ -127,13 +127,16 @@ export const Single = props => {
           <form 
                 onSubmit= {(e) => {
                   e.preventDefault();
-                  setActivity("")}}>
+                  // console.log(activity);
+                  actions.postClientActivity(activity, params.theid)
+                  setActivity("")
+                  setIndicador("historico")}}>
             <div className="form-group row">
-              <label for="inputEmail3" className="col-sm-2 col-form-label">Fecha</label>
+              <label for="inputEmail3" className="col-sm-2 col-form-label fw-bold">Fecha</label>
               <div className="col-sm-10">
                 <input 
                       type="date" 
-                      className="form-control" 
+                      className="form-control fw-bold" 
                       name="fecha"
                       id="inputEmail3" 
                       value = {activity.fecha}
@@ -144,18 +147,18 @@ export const Single = props => {
             
             <fieldset className="form-group">
               <div className="row">
-                <legend className="col-form-label col-sm-2 pt-0">Tipo de contacto</legend>
+                <legend className="col-form-label col-sm-2 pt-0 fw-bold">Tipo de contacto</legend>
                 <div className="col-sm-10">
                 <select 
-                      className="form-select" 
+                      className="form-select fw-bold" 
                       aria-label="Default select example"
-                      name="tipoDeContacto"
-                      value = {activity.tipoDeContacto}
+                      name="tipo_de_contacto"
+                      value = {activity.tipo_de_contacto}
                       onChange = {(e)=> handleActivity(e)}>
-                  <option value="">Selectionar tipo de contacto</option>
-                  <option value="Llamada">Llamada</option>
-                  <option value="Mensaje">Mensaje o correo</option> 
-                  <option value="Cita">Cita </option>
+                  <option value="">Selectiona el tipo de contacto</option>
+                  <option value="llamada">Llamada</option>
+                  <option value="mensaje">Mensaje o correo</option> 
+                  <option value="cita">Cita </option>
                 </select>
    
 
@@ -168,12 +171,13 @@ export const Single = props => {
                             flex: "0 0 auto"}}>
               <div className="input-group">
                 <div className="input-group-prepend" style={{height: "7rem"}}>
-                  <span className="input-group-text" style={{height: "inherit"}}>Comentarios</span>
+                  <span className="input-group-text fw-bold" style={{height: "inherit"}}>Comentarios</span>
                 </div>
                 <textarea 
-                          className="form-control" 
+                          className="form-control fw-bold" 
                           aria-label="With textarea"
                           name="comentario"
+                          placeholder="El cliente ..."
                           value = {activity.comentario}
                           onChange = {(e)=> handleActivity(e)}>
 
@@ -211,7 +215,7 @@ export const Single = props => {
             { store.clientActivity.map( (act, index) => (
             <tr key={index}>
               <td scope="row">{act.fecha}</td>
-              <td className="fw-bolder">{act.tipoDeContacto}</td>
+              <td className="fw-bolder">{act.tipo_de_contacto}</td>
               <td className="fw-bolder">{act.comentario}</td>
             </tr>
 

@@ -70,7 +70,7 @@ export const Kanban = () => {
                         <Tarjetacliente cliente={cliente}>
                           {cliente.nombre}
                           <br></br>
-                          {cliente.fecha}
+                          {actions.calcularEdad(cliente.fecha) + " años"}
                           <br></br>${cliente.monto}
                           <br></br>
                           Confianza {cliente.confianza}
@@ -84,38 +84,6 @@ export const Kanban = () => {
               </div>
             )}
           </Droppable>
-
-          {/* --------------------------CODIGO ORIGINAL----------------------------- */}
-          {/* {store.clientes
-                  .filter((cliente) => cliente.estatus === "Prospecto")
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <Tarjetacliente>
-                            {cliente.nombre}
-                            <br></br>
-                            {cliente.fecha}
-                            <br></br>${cliente.monto}
-                            <br></br>
-                            Confianza {cliente.confianza}
-                          </Tarjetacliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))} */}
 
           <Droppable droppableId="Contactado">
             {(droppableProvided) => (
@@ -149,7 +117,7 @@ export const Kanban = () => {
                           <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
-                            {cliente.fecha}
+                            {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
@@ -194,7 +162,7 @@ export const Kanban = () => {
                           <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
-                            {cliente.fecha}
+                            {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
@@ -241,7 +209,7 @@ export const Kanban = () => {
                           <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
-                            {cliente.fecha}
+                            {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
@@ -284,7 +252,7 @@ export const Kanban = () => {
                           <Tarjetacliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
-                            {cliente.fecha}
+                            {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}

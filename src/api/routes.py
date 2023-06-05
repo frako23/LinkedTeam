@@ -276,7 +276,7 @@ def delete_tarea(id):
 def get_client_activity(client_id):
     user_id = get_jwt_identity()
     client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
-    print(client_activities)
+
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
         ),200
