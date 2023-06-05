@@ -22,7 +22,9 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)
     salt = db.Column(db.String(80), unique=False, nullable=False)
-    role = db.Column(db.Enum(Role), nullable=False)
+    role = db.Column(db.Enum(Role), default=Role.associated)
+    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+    updated_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now, onupdate=datetime.datetime.now)
 
 
     def __init__(self, **kwargs):
@@ -31,7 +33,7 @@ class User(db.Model):
         self.email = kwargs['email']
         self.password = kwargs['password']
         self.salt = kwargs['salt']
-        self.role = kwargs['role']
+        self.role =  kwargs['role'] if 'role' in kwargs else Role.associated
 
     @classmethod
     def create(cls, **kwargs):
@@ -41,6 +43,7 @@ class User(db.Model):
             db.session.commit()
             return new_user
         except Exception as error:
+            print(error)
             raise Exception(error.args[0], 400)
         
 

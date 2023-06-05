@@ -12,7 +12,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       clientActivity: [],
     },
     actions: {
-      
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
         const opts = {
@@ -32,7 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             const mensaje = await resp.json();
             alert(mensaje.msg);
             return false;
-          } 
+          }
           const data = await resp.json();
           console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
@@ -56,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      signup: async (name, lastname, email, password, role) => {
+      signup: async (name, lastname, email, password) => {
         const store = getStore();
         const options = {
           method: "POST",
@@ -68,7 +67,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             lastname: lastname,
             email: email,
             password: password,
-            role: role,
           }),
         };
 
@@ -171,9 +169,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      putCliente: async ({
-        estatus, cliente_id
-      }) => {
+      putCliente: async ({ estatus, cliente_id }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -186,9 +182,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             estatus: estatus,
           }),
         };
-        console.log(
-          estatus,
-        );
+        console.log(estatus);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/cliente/${cliente_id}`,
@@ -205,7 +199,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al cambiar es estatus del cliente desde el backend", error);
+          console.error(
+            "Ha habido un error al cambiar es estatus del cliente desde el backend",
+            error
+          );
         }
       },
 
@@ -246,12 +243,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ notification: undefined });
         }, 10000);
       },
-      
       // obtener y agregar tareas
-      postTareas: async ({
-        tarea,
-        estatus,
-      }) => {
+      postTareas: async ({ tarea, estatus }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -265,10 +258,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             estatus: estatus,
           }),
         };
-        console.log(
-          tarea,
-          estatus,
-        );
+        console.log(tarea, estatus);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/tareas`,
@@ -285,7 +275,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al registrar la tarea, problemas con el backend", error);
+          console.error(
+            "Ha habido un error al registrar la tarea, problemas con el backend",
+            error
+          );
         }
       },
 
@@ -313,9 +306,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ tareas: newList });
       },
 
-      putTarea: async ({
-        estatus, id
-      }) => {
+      putTarea: async ({ estatus, id }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -328,9 +319,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             estatus: estatus,
           }),
         };
-        console.log(
-          estatus,
-        );
+        console.log(estatus);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/tarea/${id}`,
@@ -347,13 +336,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al cambiar es estatus del cliente desde el backend", error);
+          console.error(
+            "Ha habido un error al cambiar es estatus del cliente desde el backend",
+            error
+          );
         }
       },
 
-      deleteTarea: async (
-        id
-      ) => {
+      deleteTarea: async (id) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -379,14 +369,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al cambiar es estatus del cliente desde el backend", error);
+          console.error(
+            "Ha habido un error al cambiar es estatus del cliente desde el backend",
+            error
+          );
         }
       },
 
       // obtener y agregar comentarios
-      postComentarios: async (
-        data, video_id
-      ) => {
+      postComentarios: async (data, video_id) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -414,7 +405,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al registrar el comentario, problemas con el backend", error);
+          console.error(
+            "Ha habido un error al registrar el comentario, problemas con el backend",
+            error
+          );
         }
       },
 
@@ -439,8 +433,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener y agregar registros de actividad a clientes
-      postClientActivity: async (
-        activity, client_id
+      postClientActivy: async (
+        fecha,
+        tipoDeContacto,
+        comentario,
+        user_id,
+        client_id
       ) => {
         const store = getStore();
         const actions = getActions();
@@ -468,7 +466,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error("Ha habido un error al registrar la actividad del cliente, problemas con el backend", error);
+          console.error(
+            "Ha habido un error al registrar la actividad del cliente, problemas con el backend",
+            error
+          );
         }
       },
 

@@ -1,15 +1,14 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-import os
+from flask_jwt_extended import create_access_token, get_jwt_identity,jwt_required
+
 
 
 api = Blueprint('api', __name__)
@@ -61,16 +60,15 @@ def add_user():
             raise Exception("No ingresaste el email", 400)
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
-        if "role" not in new_user_data or new_user_data["role"] == "":
-            raise Exception("No ingresaste el role",400)
-        if new_user_data["role"] not in Role.__members__:
-            return {"error": f"No existe en los roles disponibles"},400
+        if  "role" in new_user_data:
+            if new_user_data["role"] not in Role.__members__:
+                return {"error": f"No existe en los roles disponibles"},400
         
         salt = b64encode(os.urandom(32)).decode('utf-8')
         new_user_data["password"] = set_password(new_user_data["password"], salt)
         new_user = User.create(**new_user_data, salt=salt)
-       
         return jsonify(new_user.serialize()), 201
+       
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
