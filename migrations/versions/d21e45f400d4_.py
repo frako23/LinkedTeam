@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: cda7ebfd75eb
+Revision ID: d21e45f400d4
 Revises: 
-Create Date: 2023-06-02 17:05:06.344752
+Create Date: 2023-05-29 13:21:59.824182
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cda7ebfd75eb'
+revision = 'd21e45f400d4'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,9 +25,7 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(length=120), nullable=False),
     sa.Column('salt', sa.String(length=80), nullable=False),
-    sa.Column('role', sa.Enum('admin', 'manager', 'associated', name='role'), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('role', sa.Enum('admin', 'manager', 'associated', name='role'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -69,8 +67,8 @@ def upgrade():
     sa.Column('tipo_de_contacto', sa.Enum('llamada', 'mensaje', 'cita', name='tipodecontacto'), nullable=False),
     sa.Column('comentario', sa.String(length=250), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('client_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['client_id'], ['cliente.id'], ),
+    sa.Column('cliente_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['cliente_id'], ['cliente.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -11,6 +11,7 @@ export const SignUp = () => {
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div
@@ -76,6 +77,7 @@ export const SignUp = () => {
                     password != ""
                   ) {
                     actions.setNotification("¡Te has registrado exitosamente!");
+                    navigate("/perfil")
                   }
                 }}
               >
