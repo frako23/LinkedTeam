@@ -23,6 +23,7 @@ export const Login = () => {
     if (store.token && store.token != "" && store.token != undefined) {
       console.log("entrando al use effect");
       navigate("/perfil");
+      actions.getUsuario();
     }
   }, [store.token]);
   return (

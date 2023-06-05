@@ -4,7 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: null,
       message: null,
       notification: undefined,
-      usuarios: [],
+      usuario: [],
       favoritos: [],
       clientes: [],
       tareas: [],
@@ -88,6 +88,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.error("There has been an error login in from the backend");
         }
+      },
+
+      getUsuario: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/user`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ usuario: body }))
+          .catch((error) => console.log(error));
       },
 
       postClientes: async ({
@@ -222,6 +242,21 @@ const getState = ({ getStore, getActions, setStore }) => {
     
         return edad;
     },
+
+    calcularDiasDeUso:(fecha) => {
+      let date = new Date(fecha);
+      let hoy = new Date();
+      let dias = 90 - (hoy.getDate() - date.getDate())
+      // let tiempoDeUso = new Date(fecha);
+      // let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
+      // let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
+  
+      // if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
+      //     edad--;
+      // }
+  
+      return dias;
+  },
 
       logout: () => {
         const store = getStore();

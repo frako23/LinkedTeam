@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/perfil.css";
 import { Navbar } from "../component/navbar";
+import { Context } from "../store/appContext";
 import { Box } from "../component/box";
 import { ToDoChart } from "../component/todo";
 import { FuelChart } from "../component/fuelChart";
@@ -11,7 +12,7 @@ import mujer from "../../img/mujer-portatil-pulgares-arriba-firman-camisa-blanca
 
 export const Perfil = () => {
   const navigate = useNavigate();
-  
+  const { store, actions } = useContext(Context);
 
   const redirection = () => {
     navigate("/video");
@@ -29,8 +30,13 @@ export const Perfil = () => {
               paddingLeft: "9rem",
               paddingRight: "6rem" 
               }}>
+          <span className="badge bg-info text-dark">{actions.calcularDiasDeUso(store.usuario.created_at)} dias de uso</span>
         <div className="main__title">
-          <p className="font-weight-bold text-white mt-4">Bienvenid@ a LinkedTeam</p>
+          <p className="font-weight-bold text-white mt-4">Bienvenid@ a LinkedTeam   
+                      <span style={{
+                            color:"rgb(167, 100, 255)",
+                            fontSize: "3rem"
+                            }}> {store.usuario.name}</span></p>
         </div>
         <div className="perfil-dashboard">
           <Box />

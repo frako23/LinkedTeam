@@ -47,6 +47,15 @@ def get_users():
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
+
+@api.route('/user', methods=['GET'])
+@jwt_required()
+def get_user():
+    id = get_jwt_identity()
+    print(id)
+    user = User.query.get(id)
+    print(user)
+    return jsonify(user.serialize()), 200
    
 @api.route('/user', methods=['POST'])
 def add_user():
@@ -298,10 +307,10 @@ def add_client_activity(client_id):
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # endpoints de usuarios
-@api.route('/user', methods=['GET'])
-@jwt_required()
-def get_user():
-    user_id = get_jwt_identity()
-    if request.method == 'GET':
-        user = User.query.filter_by(user_id=user_id)
-        return jsonify(user.serialize()), 200
+# @api.route('/user', methods=['GET'])
+# @jwt_required()
+# def get_user():
+#     user_id = get_jwt_identity()
+#     if request.method == 'GET':
+#         user = User.query.filter_by(user_id=user_id)
+#         return jsonify(user.serialize()), 200

@@ -12,7 +12,7 @@ export const First = () => {
           <img src={logo} className="img__landing__logo" />
           <span
               style={{
-                color:"rgb(167, 100, 255",
+                color:"rgb(167, 100, 255)",
                 fontSize: "3rem"
               }}
               >
