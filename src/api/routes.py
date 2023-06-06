@@ -19,6 +19,9 @@ def set_password(password, salt):
 def check_password(hash_password, password, salt):
     return check_password_hash(hash_password, f"{password}{salt}")
 
+def check_date(user_date):
+    pass
+
 # endpoint para registrar usuarios
 @api.route("/token", methods=["POST"])
 def login():
@@ -30,13 +33,16 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user is None:
             return jsonify({"msg":"credenciales invalidas"}), 401 
+        if user.status == "inactive":
+            return jsonify({"msg":"Usuario inactivo"}), 401
+        if not check_date(user.update_at):
+            return jsonify({"msg":"debes renovar tu suscripción"}), 401 
+        if check_password(user.password, password, user.salt):
+            access_token = create_access_token(identity=user.id)
+            return jsonify(access_token=access_token)
         else:
-            if check_password(user.password, password, user.salt):
-                access_token = create_access_token(identity=user.id)
-                return jsonify(access_token=access_token)
-            else:
-                return jsonify({"msg":"credenciales invalidas"}), 401 
-                
+            return jsonify({"msg":"credenciales invalidas"}), 401 
+            
 
 # endpoints de usuarios
 @api.route('/users', methods=['GET'])

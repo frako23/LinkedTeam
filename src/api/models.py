@@ -15,6 +15,10 @@ class TipoDeContacto(Enum):
     mensaje = "mensaje"
     cita = "cita"
 
+class Status(Enum):
+    active = "active"
+    inactive = "inactive"
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
@@ -25,6 +29,9 @@ class User(db.Model):
     role = db.Column(db.Enum(Role), default=Role.associated)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     updated_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now, onupdate=datetime.datetime.now)
+    agency_ybt = db.Column(db.String(50), unique=False, default = None)
+    own_agency = db.Column(db.String(50), unique=False, default = None)
+    status = db.Column(db.Enum(Status), default = Status.active)
 
 
     def __init__(self, **kwargs):
@@ -58,7 +65,10 @@ class User(db.Model):
             "lastname": self.lastname,
             "role": self.role.value,
             "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "updated_at": self.updated_at,
+            "agency_ybt": self.agency_ybt,
+            "own_agency": self.own_agency,
+            "status": self.status
             # do not serialize the password, its a security breach
         }
 
