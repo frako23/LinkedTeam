@@ -8,7 +8,7 @@ export const Fourth = () => {
       <div className="text-center d-flex justify-content-between">
         <img src={three} className="landing__img" />
         <div className="me-5 text-start px-5">
-          <span className="fs-1 fw-bolder me-5">
+          <span className="fs-1 fw-bolder me-5 span">
             Mantente conectad@ con las actividades de tu equipo de trabajo
           </span>
           <p className="fs-5 pt-3 fw-bolder text-white text-start">

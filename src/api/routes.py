@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses_Data
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -312,11 +312,35 @@ def add_client_activity(client_id):
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
-# endpoints de usuarios
-# @api.route('/user', methods=['GET'])
-# @jwt_required()
-# def get_user():
-#     user_id = get_jwt_identity()
-#     if request.method == 'GET':
-#         user = User.query.filter_by(user_id=user_id)
-#         return jsonify(user.serialize()), 200
+# RUTA PARA LA DATA DE LOS CURSOS
+
+@api.route('/courses_data', methods=['GET'])
+def post_get_courses_data():
+    if request.method == 'GET':
+        courses_data = Courses_Data.query.all()
+        courses_data_dictionary = []
+        for course_data in courses_data:
+            courses_data_dictionary.append(course_data.serialize())
+        return jsonify(courses_data_dictionary), 200
+    # new_cliente_data = request.json
+    # try:
+    #     if "nombre" not in new_cliente_data or new_cliente_data["nombre"] == "":
+    #         raise Exception("No ingresaste el nombre", 400)
+    #     if "fecha" in new_cliente_data["fecha"] == "":
+    #         raise Exception("No ingresaste la fecha", 400)
+    #     if "email" not in new_cliente_data or new_cliente_data["email"] == "":
+    #         raise Exception("No ingresaste el email", 400)
+    #     if "celular" not in new_cliente_data or new_cliente_data["celular"] == "":
+    #         raise Exception("No ingresaste el celular", 400)
+    #     if "monto" not in new_cliente_data or new_cliente_data["monto"] == "":
+    #         raise Exception("No ingresaste el monto", 400)
+    #     if "estatus" not in new_cliente_data or new_cliente_data["estatus"] == "":
+    #         raise Exception("No ingresaste el estatus", 400)
+    #     if "confianza" not in new_cliente_data or new_cliente_data["confianza"] == "":
+    #         raise Exception("No ingresaste el nivel de confianza", 400)
+    #     if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":
+    #         raise Exception("No ingresaste notas", 400)
+    #     new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
+    #     return jsonify(new_cliente.serialize()), 201
+    # except Exception as error:
+    #     return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

@@ -41,12 +41,12 @@ export const Dashboard = () => {
 console.log(store.client);
 
   return (
-    <div className="pagina">
+    <div style={{minHeight: "100vh"}}>
       {/* barra de menu */}
 
       <Navbar />
 
-      <div className="pagina ps-5">
+      <div className=" ps-5">
         <div className="kanban-head">
           <strong className="kanban-head-title mt-4">CRM</strong>
         </div>

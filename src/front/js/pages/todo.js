@@ -42,11 +42,7 @@ export function Todo() {
 
     return (
     
-        <div 
-                className="" 
-                style={{ 
-                    height: "100vh" 
-                        }}>
+        <>
             {/* barra de menu */}
             <Navbar />
             {/* pagina */}
@@ -266,7 +262,7 @@ export function Todo() {
                     </div>
                 </main>
             </DragDropContext>
-        </div>
+        </>
         
         )
         

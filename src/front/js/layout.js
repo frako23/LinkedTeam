@@ -13,6 +13,7 @@ import { Video } from "./pages/video";
 import { Login } from "./pages/login";
 import { Todo } from "./pages/todo";
 import { SignUp } from "./pages/signUp";
+import { Pricing } from "./pages/pricing";
 
 //create your first component
 const Layout = () => {
@@ -31,6 +32,7 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Courses />} path="/courses" />
+            <Route element={<Pricing />} path="/pricing" />
             <Route element={<Todo />} path="/todo"/>
             <Route element={<Perfil />} path="/perfil" />
             <Route element={<Video />} path="/video/:theid" />

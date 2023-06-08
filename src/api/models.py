@@ -264,3 +264,66 @@ class Client_Activity(db.Model):
             "user_id": self.user_id,
             "client_id": self.client_id
         }
+
+# TABLA PARA INFOMRACION DE VIDEOS
+
+class Courses_Data(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=False, nullable=False)
+    description = db.Column(db.String(500), unique=False, nullable=False)
+    img_url = db.Column(db.String(250), unique=False, nullable=False)
+    link_url = db.Column(db.String(250), unique=False, nullable=False)
+
+    def __init__(self, **kwargs):
+        self.title = kwargs['title']
+        self.description = kwargs['description']
+        self.img_url = kwargs['img_url']
+        self.link_url = kwargs['link_url']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_course_data = cls(**kwargs)
+        db.session.add(new_course_data)
+        try:
+            db.session.commit()
+            return new_course_data
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "img_url": self.img_url,
+            "link_url": self.link_url
+        }
+
+# TABLA PARA GUARDAR LAS AGENCIAS
+
+class Agencies(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), unique=False, nullable=False)
+    
+
+    def __init__(self, **kwargs):
+        self.nombre = kwargs['nombre']
+        
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_agency = cls(**kwargs)
+        db.session.add(new_agency)
+        try:
+            db.session.commit()
+            return new_agency
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre
+        }
