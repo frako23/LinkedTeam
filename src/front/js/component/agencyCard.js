@@ -3,10 +3,10 @@ import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
-import { coursesData } from "../data/coursesData";
+import { agenciesData } from "../data/agenciesData";
 
-export function CourseCard() {
-let fullData = coursesData;
+export function AgencyCard() {
+let fullData = agenciesData;
 
     return (
 
@@ -16,16 +16,15 @@ let fullData = coursesData;
                 return (
                         <article className="course" key={data.id}>
                             <div >
-                                <img className="course__image" src={data.imgUrl} />
+                                <img className="course__image2" src={data.logoUrl} />
                             </div>
                             <div className="course__info" >
-                                <h4>{data.title}</h4>
-                                <p>   
-                                {data.description}
-                                </p>
-                                <Link to={data.linkUrl} className="course__btn">
-                                    Ver curso
-                                </Link>
+                                <h4><strong>Agencia:</strong> {data.name}</h4>
+                                <h4> <strong>Gerente:</strong> {data.manager}</h4>
+
+                                <button href="#" className="course__btn">
+                                    Seleccionar
+                                </button>
                             </div>
                         </article>
             

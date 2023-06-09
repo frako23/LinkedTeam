@@ -157,7 +157,7 @@ table td {
   width: 100%;
   padding: 1rem;
   border-radius: 25px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .intro-square h5 {

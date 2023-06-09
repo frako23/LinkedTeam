@@ -52,6 +52,12 @@ body {
   height: 100%;
 }
 
+.course__image2 {
+  object-fit: cover;
+  width: auto;
+  height: 20rem;
+}
+
 .course__btn {
   display: inline-block;
   padding: 1rem 2rem;

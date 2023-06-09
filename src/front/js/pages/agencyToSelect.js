@@ -4,7 +4,7 @@ import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
-import { CourseCard } from "../component/courseCard";
+import { AgencyCard } from "../component/agencyCard";
 
 export const AgencyToSelect = () => {
   const { store, actions } = useContext(Context);
@@ -22,9 +22,9 @@ export const AgencyToSelect = () => {
           className="text-white text-center mt-4 kanban-head-title"
           style={{ paddingBottom: "3rem" }}
         >
-          Cursos disponibles
+          Selecciona la agencia a la que perteneces
         </h1>
-        <CourseCard />
+        <AgencyCard />
       
     </>
   );
