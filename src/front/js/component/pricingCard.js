@@ -8,8 +8,8 @@ export const PricingCard = () => {
             <div className="table-pricing-card basic">
                 <div 
                     className="head_tab fw-bold text-center"
-                    style={{fontWeight: "bold"}}>
-                    <h2>PLAN DE <br></br> ENTRADA</h2>
+                    >
+                    <h2 style={{fontWeight: "600"}}>PLAN DE <br></br> ENTRADA</h2>
                 </div>
                 <div className="price-section">
                     <div className="price-area">
@@ -67,8 +67,8 @@ export const PricingCard = () => {
             <div className="table-pricing-card premium">
             <div 
                     className="head_tab fw-bold text-center"
-                    style={{fontWeight: "bold"}}>
-                    <h2>PLAN <br></br> EJECUTIVO</h2>
+                    >
+                    <h2 style={{fontWeight: "600"}}>PLAN <br></br> EJECUTIVO</h2>
                 </div>
                 <div className="price-section">
                     <div className="price-area">
@@ -122,8 +122,8 @@ export const PricingCard = () => {
             <div className="table-pricing-card ultimate">
             <div 
                     className="head_tab fw-bold text-center"
-                    style={{fontWeight: "bold"}}>
-                    <h2>PLAN <br></br> GERENCIAL</h2>
+                    >
+                    <h2 style={{fontWeight: "600"}}>PLAN <br></br> GERENCIAL</h2>
                 </div>
                 <div className="price-section">
                     <div className="price-area">

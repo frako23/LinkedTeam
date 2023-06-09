@@ -25,7 +25,7 @@
 
 .wrapper-pricing-card .table-pricing-card {
     background-color: #fff;
-    width: calc(33% - 60px);
+    width: calc(33% - 55px);
     padding: 30px 30px;
     position: relative;
     box-shadow: 0 5px 10px rgba(0,0,0, 0.1);
