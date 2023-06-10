@@ -14,6 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
     actions: {
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
+        const store = getStore();
+        const actions = getActions();
         const opts = {
           method: "POST",
           headers: {
@@ -42,6 +44,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Hubo un error al hacer login in");
         }
       },
+
       syncTokenFromSessionStore: () => {
         const actions = getActions();
         const token = sessionStorage.getItem("token");
@@ -57,6 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       signup: async (name, lastname, email, password) => {
         const store = getStore();
+        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -84,8 +88,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           console.log("This came from the backend", data);
+          actions.setNotification(`Te registraste exitosamente ${data.name}`);
           return true;
-        } catch (error) {
+          } 
+        catch (error) {
           console.error("There has been an error login in from the backend");
         }
       },
@@ -109,6 +115,45 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((body) => setStore({ usuario: body }))
           .catch((error) => console.log(error));
       },
+
+      selectAgency: async ({ agency_ybt }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            agency_ybt: agency_ybt,
+          }),
+        };
+        console.log(agency_ybt);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/agency_ybt`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          
+          console.log("This came from the backend", data);
+          actions.setNotification(`Te registraste exitosamente a la agencia ${agency_ybt}`);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar es estatus del cliente desde el backend",
+            error
+          );
+        }
+      },
+
 
       postClientes: async ({
         nombre,
@@ -266,6 +311,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       setNotification: (mensaje) => {
+        console.log(mensaje);
+        alert(mensaje)
         setStore({ notification: mensaje });
         setTimeout(() => {
           setStore({ notification: undefined });

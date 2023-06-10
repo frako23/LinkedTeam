@@ -92,7 +92,7 @@ export const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                     <label className="form-label" htmlFor="form3Example3">
-                      Email address
+                      Coloca tu correo
                     </label>
                   </div>
 
@@ -107,7 +107,7 @@ export const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <label className="form-label" htmlFor="form3Example4">
-                      Password
+                      Coloca tu contraseña
                     </label>
                   </div>
 
@@ -133,7 +133,14 @@ export const Login = () => {
                   </div>
                   {/* <!-- Register buttons --> */}
                   <div className="text-center">
-                    <p>¿No estas inscito? escribe un correo para registrarte</p>
+                    <p>¿No estas inscito aún? 
+                      <Link to="/signup"
+                        style={{color: "rgb(167, 100, 255)",
+                                fontWeight: "bold",
+                                marginLeft: "1rem"}}>
+                        REGISTRATE
+                        </Link>
+                      </p>
                   </div>
 
                   {/* < />!-- Register buttons --> */}

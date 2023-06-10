@@ -20,16 +20,12 @@ export const First = () => {
               </span> 
         </div>
 
-        <Link to="/signup">
-          <button className="coolbtn" variant="primary">
+        <Link to="/signup" className="coolbtn">
             Regístrate
-          </button>
         </Link>
 
-        <Link to="/login">
-          <button className="coolbtn ms-5" variant="primary">
+        <Link to="/login" className="coolbtn ms-5">
             Ingresa
-          </button>
         </Link>
       </div>
       <div className="d-flex justify-content-between mt-5 ">

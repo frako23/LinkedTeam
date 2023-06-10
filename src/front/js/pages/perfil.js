@@ -30,8 +30,20 @@ export const Perfil = () => {
               paddingLeft: "9rem",
               paddingRight: "6rem" 
               }}>
-          <span className="badge bg-info text-dark">{actions.calcularDiasDeUso(store.usuario.created_at)} dias de uso</span>
+          <span className="badge bg-info text-dark">{actions.calcularDiasDeUso(store.usuario.created_at)} dias de uso gratuito</span>
         <div className="main__title">
+          {store.usuario.agency_ybt === null ?
+          
+          <Link 
+                to="/agencyToSelect" 
+                className="coolbtn"
+                style={{
+                  marginTop: "2.5rem",
+                  right: "5rem"
+              }}>
+              Regístrate en una agencia
+          </Link> : ""
+            }
           <p className="font-weight-bold text-white mt-4">Bienvenid@ a LinkedTeam   
                       <span style={{
                             color:"rgb(167, 100, 255)",

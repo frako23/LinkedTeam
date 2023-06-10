@@ -76,8 +76,8 @@ export const SignUp = () => {
                     email != "" &&
                     password != ""
                   ) {
-                    actions.setNotification("¡Te has registrado exitosamente!");
-                    navigate("/perfil")
+                    // actions.setNotification("¡Te has registrado exitosamente!");
+                    navigate("/")
                   }
                 }}
               >

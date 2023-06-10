@@ -35,7 +35,7 @@ export const Signup = () => {
       agency != ""
     ) {
       handleClose();
-      actions.setNotification("¡Te has registrado exitosamente!");
+      // actions.setNotification("¡Te has registrado exitosamente!");
     }
   };
   return (

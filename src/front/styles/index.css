@@ -63,6 +63,7 @@ body {
   left: -130px;
   background: radial-gradient(#44006b, #ad1fff);
   overflow: hidden;
+  z-index: -1;
 }
 
 #radius-shape-2 {
@@ -212,6 +213,7 @@ body {
   border: none;
   border-radius: 15px;
   overflow: hidden;
+  height: fit-content;
   position: relative;
   transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
 }

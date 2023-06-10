@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import jsonify
 from enum import Enum
 import datetime
+from datetime import date
 
 db = SQLAlchemy()
 
@@ -27,8 +28,8 @@ class User(db.Model):
     password = db.Column(db.String(120), unique=False, nullable=False)
     salt = db.Column(db.String(80), unique=False, nullable=False)
     role = db.Column(db.Enum(Role), default=Role.associated)
-    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
-    updated_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now, onupdate=datetime.datetime.now)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     agency_ybt = db.Column(db.String(50), unique=False, default = None)
     own_agency = db.Column(db.String(50), unique=False, default = None)
     status = db.Column(db.Enum(Status), default = Status.active)
@@ -68,7 +69,7 @@ class User(db.Model):
             "updated_at": self.updated_at,
             "agency_ybt": self.agency_ybt,
             "own_agency": self.own_agency,
-            "status": self.status
+            "status": self.status.value
             # do not serialize the password, its a security breach
         }
 

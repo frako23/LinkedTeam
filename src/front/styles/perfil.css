@@ -72,6 +72,8 @@
   font-size: var(--card-title);
   margin-bottom: 0px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .card__inner > span {

@@ -6,6 +6,8 @@ import { Navbar } from "../component/navbar";
 import { Nuevonegocio } from "../component/nuevoNegocio";
 import { Tarjetacliente } from "../component/tarjetaCliente";
 import { Kanban } from "../component/kanban";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
@@ -47,9 +49,37 @@ console.log(store.client);
       <Navbar />
 
       <div className=" ps-5">
-        <div className="kanban-head">
-          <strong className="kanban-head-title mt-4">CRM</strong>
-        </div>
+        <div className="d-flex justify-content-center">
+          { store.usuario.role === "manager" ?
+            ['Secondary'].map(
+            (variant) => (
+              <DropdownButton
+                // as={ButtonGroup}
+                key={variant}
+                id={`dropdown-variants-${variant}`}
+                variant={variant.toLowerCase()}
+                title="Asociados"              
+                style={{
+                  marginTop: "3rem",
+                  right: "34rem",
+                  position: "relative"
+              }}
+              >
+                <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+                <Dropdown.Item eventKey="3" active>
+                  Active Item
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+              </DropdownButton>
+            ),
+            ) : ""
+          }
+            <div className="kanban-head">
+              <strong className="kanban-head-title mt-4">CRM</strong>
+            </div>
+          </div>
         <div className="ms-2 d-flex position-relative mb-3 ">
           <Nuevonegocio />;
           <div className="position-absolute top-0 end-0 text-center">

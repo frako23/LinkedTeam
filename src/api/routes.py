@@ -8,7 +8,7 @@ from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 from flask_jwt_extended import create_access_token, get_jwt_identity,jwt_required
-
+from datetime import date
 
 
 api = Blueprint('api', __name__)
@@ -20,8 +20,10 @@ def check_password(hash_password, password, salt):
     return check_password_hash(hash_password, f"{password}{salt}")
 
 def check_date(user_date):
-    pass
-
+    today = date.today()
+    # if today - user_date > 90:
+    #     return False
+    return True
 # endpoint para registrar usuarios
 @api.route("/token", methods=["POST"])
 def login():
@@ -35,7 +37,7 @@ def login():
             return jsonify({"msg":"credenciales invalidas"}), 401 
         if user.status == "inactive":
             return jsonify({"msg":"Usuario inactivo"}), 401
-        if not check_date(user.update_at):
+        if not check_date(user.updated_at):
             return jsonify({"msg":"debes renovar tu suscripción"}), 401 
         if check_password(user.password, password, user.salt):
             access_token = create_access_token(identity=user.id)
@@ -58,9 +60,9 @@ def get_users():
 @jwt_required()
 def get_user():
     id = get_jwt_identity()
-    print(id)
+    # print(id)
     user = User.query.get(id)
-    print(user)
+    # print(user)
     return jsonify(user.serialize()), 200
    
 @api.route('/user', methods=['POST'])
@@ -86,6 +88,54 @@ def add_user():
        
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# método PUT para seleccionar la agencia a la que perteneces
+@api.route('/agency_ybt', methods=['PUT'])
+@jwt_required()
+def put_user_agency():
+    id = get_jwt_identity()
+    try:
+        user = User.query.get(id)
+        
+        user.agency_ybt = request.json['agency_ybt']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+# método PUT para que los gerentes coloquen su propia agencia
+@api.route('/own_agency', methods=['PUT'])
+@jwt_required()
+def put_user_own_agency():
+    id = get_jwt_identity()
+    try:
+        user = User.query.get(id)
+        
+        user.own_agency = request.json['own_agency']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+
+# método PUT para cambiar los roles de los usuarios
+@api.route('/user_role', methods=['PUT'])
+@jwt_required()
+def put_user_role():
+    id = get_jwt_identity()
+    try:
+        user = User.query.get(id)
+        
+        user.role = request.json['role']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # endpoints de clientes
 @api.route('/clientes', methods=['GET','POST'])
