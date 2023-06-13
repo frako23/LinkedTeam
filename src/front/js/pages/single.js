@@ -28,11 +28,11 @@ export const Single = props => {
     }
   }, [store.token]);
 
-  useEffect(() => {
-    if (store.token && store.token !== "" && store.token !== undefined) {
-      actions.getClientActivity(params.theid);
-    }
-  }, [store.token]);
+  // useEffect(() => {
+  //   if (store.token && store.token !== "" && store.token !== undefined) {
+  //     actions.getClientActivity(params.theid);
+  //   }
+  // }, [store.token]);
 
 
 	return (

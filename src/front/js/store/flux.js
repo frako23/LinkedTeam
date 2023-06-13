@@ -578,11 +578,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener y agregar registros de actividad a clientes
-      postClientActivy: async (
-        fecha,
-        tipoDeContacto,
-        comentario,
-        user_id,
+      postClientActivity: async (
+        activity,
         client_id
       ) => {
         const store = getStore();

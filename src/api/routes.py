@@ -363,6 +363,16 @@ def get_client_activity(client_id):
             [client_activity.serialize() for client_activity in client_activities]
         ),200
 
+# ruta para que los gerentes vean la actividad de clientes
+@api.route('/manager_client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
+def get_manager_client_activity(user_id, client_id):
+    client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
+
+    return jsonify(
+            [client_activity.serialize() for client_activity in client_activities]
+        ),200
+
+# ruta para que los usuarios carguen las actividades con los clientes
 @api.route('/client_activity/<int:client_id>', methods=['POST'])
 @jwt_required()
 def add_client_activity(client_id):
