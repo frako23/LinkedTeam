@@ -16,8 +16,7 @@ export const Courses = () => {
 
   return (
     <>
-      <Navbar />
-      
+        <Navbar />
         <h1
           className="text-white text-center mt-4 kanban-head-title"
           style={{ paddingBottom: "3rem" }}

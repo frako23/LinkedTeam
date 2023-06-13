@@ -56,6 +56,16 @@ def get_users():
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
 
+@api.route('/users_by_agency/<agency_ybt>', methods=['GET'])
+def get_users_by_agency(agency_ybt):
+    users = User.query.filter_by( agency_ybt = agency_ybt)
+    print(users)
+    users_dictionaries = []
+    for user in users:
+        users_dictionaries.append(user.serialize())
+    return jsonify(users_dictionaries), 200
+
+
 @api.route('/user', methods=['GET'])
 @jwt_required()
 def get_user():
@@ -170,6 +180,15 @@ def post_get_clientes():
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+@api.route('/user_clients/<int:id>', methods=['GET'])
+# @jwt_required()
+def get_user_clients(id):    
+    clientes = Cliente.query.filter_by(user_id = id)
+    clientes_dictionaries = []
+    for cliente in clientes:
+        clientes_dictionaries.append(cliente.serialize())
+    return jsonify(clientes_dictionaries), 200
 
 @api.route('/cliente/<int:id>', methods=['DELETE'])
 @jwt_required()

@@ -10,6 +10,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       tareas: [],
       comentarios: [],
       clientActivity: [],
+      totalUsuarios: [],
+      usersByAgency: [],
+      userClients: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -113,6 +116,66 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ usuario: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getTotalUsuarios: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/users`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ totalUsuarios: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getUsersByAgency: (agency_ybt) => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/users_by_agency/${agency_ybt}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ usersByAgency: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getUserClients: (id) => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/user_clients/${id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ userClients: body }))
           .catch((error) => console.log(error));
       },
 

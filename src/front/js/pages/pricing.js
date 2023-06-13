@@ -14,9 +14,8 @@ export const Pricing = () => {
   };
 
   return (
-    <div style={{minHeight: "100vh"}}>
+    <>
       <Navbar />
-      
         <h1
           className="text-white text-center mt-4 kanban-head-title"
           style={{ paddingBottom: "2rem" }}
@@ -25,6 +24,6 @@ export const Pricing = () => {
         </h1>
         <PricingCard />
       
-    </div>
+    </>
   );
 };

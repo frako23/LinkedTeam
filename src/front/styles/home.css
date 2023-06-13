@@ -104,3 +104,19 @@ body {
   -webkit-box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
   -moz-box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
 }
+
+
+input:required:invalid,
+input:focus:invalid {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Exclamation_Circle_Red.svg/120px-Exclamation_Circle_Red.svg.png);
+  background-position: right;
+  background-size: 1rem;
+  background-repeat: no-repeat;
+}
+input:required:valid {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/120px-Yes_Check_Circle.svg.png);
+  background-position: right;
+  background-size: 1rem;
+  background-repeat: no-repeat;
+  border: 2px solid rgb(25,135,84);
+}

@@ -43,7 +43,6 @@ export function Todo() {
     return (
     
         <>
-            {/* barra de menu */}
             <Navbar />
             {/* pagina */}
             <DragDropContext onDragEnd={onDragEnd}>

@@ -87,6 +87,8 @@ export const Login = () => {
                       type="email"
                       id="form2Example1"
                       value={email}
+                      required
+                      pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                       className="form-control"
                       placeholder="tucorreo@correo.com"
                       onChange={(e) => setEmail(e.target.value)}
@@ -102,6 +104,7 @@ export const Login = () => {
                       type="password"
                       id="form2Example2"
                       value={password}
+                      required
                       className="form-control"
                       placeholder="contraseña1234..."
                       onChange={(e) => setPassword(e.target.value)}

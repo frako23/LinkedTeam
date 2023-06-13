@@ -1,18 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 import { Nuevonegocio } from "../component/nuevoNegocio";
-import { Tarjetacliente } from "../component/tarjetaCliente";
-import { Kanban } from "../component/kanban";
+import { KanbanAsociado } from "../component/kanbanAsociado";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-export const Dashboard = () => {
+export const DashboardAsociado = () => {
   const { store, actions } = useContext(Context);
+  const [selected, setSelected] = useState("")
 
-  let notClosedArray = store.clientes.filter((index) => index.estatus != "Cerrado")
+  let notClosedArray = store.userClients.filter((index) => index.estatus != "Cerrado")
 
   console.log(notClosedArray);
 
@@ -23,7 +23,7 @@ export const Dashboard = () => {
 
   console.log(amountSum);
 
-  let closedArray = store.clientes.filter((index) => index.estatus == "Cerrado")
+  let closedArray = store.userClients.filter((index) => index.estatus == "Cerrado")
 
   console.log(closedArray);
 
@@ -35,44 +35,60 @@ export const Dashboard = () => {
   console.log(amountSumClosedSales);
 
   useEffect(() => {
-    if (store.token && store.token !== "" && store.token !== undefined) {
-      actions.getClientes();
-    }
-  }, [store.token]);
-
-  useEffect(() => {
     if (store.usuario.role === "manager") {
       actions.getUsersByAgency(store.usuario.own_agency);
     }
   }, []);
 
-console.log(store.client);
+console.log(store.usuario.own_agency);
 
   return (
     <>
       <Navbar />
       <div className=" ps-5">
         <div className="d-flex justify-content-center">
-          { store.usuario.role === "manager" ?
-              <Link 
-              to="/dashboardAsociado" 
-              className="coolbtn"
-              style={{
-                marginTop: "2.5rem",          
-                right: "34rem",
-                position: "relative",
-                marginRight: "-8rem"
-                }}>
-                Asociados
-              </Link>
-             : ""
-          }
+          
+           
+          
             <div className="kanban-head">
+        {['Secondary'].map(
+            (variant) => (
+              <DropdownButton
+                // as={ButtonGroup}
+                key={variant}
+                id={`dropdown-variants-${variant}`}
+                variant={variant.toLowerCase()}
+                title="Asociados"              
+                style={{
+                  marginTop: "3rem",
+                  right: "34rem",
+                  position: "relative",
+                  marginRight: "-8rem"
+              }}
+              >
+                {store.usersByAgency.map( asociado => 
+                <Dropdown.Item 
+                  eventKey="1" 
+                  key={asociado.id}
+                  onClick = {(e) => {
+                    actions.getUserClients(asociado.id);
+                    setSelected(asociado.name)}}
+                  >{asociado.name + " " + asociado.lastname}</Dropdown.Item>)}
+              </DropdownButton>
+            ))}
               <strong className="kanban-head-title mt-4">CRM</strong>
             </div>
           </div>
         <div className="ms-2 d-flex position-relative mb-3 ">
-          <Nuevonegocio />;
+          <span 
+            className="fw-bold"
+            style={{
+              marginLeft: "3rem",
+              color: "rgb(167, 100, 255)",
+              fontSize: "2rem"
+
+            }}>{selected}</span>
+            
           <div className="position-absolute top-0 end-0 text-center">
             <div
               className="btn-group pe-5"
@@ -120,7 +136,7 @@ console.log(store.client);
           </div>
         </div>
 
-        <Kanban />
+        <KanbanAsociado />
       </div>
     </>
   );

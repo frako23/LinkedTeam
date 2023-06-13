@@ -10,6 +10,7 @@ export function AgencyCard() {
     let fullData = agenciesData;
     const { store, actions } = useContext(Context);
     const [smShow, setSmShow] = useState(false);
+    const [modalData, setModalData] = useState({})
     const navigate = useNavigate();
 
         return (
@@ -26,45 +27,45 @@ export function AgencyCard() {
                                     <h4><strong>Agencia:</strong> {data.name}</h4>
                                     <h4> <strong>Gerente:</strong> {data.manager}</h4>
 
-                                    <button onClick={() => setSmShow(true)} className="course__btn">
+                                    <button onClick={() => {
+                                        setSmShow(true);
+                                        setModalData(data)}} className="course__btn">
                                         Seleccionar
                                     </button>
-                                    <Modal
-                                    size="sm"
-                                    show={smShow}
-                                    onHide={() => setSmShow(false)}
-                                    aria-labelledby="example-modal-sizes-title-sm"
-                                >
-                                    <Modal.Header closeButton>
-                                    <Modal.Title id="example-modal-sizes-title-sm">
-                                        ¿Deseas agregarte a la agencia <strong>{data.name}</strong> Gerente <strong>{data.manager}</strong>?
-                                    </Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <div className="d-flex justify-content-end">
-                                            <button 
-                                                className="btn btn-success"
-                                                onClick={() => {
-                                                    actions.selectAgency({agency_ybt: data.name});
-                                                    setSmShow(false);
-                                                    navigate("/perfil")}}
-                                                >Si
-                                            </button>
-                                            <button 
-                                                className="btn btn-danger ms-2"
-                                                onClick={() => setSmShow(false)}>
-                                                    No
-                                            </button>
-                                        </div>
-                                    </Modal.Body>
-                                    </Modal>
                                 </div>
                             </article>
-                
-                
-                )
-            })
-        }
+                                        )
+                                    })
+                                }
+                    <Modal
+                    size="sm"
+                    show={smShow}
+                    onHide={() => setSmShow(false)}
+                    aria-labelledby="example-modal-sizes-title-sm"
+                >
+                    <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        ¿Deseas agregarte a la agencia <strong>{modalData.name}</strong> Gerente <strong>{modalData.manager}</strong>?
+                    </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="d-flex justify-content-end">
+                            <button 
+                                className="btn btn-success"
+                                onClick={() => {
+                                    actions.selectAgency({agency_ybt: modalData.name});
+                                    setSmShow(false);
+                                    navigate("/perfil")}}
+                                >Si
+                            </button>
+                            <button 
+                                className="btn btn-danger ms-2"
+                                onClick={() => setSmShow(false)}>
+                                    No
+                            </button>
+                        </div>
+                    </Modal.Body>
+                    </Modal>
         </div>
             
         )

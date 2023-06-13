@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { Dashboard } from "./pages/dashboard";
+import { DashboardAsociado } from "./pages/dashboardAsociado";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
@@ -15,6 +16,7 @@ import { Todo } from "./pages/todo";
 import { SignUp } from "./pages/signUp";
 import { Pricing } from "./pages/pricing";
 import { AgencyToSelect } from "./pages/agencyToSelect";
+import { Navbar } from "./component/navbar";
 
 //create your first component
 const Layout = () => {
@@ -26,9 +28,11 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
+          
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Dashboard />} path="/dashboard" />
+            <Route element={<DashboardAsociado />} path="/dashboardAsociado" />
             <Route element={<SignUp />} path="/signup" />
             <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />

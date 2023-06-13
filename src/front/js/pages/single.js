@@ -36,10 +36,8 @@ export const Single = props => {
 
 
 	return (
-		<div className="pagina">
-		{/* barra de menu */}
-  
-			<Navbar />
+		<>
+      <Navbar />
 			<div className="card text-center single-view-card">
 			<div className="card-header">
 				<ul className="nav nav-tabs card-header-tabs">
@@ -233,7 +231,7 @@ export const Single = props => {
 					</span>
 				</Link>
 			</div>
-		</div>
+		</>
 		
 	);
 };

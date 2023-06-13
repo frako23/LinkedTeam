@@ -4,7 +4,9 @@
   box-sizing: border-box;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  
 }
+
 
 *::-webkit-scrollbar {
   display: none;
@@ -51,6 +53,7 @@ body {
       hsl(218, 41%, 19%) 80%,
       transparent 100%
     );
+    min-height: 100vh;
 
   font-family: "Montserrat", sans-serif;
   /* color: white; */
