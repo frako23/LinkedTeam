@@ -1,3 +1,4 @@
 1- arreglar lo de check_date
 2- crear endpoint para traerme los usuarios dependiendo de la agencia a la que pertenecen
 3- resolver el problema del boton seleccionar agencia
+4- porque algunos eventos debo colocar como parametro el evento y en otros no?

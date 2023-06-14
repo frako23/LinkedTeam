@@ -13,6 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       totalUsuarios: [],
       usersByAgency: [],
       userClients: [],
+      managerClientActivity: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -633,6 +634,28 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ clientActivity: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // obtener la actividad de cliente para manager
+      getManagerClientActivity: (user_id, client_id) => {
+        console.log(client_id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/manager_client_activity/${user_id}/${client_id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ managerClientActivity: body }))
           .catch((error) => console.log(error));
       },
     },

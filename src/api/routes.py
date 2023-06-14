@@ -190,6 +190,15 @@ def get_user_clients(id):
         clientes_dictionaries.append(cliente.serialize())
     return jsonify(clientes_dictionaries), 200
 
+# traer la data de los clientes para vista de gerentes
+@api.route('/manager_user_clients/<int:id>/<int:client_id>', methods=['GET'])
+def get_manager_user_clients(id, client_id):    
+    clientes = Cliente.query.filter_by(user_id = id, client_id = client_id)
+    clientes_dictionaries = []
+    for cliente in clientes:
+        clientes_dictionaries.append(cliente.serialize())
+    return jsonify(clientes_dictionaries), 200
+
 @api.route('/cliente/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_cliente(id):
@@ -352,7 +361,6 @@ def delete_tarea(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
 # rutas de actividades de clientes
-
 @api.route('/client_activity/<int:client_id>', methods=['GET'])
 @jwt_required()
 def get_client_activity(client_id):

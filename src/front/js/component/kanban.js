@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import "../../styles/dashboard.css";
 import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
-import { Tarjetacliente } from "./tarjetaCliente";
+import { TarjetaCliente } from "./tarjetaCliente";
 
 
 export const Kanban = () => {
@@ -67,7 +67,7 @@ export const Kanban = () => {
                           opacity: snapshot.isDragging ? "0.5" : "1",
                         }}
                       >
-                        <Tarjetacliente cliente={cliente}>
+                        <TarjetaCliente cliente={cliente}>
                           {cliente.nombre}
                           <br></br>
                           {actions.calcularEdad(cliente.fecha) + " años"}
@@ -75,7 +75,7 @@ export const Kanban = () => {
                           <br></br>
                           Confianza {cliente.confianza}
                           
-                        </Tarjetacliente>
+                        </TarjetaCliente>
                       </div>
                     )}
                   </Draggable>
@@ -114,14 +114,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente cliente={cliente}>
+                          <TarjetaCliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </Tarjetacliente>
+                          </TarjetaCliente>
                         </div>
                       )}
                     </Draggable>
@@ -159,14 +159,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente cliente={cliente}>
+                          <TarjetaCliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </Tarjetacliente>
+                          </TarjetaCliente>
                         </div>
                       )}
                     </Draggable>
@@ -206,14 +206,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente cliente={cliente}>
+                          <TarjetaCliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </Tarjetacliente>
+                          </TarjetaCliente>
                         </div>
                       )}
                     </Draggable>
@@ -249,14 +249,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <Tarjetacliente cliente={cliente}>
+                          <TarjetaCliente cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </Tarjetacliente>
+                          </TarjetaCliente>
                         </div>
                       )}
                     </Draggable>

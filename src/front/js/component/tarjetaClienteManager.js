@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import "../../styles/dashboard.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-export const TarjetaCliente = ({ children, cliente}) => {
+export const TarjetaClienteManager = ({ children, cliente}) => {
   const { store, actions } = useContext(Context);
 	const { theid } = useParams();
   console.log(cliente);
 
   return <div 
             className="tarea fw-bold">{children}
-            <Link to={`/single/${cliente?.id}`} 
+            <Link to={`/singleManager/${cliente?.id}`} 
               className="button-single mt-1">
             Detalle
             </Link>

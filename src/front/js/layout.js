@@ -6,6 +6,7 @@ import { DashboardAsociado } from "./pages/dashboardAsociado";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+import { SingleManager } from "./pages/singleManager";
 import injectContext from "./store/appContext";
 import { Courses } from "./pages/courses";
 import { Footer } from "./component/footer";
@@ -43,6 +44,7 @@ const Layout = () => {
             <Route element={<Perfil />} path="/perfil" />
             <Route element={<Video />} path="/video/:theid" />
             <Route element={<Single />} path="/single/:theid" />
+            <Route element={<SingleManager />} path="/singleManager/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

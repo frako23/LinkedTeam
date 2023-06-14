@@ -9,7 +9,10 @@ export const First = () => {
     <div className="container mb-5">
       <div className="d-flex">
         <div className="text-start fs-1 fw-bolder text-white me-auto">
-          <img src={logo} className="img__landing__logo" />
+          <img 
+            src={logo} 
+            className="img__landing__logo" 
+            loading="lazy"/>
           <span
               style={{
                 color:"rgb(167, 100, 255)",

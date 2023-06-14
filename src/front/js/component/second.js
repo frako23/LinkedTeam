@@ -6,7 +6,10 @@ export const Second = () => {
   return (
     <div className="container mb-5 mt-5 pt-5">
       <div className="text-center d-flex justify-content-between">
-        <img src={two} className="landing__img" />
+        <img 
+          src={two} 
+          className="landing__img" 
+          loading="lazy"/>
         <div className="me-5 text-start px-5">
           <span className="font2 fw-bolder me-5 mb-3 span">
             Forma a tu equipo de trabajo
