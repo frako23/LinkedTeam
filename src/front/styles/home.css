@@ -97,14 +97,10 @@ body {
 }
 
 .img__landing__logo {
-  width: 15%;
+  width: 10%;
   border-radius: 15px;
   margin-right: 1rem;
-  box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
-  -webkit-box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
-  -moz-box-shadow: 13px 13px 7px -3px rgba(8, 7, 7, 0.5);
 }
-
 
 input:required:invalid,
 input:focus:invalid {
@@ -118,5 +114,5 @@ input:required:valid {
   background-position: right;
   background-size: 1rem;
   background-repeat: no-repeat;
-  border: 2px solid rgb(25,135,84);
+  border: 2px solid rgb(25, 135, 84);
 }
