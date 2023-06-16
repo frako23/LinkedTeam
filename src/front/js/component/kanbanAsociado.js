@@ -5,7 +5,6 @@ import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
 import { TarjetaClienteManager } from "./tarjetaClienteManager";
 
-
 export const KanbanAsociado = () => {
   const { store, actions } = useContext(Context);
   let { theid } = useParams();
@@ -23,23 +22,20 @@ export const KanbanAsociado = () => {
       const newList = [...store.clientes];
       // console.log(newList);
       newList[sourceColIndex].estatus = destination.droppableId;
-      theid = newList[sourceColIndex].id
+      theid = newList[sourceColIndex].id;
       // console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
       actions.updateClientStatus(newList);
       // console.log(store.clientes);
       actions.putCliente({
-        estatus:newList[sourceColIndex].estatus, 
-        cliente_id:theid});
+        estatus: newList[sourceColIndex].estatus,
+        cliente_id: theid,
+      });
     }
   };
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div 
-          className="kanban-table"
-          style={{
-            
-          }}>
+        <div className="kanban-table" style={{}}>
           {/* columnas */}
           <Droppable droppableId="Prospecto">
             {(droppableProvided) => (
@@ -49,41 +45,49 @@ export const KanbanAsociado = () => {
                 ref={droppableProvided.innerRef}
               >
                 <strong className="kanban-title text-primary">
-                  PROSPECTOS
+                  PROSPECTOS{" "}
+                  <span
+                    style={{ background: "rgb(50,110,253)" }}
+                    className="badge"
+                  >
+                    {
+                      store.userClients.filter(
+                        (cliente) => cliente.estatus === "Prospecto"
+                      ).length
+                    }
+                  </span>
                 </strong>
-                
 
                 {store.userClients
                   .filter((cliente) => cliente.estatus === "Prospecto")
-                    .map((cliente, index) => (
-                  <Draggable
-                    key={cliente.id}
-                    draggableId={String(cliente.id)}
-                    index={index}
-                  >
-                    {(draggableProvided, snapshot) => (
-                      <div
-                        ref={draggableProvided.innerRef}
-                        {...draggableProvided.draggableProps}
-                        {...draggableProvided.dragHandleProps}
-                        style={{
-                          ...draggableProvided.draggableProps.style,
-                          opacity: snapshot.isDragging ? "0.5" : "1",
-                        }}
-                      >
-                        <TarjetaClienteManager cliente={cliente}>
-                          {cliente.nombre}
-                          <br></br>
-                          {actions.calcularEdad(cliente.fecha) + " años"}
-                          <br></br>${cliente.monto}
-                          <br></br>
-                          Confianza {cliente.confianza}
-                          
-                        </TarjetaClienteManager>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                  .map((cliente, index) => (
+                    <Draggable
+                      key={cliente.id}
+                      draggableId={String(cliente.id)}
+                      index={index}
+                    >
+                      {(draggableProvided, snapshot) => (
+                        <div
+                          ref={draggableProvided.innerRef}
+                          {...draggableProvided.draggableProps}
+                          {...draggableProvided.dragHandleProps}
+                          style={{
+                            ...draggableProvided.draggableProps.style,
+                            opacity: snapshot.isDragging ? "0.5" : "1",
+                          }}
+                        >
+                          <TarjetaClienteManager cliente={cliente}>
+                            {cliente.nombre}
+                            <br></br>
+                            {actions.calcularEdad(cliente.fecha) + " años"}
+                            <br></br>${cliente.monto}
+                            <br></br>
+                            Confianza {cliente.confianza}
+                          </TarjetaClienteManager>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
                 {droppableProvided.placeholder}
               </div>
             )}
@@ -97,7 +101,17 @@ export const KanbanAsociado = () => {
                 ref={droppableProvided.innerRef}
               >
                 <strong className="kanban-title text-primary">
-                  CONTACTADOS
+                  CONTACTADOS{" "}
+                  <span
+                    style={{ background: "rgb(50,110,253)" }}
+                    className="badge"
+                  >
+                    {
+                      store.userClients.filter(
+                        (cliente) => cliente.estatus === "Contactado"
+                      ).length
+                    }
+                  </span>
                 </strong>
 
                 {store.userClients
@@ -142,7 +156,17 @@ export const KanbanAsociado = () => {
                 ref={droppableProvided.innerRef}
               >
                 <strong className="kanban-title text-primary">
-                  PRIMERA CITA
+                  PRIMERA CITA{" "}
+                  <span
+                    style={{ background: "rgb(50,110,253)" }}
+                    className="badge"
+                  >
+                    {
+                      store.userClients.filter(
+                        (cliente) => cliente.estatus === "Primera Cita"
+                      ).length
+                    }
+                  </span>
                 </strong>
 
                 {store.userClients
@@ -187,13 +211,21 @@ export const KanbanAsociado = () => {
                 ref={droppableProvided.innerRef}
               >
                 <strong className="kanban-title text-primary">
-                  NEGOCIACIÓN
+                  NEGOCIACIÓN{" "}
+                  <span
+                    style={{ background: "rgb(50,110,253)" }}
+                    className="badge"
+                  >
+                    {
+                      store.userClients.filter(
+                        (cliente) => cliente.estatus === "Negociación"
+                      ).length
+                    }
+                  </span>
                 </strong>
 
                 {store.userClients
-                  .filter(
-                    (cliente) => cliente.estatus === "Negociación"
-                  )
+                  .filter((cliente) => cliente.estatus === "Negociación")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -233,7 +265,19 @@ export const KanbanAsociado = () => {
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">CIERRES</strong>
+                <strong className="kanban-title text-primary">
+                  CIERRES{" "}
+                  <span
+                    style={{ background: "rgb(50,110,253)" }}
+                    className="badge"
+                  >
+                    {
+                      store.userClients.filter(
+                        (cliente) => cliente.estatus === "Cerrado"
+                      ).length
+                    }
+                  </span>{" "}
+                </strong>
 
                 {store.userClients
                   .filter((cliente) => cliente.estatus === "Cerrado")

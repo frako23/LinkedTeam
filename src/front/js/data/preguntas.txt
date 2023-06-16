@@ -3,4 +3,3 @@
 5- arreglar el boton responder al hacer click en uno en particular
 6- solucionar el tema de publicar y atrapar la respuesta segun sea el caso
 7- solucionar tema del endpoint de courses_data
-8- ajustar las tablas
