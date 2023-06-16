@@ -104,6 +104,7 @@ export const Comentarios = () => {
                 </div>
                 <button
                   className={responder ? "d-none" : "btn btn-warning"}
+                  style={{ alignSelf: "end" }}
                   onClick={(e) => setResponder(true)}
                 >
                   <i className="fa-solid fa-reply"></i> Responder
