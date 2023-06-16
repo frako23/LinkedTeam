@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       clientes: [],
       tareas: [],
       comentarios: [],
+      respuestas: [],
       clientActivity: [],
       totalUsuarios: [],
       usersByAgency: [],
@@ -94,8 +95,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           actions.setNotification(`Te registraste exitosamente ${data.name}`);
           return true;
-          } 
-        catch (error) {
+        } catch (error) {
           console.error("There has been an error login in from the backend");
         }
       },
@@ -206,9 +206,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          
+
           console.log("This came from the backend", data);
-          actions.setNotification(`Te registraste exitosamente a la agencia ${agency_ybt}`);
+          actions.setNotification(
+            `Te registraste exitosamente a la agencia ${agency_ybt}`
+          );
           return true;
         } catch (error) {
           console.error(
@@ -217,7 +219,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           );
         }
       },
-
 
       postClientes: async ({
         nombre,
@@ -339,33 +340,33 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ clientes: newList });
       },
 
-        calcularEdad:(fecha) => {
+      calcularEdad: (fecha) => {
         let hoy = new Date();
         let fechaDeNacimiento = new Date(fecha);
         let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
         let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
-    
-        if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
-            edad--;
-        }
-    
-        return edad;
-    },
 
-    calcularDiasDeUso:(fecha) => {
-      let date = new Date(fecha);
-      let hoy = new Date();
-      let dias = 90 - (hoy.getDate() - date.getDate())
-      // let tiempoDeUso = new Date(fecha);
-      // let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
-      // let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
-  
-      // if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
-      //     edad--;
-      // }
-  
-      return dias;
-  },
+        if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
+          edad--;
+        }
+
+        return edad;
+      },
+
+      calcularDiasDeUso: (fecha) => {
+        let date = new Date(fecha);
+        let hoy = new Date();
+        let dias = 90 - (hoy.getDate() - date.getDate());
+        // let tiempoDeUso = new Date(fecha);
+        // let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
+        // let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
+
+        // if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
+        //     edad--;
+        // }
+
+        return dias;
+      },
 
       logout: () => {
         const store = getStore();
@@ -376,7 +377,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       setNotification: (mensaje) => {
         console.log(mensaje);
-        alert(mensaje)
+        alert(mensaje);
         setStore({ notification: mensaje });
         setTimeout(() => {
           setStore({ notification: undefined });
@@ -522,6 +523,65 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // obtener y agregar respuestas a comentarios
+      postRespuestas: async (data, comment_id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(data),
+        };
+        console.log(data);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/responses/${comment_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getRespuestas(comment_id);
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al registrar la respuesta, problemas con el backend",
+            error
+          );
+        }
+      },
+
+      getRespuestas: (id) => {
+        console.log(id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/responses/${id}`;
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => {
+            setStore({ respuestas: body });
+            console.log(body);
+          })
+          .catch((error) => console.log(error));
+      },
+
       // obtener y agregar comentarios
       postComentarios: async (data, video_id) => {
         const store = getStore();
@@ -579,10 +639,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener y agregar registros de actividad a clientes
-      postClientActivity: async (
-        activity,
-        client_id
-      ) => {
+      postClientActivity: async (activity, client_id) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -591,7 +648,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(activity)
+          body: JSON.stringify(activity),
         };
         try {
           const response = await fetch(

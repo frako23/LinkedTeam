@@ -254,7 +254,7 @@ def add_comment(video_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
-@api.route('/comment/<int:id>', methods=['DELETE'])
+@api.route('/comments/<int:id>', methods=['DELETE'])
 def delete_comment(id):
     comment = Comment.query.get(id)
 
@@ -277,7 +277,7 @@ def get_responses(comment_id):
             [response.serialize() for response in responses]
         ),200
 
-@api.route('/response/<int:comment_id>', methods=['POST'])
+@api.route('/responses/<int:comment_id>', methods=['POST'])
 @jwt_required()
 def add_response(comment_id):
     user_id = get_jwt_identity()
@@ -401,33 +401,27 @@ def add_client_activity(client_id):
 
 # RUTA PARA LA DATA DE LOS CURSOS
 
-@api.route('/courses_data', methods=['GET'])
-def post_get_courses_data():
+@api.route('/courses_data/<int:agency_id>', methods=['GET','POST'])
+def post_get_courses_data(agency_id):
     if request.method == 'GET':
-        courses_data = Courses_Data.query.all()
+        courses_data = Courses_Data.query.filter_by(agency_id = agency_id)
         courses_data_dictionary = []
         for course_data in courses_data:
             courses_data_dictionary.append(course_data.serialize())
         return jsonify(courses_data_dictionary), 200
-    # new_cliente_data = request.json
-    # try:
-    #     if "nombre" not in new_cliente_data or new_cliente_data["nombre"] == "":
-    #         raise Exception("No ingresaste el nombre", 400)
-    #     if "fecha" in new_cliente_data["fecha"] == "":
-    #         raise Exception("No ingresaste la fecha", 400)
-    #     if "email" not in new_cliente_data or new_cliente_data["email"] == "":
-    #         raise Exception("No ingresaste el email", 400)
-    #     if "celular" not in new_cliente_data or new_cliente_data["celular"] == "":
-    #         raise Exception("No ingresaste el celular", 400)
-    #     if "monto" not in new_cliente_data or new_cliente_data["monto"] == "":
-    #         raise Exception("No ingresaste el monto", 400)
-    #     if "estatus" not in new_cliente_data or new_cliente_data["estatus"] == "":
-    #         raise Exception("No ingresaste el estatus", 400)
-    #     if "confianza" not in new_cliente_data or new_cliente_data["confianza"] == "":
-    #         raise Exception("No ingresaste el nivel de confianza", 400)
-    #     if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":
-    #         raise Exception("No ingresaste notas", 400)
-    #     new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
-    #     return jsonify(new_cliente.serialize()), 201
-    # except Exception as error:
-    #     return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+    new_course_data = request.json
+    try:
+        if "title" not in new_course_data or new_course_data["title"] == "":
+            raise Exception("No ingresaste el titulo", 400)
+        if "description" not in new_course_data or new_course_data["description"] == "":
+            raise Exception("No ingresaste la descripcion", 400)
+        if "img_url" not in new_course_data or new_course_data["img_url"] == "":
+            raise Exception("No ingresaste el img_url", 400)
+        if "link_url" not in new_course_data or new_course_data["link_url"] == "":
+            raise Exception("No ingresaste el link_url", 400)
+        if "agency_id" not in new_course_data or new_course_data["agency_id"] == "":
+            raise Exception("No ingresaste el agency_id", 400)
+        new_course = Courses_Data.create(**new_course_data, agency_id = agency_id)
+        return jsonify(new_course.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
