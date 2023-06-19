@@ -141,13 +141,13 @@ table td {
 }
 
 .table-color-closed {
-  background-color: #367952;
-  color: white;
+  background-color: var(--cierres);
+  color: white !important;
 }
 
 .table-color-not-closed {
-  background-color: #f5b74f;
-  color: black;
+  background-color: var(--prospectos);
+  color: white !important;
 }
 
 .intro-square {

@@ -34,10 +34,19 @@ export const Nuevonegocio = () => {
         aria-hidden="true"
       >
         <form
-        className="needs-validation"
+          className="needs-validation"
           onSubmit={(e) => {
             e.preventDefault();
-            if (nombre != "" && fecha != "" && email != "" && celular != "" && monto != "" && estatus != "" && confianza  != "" && notas != "") {
+            if (
+              nombre != "" &&
+              fecha != "" &&
+              email != "" &&
+              celular != "" &&
+              monto != "" &&
+              estatus != "" &&
+              confianza != "" &&
+              notas != ""
+            ) {
               actions.postClientes({
                 nombre: nombre,
                 fecha: fecha,
@@ -58,9 +67,9 @@ export const Nuevonegocio = () => {
               setNotas("");
               console.log("entro aqui");
             } else {
-              alert("Debes llenar todos los campos")
-            }}
-          }
+              alert("Debes llenar todos los campos");
+            }
+          }}
         >
           <div className="modal-dialog">
             <div className="modal-content">
@@ -85,7 +94,8 @@ export const Nuevonegocio = () => {
                     className="input-text"
                     placeholder="Pedro Pérez"
                     onChange={(e) => {
-                      setNombre(e.target.value)}}
+                      setNombre(e.target.value);
+                    }}
                     value={nombre}
                   />
 
@@ -134,7 +144,7 @@ export const Nuevonegocio = () => {
                     onChange={(e) => setMonto(Number(e.target.value))}
                   />
 
-                  <label for="cars">
+                  <label htmlFor="cars">
                     <strong>Estatus:</strong>
                   </label>
                   <select
@@ -152,7 +162,7 @@ export const Nuevonegocio = () => {
                     <option value="Cerrado">Cerrado</option>
                   </select>
 
-                  <label for="cars">
+                  <label htmlFor="cars">
                     <strong>Nivel de confianza:</strong>
                   </label>
                   <select
