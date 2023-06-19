@@ -115,6 +115,20 @@ def put_user_agency():
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
+# método PUT para resetear la agencia de un usuario seleccionado
+@api.route('/agency_ybt/<int:user_id>', methods=['PUT'])
+def reset_user_agency(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        user.agency_ybt = request.json['agency_ybt']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+
 # método PUT para que los gerentes coloquen su propia agencia
 @api.route('/own_agency', methods=['PUT'])
 @jwt_required()
@@ -132,12 +146,10 @@ def put_user_own_agency():
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # método PUT para cambiar los roles de los usuarios
-@api.route('/user_role', methods=['PUT'])
-@jwt_required()
-def put_user_role():
-    id = get_jwt_identity()
+@api.route('/user_role/<int:user_id>', methods=['PUT'])
+def put_user_role(user_id):
     try:
-        user = User.query.get(id)
+        user = User.query.get(user_id)
         
         user.role = request.json['role']
 

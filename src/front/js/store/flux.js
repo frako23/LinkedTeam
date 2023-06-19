@@ -220,6 +220,125 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      selectRole: async ({ role, user_id }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            role: role,
+          }),
+        };
+        console.log(role);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/user_role/${user_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(`Cambiaste el role a ${role}`);
+          actions.getTotalUsuarios();
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar el rol del usuario desde el backend",
+            error
+          );
+        }
+      },
+
+      resetAgency: async ({ agency_ybt, user_id }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            agency_ybt: agency_ybt,
+          }),
+        };
+        console.log(agency_ybt);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/agency_ybt/${user_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(`Reseteaste la el cambio agency_ybt`);
+          actions.getTotalUsuarios();
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar el rol del usuario desde el backend",
+            error
+          );
+        }
+      },
+
+      actvieUser: async ({ status, user_id }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            role: role,
+          }),
+        };
+        console.log(role);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/user_role/${user_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(
+            `Cambiaste el estatus del usuario a ${status}`
+          );
+          actions.getTotalUsuarios();
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar el rol del usuario desde el backend",
+            error
+          );
+        }
+      },
+
       postClientes: async ({
         nombre,
         fecha,

@@ -274,14 +274,14 @@ class Courses_Data(db.Model):
     description = db.Column(db.String(500), unique=False, nullable=False)
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
-    agency_id = db.column(db.Integer, db.ForeignKey('agency.id'))
+    agencies_id = db.column(db.Integer, db.ForeignKey('agencies.id'))
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
         self.description = kwargs['description']
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
-        self.agency_id = kwargs['agency_id']
+        self.agencies_id = kwargs['agencies_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -301,7 +301,7 @@ class Courses_Data(db.Model):
             "description": self.description,
             "img_url": self.img_url,
             "link_url": self.link_url,
-            "agency_id": self.agency_id
+            "agencies_id": self.agencies_id
         }
 
 # TABLA PARA GUARDAR LAS AGENCIAS
