@@ -22,6 +22,11 @@ export const Nuevonegocio = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("este es el evento");
+  };
+
   return (
     <>
       <Button variant="primary" onClick={handleShow} className="ms-5">
@@ -33,46 +38,7 @@ export const Nuevonegocio = () => {
           <Modal.Title>Datos del cliente</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form
-            onSubmit={(e) => {
-              console.log("Debes llenar todos los campos");
-              e.preventDefault();
-              if (
-                nombre != "" &&
-                fecha != "" &&
-                email != "" &&
-                celular != "" &&
-                monto != "" &&
-                estatus != "" &&
-                confianza != "" &&
-                notas != ""
-              ) {
-                actions.postClientes({
-                  nombre: nombre,
-                  fecha: fecha,
-                  email: email,
-                  celular: celular,
-                  monto: monto,
-                  estatus: estatus,
-                  confianza: confianza,
-                  notas: notas,
-                });
-                setNombre("");
-                setFecha("");
-                setEmail("");
-                setCelular("");
-                setMonto("");
-                setConfianza("");
-                setEstatus("");
-                setNotas("");
-                console.log("entro aqui");
-                handleClose;
-              } else {
-                alert("Debes llenar todos los campos");
-                console.log("Debes llenar todos los campos");
-              }
-            }}
-          >
+          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Nombre y Apellido</Form.Label>
               <Form.Control
@@ -197,7 +163,7 @@ export const Nuevonegocio = () => {
           </Button>
           <Button
             variant="primary"
-            // onClick={() => alert("entró acá")}
+            onClick={() => alert("entró acá")}
             type="submit"
           >
             Guardar
