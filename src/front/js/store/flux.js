@@ -487,6 +487,13 @@ const getState = ({ getStore, getActions, setStore }) => {
         return dias;
       },
 
+      calcularUso: (fecha) => {
+        let date = new Date(fecha);
+        let hoy = new Date();
+        let dias = hoy.getDate() - date.getDate();
+        return dias;
+      },
+
       logout: () => {
         const store = getStore();
         sessionStorage.removeItem("token");
@@ -652,9 +659,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(content),
+          body: JSON.stringify({ content: content }),
         };
-        console.log(content);
+        console.log(content, comment_id);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/responses/${comment_id}`,

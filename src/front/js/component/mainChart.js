@@ -24,6 +24,7 @@ export const MainChart = () => {
           <tr>
             <th className="text-center">ID</th>
             <th className="text-center">Creacion</th>
+            <th className="text-center">Días</th>
             <th className="text-center">Nombre</th>
             <th className="text-center">Agencia</th>
             <th className="text-center">Rol</th>
@@ -37,14 +38,17 @@ export const MainChart = () => {
           {store.totalUsuarios.map((usuario) => {
             return (
               <tr key={usuario.id}>
-                <td scope="row">{usuario.id}</td>
-                <td scope="row">{usuario.created_at}</td>
-                <td className="fw-bolder">
+                <td scope="row text-center">{usuario.id}</td>
+                <td scope="row text-center">{usuario.created_at}</td>
+                <td scope="row text-center">
+                  {actions.calcularUso(usuario.created_at)}
+                </td>
+                <td className="fw-bolder text-center">
                   {usuario.name + " " + usuario.lastname}
                 </td>
-                <td className="fw-bolder">{usuario.agency_ybt}</td>
-                <td className="fw-bolder">{usuario.role}</td>
-                <td className="fw-bolder">{usuario.status}</td>
+                <td className="fw-bolder text-center">{usuario.agency_ybt}</td>
+                <td className="fw-bolder text-center">{usuario.role}</td>
+                <td className="fw-bolder text-center">{usuario.status}</td>
                 <td className="fw-bolde">
                   <button
                     className="btn btn-primary"

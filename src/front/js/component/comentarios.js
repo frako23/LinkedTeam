@@ -11,39 +11,11 @@ export const Comentarios = () => {
   const { store, actions } = useContext(Context);
   const { theid } = useParams();
   console.log(theid);
-  // async function getcomentarios() {
-  //   try {
-  //     const resp = await fetch(`https://jsonplaceholder.typicode.com/comentarios`);
-
-  //     if (!resp.ok) {
-  //       let danger = await resp.json();
-  //       alert(danger);
-  //       return;
-  //     }
-
-  //     const data = await resp.json();
-  //     setComentarios(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
   useEffect(() => {
     console.log(theid);
     actions.getComentarios(theid);
   }, []);
-
-  useEffect(() => {
-    console.log(theid);
-    actions.getRespuestas(1);
-  }, []);
-  // useEffect(() => {
-  //   for (let index = 0; index < store.comentarios.length; index++) {
-  //     const element = store.comentarios[index];
-  //     console.log(element.id);
-  //     actions.getRespuestas(element.id);
-  //   }
-  // }, [store.comentarios]);
 
   return (
     <>
@@ -90,11 +62,8 @@ export const Comentarios = () => {
                 flexDirection: "column",
               }}
             >
-              <div className="comentario-content">
+              <div className="comentario-content mb-3 mt-3">
                 <div className="comment">
-                  <div className="img-user">
-                    <img className="profile-img" src={rigoImageUrl} />
-                  </div>
                   <div className="comentario">
                     <p>
                       <strong>{comentario.name}</strong>
@@ -102,43 +71,51 @@ export const Comentarios = () => {
                     <p>{comentario.content}</p>
                   </div>
                 </div>
+                <div className="input-group mb-3 mt-3">
+                  <input
+                    type="text"
+                    id={comentario.id}
+                    className="form-control"
+                    placeholder="Responde este comentario"
+                    aria-label={comentario.id}
+                    aria-describedby={comentario.id}
+                    onChange={(e) => setRespuesta(e.target.value)}
+                    value={respuesta}
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-secondary"
+                      type="button"
+                      onClick={() => {
+                        actions.postRespuestas(respuesta, comentario.id);
+                        setRespuesta("");
+                      }}
+                    >
+                      <i className="fa-solid fa-reply"></i> Responder
+                    </button>
+                  </div>
+                </div>
                 <button
                   className={responder ? "d-none" : "btn btn-warning"}
                   style={{ alignSelf: "end" }}
-                  onClick={(e) => setResponder(true)}
+                  onClick={(e) => {
+                    setResponder(true);
+                    actions.getRespuestas(comentario.id);
+                  }}
                 >
-                  <i className="fa-solid fa-reply"></i> Responder
+                  <i className="fa-solid fa-reply"></i> Ver respuestas
                 </button>
-                {responder && (
-                  <div className="input-group mb-3 mt-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Responde este comentario"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
-                      onChange={(e) => setRespuesta(e.target.value)}
-                      value={respuesta}
-                    />
-                    <div className="input-group-append">
-                      <button className="btn btn-secondary" type="button">
-                        <i className="fa-solid fa-reply"></i> Responder
-                      </button>
-                    </div>
+              </div>
+              {store.respuestas.map((resp) => (
+                <div className="response-content" key={resp.id}>
+                  <div className="comentario">
+                    <p>
+                      <strong>{resp.name}</strong>
+                    </p>
+                    <p>{resp.content}</p>
                   </div>
-                )}
-              </div>
-              <div className="response-content">
-                <div className="img-user">
-                  <img className="profile-img" src={rigoImageUrl} />
                 </div>
-                <div className="comentario">
-                  <p>
-                    <strong>{comentario.name}</strong>
-                  </p>
-                  <p>{comentario.content}</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         );
