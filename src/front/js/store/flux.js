@@ -298,7 +298,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      actvieUser: async ({ status, user_id }) => {
+      activateUser: async ({ status, user_id }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -308,13 +308,13 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
-            role: role,
+            status: status,
           }),
         };
-        console.log(role);
+        console.log(status);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/user_role/${user_id}`,
+            `${process.env.BACKEND_URL}/user_status/${user_id}`,
             options
           );
 
@@ -333,7 +333,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return true;
         } catch (error) {
           console.error(
-            "Ha habido un error al cambiar el rol del usuario desde el backend",
+            "Ha habido un error al cambiar el status del usuario desde el backend",
             error
           );
         }
@@ -643,7 +643,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener y agregar respuestas a comentarios
-      postRespuestas: async (data, comment_id) => {
+      postRespuestas: async (content, comment_id) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -652,9 +652,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(content),
         };
-        console.log(data);
+        console.log(content);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/responses/${comment_id}`,

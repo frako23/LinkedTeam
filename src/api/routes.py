@@ -159,6 +159,20 @@ def put_user_role(user_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
+# método PUT para cambiar status de los usuarios
+@api.route('/user_status/<int:user_id>', methods=['PUT'])
+def put_user_status(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        user.status = request.json['status']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+
 # endpoints de clientes
 @api.route('/clientes', methods=['GET','POST'])
 @jwt_required()

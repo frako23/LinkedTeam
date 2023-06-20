@@ -22,15 +22,15 @@ export const MainChart = () => {
       <table className="table table-dark table-bordered mb-0">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Creacion</th>
-            <th>Nombre</th>
-            <th>Agencia</th>
-            <th>Rol</th>
-            <th>Estatus</th>
-            <th>Asignar rol</th>
-            <th>Activacion</th>
-            <th>Resetear Agencia</th>
+            <th className="text-center">ID</th>
+            <th className="text-center">Creacion</th>
+            <th className="text-center">Nombre</th>
+            <th className="text-center">Agencia</th>
+            <th className="text-center">Rol</th>
+            <th className="text-center">Estatus</th>
+            <th className="text-center">Asignar rol</th>
+            <th className="text-center">Activación</th>
+            <th className="text-center">Resetear Agencia</th>
           </tr>
         </thead>
         <tbody>
@@ -60,13 +60,24 @@ export const MainChart = () => {
                 </td>
                 <td className="fw-bolde">
                   <button
-                    className="btn btn-success"
-                    // onClick={(e) =>
-                    //   actions.selectRole({
-                    //     agency_ybt: null,
-                    //     user_id: usuario.id,
-                    //   })
-                    // }
+                    className="btn btn-danger"
+                    onClick={(e) =>
+                      actions.activateUser({
+                        status: "inactive",
+                        user_id: usuario.id,
+                      })
+                    }
+                  >
+                    Inactivar
+                  </button>
+                  <button
+                    className="btn btn-success ms-4"
+                    onClick={(e) =>
+                      actions.activateUser({
+                        status: "active",
+                        user_id: usuario.id,
+                      })
+                    }
                   >
                     Activar
                   </button>
