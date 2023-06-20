@@ -1,37 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-import "../../styles/home.css";
-import "../../styles/index.css";
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Context } from '../store/appContext'
+import { Link } from 'react-router-dom'
+import '../../styles/home.css'
+import '../../styles/index.css'
 
 export const SignUp = () => {
-  const { store, actions } = useContext(Context);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const navigate = useNavigate();
+  const { store, actions } = useContext(Context)
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const navigate = useNavigate()
 
   return (
-    <div
-      className="container px-4 py-5 px-md-5 text-center text-lg-start my-2"
-    >
+    <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-2">
       <div className="row gx-lg-5 align-items-center mb-5">
         <div
           className="col-lg-6 mb-5 mb-lg-0"
           style={{
-            zIndex: "10",
+            zIndex: '10'
           }}
         >
           <h1
             className="my-5 display-5 fw-bold ls-tight"
-            style={{ color: "hsl(218, 81%, 95%)" }}
+            style={{ color: 'hsl(218, 81%, 95%)' }}
           >
             <span
               style={{
-                color: "rgb(167, 100, 255",
+                color: 'rgb(167, 100, 255'
               }}
             >
               LinkedTeam
@@ -39,13 +37,13 @@ export const SignUp = () => {
             <br />
             La mejor herramienta
             <br />
-            <span style={{ color: "hsl(218, 81%, 75%)" }}>
+            <span style={{ color: 'hsl(218, 81%, 75%)' }}>
               para hacer crecer tu negocio
             </span>
           </h1>
           <p
             className="mb-4 opacity-70"
-            style={{ color: "hsl(218, 81%, 85%)" }}
+            style={{ color: 'hsl(218, 81%, 85%)' }}
           >
             Con LinkedTeam podrás no solo controlar tu gestión personal de
             ventas sino también formarte y si tienes equipo podrás formarlos y
@@ -69,21 +67,21 @@ export const SignUp = () => {
               <form
                 className="needs-validation"
                 onSubmit={(e) => {
-                  e.preventDefault();
-                  actions.signup(name, lastname, email, password);
+                  e.preventDefault()
+                  actions.signup(name, lastname, email, password)
                   if (
-                    name != "" &&
-                    lastname != "" &&
-                    email != "" &&
-                    password != ""
+                    name != '' &&
+                    lastname != '' &&
+                    email != '' &&
+                    password != ''
                   ) {
                     // actions.setNotification("¡Te has registrado exitosamente!");
-                    navigate("/")
+                    navigate('/')
                   }
                 }}
               >
                 {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
-                <div className="row" style={{ margin: "0px" }}>
+                <div className="row" style={{ margin: '0px' }}>
                   <div className="col-md-6 mb-2">
                     <div className="form-outline">
                       <input
@@ -98,7 +96,7 @@ export const SignUp = () => {
                       <label
                         className="form-label"
                         htmlFor="validationCustom01"
-                        style={{ paddingLeft: "3rem" }}
+                        style={{ paddingLeft: '3rem' }}
                       >
                         Nombre
                       </label>
@@ -115,16 +113,14 @@ export const SignUp = () => {
                         value={lastname}
                         onChange={(e) => setLastname(e.target.value)}
                       />
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
+                      <div class="valid-feedback">Looks good!</div>
                       <div class="invalid-feedback">
-                      Please choose a username.
+                        Please choose a username.
                       </div>
                       <label
                         className="form-label"
                         htmlFor="form3Example2"
-                        style={{ paddingLeft: "3rem" }}
+                        style={{ paddingLeft: '3rem' }}
                       >
                         Apellido
                       </label>
@@ -173,13 +169,16 @@ export const SignUp = () => {
                     className="form-control"
                     placeholder="Aquí tu contraseña"
                     value={confirmPassword}
-                    onChange={(e) =>  
-                                { setConfirmPassword(e.target.value);
-                                  if (password !== confirmPassword) {
-                                  e.target.setCustomValidity("La contraseña y la confirmación de contraseña no coinciden"); 
-                                } else {
-                                  e.target.setCustomValidity("");
-                                }}}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value)
+                      if (password !== confirmPassword) {
+                        e.target.setCustomValidity(
+                          'La contraseña y la confirmación de contraseña no coinciden'
+                        )
+                      } else {
+                        e.target.setCustomValidity('')
+                      }
+                    }}
                   />
                   <label className="form-label" htmlFor="form3Example4">
                     Confirma tú contraseña
@@ -197,7 +196,7 @@ export const SignUp = () => {
                 <button
                   type="submit"
                   className="btn btn-primary btn-block mb-4"
-                  style={{ width: "-webkit-fill-available" }}
+                  style={{ width: '-webkit-fill-available' }}
                 >
                   !Regístrate Ya!
                 </button>
@@ -236,5 +235,5 @@ export const SignUp = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
