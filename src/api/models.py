@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import jsonify
 from enum import Enum
 import datetime
+from datetime import date
 
 db = SQLAlchemy()
 
@@ -15,6 +16,10 @@ class TipoDeContacto(Enum):
     mensaje = "mensaje"
     cita = "cita"
 
+class Status(Enum):
+    active = "active"
+    inactive = "inactive"
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
@@ -23,8 +28,11 @@ class User(db.Model):
     password = db.Column(db.String(120), unique=False, nullable=False)
     salt = db.Column(db.String(80), unique=False, nullable=False)
     role = db.Column(db.Enum(Role), default=Role.associated)
-    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
-    updated_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now, onupdate=datetime.datetime.now)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    agency_ybt = db.Column(db.String(50), unique=False, default = None)
+    own_agency = db.Column(db.String(50), unique=False, default = None)
+    status = db.Column(db.Enum(Status), default = Status.active)
 
 
     def __init__(self, **kwargs):
@@ -56,7 +64,12 @@ class User(db.Model):
             "email": self.email,
             "name": self.name,
             "lastname": self.lastname,
-            "role": self.role.value
+            "role": self.role.value,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "agency_ybt": self.agency_ybt,
+            "own_agency": self.own_agency,
+            "status": self.status.value
             # do not serialize the password, its a security breach
         }
 
@@ -251,4 +264,70 @@ class Client_Activity(db.Model):
             "comentario": self.comentario,
             "user_id": self.user_id,
             "client_id": self.client_id
+        }
+
+# TABLA PARA INFOMRACION DE VIDEOS
+
+class Courses_Data(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=False, nullable=False)
+    description = db.Column(db.String(500), unique=False, nullable=False)
+    img_url = db.Column(db.String(250), unique=False, nullable=False)
+    link_url = db.Column(db.String(250), unique=False, nullable=False)
+    agencies_id = db.column(db.Integer, db.ForeignKey('agencies.id'))
+
+    def __init__(self, **kwargs):
+        self.title = kwargs['title']
+        self.description = kwargs['description']
+        self.img_url = kwargs['img_url']
+        self.link_url = kwargs['link_url']
+        self.agencies_id = kwargs['agencies_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_course_data = cls(**kwargs)
+        db.session.add(new_course_data)
+        try:
+            db.session.commit()
+            return new_course_data
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "img_url": self.img_url,
+            "link_url": self.link_url,
+            "agencies_id": self.agencies_id
+        }
+
+# TABLA PARA GUARDAR LAS AGENCIAS
+
+class Agencies(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), unique=False, nullable=False)
+    
+
+    def __init__(self, **kwargs):
+        self.nombre = kwargs['nombre']
+        
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_agency = cls(**kwargs)
+        db.session.add(new_agency)
+        try:
+            db.session.commit()
+            return new_agency
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre
         }

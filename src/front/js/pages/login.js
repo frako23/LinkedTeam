@@ -23,6 +23,7 @@ export const Login = () => {
     if (store.token && store.token != "" && store.token != undefined) {
       console.log("entrando al use effect");
       navigate("/perfil");
+      actions.getUsuario();
     }
   }, [store.token]);
   return (
@@ -86,12 +87,14 @@ export const Login = () => {
                       type="email"
                       id="form2Example1"
                       value={email}
+                      required
+                      pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                       className="form-control"
                       placeholder="tucorreo@correo.com"
                       onChange={(e) => setEmail(e.target.value)}
                     />
                     <label className="form-label" htmlFor="form3Example3">
-                      Email address
+                      Coloca tu correo
                     </label>
                   </div>
 
@@ -101,12 +104,13 @@ export const Login = () => {
                       type="password"
                       id="form2Example2"
                       value={password}
+                      required
                       className="form-control"
                       placeholder="contraseña1234..."
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <label className="form-label" htmlFor="form3Example4">
-                      Password
+                      Coloca tu contraseña
                     </label>
                   </div>
 
@@ -132,7 +136,14 @@ export const Login = () => {
                   </div>
                   {/* <!-- Register buttons --> */}
                   <div className="text-center">
-                    <p>¿No estas inscito? escribe un correo para registrarte</p>
+                    <p>¿No estas inscito aún? 
+                      <Link to="/signup"
+                        style={{color: "rgb(167, 100, 255)",
+                                fontWeight: "bold",
+                                marginLeft: "1rem"}}>
+                        REGISTRATE
+                        </Link>
+                      </p>
                   </div>
 
                   {/* < />!-- Register buttons --> */}

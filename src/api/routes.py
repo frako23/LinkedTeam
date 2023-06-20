@@ -3,12 +3,12 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses_Data
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 from flask_jwt_extended import create_access_token, get_jwt_identity,jwt_required
-
+from datetime import date
 
 
 api = Blueprint('api', __name__)
@@ -19,6 +19,11 @@ def set_password(password, salt):
 def check_password(hash_password, password, salt):
     return check_password_hash(hash_password, f"{password}{salt}")
 
+def check_date(user_date):
+    today = date.today()
+    # if today - user_date > 90:
+    #     return False
+    return True
 # endpoint para registrar usuarios
 @api.route("/token", methods=["POST"])
 def login():
@@ -30,13 +35,16 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user is None:
             return jsonify({"msg":"credenciales invalidas"}), 401 
+        if user.status == "inactive":
+            return jsonify({"msg":"Usuario inactivo"}), 401
+        if not check_date(user.updated_at):
+            return jsonify({"msg":"debes renovar tu suscripción"}), 401 
+        if check_password(user.password, password, user.salt):
+            access_token = create_access_token(identity=user.id)
+            return jsonify(access_token=access_token)
         else:
-            if check_password(user.password, password, user.salt):
-                access_token = create_access_token(identity=user.id)
-                return jsonify(access_token=access_token)
-            else:
-                return jsonify({"msg":"credenciales invalidas"}), 401 
-                
+            return jsonify({"msg":"credenciales invalidas"}), 401 
+            
 
 # endpoints de usuarios
 @api.route('/users', methods=['GET'])
@@ -47,6 +55,25 @@ def get_users():
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
+
+@api.route('/users_by_agency/<agency_ybt>', methods=['GET'])
+def get_users_by_agency(agency_ybt):
+    users = User.query.filter_by( agency_ybt = agency_ybt)
+    print(users)
+    users_dictionaries = []
+    for user in users:
+        users_dictionaries.append(user.serialize())
+    return jsonify(users_dictionaries), 200
+
+
+@api.route('/user', methods=['GET'])
+@jwt_required()
+def get_user():
+    id = get_jwt_identity()
+    # print(id)
+    user = User.query.get(id)
+    # print(user)
+    return jsonify(user.serialize()), 200
    
 @api.route('/user', methods=['POST'])
 def add_user():
@@ -71,6 +98,80 @@ def add_user():
        
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# método PUT para seleccionar la agencia a la que perteneces
+@api.route('/agency_ybt', methods=['PUT'])
+@jwt_required()
+def put_user_agency():
+    id = get_jwt_identity()
+    try:
+        user = User.query.get(id)
+        
+        user.agency_ybt = request.json['agency_ybt']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+# método PUT para resetear la agencia de un usuario seleccionado
+@api.route('/agency_ybt/<int:user_id>', methods=['PUT'])
+def reset_user_agency(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        user.agency_ybt = request.json['agency_ybt']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+
+# método PUT para que los gerentes coloquen su propia agencia
+@api.route('/own_agency', methods=['PUT'])
+@jwt_required()
+def put_user_own_agency():
+    id = get_jwt_identity()
+    try:
+        user = User.query.get(id)
+        
+        user.own_agency = request.json['own_agency']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+
+# método PUT para cambiar los roles de los usuarios
+@api.route('/user_role/<int:user_id>', methods=['PUT'])
+def put_user_role(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        user.role = request.json['role']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+
+# método PUT para cambiar status de los usuarios
+@api.route('/user_status/<int:user_id>', methods=['PUT'])
+def put_user_status(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        user.status = request.json['status']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # endpoints de clientes
 @api.route('/clientes', methods=['GET','POST'])
@@ -105,6 +206,24 @@ def post_get_clientes():
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+@api.route('/user_clients/<int:id>', methods=['GET'])
+# @jwt_required()
+def get_user_clients(id):    
+    clientes = Cliente.query.filter_by(user_id = id)
+    clientes_dictionaries = []
+    for cliente in clientes:
+        clientes_dictionaries.append(cliente.serialize())
+    return jsonify(clientes_dictionaries), 200
+
+# traer la data de los clientes para vista de gerentes
+@api.route('/manager_user_clients/<int:id>/<int:client_id>', methods=['GET'])
+def get_manager_user_clients(id, client_id):    
+    clientes = Cliente.query.filter_by(user_id = id, client_id = client_id)
+    clientes_dictionaries = []
+    for cliente in clientes:
+        clientes_dictionaries.append(cliente.serialize())
+    return jsonify(clientes_dictionaries), 200
 
 @api.route('/cliente/<int:id>', methods=['DELETE'])
 @jwt_required()
@@ -161,7 +280,7 @@ def add_comment(video_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
-@api.route('/comment/<int:id>', methods=['DELETE'])
+@api.route('/comments/<int:id>', methods=['DELETE'])
 def delete_comment(id):
     comment = Comment.query.get(id)
 
@@ -184,7 +303,7 @@ def get_responses(comment_id):
             [response.serialize() for response in responses]
         ),200
 
-@api.route('/response/<int:comment_id>', methods=['POST'])
+@api.route('/responses/<int:comment_id>', methods=['POST'])
 @jwt_required()
 def add_response(comment_id):
     user_id = get_jwt_identity()
@@ -268,17 +387,26 @@ def delete_tarea(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
 # rutas de actividades de clientes
-
 @api.route('/client_activity/<int:client_id>', methods=['GET'])
 @jwt_required()
 def get_client_activity(client_id):
     user_id = get_jwt_identity()
     client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
-    print(client_activities)
+
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
         ),200
 
+# ruta para que los gerentes vean la actividad de clientes
+@api.route('/manager_client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
+def get_manager_client_activity(user_id, client_id):
+    client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
+
+    return jsonify(
+            [client_activity.serialize() for client_activity in client_activities]
+        ),200
+
+# ruta para que los usuarios carguen las actividades con los clientes
 @api.route('/client_activity/<int:client_id>', methods=['POST'])
 @jwt_required()
 def add_client_activity(client_id):
@@ -297,11 +425,29 @@ def add_client_activity(client_id):
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
-# endpoints de usuarios
-@api.route('/user', methods=['GET'])
-@jwt_required()
-def get_user():
-    user_id = get_jwt_identity()
+# RUTA PARA LA DATA DE LOS CURSOS
+
+@api.route('/courses_data/<int:agency_id>', methods=['GET','POST'])
+def post_get_courses_data(agency_id):
     if request.method == 'GET':
-        user = User.query.filter_by(user_id=user_id)
-        return jsonify(user.serialize()), 200
+        courses_data = Courses_Data.query.filter_by(agency_id = agency_id)
+        courses_data_dictionary = []
+        for course_data in courses_data:
+            courses_data_dictionary.append(course_data.serialize())
+        return jsonify(courses_data_dictionary), 200
+    new_course_data = request.json
+    try:
+        if "title" not in new_course_data or new_course_data["title"] == "":
+            raise Exception("No ingresaste el titulo", 400)
+        if "description" not in new_course_data or new_course_data["description"] == "":
+            raise Exception("No ingresaste la descripcion", 400)
+        if "img_url" not in new_course_data or new_course_data["img_url"] == "":
+            raise Exception("No ingresaste el img_url", 400)
+        if "link_url" not in new_course_data or new_course_data["link_url"] == "":
+            raise Exception("No ingresaste el link_url", 400)
+        if "agency_id" not in new_course_data or new_course_data["agency_id"] == "":
+            raise Exception("No ingresaste el agency_id", 400)
+        new_course = Courses_Data.create(**new_course_data, agency_id = agency_id)
+        return jsonify(new_course.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

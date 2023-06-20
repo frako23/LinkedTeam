@@ -4,16 +4,23 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: null,
       message: null,
       notification: undefined,
-      usuarios: [],
+      usuario: [],
       favoritos: [],
       clientes: [],
       tareas: [],
       comentarios: [],
+      respuestas: [],
       clientActivity: [],
+      totalUsuarios: [],
+      usersByAgency: [],
+      userClients: [],
+      managerClientActivity: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
+        const store = getStore();
+        const actions = getActions();
         const opts = {
           method: "POST",
           headers: {
@@ -42,6 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Hubo un error al hacer login in");
         }
       },
+
       syncTokenFromSessionStore: () => {
         const actions = getActions();
         const token = sessionStorage.getItem("token");
@@ -57,6 +65,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       signup: async (name, lastname, email, password) => {
         const store = getStore();
+        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -84,9 +93,249 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           console.log("This came from the backend", data);
+          actions.setNotification(`Te registraste exitosamente ${data.name}`);
           return true;
         } catch (error) {
           console.error("There has been an error login in from the backend");
+        }
+      },
+
+      getUsuario: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/user`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ usuario: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getTotalUsuarios: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/users`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ totalUsuarios: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getUsersByAgency: (agency_ybt) => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/users_by_agency/${agency_ybt}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ usersByAgency: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getUserClients: (id) => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/user_clients/${id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ userClients: body }))
+          .catch((error) => console.log(error));
+      },
+
+      selectAgency: async ({ agency_ybt }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            agency_ybt: agency_ybt,
+          }),
+        };
+        console.log(agency_ybt);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/agency_ybt`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(
+            `Te registraste exitosamente a la agencia ${agency_ybt}`
+          );
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar es estatus del cliente desde el backend",
+            error
+          );
+        }
+      },
+
+      selectRole: async ({ role, user_id }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            role: role,
+          }),
+        };
+        console.log(role);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/user_role/${user_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(`Cambiaste el role a ${role}`);
+          actions.getTotalUsuarios();
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar el rol del usuario desde el backend",
+            error
+          );
+        }
+      },
+
+      resetAgency: async ({ agency_ybt, user_id }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            agency_ybt: agency_ybt,
+          }),
+        };
+        console.log(agency_ybt);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/agency_ybt/${user_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(`Reseteaste la el cambio agency_ybt`);
+          actions.getTotalUsuarios();
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar el rol del usuario desde el backend",
+            error
+          );
+        }
+      },
+
+      activateUser: async ({ status, user_id }) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            status: status,
+          }),
+        };
+        console.log(status);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/user_status/${user_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+
+          console.log("This came from the backend", data);
+          actions.setNotification(
+            `Cambiaste el estatus del usuario a ${status}`
+          );
+          actions.getTotalUsuarios();
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar el status del usuario desde el backend",
+            error
+          );
         }
       },
 
@@ -210,6 +459,34 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ clientes: newList });
       },
 
+      calcularEdad: (fecha) => {
+        let hoy = new Date();
+        let fechaDeNacimiento = new Date(fecha);
+        let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
+        let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
+
+        if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
+          edad--;
+        }
+
+        return edad;
+      },
+
+      calcularDiasDeUso: (fecha) => {
+        let date = new Date(fecha);
+        let hoy = new Date();
+        let dias = 90 - (hoy.getDate() - date.getDate());
+        // let tiempoDeUso = new Date(fecha);
+        // let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
+        // let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
+
+        // if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
+        //     edad--;
+        // }
+
+        return dias;
+      },
+
       logout: () => {
         const store = getStore();
         sessionStorage.removeItem("token");
@@ -218,6 +495,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       setNotification: (mensaje) => {
+        console.log(mensaje);
+        alert(mensaje);
         setStore({ notification: mensaje });
         setTimeout(() => {
           setStore({ notification: undefined });
@@ -230,61 +509,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ notification: undefined });
         }, 10000);
       },
-
-      toggleFavorite: (item) => {
-        const store = getStore();
-        const actions = getActions();
-        if (actions.isFavorite(item)) {
-          const newfavoritos = store.favoritos.filter((fav) => {
-            return fav !== item;
-          });
-          setStore({
-            favoritos: newfavoritos,
-          });
-        } else {
-          setStore({
-            favoritos: [...store.favoritos, item],
-          });
-        }
-      },
-      isFavorite: (name) => {
-        const store = getStore();
-        return store.favoritos.find((favoritos) => {
-          return favoritos == name;
-        });
-      },
-
-      exampleFunction: () => {
-        getActions().changeColor(0, "green");
-      },
-
-      getMessage: async () => {
-        try {
-          // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/hello");
-          const data = await resp.json();
-          setStore({ message: data.message });
-          // don't forget to return something, that is how the async resolves
-          return data;
-        } catch (error) {
-          console.log("Error loading message from backend", error);
-        }
-      },
-      changeColor: (index, color) => {
-        //get the store
-        const store = getStore();
-
-        //we have to loop the entire demo array to look for the respective index
-        //and change its color
-        const demo = store.demo.map((elm, i) => {
-          if (i === index) elm.background = color;
-          return elm;
-        });
-
-        //reset the global store
-        setStore({ demo: demo });
-      },
-
       // obtener y agregar tareas
       postTareas: async ({ tarea, estatus }) => {
         const store = getStore();
@@ -418,6 +642,65 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // obtener y agregar respuestas a comentarios
+      postRespuestas: async (content, comment_id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(content),
+        };
+        console.log(content);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/responses/${comment_id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getRespuestas(comment_id);
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al registrar la respuesta, problemas con el backend",
+            error
+          );
+        }
+      },
+
+      getRespuestas: (id) => {
+        console.log(id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/responses/${id}`;
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => {
+            setStore({ respuestas: body });
+            console.log(body);
+          })
+          .catch((error) => console.log(error));
+      },
+
       // obtener y agregar comentarios
       postComentarios: async (data, video_id) => {
         const store = getStore();
@@ -463,7 +746,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         const apiURL = `${process.env.BACKEND_URL}/comments/${id}`;
-
         fetch(apiURL, opts)
           .then((response) => {
             if (response.ok) {
@@ -476,13 +758,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener y agregar registros de actividad a clientes
-      postClientActivy: async (
-        fecha,
-        tipoDeContacto,
-        comentario,
-        user_id,
-        client_id
-      ) => {
+      postClientActivity: async (activity, client_id) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -491,12 +767,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(activity),
         };
-        console.log(data);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/client_activity/${user_id}/${client_id}`,
+            `${process.env.BACKEND_URL}/client_activity/${client_id}`,
             options
           );
 
@@ -506,7 +781,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          actions.getClientActivy(user_id, client_id);
+          actions.getClientActivity(client_id);
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
@@ -517,15 +792,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      getClientActivity: (user_id, client_id) => {
-        console.log(user_id, client_id);
+      getClientActivity: (client_id) => {
+        console.log(client_id);
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/client_activity/${user_id}/${client_id}`;
+        const apiURL = `${process.env.BACKEND_URL}/client_activity/${client_id}`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -535,6 +810,28 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ clientActivity: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // obtener la actividad de cliente para manager
+      getManagerClientActivity: (user_id, client_id) => {
+        console.log(client_id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/manager_client_activity/${user_id}/${client_id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ managerClientActivity: body }))
           .catch((error) => console.log(error));
       },
     },

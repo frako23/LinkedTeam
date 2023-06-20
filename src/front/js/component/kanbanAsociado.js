@@ -3,9 +3,9 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import "../../styles/dashboard.css";
 import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
-import { TarjetaCliente } from "./tarjetaCliente";
+import { TarjetaClienteManager } from "./tarjetaClienteManager";
 
-export const Kanban = () => {
+export const KanbanAsociado = () => {
   const { store, actions } = useContext(Context);
   let { theid } = useParams();
 
@@ -35,7 +35,7 @@ export const Kanban = () => {
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="kanban-table">
+        <div className="kanban-table" style={{}}>
           {/* columnas */}
           <Droppable droppableId="Prospecto">
             {(droppableProvided) => (
@@ -51,14 +51,14 @@ export const Kanban = () => {
                     className="badge"
                   >
                     {
-                      store.clientes.filter(
+                      store.userClients.filter(
                         (cliente) => cliente.estatus === "Prospecto"
                       ).length
                     }
                   </span>
                 </strong>
 
-                {store.clientes
+                {store.userClients
                   .filter((cliente) => cliente.estatus === "Prospecto")
                   .map((cliente, index) => (
                     <Draggable
@@ -76,14 +76,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <TarjetaCliente cliente={cliente}>
+                          <TarjetaClienteManager cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </TarjetaCliente>
+                          </TarjetaClienteManager>
                         </div>
                       )}
                     </Draggable>
@@ -107,14 +107,14 @@ export const Kanban = () => {
                     className="badge"
                   >
                     {
-                      store.clientes.filter(
+                      store.userClients.filter(
                         (cliente) => cliente.estatus === "Contactado"
                       ).length
                     }
                   </span>
                 </strong>
 
-                {store.clientes
+                {store.userClients
                   .filter((cliente) => cliente.estatus === "Contactado")
                   .map((cliente, index) => (
                     <Draggable
@@ -132,14 +132,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <TarjetaCliente cliente={cliente}>
+                          <TarjetaClienteManager cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </TarjetaCliente>
+                          </TarjetaClienteManager>
                         </div>
                       )}
                     </Draggable>
@@ -162,14 +162,14 @@ export const Kanban = () => {
                     className="badge"
                   >
                     {
-                      store.clientes.filter(
+                      store.userClients.filter(
                         (cliente) => cliente.estatus === "Primera Cita"
                       ).length
                     }
                   </span>
                 </strong>
 
-                {store.clientes
+                {store.userClients
                   .filter((cliente) => cliente.estatus === "Primera Cita")
                   .map((cliente, index) => (
                     <Draggable
@@ -187,14 +187,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <TarjetaCliente cliente={cliente}>
+                          <TarjetaClienteManager cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </TarjetaCliente>
+                          </TarjetaClienteManager>
                         </div>
                       )}
                     </Draggable>
@@ -217,14 +217,14 @@ export const Kanban = () => {
                     className="badge"
                   >
                     {
-                      store.clientes.filter(
+                      store.userClients.filter(
                         (cliente) => cliente.estatus === "Negociación"
                       ).length
                     }
                   </span>
                 </strong>
 
-                {store.clientes
+                {store.userClients
                   .filter((cliente) => cliente.estatus === "Negociación")
                   .map((cliente, index) => (
                     <Draggable
@@ -242,14 +242,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <TarjetaCliente cliente={cliente}>
+                          <TarjetaClienteManager cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </TarjetaCliente>
+                          </TarjetaClienteManager>
                         </div>
                       )}
                     </Draggable>
@@ -272,14 +272,14 @@ export const Kanban = () => {
                     className="badge"
                   >
                     {
-                      store.clientes.filter(
+                      store.userClients.filter(
                         (cliente) => cliente.estatus === "Cerrado"
                       ).length
                     }
-                  </span>
+                  </span>{" "}
                 </strong>
 
-                {store.clientes
+                {store.userClients
                   .filter((cliente) => cliente.estatus === "Cerrado")
                   .map((cliente, index) => (
                     <Draggable
@@ -297,14 +297,14 @@ export const Kanban = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <TarjetaCliente cliente={cliente}>
+                          <TarjetaClienteManager cliente={cliente}>
                             {cliente.nombre}
                             <br></br>
                             {actions.calcularEdad(cliente.fecha) + " años"}
                             <br></br>${cliente.monto}
                             <br></br>
                             Confianza {cliente.confianza}
-                          </TarjetaCliente>
+                          </TarjetaClienteManager>
                         </div>
                       )}
                     </Draggable>

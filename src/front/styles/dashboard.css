@@ -174,3 +174,12 @@ body {
           transform: translate(0px, -10px) scale(1.2);
 }
 
+/* PRINCING CARD */
+
+.pricing-card {
+  width: 10rem;
+  height: 10rem;
+	content:'';
+	background: #581c87;
+	border-radius: 15px;
+}

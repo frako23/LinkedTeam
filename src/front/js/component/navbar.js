@@ -127,7 +127,7 @@ export const Navbar = () => {
               <i className="bx bx-sun icon sun"></i>
             </div>
             <span className="mode-text text">Dark mode</span>
-
+<i class='bx bx-table'></i>
             <div className="toggle-switch">
               <span className="switch"></span>
             </div>

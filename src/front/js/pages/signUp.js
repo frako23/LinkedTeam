@@ -11,11 +11,12 @@ export const SignUp = () => {
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const navigate = useNavigate();
 
   return (
     <div
       className="container px-4 py-5 px-md-5 text-center text-lg-start my-2"
-      style={{ heigth: "100vh" }}
     >
       <div className="row gx-lg-5 align-items-center mb-5">
         <div
@@ -66,6 +67,7 @@ export const SignUp = () => {
           <div className="card bg-glass">
             <div className="card-body px-4 py-5 px-md-5">
               <form
+                className="needs-validation"
                 onSubmit={(e) => {
                   e.preventDefault();
                   actions.signup(name, lastname, email, password);
@@ -75,7 +77,8 @@ export const SignUp = () => {
                     email != "" &&
                     password != ""
                   ) {
-                    actions.setNotification("¡Te has registrado exitosamente!");
+                    // actions.setNotification("¡Te has registrado exitosamente!");
+                    navigate("/")
                   }
                 }}
               >
@@ -85,15 +88,16 @@ export const SignUp = () => {
                     <div className="form-outline">
                       <input
                         type="text"
-                        id="form3Example1"
+                        id="validationCustom01"
                         className="form-control"
                         placeholder="Tu nombre aquí"
                         value={name}
+                        required
                         onChange={(e) => setName(e.target.value)}
                       />
                       <label
                         className="form-label"
-                        htmlFor="form3Example1"
+                        htmlFor="validationCustom01"
                         style={{ paddingLeft: "3rem" }}
                       >
                         Nombre
@@ -105,11 +109,18 @@ export const SignUp = () => {
                       <input
                         type="text"
                         id="form3Example2"
+                        required
                         className="form-control"
                         placeholder="Tu apellido aquí"
                         value={lastname}
                         onChange={(e) => setLastname(e.target.value)}
                       />
+                      <div class="valid-feedback">
+                        Looks good!
+                      </div>
+                      <div class="invalid-feedback">
+                      Please choose a username.
+                      </div>
                       <label
                         className="form-label"
                         htmlFor="form3Example2"
@@ -126,6 +137,8 @@ export const SignUp = () => {
                   <input
                     type="email"
                     id="form3Example3"
+                    required
+                    pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     className="form-control"
                     placeholder="tucorreo@aqui.com"
                     value={email}
@@ -141,6 +154,7 @@ export const SignUp = () => {
                   <input
                     type="password"
                     id="form3Example4"
+                    required
                     className="form-control"
                     placeholder="Aquí tu contraseña"
                     value={password}
@@ -151,6 +165,26 @@ export const SignUp = () => {
                   </label>
                 </div>
 
+                {/* <!-- Confirm Password input --> */}
+                <div className="form-outline mb-4">
+                  <input
+                    type="password"
+                    id="form3Example4"
+                    className="form-control"
+                    placeholder="Aquí tu contraseña"
+                    value={confirmPassword}
+                    onChange={(e) =>  
+                                { setConfirmPassword(e.target.value);
+                                  if (password !== confirmPassword) {
+                                  e.target.setCustomValidity("La contraseña y la confirmación de contraseña no coinciden"); 
+                                } else {
+                                  e.target.setCustomValidity("");
+                                }}}
+                  />
+                  <label className="form-label" htmlFor="form3Example4">
+                    Confirma tú contraseña
+                  </label>
+                </div>
                 {/* <!-- Checkbox --> */}
                 {/* <div className="form-check d-flex justify-content-center mb-4">
                   <input className="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />

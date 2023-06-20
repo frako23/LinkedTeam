@@ -34,28 +34,41 @@ export const Nuevonegocio = () => {
         aria-hidden="true"
       >
         <form
+          className="needs-validation"
           onSubmit={(e) => {
             e.preventDefault();
-            actions.postClientes({
-              nombre: nombre,
-              fecha: fecha,
-              email: email,
-              celular: celular,
-              monto: monto,
-              estatus: estatus,
-              confianza: confianza,
-              estatus: estatus,
-              notas: notas,
-            });
-            setNombre("");
-            setFecha("");
-            setEmail("");
-            setCelular("");
-            setMonto("");
-            setConfianza("");
-            setEstatus("");
-            setNotas("");
-            console.log("entro aqui");
+            if (
+              nombre != "" &&
+              fecha != "" &&
+              email != "" &&
+              celular != "" &&
+              monto != "" &&
+              estatus != "" &&
+              confianza != "" &&
+              notas != ""
+            ) {
+              actions.postClientes({
+                nombre: nombre,
+                fecha: fecha,
+                email: email,
+                celular: celular,
+                monto: monto,
+                estatus: estatus,
+                confianza: confianza,
+                notas: notas,
+              });
+              setNombre("");
+              setFecha("");
+              setEmail("");
+              setCelular("");
+              setMonto("");
+              setConfianza("");
+              setEstatus("");
+              setNotas("");
+              console.log("entro aqui");
+            } else {
+              alert("Debes llenar todos los campos");
+            }
           }}
         >
           <div className="modal-dialog">
@@ -77,9 +90,12 @@ export const Nuevonegocio = () => {
                   <input
                     type="text"
                     id="tarea-nombre"
+                    required
                     className="input-text"
                     placeholder="Pedro Pérez"
-                    onChange={(e) => setNombre(e.target.value)}
+                    onChange={(e) => {
+                      setNombre(e.target.value);
+                    }}
                     value={nombre}
                   />
 
@@ -87,6 +103,7 @@ export const Nuevonegocio = () => {
                   <input
                     type="date"
                     id="tarea-nombre"
+                    required
                     className="input-text"
                     placeholder="07/01/1976"
                     onChange={(e) => setFecha(e.target.value)}
@@ -97,6 +114,8 @@ export const Nuevonegocio = () => {
                   <input
                     type="email"
                     id="tarea-nombre"
+                    required
+                    pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     className="input-text"
                     placeholder="correo@mail.com"
                     onChange={(e) => setEmail(e.target.value)}
@@ -107,6 +126,7 @@ export const Nuevonegocio = () => {
                   <input
                     type="tel"
                     id="tarea-nombre"
+                    required
                     className="input-text"
                     placeholder="04XX-XXXXXXX"
                     onChange={(e) => setCelular(e.target.value)}
@@ -117,18 +137,20 @@ export const Nuevonegocio = () => {
                   <input
                     type="number"
                     id="tarea-nombre"
+                    required
                     className="input-text"
                     placeholder="5000"
                     value={monto}
                     onChange={(e) => setMonto(Number(e.target.value))}
                   />
 
-                  <label for="cars">
+                  <label htmlFor="cars">
                     <strong>Estatus:</strong>
                   </label>
                   <select
                     id="cars"
                     name="cars"
+                    required
                     value={estatus}
                     onChange={(e) => setEstatus(e.target.value)}
                   >
@@ -140,12 +162,13 @@ export const Nuevonegocio = () => {
                     <option value="Cerrado">Cerrado</option>
                   </select>
 
-                  <label for="cars">
+                  <label htmlFor="cars">
                     <strong>Nivel de confianza:</strong>
                   </label>
                   <select
                     id="cars"
                     name="cars"
+                    required
                     value={confianza}
                     onChange={(e) => setConfianza(e.target.value)}
                   >
@@ -161,6 +184,7 @@ export const Nuevonegocio = () => {
                     id="tarea-descripcion"
                     className="textarea-text"
                     rows="4"
+                    required
                     placeholder="Breve descripción ¿hijos? ¿espos@?"
                     value={notas}
                     onChange={(e) => setNotas(e.target.value)}

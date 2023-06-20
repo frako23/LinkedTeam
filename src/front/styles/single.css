@@ -1,5 +1,3 @@
-
-
 table td,
 table th {
   text-overflow: ellipsis;
@@ -14,5 +12,5 @@ tbody th {
 
 tbody td {
   font-weight: 500;
-  color: rgba(255,255,255,.65);
+  color: white;
 }

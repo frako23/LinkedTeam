@@ -72,6 +72,8 @@
   font-size: var(--card-title);
   margin-bottom: 0px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .card__inner > span {
@@ -98,8 +100,6 @@ table {
   /* background: #fff; */
   padding: 1rem;
   border: black 1px solid;
-
-
 }
 table td,
 th {
@@ -136,20 +136,18 @@ table td {
 }
 
 .fuel-div {
-
   width: "15rem";
   padding-left: "2rem";
-  
 }
 
 .table-color-closed {
-  background-color: #367952;
-  color: white;
+  background-color: var(--cierres);
+  color: white !important;
 }
 
 .table-color-not-closed {
-  background-color: #f5b74f;
-  color: black;
+  background-color: var(--prospectos);
+  color: white !important;
 }
 
 .intro-square {
@@ -157,7 +155,7 @@ table td {
   width: 100%;
   padding: 1rem;
   border-radius: 25px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .intro-square h5 {
@@ -180,24 +178,27 @@ table td {
 .one-intro {
   grid-column: 1;
   grid-row: 1;
-  background-color: #77dd77;
+  background-color: var(--prospectos);
+  color: white;
 }
 
 .two-intro {
   grid-column: 2;
   grid-row: 1;
-  background-color: #fdcae1;
+  background-color: var(--cierres);
+  color: white;
 }
 
 .three-intro {
   grid-column: 1;
   grid-row: 2;
-  background-color: #fdfd96;
+  background-color: var(--contactados);
 }
 .four-intro {
   grid-column: 2;
   grid-row: 2;
-  background-color: #ff6961;
+  background-color: var(--primera-cita);
+  color: white;
 }
 
 .main-wrapper-intro {
@@ -207,4 +208,8 @@ table td {
 
 .img-intro {
   width: 40%;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-left: 1rem;
+  box-shadow: 25px 31px 14px -9px rgba(0, 0, 0, 0.1);
 }
