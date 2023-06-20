@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/dashboard.css";
@@ -14,17 +14,22 @@ export const Courses = () => {
     navigate("/video");
   };
 
+  useEffect(() => {
+    if (store.usuario.status === "inactive") {
+      navigate("/pricing");
+    }
+  }, [store.usuario.status]);
+
   return (
     <>
-        <Navbar />
-        <h1
-          className="text-white text-center mt-4 kanban-head-title"
-          style={{ paddingBottom: "3rem" }}
-        >
-          Cursos disponibles
-        </h1>
-        <CourseCard />
-      
+      <Navbar />
+      <h1
+        className="text-white text-center mt-4 kanban-head-title"
+        style={{ paddingBottom: "3rem" }}
+      >
+        Cursos disponibles
+      </h1>
+      <CourseCard />
     </>
   );
 };

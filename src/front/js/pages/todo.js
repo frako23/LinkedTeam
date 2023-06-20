@@ -3,12 +3,21 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Context } from "../store/appContext";
 import "../../styles/todo.css";
 import { useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 
 export function Todo() {
   const [task, setTask] = useState("");
   const { store, actions } = useContext(Context);
   const [dragOn, setDragOn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (store.usuario.status === "inactive") {
+      navigate("/pricing");
+    }
+  }, [store.usuario.status]);
+
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
       actions.getTareas();

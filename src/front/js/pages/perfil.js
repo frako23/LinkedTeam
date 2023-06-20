@@ -4,29 +4,28 @@ import "../../styles/perfil.css";
 import { Navbar } from "../component/navbar";
 import { Context } from "../store/appContext";
 import { Box } from "../component/box";
-import { AdminPannel } from "../component/adminPannel"
-import { UserPannel } from "../component/userPannel"
+import { AdminPannel } from "../component/adminPannel";
+import { UserPannel } from "../component/userPannel";
 
 export const Perfil = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
 
-  useEffect(() => {actions.getUsuario()}, []);
+  useEffect(() => {
+    actions.getUsuario();
+  }, []);
+
+  useEffect(() => {
+    if (store.usuario.status === "inactive") {
+      navigate("/pricing");
+    }
+  }, [store.usuario.status]);
 
   return (
     <>
       <Navbar />
       {/* pagina */}
-      {
-        store.usuario.role === "admin" ?
-
-        <AdminPannel /> :
-
-        <UserPannel />
-
-      }
-      
-      
+      {store.usuario.role === "admin" ? <AdminPannel /> : <UserPannel />}
     </>
   );
 };

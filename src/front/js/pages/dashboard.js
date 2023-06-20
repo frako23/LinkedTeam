@@ -11,6 +11,13 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (store.usuario.status === "inactive") {
+      navigate("/pricing");
+    }
+  }, [store.usuario.status]);
 
   let notClosedArray = store.clientes.filter(
     (index) => index.estatus != "Cerrado"
