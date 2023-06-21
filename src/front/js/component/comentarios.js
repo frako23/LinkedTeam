@@ -7,10 +7,14 @@ import { useParams } from 'react-router-dom'
 export const Comentarios = () => {
   const [comentario, setComentario] = useState('')
   const [responder, setResponder] = useState(false)
-  const [respuesta, setRespuesta] = useState('')
+  const [respuestas, setRespuestas] = useState({}) // Estado de las respuestas como objeto
   const { store, actions } = useContext(Context)
   const { theid } = useParams()
   console.log(theid)
+
+  const handleRespuestaChange = (event) => {
+    setRespuestas({ [event.target.id]: event.target.value })
+  }
 
   console.log(store.respuestas[0])
   useEffect(() => {
@@ -80,16 +84,19 @@ export const Comentarios = () => {
                     placeholder="Responde este comentario"
                     aria-label={comentario.id}
                     aria-describedby={comentario.id}
-                    onChange={(e) => setRespuesta(e.target.value)}
-                    value={respuesta}
+                    onChange={(event) => handleRespuestaChange(event)}
+                    value={respuestas[comentario.id] || ''}
                   />
                   <div className="input-group-append">
                     <button
                       className="btn btn-secondary"
                       type="button"
                       onClick={() => {
-                        actions.postRespuestas(respuesta, comentario.id)
-                        setRespuesta('')
+                        actions.postRespuestas(
+                          respuestas[comentario.id],
+                          comentario.id
+                        )
+                        setRespuestas({})
                       }}
                     >
                       <i className="fa-solid fa-reply"></i> Responder
