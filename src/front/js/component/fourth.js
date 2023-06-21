@@ -5,11 +5,8 @@ import three from "../../img/3.jpg";
 export const Fourth = () => {
   return (
     <div className="container mb-5 mt-5 pt-5">
-      <div className="text-center d-flex justify-content-between">
-        <img 
-          src={three} 
-          className="landing__img" 
-          loading="lazy"/>
+      <div className="text-center">
+        <img src={three} className="landing__img" loading="lazy" />
         <div className="me-5 text-start px-5">
           <span className="fs-1 fw-bolder me-5 span">
             Mantente conectad@ con las actividades de tu equipo de trabajo

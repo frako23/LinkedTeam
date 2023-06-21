@@ -5,6 +5,16 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+:root {
+  --linkedTeam-font: #9340ff;
+  --black: #222;
+  --white: #fff;
+  --dark-bg: rgba(0, 0, 0, 0.7);
+  --light-bg: #eee;
+  --border: 0.1rem solid var(var(--black));
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  --text-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
+}
 
 body {
   background-color: rgb(16, 23, 40);
@@ -83,36 +93,113 @@ body {
   font-size: 0.9rem;
 }
 
-.landing__img {
-  width: 500px;
-  height: 100%;
-  border-radius: 30px;
-  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-}
-
 .landing__text__color {
   color: #9340ff;
 }
 
-.img__landing__logo {
-  width: 10%;
-  border-radius: 15px;
-  margin-right: 1rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+
+  text-decoration: none;
 }
 
-input:required:invalid,
-input:focus:invalid {
-  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Exclamation_Circle_Red.svg/120px-Exclamation_Circle_Red.svg.png);
-  background-position: right;
-  background-size: 1rem;
-  background-repeat: no-repeat;
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--white);
+  display: flex;
+  box-shadow: var(--box-shadow);
+  align-items: center;
+  justify-content: space-between;
 }
-input:required:valid {
-  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/120px-Yes_Check_Circle.svg.png);
-  background-position: right;
-  background-size: 1rem;
-  background-repeat: no-repeat;
-  border: 2px solid rgb(25, 135, 84);
+
+section {
+  padding: 1rem 10%;
+}
+
+.header .logo {
+  font-size: 2rem;
+  color: var(--black);
+}
+
+.header .navbar {
+  font-size: 1.5rem;
+  margin-left: 2rem;
+  color: var(--black);
+  gap: 4rem;
+}
+
+.header .navbar :hover {
+  color: var(--linkedTeam-font);
+}
+
+#menu-btn {
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: var(--black);
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  section {
+    padding: 3rem 5%;
+  }
+}
+
+@media (max-width: 991px) {
+  html {
+    font-size: 80%;
+  }
+
+  section {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header .navbar {
+    position: absolute;
+    top: 99%;
+    left: 0;
+    right: 0;
+    background-color: var(--white);
+    box-shadow: 0 0.5rem 4rem rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    display: block;
+    margin: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+
+  .header .navbar.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transition: 0.2s linear;
+  }
+
+  .header .navbar a {
+    display: block;
+    margin: 2rem;
+    text-align: center;
+  }
+
+  #menu-btn {
+    display: inline-block;
+  }
+
+  /* #menu-btn */
+}
+
+@media (max-width: 450px) {
+  html {
+    font-size: 70%;
+  }
+
+  section {
+    padding: 3rem 2rem;
+  }
 }

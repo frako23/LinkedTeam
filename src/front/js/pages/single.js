@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { ModifyClient } from "../component/modifyClient";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import { Navbar } from "../component/navbar";
 import "../../styles/single.css";
@@ -280,11 +281,14 @@ export const Single = (props) => {
             ""
           )}
         </div>
-        <Link to="/dashboard">
-          <span className="btn btn-primary btn-lg mb-3" role="button">
-            Regresar
-          </span>
-        </Link>
+        <div className="d-flex justify-content-evenly">
+          {indicador == "información" ? <ModifyClient /> : ""}
+          <Link to="/dashboard">
+            <span className="btn btn-primary btn-lg mb-3" role="button">
+              Regresar
+            </span>
+          </Link>
+        </div>
       </div>
     </>
   );
