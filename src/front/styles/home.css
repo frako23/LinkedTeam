@@ -178,7 +178,7 @@ section {
 
   .header .navbar.active {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    transition: 0.2s linear;
+    transition: 0.5s linear;
   }
 
   .header .navbar a {
@@ -191,7 +191,9 @@ section {
     display: inline-block;
   }
 
-  /* #menu-btn */
+  /* #menu-btn.fa-xmark {
+    transform: rotate(180deg);
+  } */
 }
 
 @media (max-width: 450px) {

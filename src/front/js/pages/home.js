@@ -24,10 +24,11 @@ export const Home = () => {
           LinkedTeam
         </Link>
 
-        <nav className={`navbar ${menuBar && "active"}`}>
-          <Link to="/login" className="">
-            Ingresa
+        <nav className={`navbar ${menuBar ? "active" : ""}`}>
+          <Link to="/signup" className="">
+            ¿Qué podrás hacer?
           </Link>
+
           <Link to="/signup" className="">
             Regístrate
           </Link>
@@ -46,7 +47,7 @@ export const Home = () => {
               setMenuBar(false);
             }
           }}
-          className="fas fa-bars"
+          className={menuBar ? "fas fa-xmark" : "fas fa-bars"}
         >
           {" "}
         </div>
