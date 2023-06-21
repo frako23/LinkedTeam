@@ -193,6 +193,7 @@ class Response(db.Model):
             "id": self.id,
             "content": self.content,
             "name": self.user.name,
+            "comment_id": self.comment_id,
             "created_at": self.created_at,
 
         }

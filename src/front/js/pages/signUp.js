@@ -171,13 +171,13 @@ export const SignUp = () => {
                     value={confirmPassword}
                     onChange={(e) => {
                       setConfirmPassword(e.target.value)
-                      if (password !== confirmPassword) {
-                        e.target.setCustomValidity(
-                          'La contraseña y la confirmación de contraseña no coinciden'
-                        )
-                      } else {
-                        e.target.setCustomValidity('')
-                      }
+                      // if (password !== confirmPassword) {
+                      //   e.target.setCustomValidity(
+                      //     'La contraseña y la confirmación de contraseña no coinciden'
+                      //   )
+                      // } else {
+                      //   e.target.setCustomValidity('')
+                      // }
                     }}
                   />
                   <label className="form-label" htmlFor="form3Example4">

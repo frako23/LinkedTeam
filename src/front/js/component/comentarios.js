@@ -1,35 +1,36 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/comments.css";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from 'react'
+import { Context } from '../store/appContext'
+import '../../styles/comments.css'
+import rigoImageUrl from '../../img/rigo-baby.jpg'
+import { useParams } from 'react-router-dom'
 
 export const Comentarios = () => {
-  const [comentario, setComentario] = useState("");
-  const [responder, setResponder] = useState(false);
-  const [respuesta, setRespuesta] = useState("");
-  const { store, actions } = useContext(Context);
-  const { theid } = useParams();
-  console.log(theid);
+  const [comentario, setComentario] = useState('')
+  const [responder, setResponder] = useState(false)
+  const [respuesta, setRespuesta] = useState('')
+  const { store, actions } = useContext(Context)
+  const { theid } = useParams()
+  console.log(theid)
 
+  console.log(store.respuestas[0])
   useEffect(() => {
-    console.log(theid);
-    actions.getComentarios(theid);
-  }, []);
+    console.log(theid)
+    actions.getComentarios(theid)
+  }, [])
 
   return (
     <>
       <form
         onSubmit={(e) => {
-          e.preventDefault();
+          e.preventDefault()
           actions.postComentarios(
             {
-              content: comentario,
+              content: comentario
             },
             theid
-          );
-          setComentario("");
-          console.log("entro aqui", comentario);
+          )
+          setComentario('')
+          console.log('entro aqui', comentario)
         }}
       >
         <div className="container-comentarios">
@@ -57,9 +58,9 @@ export const Comentarios = () => {
           <div className="comentario-publicado" key={comentario.id}>
             <div
               style={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column'
               }}
             >
               <div className="comentario-content mb-3 mt-3">
@@ -87,8 +88,8 @@ export const Comentarios = () => {
                       className="btn btn-secondary"
                       type="button"
                       onClick={() => {
-                        actions.postRespuestas(respuesta, comentario.id);
-                        setRespuesta("");
+                        actions.postRespuestas(respuesta, comentario.id)
+                        setRespuesta('')
                       }}
                     >
                       <i className="fa-solid fa-reply"></i> Responder
@@ -96,30 +97,34 @@ export const Comentarios = () => {
                   </div>
                 </div>
                 <button
-                  className={responder ? "d-none" : "btn btn-warning"}
-                  style={{ alignSelf: "end" }}
+                  className={responder ? 'd-none' : 'btn btn-warning'}
+                  style={{ alignSelf: 'end' }}
                   onClick={(e) => {
-                    setResponder(true);
-                    actions.getRespuestas(comentario.id);
+                    setResponder(true)
+                    actions.getRespuestas(comentario.id)
                   }}
                 >
                   <i className="fa-solid fa-reply"></i> Ver respuestas
                 </button>
+                {store.respuestas.map((resp) => {
+                  if (resp.comment_id === comentario.id) {
+                    return (
+                      <div className="response-content" key={resp.id}>
+                        <div className="comentario">
+                          <p>
+                            <strong>{resp.name}</strong>
+                          </p>
+                          <p>{resp.content}</p>
+                        </div>
+                      </div>
+                    )
+                  }
+                })}
               </div>
-              {store.respuestas.map((resp) => (
-                <div className="response-content" key={resp.id}>
-                  <div className="comentario">
-                    <p>
-                      <strong>{resp.name}</strong>
-                    </p>
-                    <p>{resp.content}</p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
-        );
+        )
       })}
     </>
-  );
-};
+  )
+}
