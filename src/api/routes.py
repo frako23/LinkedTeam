@@ -240,6 +240,7 @@ def delete_cliente(id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
+# cambiar estatus del prospecto
 @api.route('/cliente/<int:id>', methods=['PUT'])
 def update_cliente(id):
 
@@ -254,6 +255,40 @@ def update_cliente(id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
+# cambiar todas las demás caracteristicas el prospecto
+@api.route('/modify_cliente/<int:id>', methods=['PUT'])
+def modify_cliente(id):
+    body = request.json
+
+    client = Cliente.query.get(id)
+    nombre= body.get("nombre", None)
+    fecha= body.get("fecha", None)
+    email= body.get("email", None)
+    celular= body.get("celular", None)
+    monto= body.get("monto", None)
+    confianza= body.get("confianza", None)
+    notas= body.get("notas", None)
+    
+    if nombre is not None:
+        client.nombre = nombre
+    if fecha is not None:
+        client.fecha = fecha
+    if email is not None:
+        client.email = email
+    if celular is not None:
+        client.celular = celular
+    if monto is not None:
+        client.monto = monto
+    if confianza is not None:
+        client.confianza = confianza
+    if notas is not None:
+        client.notas = notas
+    try:
+        db.session.commit()
+        return jsonify(client.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
 
 #endpoints comentarios
