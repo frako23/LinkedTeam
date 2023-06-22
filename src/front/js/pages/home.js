@@ -1,16 +1,17 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
-// import video from "../../video/background.mp4";
 import "../../styles/home.css";
-import { First } from "../component/first";
-import { Second } from "../component/second";
-import { Third } from "../component/third";
-import { Fourth } from "../component/fourth";
-import { Fifth } from "../component/fifth";
+import one from "../../img/1.jpg";
+import two from "../../img/2.jpg";
+import three from "../../img/3.jpg";
+import four from "../../img/4.jpg";
 import { Link } from "react-router-dom";
-import logo from "../../img/logoNavBar.png";
-import Button from "react-bootstrap/Button";
+import { Navigation, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/autoplay";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -54,6 +55,62 @@ export const Home = () => {
       </section>
 
       {/* termina la sección del header */}
+
+      {/* comienza la sección del home */}
+
+      <section className="new-home">
+        <Swiper
+          // install Swiper modules
+          modules={[Navigation, Autoplay]}
+          spaceBetween={50}
+          slidesPerView={1}
+          navigation
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          onSwiper={(swiper) => console.log(swiper)}
+          onSlideChange={() => console.log("slide change")}
+        >
+          <SwiperSlide>
+            <div className="slide" style={{ backgroundImage: `url(${one})` }}>
+              <div className="content">
+                <span>Sácale el máximo potencial a tú equipo de trabajo</span>
+                <h3>Mantente conectado con tu equipo de trabajo</h3>
+              </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="slide" style={{ backgroundImage: `url(${two})` }}>
+              <div className="content">
+                <span>Entrenamiento constante</span>
+                <h3>Forma a tú equipo de trabajo</h3>
+              </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="slide" style={{ backgroundImage: `url(${three})` }}>
+              <div className="content">
+                <span>
+                  Haz seguimiento efectivo de prospectos propios y de tu equipo
+                </span>
+                <h3>La App para la prospección efectiva</h3>
+              </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="slide" style={{ backgroundImage: `url(${four})` }}>
+              <div className="content">
+                <span>Registra y haz seguimiento de todas tus tareas</span>
+                <h3>Nunca olvides una tarea</h3>
+              </div>
+            </div>
+          </SwiperSlide>
+          ...
+        </Swiper>
+      </section>
+
+      {/* termina la sección del home */}
 
       {/* empieza la sección de servicios */}
 
