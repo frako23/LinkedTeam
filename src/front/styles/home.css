@@ -5,6 +5,7 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Orbitron:wght@500&display=swap");
 :root {
   --linkedTeam-font: #9340ff;
   --black: #222;
@@ -146,10 +147,58 @@ section {
   display: none;
 }
 
+.footer {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.footer h3 {
+  text-align: center;
+  padding-block: 3rem;
+}
+
+.footer .box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  padding-bottom: 3rem;
+  text-align: center;
+}
+
+.box i {
+  font-size: 1.75rem;
+}
+
+.box a {
+  font-size: 1.25rem;
+}
+
+.footer .credit {
+  text-align: center;
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+  font-size: 2rem;
+  margin-top: 3rem;
+  border-top: 0.1rem solid var(--black);
+}
+
+.footer .credit span {
+  color: grey;
+  font-size: 3rem;
+  font-family: "Orbitron", sans-serif;
+}
+
 @media (max-width: 1200px) {
   section {
     padding: 3rem 5%;
   }
+}
+
+.footer .box a i {
+  transition: 0.2s linear;
+}
+
+.footer .box a:hover i {
+  padding-right: 2rem;
 }
 
 @media (max-width: 991px) {
@@ -194,6 +243,10 @@ section {
   /* #menu-btn.fa-xmark {
     transform: rotate(180deg);
   } */
+
+  .box a {
+    padding-bottom: 2rem;
+  }
 }
 
 @media (max-width: 450px) {

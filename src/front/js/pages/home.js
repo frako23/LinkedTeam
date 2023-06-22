@@ -52,11 +52,40 @@ export const Home = () => {
           {" "}
         </div>
       </section>
-      <First />
+
+      {/* termina la sección del header */}
+
+      {/* <First />
       <Second />
       <Third />
       <Fourth />
-      <Fifth />
+      <Fifth /> */}
+      {/* comienza el footer */}
+
+      <section className="footer">
+        <h3>Información de Contacto</h3>
+        <div className="box">
+          <a href="#">
+            {" "}
+            <i className="fa-brands fa-whatsapp"></i> +(58)0412-XXXXXX
+          </a>
+          <a href="mailto:linkedteam2023@gmail.com">
+            {" "}
+            <i className="fas fa-envelope"></i> linkedteam2023@gmail.com
+          </a>
+          <a href="#">
+            {" "}
+            <i className="fas fa-map"></i> Caracas, Venezuela
+          </a>
+        </div>
+
+        <div className="credit">
+          {" "}
+          Creado por <span>Devix</span> todos los derechos reservados!
+        </div>
+      </section>
+
+      {/* termina el footer */}
     </>
   );
 };
