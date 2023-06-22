@@ -55,11 +55,41 @@ export const Home = () => {
 
       {/* termina la sección del header */}
 
-      {/* <First />
-      <Second />
-      <Third />
-      <Fourth />
-      <Fifth /> */}
+      {/* empieza la sección de servicios */}
+
+      <section className="services">
+        <h1 className="heading-tittle">
+          {" "}
+          ¿Qué podrás hacer en <span>LinkedTeam</span>?
+        </h1>
+        <div className="box-container">
+          <div className="box">
+            <i className="bx bxl-youtube icon"></i>
+            <h4>Plataforma de formación</h4>
+            <h6>
+              Podrás cargar contenido de alto valor para a tu equipo de trabajo
+            </h6>
+          </div>
+          <div className="box">
+            <i className="bx bxs-layout icon"></i>
+            <h4>CRM</h4>
+            <h6>
+              Podrás guardar cada uno de tus prospectos, y usar el embudo de
+              ventas para hacer un seguimiento efectivo
+            </h6>
+          </div>
+          <div className="box">
+            <i className="bx bx-list-ol icon"></i>
+            <h4>App de tareas pendientes</h4>
+            <h6>
+              Podrás anotar esas tareas claves, para hacerles con el método
+              Kanban
+            </h6>
+          </div>
+        </div>
+      </section>
+      {/* termina la sección de servicios */}
+
       {/* comienza el footer */}
 
       <section className="footer">

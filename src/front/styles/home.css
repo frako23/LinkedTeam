@@ -187,6 +187,48 @@ section {
   font-family: "Orbitron", sans-serif;
 }
 
+.services .box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 3rem;
+}
+
+.services .box-container .box {
+  padding: 1rem 5rem;
+  text-align: center;
+  background-color: var(--linkedTeam-font);
+  cursor: pointer;
+}
+
+.services .box-container .box:hover {
+  background-color: var(--black);
+}
+
+.services {
+  color: var(--white);
+  padding-bottom: 3rem;
+}
+
+.services .box-container .box i {
+  font-size: 8rem;
+}
+
+.services .box-container .box h4 {
+  font-weight: bold;
+}
+
+.heading-tittle {
+  text-align: center;
+  margin-block: 3rem;
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.heading-tittle span {
+  color: var(--linkedTeam-font);
+  font-weight: bold;
+}
+
 @media (max-width: 1200px) {
   section {
     padding: 3rem 5%;
