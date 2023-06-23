@@ -5,14 +5,13 @@
   --primera-cita: #cc3c43;
   --negociacion: #4ff0f5;
   --cierres: #367952;
+  --linkedTeam-font: #9340ff;
 }
 
 .main__card {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-  gap: 20px;
-  margin: 20px 0;
-  width: 23%;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
 }
 
 .main__title {
@@ -212,4 +211,70 @@ table td {
   border-radius: 15px;
   margin-left: 1rem;
   box-shadow: 25px 31px 14px -9px rgba(0, 0, 0, 0.1);
+}
+
+.about {
+  display: flex;
+  /* align-items: center; */
+  /* gap: 3rem; */
+}
+
+.about .image {
+  flex: 1 1 41rem;
+}
+
+.about .image img {
+  width: 75%;
+  object-fit: cover;
+}
+
+.about .content {
+  flex: 1 1 41rem;
+  /* text-align: center; */
+}
+
+.about .content h3 {
+  /* font-size: 3rem; */
+  color: white;
+}
+
+.about .content h5 {
+  /* font-size: 2rem; */
+  color: white;
+  font-weight: bold;
+  color: var(--linkedTeam-font);
+}
+
+.about .content p {
+  /* font-size: 1.5rem; */
+  color: white;
+  line-height: 1;
+  padding: 0.5rem 0;
+}
+
+.about .content .icons-container {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  /* display: none; */
+}
+
+.about .content .icons-container .icons {
+  background: white;
+  padding: 2rem;
+  flex: 1 1 16rem;
+}
+
+.about .content .icons-container .icons i {
+  font-size: 4rem;
+  margin-bottom: 2rem;
+  color: black;
+}
+
+.about .content .icons-container .icons span {
+  font-size: 1.5rem;
+  color: black;
+  display: block;
 }
