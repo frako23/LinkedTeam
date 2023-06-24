@@ -278,3 +278,37 @@ table td {
   color: black;
   display: block;
 }
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 768px) {
+  .about .image {
+    flex: 1 1 25rem;
+  }
+
+  .about {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 660px) {
+  .main__title {
+    margin-left: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main__title {
+    /* margin-left: 8rem; */
+    text-align: center;
+  }
+
+  .about {
+    margin-left: 9rem;
+  }
+}
