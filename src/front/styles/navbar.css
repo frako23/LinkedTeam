@@ -296,3 +296,31 @@ body.dark .switch::before {
 body.dark .home .text {
   color: var(--text-color);
 }
+
+@media (max-width: 1200px) {
+  .about .image img {
+    margin-left: 3rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .about .image img {
+    margin-left: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    margin-left: 12rem;
+  }
+
+  .about .image img {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .main__title > p {
+    text-align: center;
+  }
+}

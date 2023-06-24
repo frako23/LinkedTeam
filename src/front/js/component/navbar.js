@@ -13,7 +13,7 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [toggle, setToggle] = useState("close");
-  // const [logOut, setLogOut] = useState(false)
+  const [appBar, setAppBar] = useState(false);
 
   const toggleFunc = () => {
     if (toggle == "close") {
@@ -23,12 +23,10 @@ export const Navbar = () => {
     }
   };
 
-  function handleLogOut () {
+  function handleLogOut() {
     actions.logout();
-    navigate("/")
+    navigate("/");
   }
-
-
 
   return (
     <nav
@@ -61,41 +59,33 @@ export const Navbar = () => {
           </li> */}
 
           <ul className="p-0">
-              <Link to="/perfil">
-            <li className="ps-0">
-               
-                  <i className="bx bx-bar-chart-alt-2 icon"></i>
-                  <span className="text nav-text">Tablero</span>
-                
-            </li>
-              </Link>
+            <Link to="/perfil">
+              <li className="ps-0">
+                <i className="bx bx-bar-chart-alt-2 icon"></i>
+                <span className="text nav-text">Tablero</span>
+              </li>
+            </Link>
 
-              <Link to="/courses">
-            <li className="ps-0">
-            
-                  <i className="bx bxl-youtube icon"></i>
-                  <span className="text nav-text">Cursos y Videos</span>
-                
-            </li>
-              </Link>
+            <Link to="/courses">
+              <li className="ps-0">
+                <i className="bx bxl-youtube icon"></i>
+                <span className="text nav-text">Cursos y Videos</span>
+              </li>
+            </Link>
 
-              <Link to="/dashboard">
-            <li className="ps-0">
-                
-                  <i className="bx bxs-layout icon"></i>
-                  <span className="text nav-text">CRM</span>
-                
-            </li>
-              </Link>
+            <Link to="/dashboard">
+              <li className="ps-0">
+                <i className="bx bxs-layout icon"></i>
+                <span className="text nav-text">CRM</span>
+              </li>
+            </Link>
 
-              <Link to="/todo">
-            <li className="ps-0">
-              
+            <Link to="/todo">
+              <li className="ps-0">
                 <i className="bx bx-list-ol icon"></i>
                 <span className="text nav-text">Tareas pendientes</span>
-           
-            </li>
-              </Link>
+              </li>
+            </Link>
 
             {/* <li className="nav-link">
               <button >
@@ -115,10 +105,8 @@ export const Navbar = () => {
 
         <div className="bottom-content">
           <li className="pe-auto" onClick={(event) => handleLogOut()}>
-              
-                <i className="bx bx-log-out icon"></i>
-                <span className="text nav-text" >Salir</span>
-              
+            <i className="bx bx-log-out icon"></i>
+            <span className="text nav-text">Salir</span>
           </li>
           {/* 
           <li className="mode">
