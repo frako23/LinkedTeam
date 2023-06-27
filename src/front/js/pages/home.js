@@ -26,9 +26,9 @@ export const Home = () => {
         </Link>
 
         <nav className={`navbar ${menuBar ? "active" : ""}`}>
-          <Link to="/signup" className="">
+          <a href="#quePuedesHacer" className="smooth">
             ¿Qué podrás hacer?
-          </Link>
+          </a>
 
           <Link to="/signup" className="">
             Regístrate
@@ -106,12 +106,11 @@ export const Home = () => {
               </div>
             </div>
           </SwiperSlide>
-          ...
         </Swiper>
       </section>
 
       {/* termina la sección del home */}
-
+      <div id="quePuedesHacer"></div>
       {/* empieza la sección de servicios */}
 
       <section className="services">

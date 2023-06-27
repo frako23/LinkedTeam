@@ -18,6 +18,10 @@
   --text-light: 0 1.5rem 3rem rgb(253, 253, 113);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: rgb(16, 23, 40);
 
