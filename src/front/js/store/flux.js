@@ -339,16 +339,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      postClientes: async ({
-        nombre,
-        fecha,
-        email,
-        celular,
-        monto,
-        estatus,
-        confianza,
-        notas,
-      }) => {
+      postClientes: async (datosCliente) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -357,27 +348,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify({
-            nombre: nombre,
-            fecha: fecha,
-            email: email,
-            celular: celular,
-            monto: monto,
-            estatus: estatus,
-            confianza: confianza,
-            notas: notas,
-          }),
+          body: JSON.stringify(datosCliente),
         };
-        console.log(
-          nombre,
-          fecha,
-          email,
-          celular,
-          monto,
-          estatus,
-          confianza,
-          notas
-        );
+        console.log(datosCliente);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/clientes`,

@@ -1,38 +1,39 @@
-import React, { useContext, useState } from 'react'
-import { Context } from '../store/appContext'
-import '../../styles/dashboard.css'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import Modal from 'react-bootstrap/Modal'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import React, { useContext, useState } from "react";
+import { Context } from "../store/appContext";
+import "../../styles/dashboard.css";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export const Nuevonegocio = () => {
-  const { store, actions } = useContext(Context)
+  const { store, actions } = useContext(Context);
   const [cliente, setCliente] = useState({
-    nombre: '',
-    fecha: '',
-    email: '',
-    celular: '',
-    monto: '',
-    estatus: '',
-    confianza: '',
-    notas: ''
-  })
-  const [show, setShow] = useState(false)
+    nombre: "",
+    fecha: "",
+    email: "",
+    celular: "",
+    monto: "",
+    estatus: "",
+    confianza: "",
+    notas: "",
+  });
+  const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(cliente)
-    handleClose()
-  }
+    e.preventDefault();
+    console.log(cliente);
+    actions.postClientes(cliente);
+    handleClose();
+  };
 
   const handleForm = ({ target }) => {
-    setCliente({ ...cliente, [target.name]: target.value })
-  }
+    setCliente({ ...cliente, [target.name]: target.value });
+  };
 
   return (
     <>
@@ -167,15 +168,17 @@ export const Nuevonegocio = () => {
                 required
               />
             </Form.Group>
-            <Button variant="secondary" onClick={handleClose}>
-              Cerrar
-            </Button>
-            <Button variant="primary" type="submit">
-              Guardar
-            </Button>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Cerrar
+              </Button>
+              <Button variant="primary" type="submit">
+                Guardar
+              </Button>
+            </Modal.Footer>
           </Form>
         </Modal.Body>
       </Modal>
     </>
-  )
-}
+  );
+};
