@@ -1,31 +1,38 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/dashboard.css";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import React, { useContext, useState } from 'react'
+import { Context } from '../store/appContext'
+import '../../styles/dashboard.css'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 export const Nuevonegocio = () => {
-  const { store, actions } = useContext(Context);
-  const [nombre, setNombre] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [email, setEmail] = useState("");
-  const [celular, setCelular] = useState("");
-  const [monto, setMonto] = useState("");
-  const [confianza, setConfianza] = useState("");
-  const [estatus, setEstatus] = useState("");
-  const [notas, setNotas] = useState("");
-  const [show, setShow] = useState(false);
+  const { store, actions } = useContext(Context)
+  const [cliente, setCliente] = useState({
+    nombre: '',
+    fecha: '',
+    email: '',
+    celular: '',
+    monto: '',
+    estatus: '',
+    confianza: '',
+    notas: ''
+  })
+  const [show, setShow] = useState(false)
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("este es el evento");
-  };
+    e.preventDefault()
+    console.log(cliente)
+    handleClose()
+  }
+
+  const handleForm = ({ target }) => {
+    setCliente({ ...cliente, [target.name]: target.value })
+  }
 
   return (
     <>
@@ -44,11 +51,10 @@ export const Nuevonegocio = () => {
               <Form.Control
                 type="text"
                 required
+                name="nombre"
                 placeholder="Nombre del cliente"
-                onChange={(e) => {
-                  setNombre(e.target.value);
-                }}
-                value={nombre}
+                onChange={handleForm}
+                value={cliente.nombre}
                 autoFocus
               />
             </Form.Group>
@@ -59,9 +65,10 @@ export const Nuevonegocio = () => {
                   <Form.Control
                     type="tel"
                     required
+                    name="celular"
                     placeholder="04XX-XXXXXXX"
-                    onChange={(e) => setCelular(e.target.value)}
-                    value={celular}
+                    onChange={handleForm}
+                    value={cliente.celular}
                   />
                 </Col>
                 <Col>
@@ -69,10 +76,11 @@ export const Nuevonegocio = () => {
                   <Form.Control
                     type="email"
                     required
+                    name="email"
                     pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     placeholder="nombre@correo.com"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
+                    onChange={handleForm}
+                    value={cliente.email}
                     autoFocus
                   />
                 </Col>
@@ -86,9 +94,9 @@ export const Nuevonegocio = () => {
                   <Form.Control
                     type="date"
                     required
-                    placeholder="name@example.com"
-                    onChange={(e) => setFecha(e.target.value)}
-                    value={fecha}
+                    name="fecha"
+                    onChange={handleForm}
+                    value={cliente.fecha}
                     autoFocus
                   />
                 </Col>
@@ -98,8 +106,9 @@ export const Nuevonegocio = () => {
                     type="number"
                     required
                     placeholder="5000"
-                    value={monto}
-                    onChange={(e) => setMonto(Number(e.target.value))}
+                    name="monto"
+                    value={cliente.monto}
+                    onChange={handleForm}
                     autoFocus
                   />
                 </Col>
@@ -113,8 +122,9 @@ export const Nuevonegocio = () => {
                   <Form.Select
                     aria-label="Default select example"
                     required
-                    value={estatus}
-                    onChange={(e) => setEstatus(e.target.value)}
+                    name="estatus"
+                    value={cliente.estatus}
+                    onChange={handleForm}
                   >
                     <option value=""></option>
                     <option value="Prospecto">Prospecto</option>
@@ -129,8 +139,9 @@ export const Nuevonegocio = () => {
                   <Form.Select
                     aria-label="Default select example"
                     required
-                    value={confianza}
-                    onChange={(e) => setConfianza(e.target.value)}
+                    name="confianza"
+                    value={cliente.confianza}
+                    onChange={handleForm}
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
@@ -148,221 +159,23 @@ export const Nuevonegocio = () => {
               <Form.Label>Notas</Form.Label>
               <Form.Control
                 as="textarea"
+                name="notas"
                 rows={3}
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
-                value={notas}
-                onChange={(e) => setNotas(e.target.value)}
+                value={cliente.notas}
+                onChange={handleForm}
                 required
               />
             </Form.Group>
+            <Button variant="secondary" onClick={handleClose}>
+              Cerrar
+            </Button>
+            <Button variant="primary" type="submit">
+              Guardar
+            </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => alert("entró acá")}
-            type="submit"
-          >
-            Guardar
-          </Button>
-        </Modal.Footer>
       </Modal>
-      {/* <button
-        type="button"
-        className="btn btn-success ms-5"
-        // data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        onClick={() => setShowForm(true)}
-      >
-        <strong>Nuevo Negocio</strong>
-      </button>
-
-      {showForm && (
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <form
-            className="needs-validation"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (
-                nombre != "" &&
-                fecha != "" &&
-                email != "" &&
-                celular != "" &&
-                monto != "" &&
-                estatus != "" &&
-                confianza != "" &&
-                notas != ""
-              ) {
-                actions.postClientes({
-                  nombre: nombre,
-                  fecha: fecha,
-                  email: email,
-                  celular: celular,
-                  monto: monto,
-                  estatus: estatus,
-                  confianza: confianza,
-                  notas: notas,
-                });
-                setNombre("");
-                setFecha("");
-                setEmail("");
-                setCelular("");
-                setMonto("");
-                setConfianza("");
-                setEstatus("");
-                setNotas("");
-                setShowForm(false);
-                console.log("entro aqui");
-              }
-            }}
-          >
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">
-                    Cliente
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <div className="container-inputs">
-                    <strong className="strong-input">Nombre y Apellido </strong>
-                    <input
-                      type="text"
-                      id="tarea-nombre"
-                      required
-                      className="input-text"
-                      placeholder="Pedro Pérez"
-                      onChange={(e) => {
-                        setNombre(e.target.value);
-                      }}
-                      value={nombre}
-                    />
-
-                    <strong className="strong-input">
-                      Fecha de Nacimiento{" "}
-                    </strong>
-                    <input
-                      type="date"
-                      id="tarea-nombre"
-                      required
-                      className="input-text"
-                      placeholder="07/01/1976"
-                      onChange={(e) => setFecha(e.target.value)}
-                      value={fecha}
-                    />
-
-                    <strong className="strong-input">Email </strong>
-                    <input
-                      type="email"
-                      id="tarea-nombre"
-                      required
-                      pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-                      className="input-text"
-                      placeholder="correo@mail.com"
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                    />
-
-                    <strong className="strong-input">Celular </strong>
-                    <input
-                      type="tel"
-                      id="tarea-nombre"
-                      required
-                      className="input-text"
-                      placeholder="04XX-XXXXXXX"
-                      onChange={(e) => setCelular(e.target.value)}
-                      value={celular}
-                    />
-
-                    <strong className="strong-input">Monto </strong>
-                    <input
-                      type="number"
-                      id="tarea-nombre"
-                      required
-                      className="input-text"
-                      placeholder="5000"
-                      value={monto}
-                      onChange={(e) => setMonto(Number(e.target.value))}
-                    />
-
-                    <label htmlFor="cars">
-                      <strong>Estatus:</strong>
-                    </label>
-                    <select
-                      id="cars"
-                      name="cars"
-                      required
-                      value={estatus}
-                      onChange={(e) => setEstatus(e.target.value)}
-                    >
-                      <option value=""></option>
-                      <option value="Prospecto">Prospecto</option>
-                      <option value="Contactado">Contactado</option>
-                      <option value="Primera Cita">Primera Cita</option>
-                      <option value="Negociación">Negociación</option>
-                      <option value="Cerrado">Cerrado</option>
-                    </select>
-
-                    <label htmlFor="cars">
-                      <strong>Nivel de confianza:</strong>
-                    </label>
-                    <select
-                      id="cars"
-                      name="cars"
-                      required
-                      value={confianza}
-                      onChange={(e) => setConfianza(e.target.value)}
-                    >
-                      <option value=""></option>
-                      <option value="Alta">Alta</option>
-                      <option value="Media">Media</option>
-                      <option value="Baja">Baja</option>
-                    </select>
-
-                    <strong className="strong-input">Notas: </strong>
-                    <textarea
-                      type="text"
-                      id="tarea-descripcion"
-                      className="textarea-text"
-                      rows="4"
-                      required
-                      placeholder="Breve descripción ¿hijos? ¿espos@?"
-                      value={notas}
-                      onChange={(e) => setNotas(e.target.value)}
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="submit"
-                    id="tarea-nombre"
-                    className="btn btn-success"
-                    // data-bs-dismiss="modal"
-                    value="Enviar"
-                  >
-                    Enviar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      )} */}
     </>
-  );
-};
+  )
+}
