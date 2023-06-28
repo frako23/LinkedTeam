@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Context } from '../store/appContext'
-import { Link } from 'react-router-dom'
-import '../../styles/home.css'
-import '../../styles/index.css'
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
+import "../../styles/home.css";
+import "../../styles/index.css";
 
 export const SignUp = () => {
-  const { store, actions } = useContext(Context)
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const navigate = useNavigate()
+  const { store, actions } = useContext(Context);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-2">
@@ -20,16 +20,16 @@ export const SignUp = () => {
         <div
           className="col-lg-6 mb-5 mb-lg-0"
           style={{
-            zIndex: '10'
+            zIndex: "10",
           }}
         >
           <h1
             className="my-5 display-5 fw-bold ls-tight"
-            style={{ color: 'hsl(218, 81%, 95%)' }}
+            style={{ color: "hsl(218, 81%, 95%)" }}
           >
             <span
               style={{
-                color: 'rgb(167, 100, 255'
+                color: "rgb(167, 100, 255",
               }}
             >
               LinkedTeam
@@ -37,13 +37,13 @@ export const SignUp = () => {
             <br />
             La mejor herramienta
             <br />
-            <span style={{ color: 'hsl(218, 81%, 75%)' }}>
+            <span style={{ color: "hsl(218, 81%, 75%)" }}>
               para hacer crecer tu negocio
             </span>
           </h1>
           <p
             className="mb-4 opacity-70"
-            style={{ color: 'hsl(218, 81%, 85%)' }}
+            style={{ color: "hsl(218, 81%, 85%)" }}
           >
             Con LinkedTeam podrás no solo controlar tu gestión personal de
             ventas sino también formarte y si tienes equipo podrás formarlos y
@@ -67,21 +67,28 @@ export const SignUp = () => {
               <form
                 className="needs-validation"
                 onSubmit={(e) => {
-                  e.preventDefault()
-                  actions.signup(name, lastname, email, password)
-                  if (
-                    name != '' &&
-                    lastname != '' &&
-                    email != '' &&
-                    password != ''
-                  ) {
-                    // actions.setNotification("¡Te has registrado exitosamente!");
-                    navigate('/')
+                  e.preventDefault();
+                  console.log(password, confirmPassword);
+                  if (password !== confirmPassword) {
+                    alert(
+                      "La contraseña y la confirmación de contraseña no coinciden"
+                    );
+                  } else {
+                    actions.signup(name, lastname, email, password);
+                    if (
+                      name != "" &&
+                      lastname != "" &&
+                      email != "" &&
+                      password != ""
+                    ) {
+                      // actions.setNotification("¡Te has registrado exitosamente!");
+                      navigate("/");
+                    }
                   }
                 }}
               >
                 {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
-                <div className="row" style={{ margin: '0px' }}>
+                <div className="row" style={{ margin: "0px" }}>
                   <div className="col-md-6 mb-2">
                     <div className="form-outline">
                       <input
@@ -96,7 +103,7 @@ export const SignUp = () => {
                       <label
                         className="form-label"
                         htmlFor="validationCustom01"
-                        style={{ paddingLeft: '3rem' }}
+                        style={{ paddingLeft: "3rem" }}
                       >
                         Nombre
                       </label>
@@ -120,7 +127,7 @@ export const SignUp = () => {
                       <label
                         className="form-label"
                         htmlFor="form3Example2"
-                        style={{ paddingLeft: '3rem' }}
+                        style={{ paddingLeft: "3rem" }}
                       >
                         Apellido
                       </label>
@@ -170,14 +177,7 @@ export const SignUp = () => {
                     placeholder="Aquí tu contraseña"
                     value={confirmPassword}
                     onChange={(e) => {
-                      setConfirmPassword(e.target.value)
-                      // if (password !== confirmPassword) {
-                      //   e.target.setCustomValidity(
-                      //     'La contraseña y la confirmación de contraseña no coinciden'
-                      //   )
-                      // } else {
-                      //   e.target.setCustomValidity('')
-                      // }
+                      setConfirmPassword(e.target.value);
                     }}
                   />
                   <label className="form-label" htmlFor="form3Example4">
@@ -196,13 +196,13 @@ export const SignUp = () => {
                 <button
                   type="submit"
                   className="btn btn-primary btn-block mb-4"
-                  style={{ width: '-webkit-fill-available' }}
+                  style={{ width: "-webkit-fill-available" }}
                 >
                   !Regístrate Ya!
                 </button>
 
                 {/* <!-- Register buttons --> */}
-                <div className="text-center">
+                {/* <div className="text-center">
                   <p>o regístrate con:</p>
                   <button
                     type="button"
@@ -225,15 +225,15 @@ export const SignUp = () => {
                     <i className="fab fa-twitter"></i>
                   </button>
 
-                  {/* <button type="button" className="btn btn-link btn-floating mx-1">
+                  <button type="button" className="btn btn-link btn-floating mx-1">
                     <i className="fab fa-github"></i>
-                  </button> */}
-                </div>
+                  </button>
+                </div> */}
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
