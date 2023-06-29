@@ -29,6 +29,16 @@ export const Nuevonegocio = () => {
     console.log(cliente);
     actions.postClientes(cliente);
     handleClose();
+    setCliente({
+      nombre: "",
+      fecha: "",
+      email: "",
+      celular: "",
+      monto: "",
+      estatus: "",
+      confianza: "",
+      notas: "",
+    });
   };
 
   const handleForm = ({ target }) => {
