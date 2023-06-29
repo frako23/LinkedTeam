@@ -150,7 +150,7 @@ export const Login = () => {
                   {/* <!-- Register buttons --> */}
                   <div className="text-center">
                     <p>
-                      ¿No estas inscito aún?
+                      ¿No estas inscit@ aún?
                       <Link
                         to="/signup"
                         style={{

@@ -244,13 +244,13 @@ export const SignUp = () => {
                 </div> */}
               </form>
               <div className="text-center">
-                <span> ¿Ya estas inscrito? </span>
+                <span> ¿Ya estas inscrit@? </span>
                 <Link
                   to="/login"
                   className="fw-bold"
                   style={{ color: "rgb(167, 100, 255)" }}
                 >
-                  Ingresa aqui
+                  INGRESA AQUÍ
                 </Link>
               </div>
             </div>
