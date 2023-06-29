@@ -283,6 +283,17 @@ body {
   /* display: none; */
 }
 
+.password-show-login {
+  position: absolute;
+  right: 15%;
+  top: 42.5%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #a1a2a5;
+  cursor: pointer;
+  /* display: none; */
+}
+
 @media (max-width: 1200px) {
 }
 
@@ -292,6 +303,10 @@ body {
 @media (max-width: 768px) {
   .password-show {
     top: 66.5%;
+    /* display: none; */
+  }
+  .password-show-login {
+    top: 41.5%;
     /* display: none; */
   }
 }

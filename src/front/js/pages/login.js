@@ -11,6 +11,7 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
+  const [passwordShowHide, setPasswordShowHide] = useState(true);
   // console.log("Este es tu token", store.token);
 
   const handleClick = () => {
@@ -38,15 +39,15 @@ export const Login = () => {
               className="my-5 display-5 fw-bold ls-tight"
               style={{ color: "hsl(218, 81%, 95%)" }}
             >
-             <span
-              style={{
-                color:"rgb(167, 100, 255"
-              }}
+              <span
+                style={{
+                  color: "rgb(167, 100, 255",
+                }}
               >
                 LinkedTeam
-              </span> 
+              </span>
               <br />
-              La mejor herramienta 
+              La mejor herramienta
               <br />
               <span style={{ color: "hsl(218, 81%, 75%)" }}>
                 para hacer crecer tu negocio
@@ -101,7 +102,7 @@ export const Login = () => {
                   {/* < />!-- Password input --> */}
                   <div className="form-outline mb-4">
                     <input
-                      type="password"
+                      type={passwordShowHide ? "password" : "text"}
                       id="form2Example2"
                       value={password}
                       required
@@ -109,6 +110,18 @@ export const Login = () => {
                       placeholder="contraseña1234..."
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <span
+                      className="password-show-login"
+                      onClick={() => setPasswordShowHide(!passwordShowHide)}
+                    >
+                      <i
+                        className={
+                          passwordShowHide
+                            ? "fa-solid fa-eye"
+                            : "fa-solid fa-eye-slash"
+                        }
+                      ></i>
+                    </span>
                     <label className="form-label" htmlFor="form3Example4">
                       Coloca tu contraseña
                     </label>
@@ -136,14 +149,19 @@ export const Login = () => {
                   </div>
                   {/* <!-- Register buttons --> */}
                   <div className="text-center">
-                    <p>¿No estas inscito aún? 
-                      <Link to="/signup"
-                        style={{color: "rgb(167, 100, 255)",
-                                fontWeight: "bold",
-                                marginLeft: "1rem"}}>
+                    <p>
+                      ¿No estas inscito aún?
+                      <Link
+                        to="/signup"
+                        style={{
+                          color: "rgb(167, 100, 255)",
+                          fontWeight: "bold",
+                          marginLeft: "1rem",
+                        }}
+                      >
                         REGISTRATE
-                        </Link>
-                      </p>
+                      </Link>
+                    </p>
                   </div>
 
                   {/* < />!-- Register buttons --> */}
