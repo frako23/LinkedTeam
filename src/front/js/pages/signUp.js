@@ -243,6 +243,16 @@ export const SignUp = () => {
                   </button>
                 </div> */}
               </form>
+              <div className="text-center">
+                <span> ¿Ya estas inscrito? </span>
+                <Link
+                  to="/login"
+                  className="fw-bold"
+                  style={{ color: "rgb(167, 100, 255)" }}
+                >
+                  Ingresa aqui
+                </Link>
+              </div>
             </div>
           </div>
         </div>

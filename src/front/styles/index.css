@@ -275,7 +275,7 @@ body {
 .password-show {
   position: absolute;
   right: 15%;
-  top: 64.5%;
+  top: 61.5%;
   transform: translateY(-50%);
   font-size: 20px;
   color: #a1a2a5;
@@ -291,7 +291,7 @@ body {
 
 @media (max-width: 768px) {
   .password-show {
-    top: 69.5%;
+    top: 66.5%;
     /* display: none; */
   }
 }
