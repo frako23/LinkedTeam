@@ -12,6 +12,7 @@ export const SignUp = () => {
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordShowHide, setPasswordShowHide] = useState(true);
   const navigate = useNavigate();
 
   return (
@@ -155,10 +156,10 @@ export const SignUp = () => {
                 {/* <!-- Password input --> */}
                 <div className="form-outline mb-4">
                   <input
-                    type="password"
+                    type={passwordShowHide ? "password" : "text"}
                     id="form3Example4"
                     required
-                    className="form-control"
+                    className="form-control password-input"
                     placeholder="Aquí tu contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -171,7 +172,7 @@ export const SignUp = () => {
                 {/* <!-- Confirm Password input --> */}
                 <div className="form-outline mb-4">
                   <input
-                    type="password"
+                    type={passwordShowHide ? "password" : "text"}
                     id="form3Example4"
                     className="form-control"
                     placeholder="Aquí tu contraseña"
@@ -180,6 +181,18 @@ export const SignUp = () => {
                       setConfirmPassword(e.target.value);
                     }}
                   />
+                  <span
+                    className="password-show"
+                    onClick={() => setPasswordShowHide(!passwordShowHide)}
+                  >
+                    <i
+                      className={
+                        passwordShowHide
+                          ? "fa-solid fa-eye"
+                          : "fa-solid fa-eye-slash"
+                      }
+                    ></i>
+                  </span>
                   <label className="form-label" htmlFor="form3Example4">
                     Confirma tú contraseña
                   </label>

@@ -4,9 +4,7 @@
   box-sizing: border-box;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  
 }
-
 
 *::-webkit-scrollbar {
   display: none;
@@ -53,7 +51,7 @@ body {
       hsl(218, 41%, 19%) 80%,
       transparent 100%
     );
-    min-height: 100vh;
+  min-height: 100vh;
 
   font-family: "Montserrat", sans-serif;
   /* color: white; */
@@ -272,4 +270,31 @@ body {
   .coolbtn {
     margin-bottom: 20px;
   }
+}
+
+.password-show {
+  position: absolute;
+  right: 15%;
+  top: 64.5%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #a1a2a5;
+  cursor: pointer;
+  /* display: none; */
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 768px) {
+  .password-show {
+    top: 69.5%;
+    /* display: none; */
+  }
+}
+
+@media (max-width: 450px) {
 }
