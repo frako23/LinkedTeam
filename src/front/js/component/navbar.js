@@ -8,6 +8,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Nav from "react-bootstrap/Nav";
 import "../../styles/navbar.css";
 import logo from "../../img/logoNavBar.png";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);

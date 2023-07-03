@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
 import "../../styles/index.css";
+import toast, { Toaster } from "react-hot-toast";
 
 export const SignUp = () => {
   const { store, actions } = useContext(Context);
@@ -14,9 +15,32 @@ export const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordShowHide, setPasswordShowHide] = useState(true);
   const navigate = useNavigate();
+  const notify = () =>
+    toast.success(`Te has registrado exitosamente ${name}`, {
+      // Custom Icon
+      icon: "👏",
+    });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(password, confirmPassword);
+    if (password !== confirmPassword) {
+      alert("La contraseña y la confirmación de contraseña no coinciden");
+    } else if (name != "" && lastname != "" && email != "" && password != "") {
+      const response = await actions.signup(name, lastname, email, password);
+      if (response) {
+        notify();
+        const ingresar = await actions.login(email, password);
+        if (ingresar) {
+          navigate("/perfil");
+        }
+      }
+    }
+  };
 
   return (
     <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-2">
+      <Toaster />
       <div className="row gx-lg-5 align-items-center mb-5">
         <div
           className="col-lg-6 mb-5 mb-lg-0"
@@ -68,24 +92,7 @@ export const SignUp = () => {
               <form
                 className="needs-validation"
                 onSubmit={(e) => {
-                  e.preventDefault();
-                  console.log(password, confirmPassword);
-                  if (password !== confirmPassword) {
-                    alert(
-                      "La contraseña y la confirmación de contraseña no coinciden"
-                    );
-                  } else {
-                    actions.signup(name, lastname, email, password);
-                    if (
-                      name != "" &&
-                      lastname != "" &&
-                      email != "" &&
-                      password != ""
-                    ) {
-                      // actions.setNotification("¡Te has registrado exitosamente!");
-                      navigate("/");
-                    }
-                  }
+                  handleSubmit(e);
                 }}
               >
                 {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
@@ -173,7 +180,7 @@ export const SignUp = () => {
                 <div className="form-outline mb-4">
                   <input
                     type={passwordShowHide ? "password" : "text"}
-                    id="form3Example4"
+                    id="confirmPassword"
                     className="form-control"
                     placeholder="Aquí tu contraseña"
                     value={confirmPassword}
@@ -193,7 +200,7 @@ export const SignUp = () => {
                       }
                     ></i>
                   </span>
-                  <label className="form-label" htmlFor="form3Example4">
+                  <label className="form-label" htmlFor="confirmPassword">
                     Confirma tú contraseña
                   </label>
                 </div>
