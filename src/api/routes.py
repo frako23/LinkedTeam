@@ -269,19 +269,19 @@ def modify_cliente(id):
     confianza= body.get("confianza", None)
     notas= body.get("notas", None)
     
-    if nombre is not None:
+    if nombre is not None and nombre != "":
         client.nombre = nombre
-    if fecha is not None:
+    if fecha is not None and fecha != "":
         client.fecha = fecha
-    if email is not None:
+    if email is not None and email != "":
         client.email = email
-    if celular is not None:
+    if celular is not None and celular != "":
         client.celular = celular
-    if monto is not None:
+    if monto is not None and monto != "":
         client.monto = monto
-    if confianza is not None:
+    if confianza is not None and confianza != "":
         client.confianza = confianza
-    if notas is not None:
+    if notas is not None and notas != "":
         client.notas = notas
     try:
         db.session.commit()

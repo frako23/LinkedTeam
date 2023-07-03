@@ -93,7 +93,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           console.log("This came from the backend", data);
-          actions.setNotification(`Te registraste exitosamente ${data.name}`);
           return true;
         } catch (error) {
           console.error("There has been an error login in from the backend");
@@ -368,6 +367,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar al cliente", error);
+        }
+      },
+
+      putClientes: async (datosCliente, id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(datosCliente),
+        };
+        console.log(datosCliente);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/modify_cliente/${id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getClientes();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al modificar la data del cliente",
+            error
+          );
         }
       },
 
