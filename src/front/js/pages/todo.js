@@ -48,7 +48,7 @@ export function Todo() {
       console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
       actions.updateTaskStatus(newList);
       console.log(store.tareas);
-      actions.putTareas({
+      actions.putTarea({
         estatus: newList[sourceColIndex].estatus,
         id: newList[sourceColIndex].id,
       });

@@ -602,7 +602,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(estatus);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/tarea/${id}`,
+            `${process.env.BACKEND_URL}/tareas/${id}`,
             options
           );
 
