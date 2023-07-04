@@ -1,96 +1,113 @@
 .board {
-    width: 100%;
-    height: 100vh;
-    overflow: scroll;
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
 }
 
 #todo-form {
-    padding: 32px 32px 0;
+  padding: 32px 32px 0;
 }
 
 #todo-form input {
-    padding: 12px;
-    margin-right: 12px;
-    width: 225px;
+  padding: 12px;
+  margin-right: 12px;
+  width: 225px;
 
-    border-radius: 4px;
-    border: none;
+  border-radius: 4px;
+  border: none;
 
-    box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
-    background: white;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: white;
 
-    font-size: 14px;
-    outline: none;
+  font-size: 14px;
+  outline: none;
 }
 
 #todo-form button {
-    padding: 12px 32px;
+  padding: 12px 32px;
 
-    border-radius: 4px;
-    border:none;
+  border-radius: 4px;
+  border: none;
 
-    box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
-    background: #ffffff;
-    color: black;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
+  color: black;
 
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .lanes {
-    /* display: flex; */
-    /* align-items: flex-start; */
-    justify-content: start;
+  /* display: flex; */
+  /* align-items: flex-start; */
+  justify-content: start;
 
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
 
-    padding: 24px 32px;
+  padding: 24px 32px;
 
-    overflow: scroll;
+  overflow: scroll;
 }
 
 .heading {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .swim-lane {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-    background: #f4f4f4;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
+  background: #f4f4f4;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
 
-    padding: 12px;
-    border-radius: 4px;
-    
-    min-height: 120px;
+  padding: 12px;
+  border-radius: 4px;
 
-    flex-shrink: 0;
+  min-height: 120px;
+
+  flex-shrink: 0;
 }
 
 .task {
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
-    margin-bottom: 0px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  margin-bottom: 0px;
+  gap: 1rem;
+  padding: 12px;
+  border-radius: 4px;
 
-    padding: 12px;
-    border-radius: 4px;
-
-    font-size: 16px;
-    cursor: grab;
+  font-size: 16px;
+  cursor: grab;
 }
 
 .is-dragging {
-    scale: 1.05;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
-    background: rgb(50,50,50);
-    color: white;
+  scale: 1.05;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: rgb(50, 50, 50);
+  color: white;
+}
+
+.todo-button {
+  min-width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  color: red;
+  border: solid 2px red;
+  font-size: 1.3rem;
+  align-self: center;
+}
+
+.todo-button:hover {
+  background-color: red;
+  color: white;
 }

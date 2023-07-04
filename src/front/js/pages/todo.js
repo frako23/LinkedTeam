@@ -5,12 +5,18 @@ import "../../styles/todo.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
+import toast, { Toaster } from "react-hot-toast";
 
 export function Todo() {
   const [task, setTask] = useState("");
   const { store, actions } = useContext(Context);
   const [dragOn, setDragOn] = useState(false);
   const navigate = useNavigate();
+  const notify = () =>
+    toast.error("No puedes crear tareas vacias", {
+      // Custom Icon
+      icon: "🖐",
+    });
 
   useEffect(() => {
     if (store.usuario.status === "inactive") {
@@ -54,6 +60,7 @@ export function Todo() {
     <>
       <Navbar />
       {/* pagina */}
+      <Toaster />
       <DragDropContext onDragEnd={onDragEnd}>
         <main
           className=""
@@ -70,12 +77,16 @@ export function Todo() {
               id="todo-form"
               onSubmit={(e) => {
                 e.preventDefault();
-                actions.postTareas({
-                  tarea: task,
-                  estatus: estatus,
-                });
-                setTask("");
-                console.log("entro aqui");
+                if (task === "") {
+                  notify();
+                } else {
+                  actions.postTareas({
+                    tarea: task,
+                    estatus: estatus,
+                  });
+                  setTask("");
+                  console.log("entro aqui");
+                }
               }}
             >
               <input
@@ -143,7 +154,7 @@ export function Todo() {
                                 {task.tarea}
 
                                 <button
-                                  className="badge rounded-pill bg-danger"
+                                  className="todo-button"
                                   onClick={(e) => actions.deleteTarea(task.id)}
                                 >
                                   <i className="bx bx-trash fs-5"></i>
@@ -213,7 +224,7 @@ export function Todo() {
                                 {task.tarea}
 
                                 <button
-                                  className="badge rounded-pill bg-danger"
+                                  className="todo-button"
                                   onClick={(e) => {
                                     actions.deleteTarea(task.id);
                                   }}
@@ -272,7 +283,7 @@ export function Todo() {
                                 className={`task ${
                                   dragOn == true ? "is-dragging" : ""
                                 } 
-                                                    d-flex justify-content-between
+                                                    d-flex justify-content-between text-decoration-line-through
                                                     `}
                                 key={index}
                                 onDragStart={(e) => setDragOn(true)}
@@ -285,7 +296,7 @@ export function Todo() {
                                 {task.tarea}
 
                                 <button
-                                  className="badge rounded-pill bg-danger"
+                                  className="todo-button"
                                   onClick={(e) => {
                                     actions.deleteTarea(task.id);
                                   }}
