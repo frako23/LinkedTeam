@@ -30,9 +30,11 @@ class User(db.Model):
     role = db.Column(db.Enum(Role), default=Role.associated)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-    agency_ybt = db.Column(db.String(50), unique=False, default = None)
-    own_agency = db.Column(db.String(50), unique=False, default = None)
     status = db.Column(db.Enum(Status), default = Status.active)
+    agency_ybt = db.Column(db.String(50), unique=False)
+    own_agency = db.Column(db.String(50), unique=False)
+    company = db.Column(db.String(50), unique=False)
+    sales_goal = db.Column(db.Integer, unique=False)
 
 
     def __init__(self, **kwargs):
@@ -42,6 +44,10 @@ class User(db.Model):
         self.password = kwargs['password']
         self.salt = kwargs['salt']
         self.role =  kwargs['role'] if 'role' in kwargs else Role.associated
+        self.company = kwargs['company'] if 'company' in kwargs else None
+        self.sales_goal = kwargs['sales_goal'] if 'sales_goal' in kwargs else None
+        self.agency_ybt = kwargs['agency_ybt'] if 'agency_ybt' in kwargs else None
+        self.own_agency = kwargs['own_agency'] if 'own_agency' in kwargs else None
 
     @classmethod
     def create(cls, **kwargs):
@@ -69,7 +75,9 @@ class User(db.Model):
             "updated_at": self.updated_at,
             "agency_ybt": self.agency_ybt,
             "own_agency": self.own_agency,
-            "status": self.status.value
+            "status": self.status.value,
+            "company": self.company,
+            "sales_goal": self.sales_goal
             # do not serialize the password, its a security breach
         }
 
@@ -275,7 +283,7 @@ class Courses_Data(db.Model):
     description = db.Column(db.String(500), unique=False, nullable=False)
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
-    agencies_id = db.column(db.Integer, db.ForeignKey('agencies.id'))
+    agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
@@ -310,11 +318,13 @@ class Courses_Data(db.Model):
 class Agencies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), unique=False, nullable=False)
-    
+    user = db.relationship("User", backref = "agencies")
+    agency_logo = db.Column(db.String(100), unique=False, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
         self.nombre = kwargs['nombre']
-        
+        self.agency_logo = kwargs['agency_logo']
 
     @classmethod
     def create(cls, **kwargs):
@@ -330,5 +340,7 @@ class Agencies(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre
+            "nombre": self.nombre,
+            "manager": f"{self.user.name} {self.user.lastname}",
+            "agency_logo": self.agency_logo
         }

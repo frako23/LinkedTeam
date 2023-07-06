@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses_Data
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses_Data, Agencies
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -486,3 +486,13 @@ def post_get_courses_data(agency_id):
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# rutas de agencias
+@api.route('/agencies/<company>', methods=['GET'])
+@jwt_required()
+def get_agencies(company):
+    agencies = Agencies.query.filter_by(company = company)
+
+    return jsonify(
+            [agency.serialize() for agency in agencies]
+        ),200

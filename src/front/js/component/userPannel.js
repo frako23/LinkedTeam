@@ -9,6 +9,7 @@ import { ToDoChart } from "../component/todo";
 import { FuelChart } from "../component/fuelChart";
 // import { ProfileCard } from "../component/profileCard";
 // import Example from "../component/charts";
+import Swal from "sweetalert2";
 import mujer from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-oficina-vestida-ropa-blanca.jpg";
 
 export const UserPannel = () => {
@@ -17,6 +18,10 @@ export const UserPannel = () => {
 
   useEffect(() => {
     actions.getUsuario();
+  }, []);
+
+  useEffect(() => {
+    Swal.fire("!Bienvenid@ a LinkedTeam¡", "Para comenzar ", "info");
   }, []);
 
   return (
