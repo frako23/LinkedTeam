@@ -167,7 +167,8 @@ export const Home = () => {
 
         <div className="credit">
           {" "}
-          Creado por <span>Devix</span> todos los derechos reservados!
+          Creado por <a href="https://devix-eight.vercel.app/">Devix</a> todos
+          los derechos reservados!
         </div>
       </section>
 

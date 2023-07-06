@@ -222,8 +222,8 @@ section {
   border-top: 0.1rem solid var(--black);
 }
 
-.footer .credit span {
-  color: grey;
+.footer .credit a {
+  color: #101223;
   font-size: 3rem;
   font-family: "Orbitron", sans-serif;
 }
