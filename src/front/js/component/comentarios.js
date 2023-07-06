@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 export const Comentarios = () => {
   const [comentario, setComentario] = useState('')
   const [responder, setResponder] = useState(false)
+  const [commentSelected, setCommentSelected] = useState(null)
   const [respuestas, setRespuestas] = useState({}) // Estado de las respuestas como objeto
   const { store, actions } = useContext(Context)
   const { theid } = useParams()
@@ -16,7 +17,15 @@ export const Comentarios = () => {
     setRespuestas({ [event.target.id]: event.target.value })
   }
 
-  console.log(store.respuestas[0])
+  const getRespuestas = (id) => {
+    if (commentSelected == id) {
+      setCommentSelected(null)
+    } else {
+      setCommentSelected(id)
+    }
+    actions.getRespuestas(id)
+  }
+
   useEffect(() => {
     console.log(theid)
     actions.getComentarios(theid)
@@ -103,18 +112,11 @@ export const Comentarios = () => {
                     </button>
                   </div>
                 </div>
-                <button
-                  className={responder ? 'd-none' : 'btn btn-warning'}
-                  style={{ alignSelf: 'end' }}
-                  onClick={(e) => {
-                    setResponder(true)
-                    actions.getRespuestas(comentario.id)
-                  }}
-                >
-                  <i className="fa-solid fa-reply"></i> Ver respuestas
-                </button>
                 {store.respuestas.map((resp) => {
-                  if (resp.comment_id === comentario.id) {
+                  if (
+                    resp.comment_id === comentario.id &&
+                    commentSelected === comentario.id
+                  ) {
                     return (
                       <div className="response-content" key={resp.id}>
                         <div className="comentario">
@@ -127,6 +129,16 @@ export const Comentarios = () => {
                     )
                   }
                 })}
+                <button
+                  className="btn btn-warning"
+                  style={{ alignSelf: 'end' }}
+                  onClick={() => getRespuestas(comentario.id)}
+                >
+                  <i className="fa-solid fa-reply"></i>
+                  {commentSelected !== comentario.id
+                    ? 'Ver respuestas'
+                    : 'Ocultar respuestas'}
+                </button>
               </div>
             </div>
           </div>
