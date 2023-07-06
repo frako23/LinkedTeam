@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "../../styles/home.css";
 import "../../styles/index.css";
 import toast, { Toaster } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export const SignUp = () => {
   const { store, actions } = useContext(Context);
@@ -15,6 +16,7 @@ export const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordShowHide, setPasswordShowHide] = useState(true);
   const navigate = useNavigate();
+
   const notify = () =>
     toast.success(`Te has registrado exitosamente ${name}`, {
       // Custom Icon
@@ -25,7 +27,11 @@ export const SignUp = () => {
     e.preventDefault();
     console.log(password, confirmPassword);
     if (password !== confirmPassword) {
-      alert("La contraseña y la confirmación de contraseña no coinciden");
+      Swal.fire({
+        icon: "error",
+        title: "Oops... hubo un error",
+        text: "¡La contraseña y la confirmación de contraseña no coinciden!",
+      });
     } else if (name != "" && lastname != "" && email != "" && password != "") {
       const response = await actions.signup(name, lastname, email, password);
       if (response) {
