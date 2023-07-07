@@ -32,17 +32,19 @@ export const UserPannel = () => {
   }
 
   useEffect(() => {
-    Swal.fire({
-      title: "Para comenzar coloca tu meta de ventas 💰",
-      input: "number",
-      confirmButtonText: "Registra tu meta 🙌",
-      showLoaderOnConfirm: true,
-      preConfirm: (salesGoal) => {
-        console.log(salesGoal);
-        setSalesGoal(salesGoal);
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
+    if (store.usuario.sales_goal === null) {
+      Swal.fire({
+        title: "Para comenzar coloca tu meta de ventas 💰",
+        input: "number",
+        confirmButtonText: "Registra tu meta 🙌",
+        showLoaderOnConfirm: true,
+        preConfirm: (salesGoal) => {
+          console.log(salesGoal);
+          setSalesGoal(salesGoal);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      });
+    }
   }, []);
 
   return (
