@@ -15,7 +15,7 @@ import mujer from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-of
 export const UserPannel = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
-
+  let diasDeUso = actions.calcularDiasDeUso(store.usuario.created_at);
   useEffect(() => {
     actions.getUsuario();
   }, []);
@@ -34,10 +34,14 @@ export const UserPannel = () => {
         }
       }
     >
-      <span className="badge bg-info text-dark">
-        {actions.calcularDiasDeUso(store.usuario.created_at)} dias de uso
-        gratuito
-      </span>
+      {diasDeUso > 0 ? (
+        <span className="badge bg-info text-dark">
+          {diasDeUso} dias de uso gratuito
+        </span>
+      ) : (
+        <span className="badge bg-light text-dark">Versión premium</span>
+      )}
+
       <div className="main__title">
         <p className="font-weight-bold text-white mt-4 perfil-titulo">
           Bienvenid@ a LinkedTeam

@@ -119,6 +119,40 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
+      // putUserCompany: async (company) => {
+      //   const store = getStore();
+      //   const actions = getActions();
+      //   const options = {
+      //     method: "PUT",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${store.token}`,
+      //     },
+      //     body: JSON.stringify(company),
+      //   };
+      //   console.log(company);
+      //   try {
+      //     const response = await fetch(
+      //       `${process.env.BACKEND_URL}/users/${id}`,
+      //       options
+      //     );
+
+      //     if (!response.ok) {
+      //       let danger = await response.json();
+      //       throw new Error(danger);
+      //     }
+
+      //     const data = await response.json();
+      //     console.log("This came from the backend", data);
+      //     return true;
+      //   } catch (error) {
+      //     console.error(
+      //       "Ha habido un error al colocar la propiedad company del usuario",
+      //       error
+      //     );
+      //   }
+      // },
+
       getTotalUsuarios: () => {
         const store = getStore();
         const opts = {
@@ -482,7 +516,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       calcularDiasDeUso: (fecha) => {
         let date = new Date(fecha);
         let hoy = new Date();
-        let dias = 90 - (hoy.getDate() - date.getDate());
+        let dias = 30 - (hoy.getDate() - date.getDate());
         // let tiempoDeUso = new Date(fecha);
         // let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
         // let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
