@@ -307,6 +307,7 @@ section {
     display: block;
     margin: 0;
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: clip-path 0.5s linear;
   }
 
   .header .navbar.active {
