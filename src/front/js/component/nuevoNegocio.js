@@ -47,9 +47,13 @@ export const Nuevonegocio = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} className="ms-5">
+      <button
+        variant="primary"
+        onClick={handleShow}
+        className="button-single ms-5"
+      >
         Nuevo Negocio
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

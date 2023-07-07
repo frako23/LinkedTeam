@@ -290,6 +290,10 @@ table td {
     flex: 1 1 25rem;
   }
 
+  .perfil-titulo {
+    width: min-content;
+  }
+
   .about {
     display: flex;
     flex-direction: column;

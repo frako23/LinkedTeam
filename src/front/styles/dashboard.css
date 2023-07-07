@@ -126,7 +126,7 @@ body {
   background-color: rgb(255, 221, 163);
   margin: 0.2rem 0rem 0.3rem 0rem;
   border-radius: 0.5rem;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0,0.25);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
   padding: 0.5rem 0.2rem 0.5rem 0.5rem;
   font-size: small;
   cursor: grab;
@@ -153,7 +153,7 @@ body {
 }
 
 .single-view-card {
-  margin: 5rem 12rem 0 17rem  ;
+  margin: 5rem 12rem 0 17rem;
 }
 
 .button-single {
@@ -169,9 +169,10 @@ body {
   transition: all ease-in-out 300ms;
 }
 .button-single:hover {
-  box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 37px 20px -20px rgba(251, 251, 251, 0.2);
+  color: white;
   -webkit-transform: translate(0px, -10px) scale(1.2);
-          transform: translate(0px, -10px) scale(1.2);
+  transform: translate(0px, -10px) scale(1.2);
 }
 
 /* PRINCING CARD */
@@ -179,7 +180,7 @@ body {
 .pricing-card {
   width: 10rem;
   height: 10rem;
-	content:'';
-	background: #581c87;
-	border-radius: 15px;
+  content: "";
+  background: #581c87;
+  border-radius: 15px;
 }

@@ -39,21 +39,7 @@ export const UserPannel = () => {
         gratuito
       </span>
       <div className="main__title">
-        {store.usuario.agency_ybt === null ? (
-          <Link
-            to="/agencyToSelect"
-            className="coolbtn"
-            style={{
-              marginTop: "2.5rem",
-              right: "5rem",
-            }}
-          >
-            Regístrate en una agencia
-          </Link>
-        ) : (
-          ""
-        )}
-        <p className="font-weight-bold text-white mt-4">
+        <p className="font-weight-bold text-white mt-4 perfil-titulo">
           Bienvenid@ a LinkedTeam
           <span
             style={{
@@ -72,7 +58,7 @@ export const UserPannel = () => {
             <img src={mujer} className="" />
           </div>
           <div className="content">
-            <h3>Que puedes hacer aqui?</h3>
+            <h3>¿Qué puedes hacer aqui?</h3>
             <h5>Fórmate</h5>
             <p>
               En CURSOS Y VIDEOS encontrarás contenido de alto valor para seguir
@@ -95,7 +81,20 @@ export const UserPannel = () => {
               Al registrar un cliente verás el boton DETALLE con el que podrás
               agregar todas las activiades que haz realizado
             </p>
-            <h5>Asi esta tu embudo de ventas</h5>
+            {store.usuario.agency_ybt === null ? (
+              <Link to="/agencyToSelect" className="button-single" style={{}}>
+                Regístrate en una agencia
+              </Link>
+            ) : (
+              ""
+            )}
+            <h5
+              style={{
+                marginTop: "1rem",
+              }}
+            >
+              Asi esta tu embudo de ventas
+            </h5>
             {/* <div className="icons-container">
               <div className="icons">
                 <i className="fas fa-user"></i>
