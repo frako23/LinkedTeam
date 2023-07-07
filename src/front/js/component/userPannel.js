@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/perfil.css";
 import { Navbar } from "../component/navbar";
@@ -15,13 +15,34 @@ import mujer from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-of
 export const UserPannel = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
+  const [salesGoal, setSalesGoal] = useState(0);
   let diasDeUso = actions.calcularDiasDeUso(store.usuario.created_at);
+
   useEffect(() => {
     actions.getUsuario();
   }, []);
 
+  const id = store.usuario.id;
+  if (salesGoal != 0) {
+    console.log(salesGoal, id);
+    actions.putUserSalesGoal(salesGoal, id);
+    Swal.fire(
+      `Excelente! tu meta de ventas es de $ ${salesGoal} vamos por ella 💪`
+    );
+  }
+
   useEffect(() => {
-    Swal.fire("!Bienvenid@ a LinkedTeam¡", "Para comenzar ", "info");
+    Swal.fire({
+      title: "Para comenzar coloca tu meta de ventas 💰",
+      input: "number",
+      confirmButtonText: "Registra tu meta 🙌",
+      showLoaderOnConfirm: true,
+      preConfirm: (salesGoal) => {
+        console.log(salesGoal);
+        setSalesGoal(salesGoal);
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
   }, []);
 
   return (

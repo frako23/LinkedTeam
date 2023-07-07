@@ -144,6 +144,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       //     const data = await response.json();
       //     console.log("This came from the backend", data);
+      //     setStore({message: company})
       //     return true;
       //   } catch (error) {
       //     console.error(
@@ -152,6 +153,46 @@ const getState = ({ getStore, getActions, setStore }) => {
       //     );
       //   }
       // },
+
+      putUserSalesGoal: async (salesGoal, id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({ sales_goal: salesGoal }),
+        };
+        console.log(salesGoal);
+        console.log(id);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/user_sales_goal/${id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          Swal.fire(
+            "!Excelente¡",
+            `Tu meta de ventas es: $ ${salesGoal} vamos por ella 💪!!!`,
+            "sucess"
+          );
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al colocar la meta de ventas del usuario",
+            error
+          );
+        }
+      },
 
       getTotalUsuarios: () => {
         const store = getStore();
