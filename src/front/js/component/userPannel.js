@@ -23,7 +23,7 @@ export const UserPannel = () => {
   }, []);
 
   const id = store.usuario.id;
-  if (salesGoal != 0) {
+  if (salesGoal !== 0) {
     console.log(salesGoal, id);
     actions.putUserSalesGoal(salesGoal, id);
     Swal.fire(
@@ -33,6 +33,7 @@ export const UserPannel = () => {
 
   useEffect(() => {
     if (store.usuario.sales_goal === null) {
+      console.log("entro aqui");
       Swal.fire({
         title: "Para comenzar coloca tu meta de ventas 💰",
         input: "number",

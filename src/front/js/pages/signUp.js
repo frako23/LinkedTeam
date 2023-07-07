@@ -134,8 +134,8 @@ export const SignUp = () => {
                         value={lastname}
                         onChange={(e) => setLastname(e.target.value)}
                       />
-                      <div class="valid-feedback">Looks good!</div>
-                      <div class="invalid-feedback">
+                      <div className="valid-feedback">Looks good!</div>
+                      <div className="invalid-feedback">
                         Please choose a username.
                       </div>
                       <label

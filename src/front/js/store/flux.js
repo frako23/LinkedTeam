@@ -119,40 +119,39 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      // putUserCompany: async (company) => {
-      //   const store = getStore();
-      //   const actions = getActions();
-      //   const options = {
-      //     method: "PUT",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${store.token}`,
-      //     },
-      //     body: JSON.stringify(company),
-      //   };
-      //   console.log(company);
-      //   try {
-      //     const response = await fetch(
-      //       `${process.env.BACKEND_URL}/users/${id}`,
-      //       options
-      //     );
+      putUserCompany: async (company, id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({ company: company }),
+        };
+        console.log(company);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/user_company/${id}`,
+            options
+          );
 
-      //     if (!response.ok) {
-      //       let danger = await response.json();
-      //       throw new Error(danger);
-      //     }
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
 
-      //     const data = await response.json();
-      //     console.log("This came from the backend", data);
-      //     setStore({message: company})
-      //     return true;
-      //   } catch (error) {
-      //     console.error(
-      //       "Ha habido un error al colocar la propiedad company del usuario",
-      //       error
-      //     );
-      //   }
-      // },
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al colocar la propiedad company del usuario",
+            error
+          );
+        }
+      },
 
       putUserSalesGoal: async (salesGoal, id) => {
         const store = getStore();
