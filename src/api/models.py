@@ -325,6 +325,7 @@ class Agencies(db.Model):
     def __init__(self, **kwargs):
         self.nombre = kwargs['nombre']
         self.agency_logo = kwargs['agency_logo']
+        self.user_id = kwargs['user_id']
 
     @classmethod
     def create(cls, **kwargs):
