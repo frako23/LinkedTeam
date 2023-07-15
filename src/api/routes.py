@@ -520,11 +520,41 @@ def post_get_courses_data(agency_id):
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # rutas de agencias
-@api.route('/agencies/<company>', methods=['GET'])
+@api.route('/agencies/<string:nombre>', methods=['GET'])
 @jwt_required()
-def get_agencies(company):
-    agencies = Agencies.query.filter_by(company = company)
-
+def get_agencies(nombre):
+    agencies = Agencies.query.filter_by(nombre = nombre)
+    
+    if agencies is None:
+        return jsonify({"msg":"No existe la agencia"}), 401
+    
     return jsonify(
             [agency.serialize() for agency in agencies]
         ),200
+
+@api.route('/agencies', methods=['POST'])
+@jwt_required()
+def add_agency():
+    user_id = get_jwt_identity()
+
+    user = User.query.get(user_id)
+    print(user.role.value)
+    if user.role.value != "admin":
+        return jsonify({"msg":"No tienes permisos para crear agencias"})
+    
+    new_agency_data = request.json
+
+    if "nombre" not in new_agency_data or new_agency_data["nombre"] == "":
+        raise Exception("No ingresaste el nombre", 400)
+    if "agency_logo" not in new_agency_data or new_agency_data["agency_logo"] == "":
+        raise Exception("No ingresaste el logo", 400)
+    
+    new_agency = Agencies.create(**new_agency_data, user_id = user_id)
+
+    db.session.add(new_agency)
+    try:
+        db.session.commit()
+        return jsonify(new_agency.serialize()), 201
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
