@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses_Data, Agencies
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses_Data, Agencies, Company
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -493,7 +493,6 @@ def add_client_activity(client_id):
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # RUTA PARA LA DATA DE LOS CURSOS
-
 @api.route('/courses/<int:company_id>/<int:agencies_id>', methods=['GET','POST'])
 def post_get_courses_data(company_id, agencies_id):
     if request.method == 'GET':
@@ -518,6 +517,24 @@ def post_get_courses_data(company_id, agencies_id):
             raise Exception("No ingresaste el agencies_id", 400)
         new_course = Courses_Data.create(**new_course_data, agencies_id = agencies_id, company_id = company_id)
         return jsonify(new_course.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# RUTA PARA COMPAÑIAS
+@api.route('/company/', methods=['GET','POST'])
+def post_get_company():
+    if request.method == 'GET':
+        companies = Company.query.all()
+        company_dictionary = []
+        for company in companies:
+            company_dictionary.append(company.serialize())
+        return jsonify(company_dictionary), 200
+    new_company = request.json
+    try:
+        if "nombre" not in new_company or new_company["nombre"] == "":
+            raise Exception("No ingresaste el nombre de la empresa", 400)
+        new_company = Company.create(**new_company)
+        return jsonify(new_company.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
