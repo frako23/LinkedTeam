@@ -494,10 +494,10 @@ def add_client_activity(client_id):
 
 # RUTA PARA LA DATA DE LOS CURSOS
 
-@api.route('/courses_data/<int:agency_id>', methods=['GET','POST'])
-def post_get_courses_data(agency_id):
+@api.route('/courses/<int:company_id>/<int:agencies_id>', methods=['GET','POST'])
+def post_get_courses_data(company_id, agencies_id):
     if request.method == 'GET':
-        courses_data = Courses_Data.query.filter_by(agency_id = agency_id)
+        courses_data = Courses_Data.query.filter_by(company_id = company_id, agencies_id = agencies_id)
         courses_data_dictionary = []
         for course_data in courses_data:
             courses_data_dictionary.append(course_data.serialize())
@@ -512,9 +512,11 @@ def post_get_courses_data(agency_id):
             raise Exception("No ingresaste el img_url", 400)
         if "link_url" not in new_course_data or new_course_data["link_url"] == "":
             raise Exception("No ingresaste el link_url", 400)
-        if "agency_id" not in new_course_data or new_course_data["agency_id"] == "":
-            raise Exception("No ingresaste el agency_id", 400)
-        new_course = Courses_Data.create(**new_course_data, agency_id = agency_id)
+        if "company_id" not in new_course_data or new_course_data["company_id"] == "":
+            raise Exception("No ingresaste el company_id", 400)
+        if "agencies_id" not in new_course_data or new_course_data["agencies_id"] == "":
+            raise Exception("No ingresaste el agencies_id", 400)
+        new_course = Courses_Data.create(**new_course_data, agencies_id = agencies_id, company_id = company_id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

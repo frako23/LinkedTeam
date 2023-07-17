@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 67ae561d91b7
+Revision ID: 6f1a74275ade
 Revises: 
-Create Date: 2023-07-15 11:37:28.106488
+Create Date: 2023-07-17 09:53:37.969166
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '67ae561d91b7'
+revision = '6f1a74275ade'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +31,6 @@ def upgrade():
     sa.Column('status', sa.Enum('active', 'inactive', name='status'), nullable=True),
     sa.Column('agency_ybt', sa.String(length=50), nullable=True),
     sa.Column('own_agency', sa.String(length=50), nullable=True),
-    sa.Column('company', sa.String(length=50), nullable=True),
     sa.Column('sales_goal', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
@@ -64,6 +63,13 @@ def upgrade():
     sa.Column('content', sa.String(length=240), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('video_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('company',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('nombre', sa.String(length=100), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -116,6 +122,7 @@ def downgrade():
     op.drop_table('courses__data')
     op.drop_table('client__activity')
     op.drop_table('tarea')
+    op.drop_table('company')
     op.drop_table('comment')
     op.drop_table('cliente')
     op.drop_table('agencies')

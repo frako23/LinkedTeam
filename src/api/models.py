@@ -33,7 +33,6 @@ class User(db.Model):
     status = db.Column(db.Enum(Status), default = Status.active)
     agency_ybt = db.Column(db.String(50), unique=False)
     own_agency = db.Column(db.String(50), unique=False)
-    company = db.Column(db.String(50), unique=False)
     sales_goal = db.Column(db.Integer, unique=False)
 
 
@@ -44,7 +43,6 @@ class User(db.Model):
         self.password = kwargs['password']
         self.salt = kwargs['salt']
         self.role =  kwargs['role'] if 'role' in kwargs else Role.associated
-        self.company = kwargs['company'] if 'company' in kwargs else None
         self.sales_goal = kwargs['sales_goal'] if 'sales_goal' in kwargs else None
         self.agency_ybt = kwargs['agency_ybt'] if 'agency_ybt' in kwargs else None
         self.own_agency = kwargs['own_agency'] if 'own_agency' in kwargs else None
@@ -76,7 +74,6 @@ class User(db.Model):
             "agency_ybt": self.agency_ybt,
             "own_agency": self.own_agency,
             "status": self.status.value,
-            "company": self.company,
             "sales_goal": self.sales_goal
             # do not serialize the password, its a security breach
         }
@@ -284,6 +281,7 @@ class Courses_Data(db.Model):
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
     agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
@@ -291,6 +289,7 @@ class Courses_Data(db.Model):
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
         self.agencies_id = kwargs['agencies_id']
+        self.company_id = kwargs['company_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -310,11 +309,39 @@ class Courses_Data(db.Model):
             "description": self.description,
             "img_url": self.img_url,
             "link_url": self.link_url,
-            "agencies_id": self.agencies_id
+            "agencies_id": self.agencies_id,
+            "company_id": self.company_id
+        }
+
+# TABLA PARA GUARDAR COMPAÑIAS
+class Company(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), unique=False, nullable=False)
+    user = db.relationship("User", backref = "company")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self, **kwargs):
+        self.nombre = kwargs['nombre']
+        self.user_id = kwargs['user_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_company = cls(**kwargs)
+        db.session.add(new_company)
+        try:
+            db.session.commit()
+            return new_company
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
         }
 
 # TABLA PARA GUARDAR LAS AGENCIAS
-
 class Agencies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), unique=False, nullable=False)
