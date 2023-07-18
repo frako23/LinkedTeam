@@ -31,9 +31,13 @@ class User(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     status = db.Column(db.Enum(Status), default = Status.active)
-    agency_ybt = db.Column(db.String(50), unique=False)
-    own_agency = db.Column(db.String(50), unique=False)
     sales_goal = db.Column(db.Integer, unique=False)
+    own_agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+    own_agency = db.relationship("Agencies", backref = "user", foreign_keys=[own_agency_id])
+    agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+    agency = db.relationship("Agencies", backref = "user", foreign_keys=[agency_id])
+    company = db.relationship("Company", backref = "user")
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
 
     def __init__(self, **kwargs):
@@ -44,8 +48,8 @@ class User(db.Model):
         self.salt = kwargs['salt']
         self.role =  kwargs['role'] if 'role' in kwargs else Role.associated
         self.sales_goal = kwargs['sales_goal'] if 'sales_goal' in kwargs else None
-        self.agency_ybt = kwargs['agency_ybt'] if 'agency_ybt' in kwargs else None
-        self.own_agency = kwargs['own_agency'] if 'own_agency' in kwargs else None
+        self.agency_id = kwargs['agency_id'] if 'agency_id' in kwargs else None
+        self.own_agency_id = kwargs['own_agency_id'] if 'own_agency_id' in kwargs else None
 
     @classmethod
     def create(cls, **kwargs):
@@ -71,8 +75,9 @@ class User(db.Model):
             "role": self.role.value,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "agency_ybt": self.agency_ybt,
-            "own_agency": self.own_agency,
+            "agency": self.agency.name,
+            "own_agency": self.own_agency.name,
+            "company": self.company.name,
             "status": self.status.value,
             "sales_goal": self.sales_goal
             # do not serialize the password, its a security breach
@@ -82,25 +87,27 @@ class User(db.Model):
 
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), unique=False, nullable=False)
-    fecha = db.Column(db.String(50), unique=False, nullable=True)
+    name = db.Column(db.String(50), unique=False, nullable=False)
+    birthdate = db.Column(db.String(50), unique=False, nullable=True)
     email = db.Column(db.String(50), unique=False, nullable=False)
-    celular = db.Column(db.String(50), unique=True, nullable=False)
-    monto = db.Column(db.String(20), unique=False, nullable=False)
-    confianza = db.Column(db.String(20), unique=False, nullable=False)
-    notas = db.Column(db.String(1000), unique=False, nullable=False)
-    estatus = db.Column(db.String(50), unique=False, nullable=False)
+    cellphone = db.Column(db.String(50), unique=True, nullable=False)
+    amount = db.Column(db.String(20), unique=False, nullable=False)
+    trust = db.Column(db.String(20), unique=False, nullable=False)
+    notes = db.Column(db.String(1000), unique=False, nullable=False)
+    status = db.Column(db.String(50), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
-        self.nombre = kwargs['nombre']
-        self.fecha = kwargs['fecha']
+        self.name = kwargs['name']
+        self.birthdate = kwargs['birthdate']
         self.email = kwargs['email']
-        self.celular = kwargs['celular']
-        self.monto = kwargs['monto']
-        self.confianza = kwargs['confianza']
-        self.notas = kwargs['notas']
-        self.estatus = kwargs['estatus']
+        self.cellphone = kwargs['cellphone']
+        self.amount = kwargs['amount']
+        self.trust = kwargs['trust']
+        self.notes = kwargs['notes']
+        self.status = kwargs['status']
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -117,14 +124,16 @@ class Cliente(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre,
-            "fecha": self.fecha,
+            "name": self.name,
+            "birthdate": self.birthdate,
             "email": self.email,
-            "celular": self.celular,
-            "monto": self.monto,
-            "confianza": self.confianza,
-            "notas": self.notas,
-            "estatus": self.estatus,
+            "cellphone": self.cellphone,
+            "amount": self.amount,
+            "trust": self.trust,
+            "notes": self.notes,
+            "status": self.status,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
             "user_id": self.user_id
             # do not serialize the password, its a security breach
         }
@@ -169,7 +178,6 @@ class Response(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(240), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
- 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User')
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
@@ -207,22 +215,24 @@ class Response(db.Model):
 
 class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tarea = db.Column(db.String(250), unique=False, nullable=False)
-    estatus = db.Column(db.String(20), unique=False, nullable=False)
+    task = db.Column(db.String(250), unique=False, nullable=False)
+    status = db.Column(db.String(20), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
         self.tarea = kwargs['tarea']
-        self.estatus = kwargs['estatus']
+        self.status = kwargs['estatus']
         self.user_id = kwargs['user_id']
 
     @classmethod
     def create(cls, **kwargs):
-        new_tarea = cls(**kwargs)
-        db.session.add(new_tarea)
+        new_task = cls(**kwargs)
+        db.session.add(new_task)
         try:
             db.session.commit()
-            return new_tarea
+            return new_task
         except Exception as error:
             raise Exception(error.args[0], 400)
         
@@ -230,25 +240,28 @@ class Tarea(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "tarea": self.tarea,
-            "estatus": self.estatus,
-            "user_id": self.user_id
+            "tarea": self.task,
+            "status": self.estatus,
+            "user_id": self.user_id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
         }
 
 # tabla de registro de actividades de interacciones con clientes
 
 class Client_Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.String(10), nullable=False)
-    tipo_de_contacto = db.Column(db.Enum(TipoDeContacto), nullable=False)
-    comentario = db.Column(db.String(250), nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+    contact_type = db.Column(db.Enum(TipoDeContacto), nullable=False)
+    comment = db.Column(db.String(250), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    # created_at = db.Column(db.DateTime(timezone=True), default = date.today())
 
     def __init__(self, **kwargs):
-        self.fecha = kwargs['fecha']
-        self.tipo_de_contacto = kwargs['tipo_de_contacto']
-        self.comentario = kwargs['comentario']
+        self.date = kwargs['date']
+        self.contact_type = kwargs['contact_type']
+        self.comment = kwargs['comment']
         self.user_id = kwargs['user_id']
         self.client_id = kwargs['client_id']
 
@@ -265,23 +278,25 @@ class Client_Activity(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "fecha": self.fecha,
-            "tipo_de_contacto": self.tipo_de_contacto.value,
-            "comentario": self.comentario,
+            "date": self.date,
+            "contact_type": self.contact_type.value,
+            "comment": self.comment,
             "user_id": self.user_id,
-            "client_id": self.client_id
+            "client_id": self.client_id,
+            # "created_at": self.created_at
         }
 
 # TABLA PARA INFOMRACION DE VIDEOS
 
-class Courses_Data(db.Model):
+class Courses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
-    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
@@ -310,19 +325,20 @@ class Courses_Data(db.Model):
             "img_url": self.img_url,
             "link_url": self.link_url,
             "agencies_id": self.agencies_id,
-            "company_id": self.company_id
+            "company_id": self.company_id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
         }
 
 # TABLA PARA GUARDAR COMPAÑIAS
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), unique=False, nullable=False)
-    user = db.relationship("User", backref = "company")
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    name = db.Column(db.String(100), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
     def __init__(self, **kwargs):
-        self.nombre = kwargs['nombre']
-        self.user_id = kwargs['user_id']
+        self.name = kwargs['name']
 
     @classmethod
     def create(cls, **kwargs):
@@ -338,21 +354,28 @@ class Company(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre,
+            "name": self.name,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
         }
 
 # TABLA PARA GUARDAR LAS AGENCIAS
 class Agencies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), unique=False, nullable=False)
-    user = db.relationship("User", backref = "agencies")
+    name = db.Column(db.String(100), unique=False, nullable=False)
     agency_logo = db.Column(db.String(100), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User", backref = "agencies")
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
+    company = db.relationship("Company", backref = "agencies")
 
     def __init__(self, **kwargs):
-        self.nombre = kwargs['nombre']
+        self.name = kwargs['name']
         self.agency_logo = kwargs['agency_logo']
         self.user_id = kwargs['user_id']
+        self.company_id = kwargs['company_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -368,7 +391,89 @@ class Agencies(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre,
+            "name": self.name,
             "manager": f"{self.user.name} {self.user.lastname}",
-            "agency_logo": self.agency_logo
+            "agency_logo": self.agency_logo,
+            "company": self.company.name,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
+# TABLA DE REGISTROS DE PAGOS
+class Payment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    img_url = db.Column(db.String(100), unique=False, nullable=False)
+    referance = db.Column(db.String(100), unique=False, nullable=False)
+    payment_method = db.Column(db.String(100), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    user = db.relationship("User", backref = "payment")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+
+    def __init__(self, **kwargs):
+        self.img_url = kwargs['img_url']
+        self.referance = kwargs['referance']
+        self.payment_method = kwargs['payment_method']
+        self.user_id = kwargs['user_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_payment = cls(**kwargs)
+        db.session.add(new_payment)
+        try:
+            db.session.commit()
+            return new_payment
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "img_url": self.img_url,
+            "referance": self.referance,
+            "payment_method": self.payment_method,
+            "user": self.user.name,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
+# TABLA DE INFORMACIÓN DE LA CUENTA
+class Account_Information(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    plan_name = db.Column(db.String(100), unique=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    expires_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    user = db.relationship("User", backref = "payment")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    payment = db.relationship("Payment", backref = "account_information")
+    payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
+    
+
+    def __init__(self, **kwargs):
+        self.plan_name = kwargs['plan_name']
+        self.user_id = kwargs['user_id']
+        self.payment_id = kwargs['payment_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_account_information = cls(**kwargs)
+        db.session.add(new_account_information)
+        try:
+            db.session.commit()
+            return new_account_information
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+        
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "plan_name": self.plan_name,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "expires_at": self.expires_at,
+            "user": self.user.name,
+            "payment": self.payment.id,
         }
