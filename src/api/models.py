@@ -32,10 +32,14 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     status = db.Column(db.Enum(Status), default = Status.active)
     sales_goal = db.Column(db.Integer, unique=False)
+    
+    
     own_agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
-    own_agency = db.relationship("Agencies", backref = "user", foreign_keys=[own_agency_id])
+    own_agency = db.relationship("Agencies", backref = "users_own_agency", foreign_keys=[own_agency_id])
+
     agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
-    agency = db.relationship("Agencies", backref = "user", foreign_keys=[agency_id])
+    agency = db.relationship("Agencies", backref = "users_agency", foreign_keys=[agency_id])
+    
     company = db.relationship("Company", backref = "user")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
@@ -366,15 +370,14 @@ class Agencies(db.Model):
     agency_logo = db.Column(db.String(100), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship("User", backref = "agencies")
+
+
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     company = db.relationship("Company", backref = "agencies")
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
         self.agency_logo = kwargs['agency_logo']
-        self.user_id = kwargs['user_id']
         self.company_id = kwargs['company_id']
 
     @classmethod
@@ -445,7 +448,7 @@ class Account_Information(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     expires_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    user = db.relationship("User", backref = "payment")
+    user = db.relationship("User", backref = "account_information")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     payment = db.relationship("Payment", backref = "account_information")
     payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
