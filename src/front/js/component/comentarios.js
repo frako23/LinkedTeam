@@ -80,7 +80,9 @@ export const Comentarios = () => {
               <div className="comentario-content mb-3 mt-3">
                 <div className="comentario">
                   <h3 className="usuario">
-                    <strong>{comentario.name}</strong>
+                    <strong>
+                      {comentario.name + " " + comentario.lastname}
+                    </strong>
                   </h3>
                   <p>{comentario.content}</p>
                   <div className="comment-action">
@@ -136,11 +138,14 @@ export const Comentarios = () => {
                   ) {
                     return (
                       <div className="response-content" key={resp.id}>
-                        <div className="comentario">
-                          <p>
-                            <strong>{resp.name}</strong>
-                          </p>
-                          <p>{resp.content}</p>
+                        <div className="comentario-resp">
+                          <span className="thread-left thread-bottom"></span>
+                          <div>
+                            <p>
+                              <strong>{resp.name + " " + resp.lastname}</strong>
+                            </p>
+                            <p>{resp.content}</p>
+                          </div>
                         </div>
                       </div>
                     );
