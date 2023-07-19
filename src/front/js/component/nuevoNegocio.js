@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Swal from "sweetalert2";
 
 export const Nuevonegocio = () => {
   const { store, actions } = useContext(Context);
@@ -38,6 +39,12 @@ export const Nuevonegocio = () => {
       estatus: "",
       confianza: "",
       notas: "",
+    });
+    Swal.fire({
+      title: "Registraste tú cliente correctamente 🙌",
+      confirmButtonText: "OK",
+      showLoaderOnConfirm: true,
+      allowOutsideClick: () => !Swal.isLoading(),
     });
   };
 
