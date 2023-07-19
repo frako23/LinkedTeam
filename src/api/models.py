@@ -174,6 +174,7 @@ class Comment(db.Model):
             "id": self.id,
             "content": self.content,
             "name": self.user.name,
+            "lastname": self.user.lastname,
             "created_at": self.created_at,
 
         }
@@ -210,6 +211,7 @@ class Response(db.Model):
             "id": self.id,
             "content": self.content,
             "name": self.user.name,
+            "lastname": self.user.lastname,
             "comment_id": self.comment_id,
             "created_at": self.created_at,
 
