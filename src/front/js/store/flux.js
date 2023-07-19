@@ -499,7 +499,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      putCliente: async ({ estatus, cliente_id }) => {
+      putCliente: async ({ status, cliente_id }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -509,10 +509,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             // Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
-            estatus: estatus,
+            status: status,
           }),
         };
-        console.log(estatus);
+        console.log(status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/cliente/${cliente_id}`,

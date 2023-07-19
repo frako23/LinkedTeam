@@ -218,22 +218,22 @@ def post_get_clientes():
         return jsonify(clientes_dictionaries), 200
     new_cliente_data = request.json
     try:
-        if "nombre" not in new_cliente_data or new_cliente_data["nombre"] == "":
-            raise Exception("No ingresaste el nombre", 400)
-        if "fecha" in new_cliente_data["fecha"] == "":
-            raise Exception("No ingresaste la fecha", 400)
+        if "name" not in new_cliente_data or new_cliente_data["name"] == "":
+            raise Exception("No ingresaste el name", 400)
+        if "birthdate" in new_cliente_data["birthdate"] == "":
+            raise Exception("No ingresaste la birthdate", 400)
         if "email" not in new_cliente_data or new_cliente_data["email"] == "":
             raise Exception("No ingresaste el email", 400)
-        if "celular" not in new_cliente_data or new_cliente_data["celular"] == "":
-            raise Exception("No ingresaste el celular", 400)
-        if "monto" not in new_cliente_data or new_cliente_data["monto"] == "":
-            raise Exception("No ingresaste el monto", 400)
-        if "estatus" not in new_cliente_data or new_cliente_data["estatus"] == "":
-            raise Exception("No ingresaste el estatus", 400)
-        if "confianza" not in new_cliente_data or new_cliente_data["confianza"] == "":
-            raise Exception("No ingresaste el nivel de confianza", 400)
-        if "notas" not in new_cliente_data or new_cliente_data["notas"] == "":
-            raise Exception("No ingresaste notas", 400)
+        if "cellphone" not in new_cliente_data or new_cliente_data["cellphone"] == "":
+            raise Exception("No ingresaste el cellphone", 400)
+        if "amount" not in new_cliente_data or new_cliente_data["amount"] == "":
+            raise Exception("No ingresaste el amount", 400)
+        if "status" not in new_cliente_data or new_cliente_data["status"] == "":
+            raise Exception("No ingresaste el status", 400)
+        if "trust" not in new_cliente_data or new_cliente_data["trust"] == "":
+            raise Exception("No ingresaste el nivel de trust", 400)
+        if "notes" not in new_cliente_data or new_cliente_data["notes"] == "":
+            raise Exception("No ingresaste notes", 400)
         new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
@@ -279,7 +279,7 @@ def update_cliente(id):
     try:
         cliente = Cliente.query.get(id)
         
-        cliente.estatus = request.json['estatus']
+        cliente.status = request.json['status']
 
         db.session.commit()
         return jsonify(cliente.serialize()),200 

@@ -11,14 +11,14 @@ import Swal from "sweetalert2";
 export const Nuevonegocio = () => {
   const { store, actions } = useContext(Context);
   const [cliente, setCliente] = useState({
-    nombre: "",
-    fecha: "",
+    name: "",
+    birthdate: "",
     email: "",
-    celular: "",
-    monto: "",
-    estatus: "",
-    confianza: "",
-    notas: "",
+    cellphone: "",
+    amount: "",
+    status: "",
+    trust: "",
+    notes: "",
   });
   const [show, setShow] = useState(false);
 
@@ -31,14 +31,14 @@ export const Nuevonegocio = () => {
     actions.postClientes(cliente);
     handleClose();
     setCliente({
-      nombre: "",
-      fecha: "",
+      name: "",
+      birthdate: "",
       email: "",
-      celular: "",
-      monto: "",
-      estatus: "",
-      confianza: "",
-      notas: "",
+      cellphone: "",
+      amount: "",
+      status: "",
+      trust: "",
+      notes: "",
     });
     Swal.fire({
       title: "Registraste tú cliente correctamente 🙌",
@@ -73,10 +73,10 @@ export const Nuevonegocio = () => {
               <Form.Control
                 type="text"
                 required
-                name="nombre"
+                name="name"
                 placeholder="Nombre del cliente"
                 onChange={handleForm}
-                value={cliente.nombre}
+                value={cliente.name}
                 autoFocus
               />
             </Form.Group>
@@ -87,10 +87,10 @@ export const Nuevonegocio = () => {
                   <Form.Control
                     type="tel"
                     required
-                    name="celular"
+                    name="cellphone"
                     placeholder="04XX-XXXXXXX"
                     onChange={handleForm}
-                    value={cliente.celular}
+                    value={cliente.cellphone}
                   />
                 </Col>
                 <Col>
@@ -116,9 +116,9 @@ export const Nuevonegocio = () => {
                   <Form.Control
                     type="date"
                     required
-                    name="fecha"
+                    name="birthdate"
                     onChange={handleForm}
-                    value={cliente.fecha}
+                    value={cliente.birthdate}
                     autoFocus
                   />
                 </Col>
@@ -128,8 +128,8 @@ export const Nuevonegocio = () => {
                     type="number"
                     required
                     placeholder="5000"
-                    name="monto"
-                    value={cliente.monto}
+                    name="amount"
+                    value={cliente.amount}
                     onChange={handleForm}
                     autoFocus
                   />
@@ -144,8 +144,8 @@ export const Nuevonegocio = () => {
                   <Form.Select
                     aria-label="Default select example"
                     required
-                    name="estatus"
-                    value={cliente.estatus}
+                    name="status"
+                    value={cliente.status}
                     onChange={handleForm}
                   >
                     <option value=""></option>
@@ -161,8 +161,8 @@ export const Nuevonegocio = () => {
                   <Form.Select
                     aria-label="Default select example"
                     required
-                    name="confianza"
-                    value={cliente.confianza}
+                    name="trust"
+                    value={cliente.trust}
                     onChange={handleForm}
                   >
                     <option value=""></option>
@@ -181,10 +181,10 @@ export const Nuevonegocio = () => {
               <Form.Label>Notas</Form.Label>
               <Form.Control
                 as="textarea"
-                name="notas"
+                name="notes"
                 rows={3}
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
-                value={cliente.notas}
+                value={cliente.notes}
                 onChange={handleForm}
                 required
               />

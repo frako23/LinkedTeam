@@ -20,26 +20,24 @@ export const Dashboard = () => {
   }, [store.usuario.status]);
 
   let notClosedArray = store.clientes.filter(
-    (index) => index.estatus != "Cerrado"
+    (index) => index.status != "Cerrado"
   );
 
   console.log(notClosedArray);
 
   let amountSum = notClosedArray.reduce(
-    (acum, index) => acum + parseInt(index.monto),
+    (acum, index) => acum + parseInt(index.amount),
     0
   );
 
   console.log(amountSum);
 
-  let closedArray = store.clientes.filter(
-    (index) => index.estatus == "Cerrado"
-  );
+  let closedArray = store.clientes.filter((index) => index.status == "Cerrado");
 
   console.log(closedArray);
 
   let amountSumClosedSales = closedArray.reduce(
-    (acum, index) => acum + parseInt(index.monto),
+    (acum, index) => acum + parseInt(index.amount),
     0
   );
 
@@ -57,7 +55,7 @@ export const Dashboard = () => {
     }
   }, []);
 
-  console.log(store.client);
+  // console.log(store.client);
 
   return (
     <>
