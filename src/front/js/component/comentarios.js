@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 export const Comentarios = () => {
   const [comentario, setComentario] = useState("");
   const [responder, setResponder] = useState(false);
+  const [responderSelected, setResponderSelected] = useState(null);
   const [commentSelected, setCommentSelected] = useState(null);
   const [respuestas, setRespuestas] = useState({}); // Estado de las respuestas como objeto
   const { store, actions } = useContext(Context);
@@ -86,7 +87,16 @@ export const Comentarios = () => {
                   </h3>
                   <p>{comentario.content}</p>
                   <div className="comment-action">
-                    <span onClick={() => setResponder(!responder)}>
+                    <span
+                      onClick={() => {
+                        if (comentario.id !== commentSelected) {
+                          setResponder(true);
+                        } else {
+                          setResponder(false);
+                        }
+                        setResponderSelected(comentario.id);
+                      }}
+                    >
                       Responder
                     </span>
                     {store.respuestas !== "" ? (
@@ -101,7 +111,7 @@ export const Comentarios = () => {
                   </div>
                 </div>
 
-                {responder && (
+                {responder && comentario.id === responderSelected && (
                   <div className="input-group mb-3 mt-3">
                     <input
                       type="text"
