@@ -496,7 +496,7 @@ def add_client_activity(client_id):
 @api.route('/courses/<int:company_id>/<int:agencies_id>', methods=['GET','POST'])
 def post_get_courses_data(company_id, agencies_id):
     if request.method == 'GET':
-        courses_data = Courses_Data.query.filter_by(company_id = company_id, agencies_id = agencies_id)
+        courses_data = Courses.query.filter_by(company_id = company_id, agencies_id = agencies_id)
         courses_data_dictionary = []
         for course_data in courses_data:
             courses_data_dictionary.append(course_data.serialize())
@@ -515,7 +515,7 @@ def post_get_courses_data(company_id, agencies_id):
             raise Exception("No ingresaste el company_id", 400)
         if "agencies_id" not in new_course_data or new_course_data["agencies_id"] == "":
             raise Exception("No ingresaste el agencies_id", 400)
-        new_course = Courses_Data.create(**new_course_data, agencies_id = agencies_id, company_id = company_id)
+        new_course = Courses.create(**new_course_data, agencies_id = agencies_id, company_id = company_id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
@@ -531,7 +531,7 @@ def post_get_company():
         return jsonify(company_dictionary), 200
     new_company = request.json
     try:
-        if "nombre" not in new_company or new_company["nombre"] == "":
+        if "name" not in new_company or new_company["name"] == "":
             raise Exception("No ingresaste el nombre de la empresa", 400)
         new_company = Company.create(**new_company)
         return jsonify(new_company.serialize()), 201
