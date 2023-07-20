@@ -551,9 +551,9 @@ def get_agencies(nombre):
             [agency.serialize() for agency in agencies]
         ),200
 
-@api.route('/agencies', methods=['POST'])
+@api.route('/agencies/<int:company_id>', methods=['POST'])
 @jwt_required()
-def add_agency():
+def add_agency(company_id):
     user_id = get_jwt_identity()
 
     user = User.query.get(user_id)
@@ -563,12 +563,12 @@ def add_agency():
     
     new_agency_data = request.json
 
-    if "nombre" not in new_agency_data or new_agency_data["nombre"] == "":
+    if "name" not in new_agency_data or new_agency_data["name"] == "":
         raise Exception("No ingresaste el nombre", 400)
     if "agency_logo" not in new_agency_data or new_agency_data["agency_logo"] == "":
         raise Exception("No ingresaste el logo", 400)
     
-    new_agency = Agencies.create(**new_agency_data, user_id = user_id)
+    new_agency = Agencies.create(**new_agency_data,company_id = company_id)
 
     db.session.add(new_agency)
     try:

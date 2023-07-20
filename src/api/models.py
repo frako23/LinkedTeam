@@ -397,7 +397,6 @@ class Agencies(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "manager": f"{self.user.name} {self.user.lastname}",
             "agency_logo": self.agency_logo,
             "company": self.company.name,
             "created_at": self.created_at,
