@@ -39,9 +39,6 @@ class User(db.Model):
 
     agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
     agency = db.relationship("Agencies", backref = "users_agency", foreign_keys=[agency_id])
-    
-    company = db.relationship("Company", backref = "user")
-    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
 
     def __init__(self, **kwargs):
@@ -81,7 +78,6 @@ class User(db.Model):
             "updated_at": self.updated_at,
             "agency": self.agency.name if self.agency else None,
             "own_agency": self.own_agency.name if self.own_agency else None,
-            "company": self.company.name if self.company else None,
             "status": self.status.value,
             "sales_goal": self.sales_goal
             # do not serialize the password, its a security breach

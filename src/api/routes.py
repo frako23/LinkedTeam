@@ -145,22 +145,6 @@ def put_user_own_agency():
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
-# PUT para elegir la compañia para usuarios
-@api.route('/user_company/<int:id>', methods=['PUT'])
-@jwt_required()
-def put_user_company(id):
-    id = get_jwt_identity()
-    try:
-        user = User.query.get(id)
-        
-        user.company = request.json['company']
-
-        db.session.commit()
-        return jsonify(user.serialize()),200 
-
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
-
 # PUT para elegir la meta de ventas del usuario
 @api.route('/user_sales_goal/<int:id>', methods=['PUT'])
 @jwt_required()
