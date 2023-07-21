@@ -511,10 +511,6 @@ def post_get_courses_data(company_id, agencies_id):
             raise Exception("No ingresaste el img_url", 400)
         if "link_url" not in new_course_data or new_course_data["link_url"] == "":
             raise Exception("No ingresaste el link_url", 400)
-        if "company_id" not in new_course_data or new_course_data["company_id"] == "":
-            raise Exception("No ingresaste el company_id", 400)
-        if "agencies_id" not in new_course_data or new_course_data["agencies_id"] == "":
-            raise Exception("No ingresaste el agencies_id", 400)
         new_course = Courses.create(**new_course_data, agencies_id = agencies_id, company_id = company_id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
@@ -539,17 +535,28 @@ def post_get_company():
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # rutas de agencias
-@api.route('/agencies/<string:nombre>', methods=['GET'])
+# @api.route('/agencies/<string:name>', methods=['GET'])
+# @jwt_required()
+# def get_agencies(name):
+#     agencies = Agencies.query.filter_by(name = name)
+    
+#     if agencies is None:
+#         return jsonify({"msg":"No existe la agencia"}), 401
+    
+#     return jsonify(
+#             [agency.serialize() for agency in agencies]
+#         ),200
+
+@api.route('/agencies', methods=['GET'])
 @jwt_required()
-def get_agencies(nombre):
-    agencies = Agencies.query.filter_by(nombre = nombre)
+def get_agencies():
+    agencies = Agencies.query.all()
     
-    if agencies is None:
-        return jsonify({"msg":"No existe la agencia"}), 401
+    # if agencies is None:
+    #     return jsonify({"msg":"No existe la agencia"}), 401
     
-    return jsonify(
-            [agency.serialize() for agency in agencies]
-        ),200
+    return jsonify(agencies), 200
+
 
 @api.route('/agencies/<int:company_id>', methods=['POST'])
 @jwt_required()

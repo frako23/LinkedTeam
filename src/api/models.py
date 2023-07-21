@@ -303,6 +303,7 @@ class Courses(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
@@ -369,7 +370,7 @@ class Company(db.Model):
 class Agencies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=False, nullable=False)
-    agency_logo = db.Column(db.String(100), unique=False, nullable=False)
+    agency_logo = db.Column(db.String(1000), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
