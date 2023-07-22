@@ -528,29 +528,27 @@ def post_get_company():
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # rutas de agencias
-# @api.route('/agencies/<string:name>', methods=['GET'])
-# @jwt_required()
-# def get_agencies(name):
-#     agencies = Agencies.query.filter_by(name = name)
-    
-#     if agencies is None:
-#         return jsonify({"msg":"No existe la agencia"}), 401
-    
-#     return jsonify(
-#             [agency.serialize() for agency in agencies]
-#         ),200
-
+# endpoint para traer todas las agencias
 @api.route('/agencies', methods=['GET'])
 @jwt_required()
 def get_agencies():
     agencies = Agencies.query.all()
     
-    # if agencies is None:
-    #     return jsonify({"msg":"No existe la agencia"}), 401
+    agencies = list(map(lambda agency: agency.serialize(), agencies))
     
     return jsonify(agencies), 200
 
+#endpoint para traer agencias por compañia
+@api.route('/agencies/<int:company_id>', methods=['GET'])
+@jwt_required()
+def get_agencies_by_company(company_id):
+    agencies = Agencies.query.filter_by(company_id = company_id)
+    
+    agencies = list(map(lambda agency: agency.serialize(), agencies))
+    
+    return jsonify(agencies), 200
 
+# endpoint para añadir agencias
 @api.route('/agencies/<int:company_id>', methods=['POST'])
 @jwt_required()
 def add_agency(company_id):
