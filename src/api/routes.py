@@ -130,14 +130,19 @@ def reset_user_agency(user_id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
 # método PUT para que los gerentes coloquen su propia agencia
-@api.route('/own_agency', methods=['PUT'])
+@api.route('/user/own_agency/<int:agency_id>', methods=['PUT'])
 @jwt_required()
-def put_user_own_agency():
+def put_user_own_agency(agency_id):
     id = get_jwt_identity()
+    agency = Agencies.query.get(agency_id)
+    print(agency)
+
+    if agency is None:
+        return jsonify({"msg":"No existe la agencia"}), 401
     try:
         user = User.query.get(id)
         
-        user.own_agency = request.json['own_agency']
+        user.own_agency_id = agency.id
 
         db.session.commit()
         return jsonify(user.serialize()),200 

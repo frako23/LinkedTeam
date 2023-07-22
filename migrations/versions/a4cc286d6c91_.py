@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: dc5ca91449db
+Revision ID: a4cc286d6c91
 Revises: 
-Create Date: 2023-07-21 09:02:38.055437
+Create Date: 2023-07-22 11:29:54.595405
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'dc5ca91449db'
+revision = 'a4cc286d6c91'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -44,7 +44,9 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('agencies_id', sa.Integer(), nullable=True),
+    sa.Column('company_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['agencies_id'], ['agencies.id'], ),
+    sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
@@ -61,9 +63,7 @@ def upgrade():
     sa.Column('sales_goal', sa.Integer(), nullable=True),
     sa.Column('own_agency_id', sa.Integer(), nullable=True),
     sa.Column('agency_id', sa.Integer(), nullable=True),
-    sa.Column('company_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['agency_id'], ['agencies.id'], ),
-    sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
     sa.ForeignKeyConstraint(['own_agency_id'], ['agencies.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
