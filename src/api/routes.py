@@ -100,14 +100,18 @@ def add_user():
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # método PUT para seleccionar la agencia a la que perteneces
-@api.route('/agency_ybt', methods=['PUT'])
+@api.route('/user/agency_ybt/<int:agency_id>', methods=['PUT'])
 @jwt_required()
-def put_user_agency():
+def put_user_agency(agency_id):
     id = get_jwt_identity()
+    agency = Agencies.query.get(agency_id)
+
+    if agency is None:
+        return jsonify({"msg":"No existe la agencia"}), 401
     try:
         user = User.query.get(id)
         
-        user.agency_ybt = request.json['agency_ybt']
+        user.agency_id = agency.id
 
         db.session.commit()
         return jsonify(user.serialize()),200 
