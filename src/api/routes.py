@@ -548,6 +548,23 @@ def get_agencies_by_company(company_id):
     
     return jsonify(agencies), 200
 
+#endpoit para traer las agencias de mis asociados
+@api.route('/own_agencies', methods=['GET'])
+@jwt_required()
+def get_own_agencies():
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    my_users = User.query.filter_by( agency_id= user.own_agency_id)
+
+    def check_own_agency(user):
+        if user.serialize()["own_agency"] != None and user.serialize()["agency"] != user.serialize()["own_agency"]["name"]:
+            return True
+        return False
+    
+    users_filter = list(filter(check_own_agency, my_users))
+    users = list(map(lambda user: user.serialize()["own_agency"], users_filter))
+    return jsonify(users), 200
+
 # endpoint para añadir agencias
 @api.route('/agencies/<int:company_id>', methods=['POST'])
 @jwt_required()
