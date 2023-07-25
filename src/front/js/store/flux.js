@@ -11,6 +11,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       comentarios: [],
       respuestas: [],
       clientActivity: [],
+      company: [],
+      agencies: [],
       totalUsuarios: [],
       usersByAgency: [],
       userClients: [],
@@ -920,6 +922,114 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ managerClientActivity: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // crear compañía
+      postCompany: async (company) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(company),
+        };
+        console.log(company);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/company`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar la compañía", error);
+        }
+      },
+
+      // obtener compañías
+      getCompany: () => {
+        console.log();
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/company/`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ company: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // crear Agencias
+      postAgencies: async (agency) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(agency),
+        };
+        console.log(agency);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/agencies/${agency.companyId}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar la empresa", error);
+        }
+      },
+
+      // obtener Agencias
+      getAgencies: () => {
+        console.log();
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/agencies/`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ agencies: body }))
           .catch((error) => console.log(error));
       },
     },

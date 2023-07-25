@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const MainChart = () => {
   const { store, actions } = useContext(Context);
@@ -27,11 +28,11 @@ export const MainChart = () => {
             <th className="text-center">Días</th>
             <th className="text-center">Nombre</th>
             <th className="text-center">Agencia</th>
-            <th className="text-center">Rol</th>
-            <th className="text-center">Estatus</th>
-            <th className="text-center">Asignar rol</th>
-            <th className="text-center">Activación</th>
             <th className="text-center">Resetear Agencia</th>
+            <th className="text-center">Rol</th>
+            <th className="text-center">Asignar rol</th>
+            <th className="text-center">Estatus</th>
+            <th className="text-center">Activación</th>
           </tr>
         </thead>
         <tbody>
@@ -47,9 +48,21 @@ export const MainChart = () => {
                   {usuario.name + " " + usuario.lastname}
                 </td>
                 <td className="fw-bolder text-center">{usuario.agency_ybt}</td>
+                <td className="fw-bolde single-btn">
+                  <button
+                    className="btn btn-warning"
+                    onClick={(e) =>
+                      actions.resetAgency({
+                        agency_ybt: null,
+                        user_id: usuario.id,
+                      })
+                    }
+                  >
+                    Resetear
+                  </button>
+                </td>
                 <td className="fw-bolder text-center">{usuario.role}</td>
-                <td className="fw-bolder text-center">{usuario.status}</td>
-                <td className="fw-bolde">
+                <td className="fw-bolde single-btn">
                   <button
                     className="btn btn-primary"
                     onClick={(e) =>
@@ -62,7 +75,8 @@ export const MainChart = () => {
                     Gerente
                   </button>
                 </td>
-                <td className="fw-bolde">
+                <td className="fw-bolder text-center">{usuario.status}</td>
+                <td className="fw-bolde not-single-btn">
                   <button
                     className="btn btn-danger"
                     onClick={(e) =>
@@ -84,19 +98,6 @@ export const MainChart = () => {
                     }
                   >
                     Activar
-                  </button>
-                </td>
-                <td className="fw-bolde">
-                  <button
-                    className="btn btn-warning"
-                    onClick={(e) =>
-                      actions.resetAgency({
-                        agency_ybt: null,
-                        user_id: usuario.id,
-                      })
-                    }
-                  >
-                    Resetear
                   </button>
                 </td>
               </tr>

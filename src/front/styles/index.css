@@ -314,3 +314,26 @@ body {
 
 @media (max-width: 450px) {
 }
+
+/* Espaciado de botones en Componente Main Chart */
+.single-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.not-single-btn {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* header de Admin Pannel */
+.admin-pannel-header {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.admin-pannel-header div {
+  align-self: center;
+  display: flex;
+  gap: 1rem;
+}
