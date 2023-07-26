@@ -163,7 +163,7 @@ def put_user_sales_goal(id):
         user = User.query.get(id)
         
         user.sales_goal = request.json['sales_goal']
-
+        
         db.session.commit()
         return jsonify(user.serialize()),200 
 
@@ -177,6 +177,7 @@ def put_user_role(user_id):
         user = User.query.get(user_id)
         
         user.role = request.json['role']
+        user.own_agency_id = request.json['own_agency_id']
 
         db.session.commit()
         return jsonify(user.serialize()),200 
@@ -529,14 +530,14 @@ def post_get_company():
 
 # rutas de agencias
 # endpoint para traer todas las agencias
-@api.route('/agencies', methods=['GET'])
-@jwt_required()
-def get_agencies():
-    agencies = Agencies.query.all()
+# @api.route('/agencies', methods=['GET'])
+# @jwt_required()
+# def get_agencies():
+#     agencies = Agencies.query.all()
     
-    agencies = list(map(lambda agency: agency.serialize(), agencies))
+#     agencies = list(map(lambda agency: agency.serialize(), agencies))
     
-    return jsonify(agencies), 200
+#     return jsonify(agencies), 200
 
 #endpoint para traer agencias por compañia
 @api.route('/agencies/<int:company_id>', methods=['GET'])

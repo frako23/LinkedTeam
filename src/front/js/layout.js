@@ -18,6 +18,7 @@ import { SignUp } from "./pages/signUp";
 import { Pricing } from "./pages/pricing";
 import { AgencyToSelect } from "./pages/agencyToSelect";
 import { Navbar } from "./component/navbar";
+import { OwnAgencyCourses } from "./pages/ownAgencyCourses";
 
 //create your first component
 const Layout = () => {
@@ -29,7 +30,6 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
-          
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Dashboard />} path="/dashboard" />
@@ -38,9 +38,10 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Courses />} path="/courses" />
+            <Route element={<OwnAgencyCourses />} path="/ownAgencyCourses" />
             <Route element={<Pricing />} path="/pricing" />
             <Route element={<AgencyToSelect />} path="/agencyToSelect" />
-            <Route element={<Todo />} path="/todo"/>
+            <Route element={<Todo />} path="/todo" />
             <Route element={<Perfil />} path="/perfil" />
             <Route element={<Video />} path="/video/:theid" />
             <Route element={<Single />} path="/single/:theid" />

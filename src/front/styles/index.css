@@ -337,3 +337,9 @@ body {
   display: flex;
   gap: 1rem;
 }
+
+.create-course-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

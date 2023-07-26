@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import SetRoleManager from "./setRoleManager";
 
 export const MainChart = () => {
   const { store, actions } = useContext(Context);
@@ -63,17 +64,7 @@ export const MainChart = () => {
                 </td>
                 <td className="fw-bolder text-center">{usuario.role}</td>
                 <td className="fw-bolde single-btn">
-                  <button
-                    className="btn btn-primary"
-                    onClick={(e) =>
-                      actions.selectRole({
-                        role: "manager",
-                        user_id: usuario.id,
-                      })
-                    }
-                  >
-                    Gerente
-                  </button>
+                  <SetRoleManager userId={usuario.id} />
                 </td>
                 <td className="fw-bolder text-center">{usuario.status}</td>
                 <td className="fw-bolde not-single-btn">

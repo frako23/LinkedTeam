@@ -29,6 +29,8 @@ export const Navbar = () => {
     navigate("/");
   }
 
+  useEffect(() => actions.getUsuario, []);
+
   return (
     <nav
       className={`sidebar ${toggle == "close" ? "close" : "open"}`}
@@ -88,14 +90,20 @@ export const Navbar = () => {
               </li>
             </Link>
 
-            {/* <li className="nav-link">
-              <button >
-                <i className="bx bx-heart icon"></i>
-                <span className="text nav-text">Likes</span>
-              </a>
-            </li>
+            {store.usuario.role == "manager" ? (
+              <Link to="/OwnAgencyCourses">
+                <li className="ps-0">
+                  <i className="fa-solid fa-users-rectangle icon"></i>
+                  <span className="text nav-text">
+                    {store.usuario.own_agency.name}
+                  </span>
+                </li>
+              </Link>
+            ) : (
+              ""
+            )}
 
-            <li className="nav-link">
+            {/* <li className="nav-link">
               <button >
                 <i className="bx bx-wallet icon"></i>
                 <span className="text nav-text">Wallets</span>

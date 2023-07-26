@@ -295,7 +295,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      selectRole: async ({ role, user_id }) => {
+      selectRole: async (userRole) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -304,14 +304,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify({
-            role: role,
-          }),
+          body: JSON.stringify(userRole),
         };
-        console.log(role);
+        console.log(userRole.role);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/user_role/${user_id}`,
+            `${process.env.BACKEND_URL}/user_role/${userRole.userId}`,
             options
           );
 
@@ -1012,15 +1010,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener Agencias
-      getAgencies: () => {
-        console.log();
+      getAgencies: (id) => {
+        console.log(id);
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/agencies/`;
+        const apiURL = `${process.env.BACKEND_URL}/agencies/${id}`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -1031,6 +1029,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((body) => setStore({ agencies: body }))
           .catch((error) => console.log(error));
+        // actions.getAgencies(id)
       },
     },
   };
