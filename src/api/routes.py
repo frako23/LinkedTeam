@@ -412,7 +412,7 @@ def delete_response(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
 # endpoint para TAREAS
-@api.route('/tareas', methods=['GET','POST'])
+@api.route('/tareas/', methods=['GET','POST'])
 @jwt_required()
 def post_get_tareas():
     user_id = get_jwt_identity()
@@ -424,9 +424,9 @@ def post_get_tareas():
         return jsonify(tareas_dictionaries), 200
     new_tarea_data = request.json
     try:
-        if "tarea" not in new_tarea_data or new_tarea_data["tarea"] == "":
+        if "task" not in new_tarea_data or new_tarea_data["task"] == "":
             raise Exception("No ingresaste la tarea", 400)
-        if "estatus" not in new_tarea_data or new_tarea_data["estatus"] == "":
+        if "status" not in new_tarea_data or new_tarea_data["status"] == "":
             raise Exception("No ingresaste el estatus", 400)
         new_tarea = Tarea.create(**new_tarea_data, user_id = user_id)
         return jsonify(new_tarea.serialize()), 201
@@ -439,7 +439,7 @@ def update_tarea(id):
     try:
         tarea = Tarea.query.get(id)
         
-        tarea.estatus = request.json['estatus']
+        tarea.status = request.json['status']
 
         db.session.commit()
         return jsonify(tarea.serialize()),200 

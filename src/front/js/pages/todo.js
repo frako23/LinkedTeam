@@ -30,7 +30,7 @@ export function Todo() {
     }
   }, [store.token]);
 
-  let estatus = "por realizar";
+  let status = "por realizar";
 
   const onDragEnd = (result) => {
     console.log(result);
@@ -44,12 +44,12 @@ export function Todo() {
       console.log(sourceColIndex);
       const newList = [...store.tareas];
       console.log(newList);
-      newList[sourceColIndex].estatus = destination.droppableId;
-      console.log(newList[sourceColIndex].estatus, newList[sourceColIndex].id);
+      newList[sourceColIndex].status = destination.droppableId;
+      console.log(newList[sourceColIndex].status, newList[sourceColIndex].id);
       actions.updateTaskStatus(newList);
       console.log(store.tareas);
       actions.putTarea({
-        estatus: newList[sourceColIndex].estatus,
+        status: newList[sourceColIndex].status,
         id: newList[sourceColIndex].id,
       });
     }
@@ -81,8 +81,8 @@ export function Todo() {
                   notify();
                 } else {
                   actions.postTareas({
-                    tarea: task,
-                    estatus: estatus,
+                    task: task,
+                    status: status,
                   });
                   setTask("");
                   console.log("entro aqui");
@@ -111,7 +111,7 @@ export function Todo() {
                       <span style={{ background: "black" }} className="badge">
                         {
                           store.tareas.filter(
-                            (tarea) => tarea.estatus === "por realizar"
+                            (tarea) => tarea.status === "por realizar"
                           ).length
                         }
                       </span>{" "}
@@ -119,7 +119,7 @@ export function Todo() {
                     {store.tareas
                       .filter(
                         (tareasFiltradas) =>
-                          tareasFiltradas.estatus === "por realizar"
+                          tareasFiltradas.status === "por realizar"
                       )
                       .map((task, index) => (
                         <Draggable
@@ -151,7 +151,7 @@ export function Todo() {
                                 }}
                                 draggable="true"
                               >
-                                {task.tarea}
+                                {task.task}
 
                                 <button
                                   className="todo-button"
@@ -181,7 +181,7 @@ export function Todo() {
                       <span style={{ background: "black" }} className="badge">
                         {
                           store.tareas.filter(
-                            (tarea) => tarea.estatus === "en ejecución"
+                            (tarea) => tarea.status === "en ejecución"
                           ).length
                         }
                       </span>
@@ -189,7 +189,7 @@ export function Todo() {
                     {store.tareas
                       .filter(
                         (tareasFiltradas) =>
-                          tareasFiltradas.estatus === "en ejecución"
+                          tareasFiltradas.status === "en ejecución"
                       )
                       .map((task, index) => (
                         <Draggable
@@ -221,7 +221,7 @@ export function Todo() {
                                 }}
                                 draggable="true"
                               >
-                                {task.tarea}
+                                {task.task}
 
                                 <button
                                   className="todo-button"
@@ -253,7 +253,7 @@ export function Todo() {
                       <span style={{ background: "black" }} className="badge">
                         {
                           store.tareas.filter(
-                            (tarea) => tarea.estatus === "realizado"
+                            (tarea) => tarea.status === "realizado"
                           ).length
                         }
                       </span>{" "}
@@ -261,7 +261,7 @@ export function Todo() {
                     {store.tareas
                       .filter(
                         (tareasFiltradas) =>
-                          tareasFiltradas.estatus === "realizado"
+                          tareasFiltradas.status === "realizado"
                       )
                       .map((task, index) => (
                         <Draggable
@@ -293,7 +293,7 @@ export function Todo() {
                                 }}
                                 draggable="true"
                               >
-                                {task.tarea}
+                                {task.task}
 
                                 <button
                                   className="todo-button"

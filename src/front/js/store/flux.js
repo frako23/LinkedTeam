@@ -588,7 +588,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }, 10000);
       },
       // obtener y agregar tareas
-      postTareas: async ({ tarea, estatus }) => {
+      postTareas: async ({ task, status }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -598,11 +598,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
-            tarea: tarea,
-            estatus: estatus,
+            task: task,
+            status: status,
           }),
         };
-        console.log(tarea, estatus);
+        console.log(task, status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/tareas`,
@@ -650,7 +650,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ tareas: newList });
       },
 
-      putTarea: async ({ estatus, id }) => {
+      putTarea: async ({ status, id }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -660,10 +660,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             // Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
-            estatus: estatus,
+            status: status,
           }),
         };
-        console.log(estatus);
+        console.log(status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/tareas/${id}`,

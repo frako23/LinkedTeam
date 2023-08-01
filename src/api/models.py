@@ -224,8 +224,8 @@ class Tarea(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
-        self.tarea = kwargs['tarea']
-        self.status = kwargs['estatus']
+        self.task = kwargs['task']
+        self.status = kwargs['status']
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -242,8 +242,8 @@ class Tarea(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "tarea": self.task,
-            "status": self.estatus,
+            "task": self.task,
+            "status": self.status,
             "user_id": self.user_id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
