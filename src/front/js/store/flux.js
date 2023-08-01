@@ -552,15 +552,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       calcularDiasDeUso: (fecha) => {
         let date = new Date(fecha);
         let hoy = new Date();
-        let dias = 30 - (hoy.getDate() - date.getDate());
-        // let tiempoDeUso = new Date(fecha);
-        // let edad = hoy.getFullYear() - fechaDeNacimiento.getFullYear();
-        // let m = hoy.getMonth() - fechaDeNacimiento.getMonth();
-
-        // if (m < 0 || (m === 0 && hoy.getDate() < fechaDeNacimiento.getDate())) {
-        //     edad--;
-        // }
-
+        let deMilisegundosADias =
+          (hoy.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
+        let dias = 30 - Math.round(deMilisegundosADias);
         return dias;
       },
 

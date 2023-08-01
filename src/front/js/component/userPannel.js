@@ -18,6 +18,7 @@ export const UserPannel = () => {
   const { store, actions } = useContext(Context);
   const [salesGoal, setSalesGoal] = useState(0);
   let diasDeUso = actions.calcularDiasDeUso(store.usuario.created_at);
+  console.log(diasDeUso);
 
   useEffect(() => {
     actions.getUsuario();
