@@ -35,13 +35,13 @@ function SetCompany() {
 
   return (
     <>
-      <Button variant="light" onClick={handleShow}>
+      <button className="button-single" onClick={handleShow}>
         Elige tú compañia y luego elige tú agencia
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Elige tu compañía</Modal.Title>
+          <Modal.Title>Elige tú compañia y luego elige tú agencia</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>

@@ -595,8 +595,6 @@ def add_agency(company_id):
 
     if "name" not in new_agency_data or new_agency_data["name"] == "":
         raise Exception("No ingresaste el nombre", 400)
-    if "agency_logo" not in new_agency_data or new_agency_data["agency_logo"] == "":
-        raise Exception("No ingresaste el logo", 400)
     
     new_agency = Agencies.create(**new_agency_data,company_id = company_id)
 

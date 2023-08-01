@@ -363,17 +363,14 @@ class Company(db.Model):
 class Agencies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=False, nullable=False)
-    agency_logo = db.Column(db.String(1000), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-
 
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     company = db.relationship("Company", backref = "agencies")
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
-        self.agency_logo = kwargs['agency_logo']
         self.company_id = kwargs['company_id']
 
     @classmethod
@@ -391,7 +388,6 @@ class Agencies(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "agency_logo": self.agency_logo,
             "company": self.company.name,
             "created_at": self.created_at,
             "updated_at": self.updated_at

@@ -15,7 +15,6 @@ function CreateAgency() {
   const handleShow = () => setShow(true);
   const [agency, setAgency] = useState({
     name: "",
-    agency_logo: "",
     company: "",
     companyId: 0,
   });
@@ -35,7 +34,6 @@ function CreateAgency() {
     actions.postAgencies(agency);
     setAgency({
       name: "",
-      agency_logo: "",
       company: "",
       companyId: 0,
     });
@@ -68,15 +66,6 @@ function CreateAgency() {
                 autoFocus
                 name="name"
                 value={agency.name}
-                onChange={handleForm}
-              />
-              <Form.Label>URL de logo</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="KGC Group"
-                autoFocus
-                name="agency_logo"
-                value={agency.agency_logo}
                 onChange={handleForm}
               />
 
