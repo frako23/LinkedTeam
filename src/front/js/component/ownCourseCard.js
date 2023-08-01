@@ -3,8 +3,10 @@ import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
+import { coursesData } from "../data/coursesData";
 
-export function CourseCard() {
+export function OwnCourseCard() {
+  let fullData = coursesData;
   const { store, actions } = useContext(Context);
   useEffect(() => actions.getUsuario(), []);
 

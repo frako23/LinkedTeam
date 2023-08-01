@@ -22,7 +22,6 @@ function CreateCompany() {
     e.preventDefault();
     console.log(company);
     actions.postCompany(company);
-    handleClose();
     setCompany({
       name: "",
     });

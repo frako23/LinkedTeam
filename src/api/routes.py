@@ -111,7 +111,7 @@ def put_user_agency(agency_id):
     try:
         user = User.query.get(id)
         
-        user.agency_id = agency.id
+        user.agency_id = agency_id
 
         db.session.commit()
         return jsonify(user.serialize()),200 
@@ -171,8 +171,22 @@ def put_user_sales_goal(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
 # método PUT para cambiar los roles de los usuarios
+@api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
+def put_user_role_admin(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        user.role = request.json['role']
+
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+
+# método PUT para cambiar los own_agency de los usuarios
 @api.route('/user_role/<int:user_id>', methods=['PUT'])
-def put_user_role(user_id):
+def put_user_role_own_agency(user_id):
     try:
         user = User.query.get(user_id)
         
@@ -487,10 +501,10 @@ def add_client_activity(client_id):
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # RUTA PARA LA DATA DE LOS CURSOS
-@api.route('/courses/<int:company_id>/<int:agencies_id>', methods=['GET','POST'])
-def post_get_courses_data(company_id, agencies_id):
+@api.route('/courses/<int:agencies_id>', methods=['GET','POST'])
+def post_get_courses_data(agencies_id):
     if request.method == 'GET':
-        courses_data = Courses.query.filter_by(company_id = company_id, agencies_id = agencies_id)
+        courses_data = Courses.query.filter_by(agencies_id = agencies_id)
         courses_data_dictionary = []
         for course_data in courses_data:
             courses_data_dictionary.append(course_data.serialize())
@@ -505,7 +519,7 @@ def post_get_courses_data(company_id, agencies_id):
             raise Exception("No ingresaste el img_url", 400)
         if "link_url" not in new_course_data or new_course_data["link_url"] == "":
             raise Exception("No ingresaste el link_url", 400)
-        new_course = Courses.create(**new_course_data, agencies_id = agencies_id, company_id = company_id)
+        new_course = Courses.create(**new_course_data, agencies_id = agencies_id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

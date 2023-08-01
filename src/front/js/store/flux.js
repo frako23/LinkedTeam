@@ -13,6 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       clientActivity: [],
       company: [],
       agencies: [],
+      courses: [],
       totalUsuarios: [],
       usersByAgency: [],
       userClients: [],
@@ -255,7 +256,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      selectAgency: async ({ agency_ybt }) => {
+      selectAgency: async (agency) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -264,14 +265,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify({
-            agency_ybt: agency_ybt,
-          }),
+          body: JSON.stringify(agency),
         };
-        console.log(agency_ybt);
+        console.log(agency);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/agency_ybt`,
+            `${process.env.BACKEND_URL}/user/agency_ybt/${agency}`,
             options
           );
 
@@ -283,9 +282,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
 
           console.log("This came from the backend", data);
-          actions.setNotification(
-            `Te registraste exitosamente a la agencia ${agency_ybt}`
-          );
           return true;
         } catch (error) {
           console.error(
@@ -1028,6 +1024,61 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ agencies: body }))
+          .catch((error) => console.log(error));
+        // actions.getAgencies(id)
+      },
+
+      // crear Courses
+      postCourses: async (courses, id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(courses),
+        };
+        console.log(courses, id);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/courses/${id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar el curso", error);
+        }
+      },
+
+      // obtener Cursos
+      getCourses: (id) => {
+        console.log(id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/courses/${id}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ courses: body }))
           .catch((error) => console.log(error));
         // actions.getAgencies(id)
       },

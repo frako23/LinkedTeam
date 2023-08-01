@@ -7,6 +7,7 @@ import { Box } from "../component/box";
 import { AdminPanel } from "./adminPannel";
 import { ToDoChart } from "../component/todo";
 import { FuelChart } from "../component/fuelChart";
+import SetCompany from "../component/setCompany";
 // import { ProfileCard } from "../component/profileCard";
 // import Example from "../component/charts";
 import Swal from "sweetalert2";
@@ -109,11 +110,12 @@ export const UserPannel = () => {
               Al registrar un cliente verás el boton DETALLE con el que podrás
               agregar todas las activiades que haz realizado
             </p>
-            {store.usuario.agency_ybt === null ? (
-              <Link to="/agencyToSelect" className="button-single" style={{}}>
-                Regístrate en una agencia
-              </Link>
+            {store.usuario.agency === null ? (
+              <SetCompany />
             ) : (
+              // <Link to="/agencyToSelect" className="button-single" style={{}}>
+              //   Regístrate en una agencia
+              // </Link>
               ""
             )}
             <h5

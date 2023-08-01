@@ -293,13 +293,12 @@ class Client_Activity(db.Model):
 class Courses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=False, nullable=False)
-    description = db.Column(db.String(500), unique=False, nullable=False)
+    description = db.Column(db.String(1000), unique=False, nullable=False)
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
-    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
@@ -307,7 +306,6 @@ class Courses(db.Model):
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
         self.agencies_id = kwargs['agencies_id']
-        self.company_id = kwargs['company_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -328,7 +326,6 @@ class Courses(db.Model):
             "img_url": self.img_url,
             "link_url": self.link_url,
             "agencies_id": self.agencies_id,
-            "company_id": self.company_id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }
@@ -405,6 +402,7 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     img_url = db.Column(db.String(100), unique=False, nullable=False)
     referance = db.Column(db.String(100), unique=False, nullable=False)
+    months_paid = db.Column(db.Integer)
     payment_method = db.Column(db.String(100), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     user = db.relationship("User", backref = "payment")
@@ -414,6 +412,7 @@ class Payment(db.Model):
     def __init__(self, **kwargs):
         self.img_url = kwargs['img_url']
         self.referance = kwargs['referance']
+        self.months_paid = kwargs['months_paid']
         self.payment_method = kwargs['payment_method']
         self.user_id = kwargs['user_id']
 
@@ -433,6 +432,7 @@ class Payment(db.Model):
             "id": self.id,
             "img_url": self.img_url,
             "referance": self.referance,
+            "months_paid":  self.months_paid,
             "payment_method": self.payment_method,
             "user": self.user.name,
             "created_at": self.created_at,

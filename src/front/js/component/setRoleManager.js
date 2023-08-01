@@ -41,7 +41,7 @@ function SetRoleManager({ userId }) {
     });
     handleClose();
     Swal.fire({
-      title: `Registraste a usuario como ${userRole.role} en la agencia ${userRole.own_agency.name} 🙌`,
+      title: `Registraste a usuario como ${userRole.role} en la agencia 🙌`,
       confirmButtonText: "OK",
       showLoaderOnConfirm: true,
       allowOutsideClick: () => !Swal.isLoading(),

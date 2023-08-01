@@ -21,15 +21,15 @@ export const AgencyToSelect = () => {
   }
 
   useEffect(() => {
-    if (store.usuario.company === null) {
-      console.log("entro aqui");
+    if (store.usuario.agency === null) {
+      actions.getCompany();
+      console.log(store.company);
       Swal.fire({
         title: "Selecciona la compañia a la que perceneces",
         input: "select",
-        inputOptions: {
-          Particular: "Particular",
-          CICALIFE: "CICALIFE",
-        },
+        inputOptions: store.company.map((com) => {
+          `${com.name}: ${com.name}`;
+        }),
         inputPlaceholder: "Selecciona la compañia",
         showCancelButton: true,
         inputValidator: (value) => {

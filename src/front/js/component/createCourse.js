@@ -13,38 +13,38 @@ function CreateCourse() {
   const { store, actions } = useContext(Context);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [agency, setAgency] = useState({
-    name: "",
-    agency_logo: "",
-    company: "",
-    companyId: 0,
+  const [courses, setCourses] = useState({
+    title: "",
+    description: "",
+    img_url: "",
+    link_url: "",
   });
   const handleForm = ({ target }) => {
-    setAgency({ ...agency, [target.name]: target.value });
+    setCourses({ ...courses, [target.name]: target.value });
   };
 
   useEffect(() => {
-    actions.getCompany();
+    actions.getCourses();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(agency);
-    actions.postAgencies(agency);
-    handleClose();
-    setAgency({
-      name: "",
-      agency_logo: "",
-      company: "",
-      companyId: 0,
+    console.log(courses, store.usuario.own_agency.id);
+    actions.postCourses(courses, store.usuario.own_agency.id);
+    setCourses({
+      title: "",
+      description: "",
+      img_url: "",
+      link_url: "",
     });
     handleClose();
     Swal.fire({
-      title: "Registraste la Agencia correctamente 🙌",
+      title: "Registraste el curso correctamente 🙌",
       confirmButtonText: "OK",
       showLoaderOnConfirm: true,
       allowOutsideClick: () => !Swal.isLoading(),
     });
+    actions.getCourses(store.usuario.own_agency.id);
   };
 
   return (
@@ -69,21 +69,28 @@ function CreateCourse() {
                 type="text"
                 placeholder="Titulo del video"
                 autoFocus
-                name="name"
-                value={agency.name}
+                name="title"
+                value={courses.title}
                 onChange={handleForm}
               />
 
               <Form.Label>Descripción</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="description"
+                maxLength="1000"
+                value={courses.description}
+                onChange={handleForm}
+              />
 
               <Form.Label>Link del Video</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="www.youtube.com/#####"
                 autoFocus
-                name="agency_logo"
-                value={agency.agency_logo}
+                name="link_url"
+                value={courses.link_url}
                 onChange={handleForm}
               />
 
@@ -92,8 +99,8 @@ function CreateCourse() {
                 type="text"
                 placeholder="www.#####"
                 autoFocus
-                name="agency_logo"
-                value={agency.agency_logo}
+                name="img_url"
+                value={courses.img_url}
                 onChange={handleForm}
               />
             </Form.Group>

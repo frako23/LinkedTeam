@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
-import { CourseCard } from "../component/courseCard";
+import { OwnCourseCard } from "../component/ownCourseCard";
 import CreateCourse from "../component/createCourse";
 
 export const OwnAgencyCourses = () => {
@@ -20,7 +20,9 @@ export const OwnAgencyCourses = () => {
     }
   }, [store.usuario.status]);
 
-  useEffect(() => actions.getUsuario, []);
+  useEffect(() => actions.getUsuario(), []);
+
+  useEffect(() => actions.getCourses(store.usuario.own_agency.id), []);
 
   return (
     <>
@@ -38,7 +40,7 @@ export const OwnAgencyCourses = () => {
         </h1>
         <CreateCourse />
       </div>
-      <CourseCard />
+      <OwnCourseCard />
     </>
   );
 };

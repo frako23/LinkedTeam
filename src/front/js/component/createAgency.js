@@ -27,11 +27,12 @@ function CreateAgency() {
     actions.getCompany();
   }, []);
 
+  console.log(store.company);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(agency);
     actions.postAgencies(agency);
-    handleClose();
     setAgency({
       name: "",
       agency_logo: "",
