@@ -129,15 +129,15 @@ table td {
 
 .fuel-tag {
   color: white;
-  font-weight: bold;
-  margin: 0 21%;
+  margin: 1rem 0;
   font-size: 1rem;
   text-align: center;
 }
 
 .fuel-div {
-  width: "15rem";
-  padding-left: "2rem";
+  width: 25rem;
+  height: 19rem;
+  padding: 1rem;
   background: midnightblue;
   border-radius: 20px;
 }

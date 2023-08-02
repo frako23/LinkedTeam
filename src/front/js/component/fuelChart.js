@@ -17,7 +17,21 @@ export const FuelChart = () => {
         percent={0.73}
         arcPadding={0.0}
       />
-      <h4 className="fuel-tag">Meta de ventas</h4>
+      <h4 className="fuel-tag">
+        {" "}
+        <span style={{ fontWeight: "bold" }}> Meta de ventas = $</span>{" "}
+        {store.usuario.sales_goal}
+      </h4>
+      <h4 className="fuel-tag">
+        {" "}
+        <span style={{ fontWeight: "bold" }}> Ventas logradas = $</span>{" "}
+        {store.usuario.sales_goal}
+      </h4>
+      <h4 className="fuel-tag">
+        {" "}
+        <span style={{ fontWeight: "bold" }}> Ventas por lograr = $</span>{" "}
+        {store.usuario.sales_goal - store.usuario.sales_goal}
+      </h4>
     </div>
   );
 };
