@@ -83,9 +83,9 @@ export const UserPannel = () => {
       </div>
       <div className="perfil-dashboard">
         <section className="about">
-          <div className="image">
+          {/* <div className="image">
             <img src={mujer} className="" />
-          </div>
+          </div> */}
           <div className="content">
             <h3>¿Qué puedes hacer aqui?</h3>
             <h5>Fórmate</h5>
@@ -118,32 +118,30 @@ export const UserPannel = () => {
               // </Link>
               ""
             )}
+          </div>
+          <div>
             <h5
               style={{
                 marginTop: "1rem",
+                textAlign: "center",
+                color: "white",
               }}
             >
               Asi esta tu embudo de ventas
             </h5>
-            {/* <div className="icons-container">
-              <div className="icons">
-                <i className="fas fa-user"></i>
-                <span>adsfadfadfsdfsd</span>
-              </div>
-              <div className="icons">
-                <i className="fas fa-user"></i>
-                <span>adsfadfadfsdfsd</span>
-              </div>
-              <div className="icons">
-                <i className="fas fa-user"></i>
-                <span>adsfadfadfsdfsd</span>
-              </div>
-              <div className="icons">
-                <i className="fas fa-user"></i>
-                <span>adsfadfadfsdfsd</span>
-              </div>
-            </div> */}
             <Box />
+          </div>
+          <div>
+            <h5
+              style={{
+                marginTop: "1rem",
+                textAlign: "center",
+                color: "white",
+              }}
+            >
+              Asi esta tu META DE VENTAS
+            </h5>
+            <FuelChart />
           </div>
         </section>
 

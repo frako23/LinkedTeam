@@ -132,11 +132,14 @@ table td {
   font-weight: bold;
   margin: 0 21%;
   font-size: 1rem;
+  text-align: center;
 }
 
 .fuel-div {
   width: "15rem";
   padding-left: "2rem";
+  background: midnightblue;
+  border-radius: 20px;
 }
 
 .table-color-closed {
@@ -215,8 +218,9 @@ table td {
 
 .about {
   display: flex;
-  /* align-items: center; */
-  /* gap: 3rem; */
+  align-items: center;
+  gap: 3rem;
+  padding: 0rem 8%;
 }
 
 .about .image {

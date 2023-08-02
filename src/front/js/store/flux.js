@@ -18,6 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       usersByAgency: [],
       userClients: [],
       managerClientActivity: [],
+      closedSales: null,
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -1075,6 +1076,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((body) => setStore({ courses: body }))
           .catch((error) => console.log(error));
         // actions.getAgencies(id)
+      },
+
+      closedSales: (closedSales) => {
+        setStore({ closedSales: closedSales });
       },
     },
   };

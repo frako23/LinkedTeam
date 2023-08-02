@@ -41,7 +41,10 @@ export const Dashboard = () => {
     0
   );
 
-  console.log(amountSumClosedSales);
+  useEffect(
+    () => actions.closedSales(amountSumClosedSales),
+    [amountSumClosedSales]
+  );
 
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
