@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses, Agencies, Company
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses, Agencies, Company, Payment
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -605,3 +605,28 @@ def add_agency(company_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
+# RUTA PARA LA DATA DE PAGOS
+@api.route('/payments/<int:user_id>', methods=['GET','POST'])
+def post_get_payments(user_id):
+    if request.method == 'GET':
+        payments_data = Payment.query.filter_by(user_id = user_id)
+        payments_data_dictionary = []
+        for payment_data in payments_data:
+            payments_data_dictionary.append(payment_data.serialize())
+        return jsonify(payments_data_dictionary), 200
+    new_payment_data = request.json
+    try:
+        if "payment_date" not in new_payment_data or new_payment_data["payment_date"] == "":
+            raise Exception("No ingresaste la fecha del pago", 400)
+        if "notes" not in new_payment_data or new_payment_data["notes"] == "":
+            raise Exception("No ingresaste la descripcion", 400)
+        if "reference" not in new_payment_data or new_payment_data["reference"] == "":
+            raise Exception("No ingresaste la referencia", 400)
+        if "amount" not in new_payment_data or new_payment_data["amount"] == "":
+            raise Exception("No ingresaste el monto", 400)
+        if "payment_method" not in new_payment_data or new_payment_data["payment_method"] == "":
+            raise Exception("No ingresaste el médtodo de pago", 400)
+        new_payment = Payment.create(**new_payment_data, user_id = user_id)
+        return jsonify(new_payment.serialize()), 201
+    except Exception as error:
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500

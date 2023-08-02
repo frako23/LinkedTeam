@@ -20,6 +20,10 @@ class Status(Enum):
     active = "active"
     inactive = "inactive"
 
+class PaymentStatus(Enum):
+    approved = "approved"
+    not_approved = "not_approved"
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
@@ -396,19 +400,24 @@ class Agencies(db.Model):
 # TABLA DE REGISTROS DE PAGOS
 class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    img_url = db.Column(db.String(100), unique=False, nullable=False)
-    referance = db.Column(db.String(100), unique=False, nullable=False)
-    months_paid = db.Column(db.Integer)
+    payment_date = db.Column(db.DateTime(timezone=True))
+    notes = db.Column(db.String(500), unique=False, nullable=False)
+    reference = db.Column(db.String(100), unique=False, nullable=False)
+    amount = db.Column(db.Float)
+    status = db.Column(db.Enum(PaymentStatus), default=PaymentStatus.not_approved)
     payment_method = db.Column(db.String(100), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     user = db.relationship("User", backref = "payment")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
 
     def __init__(self, **kwargs):
-        self.img_url = kwargs['img_url']
-        self.referance = kwargs['referance']
-        self.months_paid = kwargs['months_paid']
+        self.payment_date = kwargs['payment_date']
+        self.notes = kwargs['notes']
+        self.reference = kwargs['reference']
+        self.amount = kwargs['amount']
+        self.status =  kwargs['status'] if 'status' in kwargs else PaymentStatus.not_approved
         self.payment_method = kwargs['payment_method']
         self.user_id = kwargs['user_id']
 
@@ -426,9 +435,11 @@ class Payment(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "img_url": self.img_url,
-            "referance": self.referance,
-            "months_paid":  self.months_paid,
+            "payment_date": self.payment_date,
+            "notes": self.notes,
+            "reference": self.reference,
+            "amount":  self.amount,
+            "status": self.status.value,
             "payment_method": self.payment_method,
             "user": self.user.name,
             "created_at": self.created_at,

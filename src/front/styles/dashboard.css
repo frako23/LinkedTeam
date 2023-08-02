@@ -156,6 +156,12 @@ body {
   margin: 5rem 12rem 0 17rem;
 }
 
+.button-single-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button-single {
   display: inline-block;
   background: #4285f4;
@@ -165,6 +171,7 @@ body {
   border-radius: 5px;
   box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  width: fit-content;
   margin-inline: 0.5rem;
   -webkit-transition: all ease-in-out 300ms;
   transition: all ease-in-out 300ms;

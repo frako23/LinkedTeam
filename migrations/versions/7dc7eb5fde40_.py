@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 574356621567
+Revision ID: 7dc7eb5fde40
 Revises: 
-Create Date: 2023-07-31 10:47:15.016332
+Create Date: 2023-08-02 15:47:06.025631
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '574356621567'
+revision = '7dc7eb5fde40'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,7 +28,6 @@ def upgrade():
     op.create_table('agencies',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('agency_logo', sa.String(length=1000), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('company_id', sa.Integer(), nullable=True),
@@ -38,7 +37,7 @@ def upgrade():
     op.create_table('courses',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
-    sa.Column('description', sa.String(length=500), nullable=False),
+    sa.Column('description', sa.String(length=1000), nullable=False),
     sa.Column('img_url', sa.String(length=250), nullable=False),
     sa.Column('link_url', sa.String(length=250), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
@@ -94,9 +93,11 @@ def upgrade():
     )
     op.create_table('payment',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('img_url', sa.String(length=100), nullable=False),
-    sa.Column('referance', sa.String(length=100), nullable=False),
-    sa.Column('months_paid', sa.Integer(), nullable=True),
+    sa.Column('payment_date', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('notes', sa.String(length=500), nullable=False),
+    sa.Column('reference', sa.String(length=100), nullable=False),
+    sa.Column('amount', sa.Float(), nullable=True),
+    sa.Column('status', sa.Enum('approved', 'not_approved', name='paymentstatus'), nullable=True),
     sa.Column('payment_method', sa.String(length=100), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),

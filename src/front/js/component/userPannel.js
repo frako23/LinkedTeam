@@ -86,6 +86,9 @@ export const UserPannel = () => {
           </span>
         </p>
       </div>
+      <div className="button-single-div">
+        {store.usuario.agency === null ? <SetCompany /> : ""}
+      </div>
       <div className="perfil-dashboard">
         <section className="about">
           {/* <div className="image">
@@ -115,14 +118,6 @@ export const UserPannel = () => {
               Al registrar un cliente verás el boton DETALLE con el que podrás
               agregar todas las activiades que haz realizado
             </p>
-            {store.usuario.agency === null ? (
-              <SetCompany />
-            ) : (
-              // <Link to="/agencyToSelect" className="button-single" style={{}}>
-              //   Regístrate en una agencia
-              // </Link>
-              ""
-            )}
           </div>
           <div>
             <h5
