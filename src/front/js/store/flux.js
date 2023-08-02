@@ -533,6 +533,39 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      deleteCliente: async (id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${store.token}`,
+          },
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/cliente/${id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getClientes();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al cambiar es estatus del cliente desde el backend",
+            error
+          );
+        }
+      },
+
       updateClientStatus: (newList) => {
         setStore({ clientes: newList });
       },

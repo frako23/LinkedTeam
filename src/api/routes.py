@@ -266,7 +266,7 @@ def get_manager_user_clients(id, client_id):
     return jsonify(clientes_dictionaries), 200
 
 @api.route('/cliente/<int:id>', methods=['DELETE'])
-@jwt_required()
+# @jwt_required()
 def delete_cliente(id):
     cliente = Cliente.query.get(id)
 
