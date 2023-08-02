@@ -343,3 +343,20 @@ section {
     padding: 3rem 2rem;
   }
 }
+
+.agency-not-set {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.agency-not-set img {
+  height: 47rem;
+  margin-left: 7rem;
+}
+
+.agency-not-set a h2 {
+  color: white;
+  width: 33rem;
+  font-size: 5rem;
+}

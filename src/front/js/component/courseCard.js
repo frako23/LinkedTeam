@@ -3,33 +3,46 @@ import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
+import img from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-oficina-vestida-ropa-blanca.jpg";
 
 export function CourseCard() {
   const { store, actions } = useContext(Context);
   useEffect(() => actions.getUsuario(), []);
 
-  useEffect(() => actions.getCourses(store.usuario.own_agency.id), []);
-
-  console.log(store.courses);
+  if (store.usuario.agency !== null) {
+    useEffect(() => actions.getCourses(store.usuario.agency.id), []);
+    console.log(store.courses);
+  }
 
   return (
-    <div className="container courses__container">
-      {store.courses.map((data) => {
-        return (
-          <article className="course" key={data.id}>
-            <div>
-              <img className="course__image" src={data.img_url} />
-            </div>
-            <div className="course__info">
-              <h4>{data.title}</h4>
-              <p>{data.description}</p>
-              <Link to={data.link_url} className="course__btn">
-                Ver curso
-              </Link>
-            </div>
-          </article>
-        );
-      })}
-    </div>
+    <>
+      {store.usuario.agency !== null ? (
+        <div className="container courses__container">
+          {store.courses.map((data) => {
+            return (
+              <article className="course" key={data.id}>
+                <div>
+                  <img className="course__image" src={data.img_url} />
+                </div>
+                <div className="course__info">
+                  <h4>{data.title}</h4>
+                  <p>{data.description}</p>
+                  <Link to={data.link_url} className="course__btn">
+                    Ver curso
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="agency-not-set">
+          <img src={img} />
+          <Link to="/perfil">
+            <h2>Primero debes seleccionar la agencia a la que perteneces</h2>
+          </Link>
+        </div>
+      )}
+    </>
   );
 }
