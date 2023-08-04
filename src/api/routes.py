@@ -606,8 +606,10 @@ def add_agency(company_id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
 # RUTA PARA LA DATA DE PAGOS
-@api.route('/payments/<int:user_id>', methods=['GET','POST'])
-def post_get_payments(user_id):
+@api.route('/payments', methods=['GET','POST'])
+@jwt_required()
+def post_get_payments():
+    user_id = get_jwt_identity()
     if request.method == 'GET':
         payments_data = Payment.query.filter_by(user_id = user_id)
         payments_data_dictionary = []

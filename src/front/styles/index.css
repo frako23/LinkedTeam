@@ -343,3 +343,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.dropdown-type {
+  display: flex;
+  justify-content: space-evenly;
+}

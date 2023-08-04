@@ -19,6 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userClients: [],
       managerClientActivity: [],
       closedSales: null,
+      payments: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -1113,6 +1114,95 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       closedSales: (closedSales) => {
         setStore({ closedSales: closedSales });
+      },
+
+      // obtener Pagos
+      getPayments: () => {
+        console.log();
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/payments`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ payments: body }))
+          .catch((error) => console.log(error));
+      },
+
+      // Cargar Pago
+      postPayment: async (payment) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(payment),
+        };
+        console.log(payment);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/payments`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar el pago", error);
+        }
+      },
+
+      // aprobar Pago
+      approvePayment: async (company, id) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({ company: company }),
+        };
+        console.log(company);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/approvepayments/${id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al colocar la propiedad company del usuario",
+            error
+          );
+        }
       },
     },
   };

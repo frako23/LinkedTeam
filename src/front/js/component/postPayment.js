@@ -13,29 +13,42 @@ function postPayment() {
   const { store, actions } = useContext(Context);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [agency, setAgency] = useState({
-    name: "",
-    company: "",
-    companyId: 0,
+  const [payment, setPayment] = useState({
+    payment_date: "",
+    notes: "",
+    reference: "",
+    payment_method: "",
+    amount: "",
   });
   const handleForm = ({ target }) => {
-    setAgency({ ...agency, [target.name]: target.value });
+    setPayment({ ...payment, [target.name]: target.value });
   };
 
   useEffect(() => {
     actions.getCompany();
   }, []);
 
-  console.log(store.company);
+  const paymentType = [
+    {
+      type: "Zelle",
+      data: "Francisco Orozco frako23@gmail.com",
+    },
+    {
+      type: "Pago Móvil",
+      data: "Mercantil 04242526757 16620687",
+    },
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(agency);
-    actions.postAgencies(agency);
-    setAgency({
-      name: "",
-      company: "",
-      companyId: 0,
+    console.log(payment);
+    actions.postPayment(payment);
+    setPayment({
+      payment_date: "",
+      notes: "",
+      reference: "",
+      payment_method: "",
+      amount: 0,
     });
     handleClose();
     Swal.fire({
@@ -49,7 +62,7 @@ function postPayment() {
   return (
     <>
       <Button variant="secondary" onClick={handleShow}>
-        Crear Agencia
+        Registra tu pago
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -58,67 +71,92 @@ function postPayment() {
             <Modal.Title>Registra tu pago</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <div className="dropdown-type">
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Forma de pago</Form.Label>
+                <InputGroup className="mt-3">
+                  <DropdownButton
+                    variant="outline-secondary"
+                    title={
+                      payment.payment_method == ""
+                        ? "Tipo de pago"
+                        : payment.payment_method
+                    }
+                    id="input-group-dropdown-1"
+                  >
+                    {paymentType.map((payment, index) => (
+                      <Dropdown.Item
+                        href="#"
+                        key={index}
+                        name="company"
+                        required
+                        onClick={() =>
+                          setPayment({
+                            ...payment,
+                            payment_method: payment.type,
+                          })
+                        }
+                        value={payment.type}
+                      >
+                        {payment.type}
+                      </Dropdown.Item>
+                    ))}
+                  </DropdownButton>
+                </InputGroup>
+              </Form.Group>
+
+              <div style={{ width: "11rem" }}>
+                <h4>Datos</h4>
+                <span>{payment.data}</span>
+              </div>
+            </div>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Forma de pago</Form.Label>
-              <InputGroup className="mt-3">
-                <DropdownButton
-                  variant="outline-secondary"
-                  title={agency.company == "" ? "Company" : agency.company}
-                  id="input-group-dropdown-1"
-                >
-                  {store.company.map((com, index) => (
-                    <Dropdown.Item
-                      href="#"
-                      key={index}
-                      name="company"
-                      onClick={() =>
-                        setAgency({
-                          ...agency,
-                          company: com.name,
-                          companyId: com.id,
-                        })
-                      }
-                      value={agency.company}
-                    >
-                      {com.name}
-                    </Dropdown.Item>
-                  ))}
-                </DropdownButton>
-              </InputGroup>
               <Form.Label>Monto del pago</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="KGC Group"
+                placeholder="Colocar el monto en Bs o $"
                 autoFocus
-                name="name"
-                value={agency.name}
+                required
+                name="amount"
+                value={payment.amount}
                 onChange={handleForm}
               />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Fecha del pago</Form.Label>
               <Form.Control
                 type="date"
                 placeholder="KGC Group"
                 autoFocus
-                name="name"
-                value={agency.name}
+                required
+                name="payment_date"
+                value={payment.payment_date}
                 onChange={handleForm}
               />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Número de referencia</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="KGC Group"
+                placeholder="32utfdL"
                 autoFocus
-                name="name"
-                value={agency.name}
+                required
+                name="reference"
+                value={payment.reference}
                 onChange={handleForm}
               />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Descripción</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
-                name="description"
+                name="notes"
                 maxLength="1000"
-                value={courses.description}
+                value={payment.notes}
                 onChange={handleForm}
               />
             </Form.Group>
