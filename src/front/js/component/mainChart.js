@@ -40,21 +40,24 @@ export const MainChart = () => {
           {store.totalUsuarios.map((usuario) => {
             return (
               <tr key={usuario.id}>
-                <td scope="row text-center">{usuario.id}</td>
+                <td scope="row text-center" style={{ textAlign: "center" }}>
+                  {usuario.id}
+                </td>
                 <td scope="row text-center">{usuario.created_at}</td>
-                <td scope="row text-center">
+                <td scope="row text-center" style={{ textAlign: "center" }}>
                   {actions.calcularUso(usuario.created_at)}
                 </td>
                 <td className="fw-bolder text-center">
                   {usuario.name + " " + usuario.lastname}
                 </td>
-                <td className="fw-bolder text-center">{usuario.agency_ybt}</td>
+                <td className="fw-bolder text-center">{usuario.agency}</td>
                 <td className="fw-bolde single-btn">
                   <button
                     className="btn btn-warning"
                     onClick={(e) =>
                       actions.resetAgency({
-                        agency_ybt: null,
+                        agency: null,
+                        agency_id: null,
                         user_id: usuario.id,
                       })
                     }

@@ -7,10 +7,11 @@ import img from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-ofic
 
 export function CourseCard() {
   const { store, actions } = useContext(Context);
+  console.log(store.usuario.agency_id);
   useEffect(() => actions.getUsuario(), []);
 
   if (store.usuario.agency !== null) {
-    useEffect(() => actions.getCourses(store.usuario.agency.id), []);
+    useEffect(() => actions.getCourses(store.usuario.agency_id), []);
     console.log(store.courses);
   }
 
@@ -27,7 +28,7 @@ export function CourseCard() {
                 <div className="course__info">
                   <h4>{data.title}</h4>
                   <p>{data.description}</p>
-                  <Link to={data.link_url} className="course__btn">
+                  <Link to={`/video/${data.id}`} className="course__btn">
                     Ver curso
                   </Link>
                 </div>

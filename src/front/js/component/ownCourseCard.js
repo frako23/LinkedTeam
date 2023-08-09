@@ -25,7 +25,7 @@ export function OwnCourseCard() {
             <div className="course__info">
               <h4>{data.title}</h4>
               <p>{data.description}</p>
-              <Link to={data.link_url} className="course__btn">
+              <Link to={`/video/${data.id}`} className="course__btn">
                 Ver curso
               </Link>
             </div>
