@@ -120,12 +120,13 @@ def put_user_agency(agency_id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
 # método PUT para resetear la agencia de un usuario seleccionado
-@api.route('/agency_ybt/<int:user_id>', methods=['PUT'])
+@api.route('/agency/<int:user_id>', methods=['PUT'])
 def reset_user_agency(user_id):
     try:
         user = User.query.get(user_id)
         
-        user.agency_ybt = request.json['agency_ybt']
+        user.agency = request.json['agency']
+        user.agency_id = request.json['agency_id']
 
         db.session.commit()
         return jsonify(user.serialize()),200 

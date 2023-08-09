@@ -83,7 +83,8 @@ class User(db.Model):
             "agency": self.agency.name if self.agency else None,
             "own_agency": self.own_agency.serialize() if self.own_agency else None,
             "status": self.status.value,
-            "sales_goal": self.sales_goal
+            "sales_goal": self.sales_goal,
+            "agency_id": self.agency_id
             # do not serialize the password, its a security breach
         }
 

@@ -330,7 +330,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      resetAgency: async ({ agency_ybt, user_id }) => {
+      resetAgency: async ({ agency, agency_id, user_id }) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -340,13 +340,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
-            agency_ybt: agency_ybt,
+            agency: agency,
+            agency_id: agency_id,
           }),
         };
-        console.log(agency_ybt);
+        console.log(agency, agency_id);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/agency_ybt/${user_id}`,
+            `${process.env.BACKEND_URL}/agency/${user_id}`,
             options
           );
 
@@ -358,7 +359,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
 
           console.log("This came from the backend", data);
-          actions.setNotification(`Reseteaste la el cambio agency_ybt`);
+          actions.setNotification(`Reseteaste la agencia del usuario`);
           actions.getTotalUsuarios();
           return true;
         } catch (error) {
@@ -596,7 +597,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       calcularUso: (fecha) => {
         let date = new Date(fecha);
         let hoy = new Date();
-        let dias = hoy.getDate() - date.getDate();
+        let deMilisegundosADias =
+          (hoy.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
+        let dias = Math.round(deMilisegundosADias);
         return dias;
       },
 
@@ -989,7 +992,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/company/`;
+        const apiURL = `${process.env.BACKEND_URL}/company`;
 
         fetch(apiURL, opts)
           .then((response) => {
