@@ -360,3 +360,17 @@ section {
   width: 33rem;
   font-size: 5rem;
 }
+
+.payment-table th {
+  color: #000;
+}
+
+.payment-table td {
+  color: #000;
+}
+
+.payment-approvement {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}

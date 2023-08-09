@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import SetRoleManager from "./setRoleManager";
+import UserPaymentInformation from "../component/userPaymentInformation";
 
 export const MainChart = () => {
   const { store, actions } = useContext(Context);
@@ -25,7 +26,7 @@ export const MainChart = () => {
         <thead>
           <tr>
             <th className="text-center">ID</th>
-            <th className="text-center">Creacion</th>
+            <th className="text-center">Pagos</th>
             <th className="text-center">Días</th>
             <th className="text-center">Nombre</th>
             <th className="text-center">Agencia</th>
@@ -37,13 +38,15 @@ export const MainChart = () => {
           </tr>
         </thead>
         <tbody>
-          {store.totalUsuarios.map((usuario) => {
+          {store.totalUsuarios.map((usuario, index) => {
             return (
               <tr key={usuario.id}>
                 <td scope="row text-center" style={{ textAlign: "center" }}>
                   {usuario.id}
                 </td>
-                <td scope="row text-center">{usuario.created_at}</td>
+                <td scope="row text-center">
+                  <UserPaymentInformation id={usuario.id} />
+                </td>
                 <td scope="row text-center" style={{ textAlign: "center" }}>
                   {actions.calcularUso(usuario.created_at)}
                 </td>

@@ -1120,15 +1120,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener Pagos
-      getPayments: () => {
-        console.log();
+      getPayments: (id) => {
+        console.log(id);
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/payments`;
+        const apiURL = `${process.env.BACKEND_URL}/get_payments/${id}`;
 
         fetch(apiURL, opts)
           .then((response) => {

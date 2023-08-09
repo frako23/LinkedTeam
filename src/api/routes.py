@@ -607,18 +607,21 @@ def add_agency(company_id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
 # RUTA PARA LA DATA DE PAGOS
+@api.route('/get_payments/<int:user_id>', methods=['GET'])
+def get_payments(user_id):
+    payments_data = Payment.query.filter_by(user_id = user_id)
+    payments_data_dictionary = []
+    for payment_data in payments_data:
+        payments_data_dictionary.append(payment_data.serialize())
+    return jsonify(payments_data_dictionary), 200
+
+
 @api.route('/payments', methods=['GET','POST'])
 @jwt_required()
-def post_get_payments():
+def post_payments():
     user_id = get_jwt_identity()
-    if request.method == 'GET':
-        payments_data = Payment.query.filter_by(user_id = user_id)
-        payments_data_dictionary = []
-        for payment_data in payments_data:
-            payments_data_dictionary.append(payment_data.serialize())
-        return jsonify(payments_data_dictionary), 200
-    new_payment_data = request.json
     try:
+        new_payment_data = request.json
         if "payment_date" not in new_payment_data or new_payment_data["payment_date"] == "":
             raise Exception("No ingresaste la fecha del pago", 400)
         if "notes" not in new_payment_data or new_payment_data["notes"] == "":

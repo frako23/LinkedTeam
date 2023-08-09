@@ -102,7 +102,12 @@ export const Navbar = () => {
             ) : (
               ""
             )}
-
+            <Link to="/pricing">
+              <li className="ps-0">
+                <i className="fa-regular fa-money-bill-1 icon"></i>
+                <span className="text nav-text">Registra tu Pago</span>
+              </li>
+            </Link>
             {/* <li className="nav-link">
               <button >
                 <i className="bx bx-wallet icon"></i>
@@ -117,18 +122,6 @@ export const Navbar = () => {
             <i className="bx bx-log-out icon"></i>
             <span className="text nav-text">Salir</span>
           </li>
-          {/* 
-          <li className="mode">
-            <div className="sun-moon">
-              <i className="bx bx-moon icon moon"></i>
-              <i className="bx bx-sun icon sun"></i>
-            </div>
-            <span className="mode-text text">Dark mode</span>
-<i class='bx bx-table'></i>
-            <div className="toggle-switch">
-              <span className="switch"></span>
-            </div>
-          </li> */}
         </div>
       </div>
     </nav>
