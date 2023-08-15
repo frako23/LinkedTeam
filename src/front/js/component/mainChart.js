@@ -44,7 +44,7 @@ export const MainChart = () => {
                 <td scope="row text-center" style={{ textAlign: "center" }}>
                   {usuario.id}
                 </td>
-                <td scope="row text-center">
+                <td scope="fw-bolder single-btn">
                   <UserPaymentInformation id={usuario.id} />
                 </td>
                 <td scope="row text-center" style={{ textAlign: "center" }}>
@@ -54,7 +54,7 @@ export const MainChart = () => {
                   {usuario.name + " " + usuario.lastname}
                 </td>
                 <td className="fw-bolder text-center">{usuario.agency}</td>
-                <td className="fw-bolde single-btn">
+                <td className="fw-bolder single-btn">
                   <button
                     className="btn btn-warning"
                     onClick={(e) =>

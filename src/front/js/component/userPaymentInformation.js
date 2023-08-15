@@ -21,16 +21,17 @@ function UserPaymentInformation(index) {
 
   return (
     <>
-      <Button
-        variant="light"
-        onClick={() => {
-          setShow(true);
-          handleGetPayments();
-        }}
-      >
-        Historial
-      </Button>
-
+      <div className="single-btn">
+        <Button
+          variant="light"
+          onClick={() => {
+            setShow(true);
+            handleGetPayments();
+          }}
+        >
+          Historial
+        </Button>
+      </div>
       <Modal show={show} onHide={handleClose} size={"xl"}>
         <table className="table payment-table">
           <thead>

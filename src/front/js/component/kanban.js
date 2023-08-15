@@ -30,6 +30,8 @@ export const Kanban = () => {
         status: newList[sourceColIndex].status,
         cliente_id: theid,
       });
+      actions.closedArray();
+      actions.amountSumClosed();
     }
   };
   return (

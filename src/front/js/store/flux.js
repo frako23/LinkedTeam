@@ -18,7 +18,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       usersByAgency: [],
       userClients: [],
       managerClientActivity: [],
-      closedSales: null,
+      notClosedArray: null,
+      amountSumNotClosed: null,
+      closedArray: null,
+      amountSumClosed: null,
       payments: [],
     },
     actions: {
@@ -1115,8 +1118,38 @@ const getState = ({ getStore, getActions, setStore }) => {
         // actions.getAgencies(id)
       },
 
-      closedSales: (closedSales) => {
-        setStore({ closedSales: closedSales });
+      // registro de meta de ventas
+
+      notClosedArray: () => {
+        const store = getStore();
+        store.clientes.filter((index) => index.status != "Cerrado");
+        setStore({ notClosedArray: notClosedArray });
+      },
+
+      amountSumNotClosed: () => {
+        const store = getStore();
+        store.notClosedArray.reduce(
+          (acum, index) => acum + parseInt(index.amount),
+          0
+        );
+        setStore({ amountSumNotClosed: amountSumNotClosed });
+      },
+
+      closedArray: () => {
+        const store = getStore();
+        let closedArray = store.clientes.filter(
+          (index) => index.status == "Cerrado"
+        );
+        setStore({ closedArray: closedArray });
+      },
+
+      amountSumClosed: () => {
+        const store = getStore();
+        let amountSumClosed = store.closedArray.reduce(
+          (acum, index) => acum + parseInt(index.amount),
+          0
+        );
+        setStore({ amountSumClosed: amountSumClosed });
       },
 
       // obtener Pagos

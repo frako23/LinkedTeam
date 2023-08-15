@@ -41,11 +41,6 @@ export const Dashboard = () => {
     0
   );
 
-  useEffect(
-    () => actions.closedSales(amountSumClosedSales),
-    [amountSumClosedSales]
-  );
-
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
       actions.getClientes();

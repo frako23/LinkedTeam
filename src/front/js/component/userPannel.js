@@ -19,9 +19,9 @@ export const UserPannel = () => {
   const [salesGoal, setSalesGoal] = useState(0);
   let diasDeUso = actions.calcularDiasDeUso(store.usuario.created_at);
   useEffect(() => actions.getClientes(), []);
-  console.log(store.usuario.sales_goal, store.closedSales);
+  console.log(store.usuario.sales_goal, store.amountSumClosed);
 
-  let percent = store.closedSales / store.usuario.sales_goal;
+  let percent = store.amountSumClosed / store.usuario.sales_goal;
   console.log(percent);
 
   useEffect(() => {
@@ -37,22 +37,20 @@ export const UserPannel = () => {
     );
   }
 
-  useEffect(() => {
-    if (store.usuario.sales_goal === null) {
-      console.log("entro aqui");
-      Swal.fire({
-        title: "Para comenzar coloca tu meta de ventas 💰",
-        input: "number",
-        confirmButtonText: "Registra tu meta 🙌",
-        showLoaderOnConfirm: true,
-        preConfirm: (salesGoal) => {
-          console.log(salesGoal);
-          setSalesGoal(salesGoal);
-        },
-        allowOutsideClick: () => !Swal.isLoading(),
-      });
-    }
-  }, []);
+  const addSalesGoal = () => {
+    console.log("entro aqui");
+    Swal.fire({
+      title: "Para comenzar coloca tu meta de ventas 💰",
+      input: "number",
+      confirmButtonText: "Registra tu meta 🙌",
+      showLoaderOnConfirm: true,
+      preConfirm: (salesGoal) => {
+        console.log(salesGoal);
+        setSalesGoal(salesGoal);
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+  };
 
   return (
     <main
@@ -142,6 +140,13 @@ export const UserPannel = () => {
               Asi esta tu META DE VENTAS
             </h5>
             <FuelChart />
+            <div className="single-btn">
+              <button className="btn btn-light" onClick={addSalesGoal}>
+                {store.usuario.sales_goal === null
+                  ? "Registra tu meta"
+                  : "Actualiza tu meta"}
+              </button>
+            </div>
           </div>
         </section>
 
