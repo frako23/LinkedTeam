@@ -7,18 +7,7 @@ import "../../styles/perfil.css";
 export const FuelChart = () => {
   const { store, actions } = useContext(Context);
   let percentage = store.amountSumClosed / store.usuario.sales_goal;
-  useEffect(() => {
-    actions.getClientes();
-    console.log(store.clientes);
-    actions.closedArray();
-    actions.amountSumClosed();
-  }, []);
 
-  // if (store.clientes === []) {
-  //   actions.getClientes();
-  // }
-
-  // console.log(store.amountSumClosed);
   return (
     <div className="fuel-div">
       <GaugeChart

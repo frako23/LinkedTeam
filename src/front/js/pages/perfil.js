@@ -13,7 +13,17 @@ export const Perfil = () => {
 
   useEffect(() => {
     actions.getUsuario();
+    // actions.getClientes();
+    // actions.closedArray();
+    // actions.amountSumClosed();
   }, []);
+
+  useEffect(() => {
+    // actions.getUsuario();
+    actions.getClientes();
+    actions.closedArray();
+    actions.amountSumClosed();
+  }, [store.clientes.length]);
 
   useEffect(() => {
     if (store.usuario.status === "inactive") {

@@ -23,12 +23,6 @@ export const UserPannel = () => {
     actions.getUsuario();
   }, [salesGoal]);
 
-  useEffect(() => {
-    actions.getClientes();
-    actions.closedArray();
-    actions.amountSumClosed();
-  }, []);
-
   const id = store.usuario.id;
   if (salesGoal !== 0) {
     console.log(salesGoal, id);
