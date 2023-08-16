@@ -14,11 +14,11 @@ export const FuelChart = () => {
     actions.amountSumClosed();
   }, []);
 
-  if (store.clientes === []) {
-    actions.getClientes();
-  }
+  // if (store.clientes === []) {
+  //   actions.getClientes();
+  // }
 
-  console.log(store.amountSumClosed);
+  // console.log(store.amountSumClosed);
   return (
     <div className="fuel-div">
       <GaugeChart

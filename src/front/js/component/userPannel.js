@@ -27,7 +27,7 @@ export const UserPannel = () => {
     actions.getClientes();
     actions.closedArray();
     actions.amountSumClosed();
-  }, [store.closedArray]);
+  }, []);
 
   const id = store.usuario.id;
   if (salesGoal !== 0) {
