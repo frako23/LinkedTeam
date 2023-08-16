@@ -489,11 +489,11 @@ def add_client_activity(client_id):
     user_id = get_jwt_identity()
     new_client_activity_data = request.json
     try:
-        if "fecha" not in new_client_activity_data or new_client_activity_data["fecha"] == "":
+        if "date" not in new_client_activity_data or new_client_activity_data["date"] == "":
             raise Exception("No ingresaste la fecha", 400)
-        if "tipo_de_contacto" not in new_client_activity_data or new_client_activity_data["tipo_de_contacto"] == "":
+        if "contact_type" not in new_client_activity_data or new_client_activity_data["contact_type"] == "":
             raise Exception("No ingresaste el tipo de contacto", 400)
-        if "comentario" not in new_client_activity_data or new_client_activity_data["comentario"] == "":
+        if "comment" not in new_client_activity_data or new_client_activity_data["comment"] == "":
             raise Exception("No ingresaste el tipo de contacto", 400)
 
         new_client_activity = Client_Activity.create(**new_client_activity_data, user_id = user_id, client_id = client_id)

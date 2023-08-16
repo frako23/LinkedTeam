@@ -16,10 +16,7 @@ export const Box = () => {
           <p className="text-primary">PROSPECTOS</p>
         </div>
         <p className="text-primary font-weight-bold numero">
-          {
-            store.clientes.filter((index) => index.estatus == "Prospecto")
-              .length
-          }
+          {store.clientes.filter((index) => index.status == "Prospecto").length}
         </p>
       </div>
 
@@ -29,7 +26,7 @@ export const Box = () => {
         </div>
         <span className="text-primary font-weight-bold numero">
           {
-            store.clientes.filter((index) => index.estatus == "Contactado")
+            store.clientes.filter((index) => index.status == "Contactado")
               .length
           }
         </span>
@@ -41,9 +38,8 @@ export const Box = () => {
         </div>
         <span className="text-primary font-weight-bold numero">
           {
-            store.clientes.filter(
-              (index) => index.estatus == "Primera Cita"
-            ).length
+            store.clientes.filter((index) => index.status == "Primera Cita")
+              .length
           }
         </span>
       </div>
@@ -54,9 +50,8 @@ export const Box = () => {
         </div>
         <span className="text-primary font-weight-bold numero">
           {
-            store.clientes.filter(
-              (index) => index.estatus == "Negociación"
-            ).length
+            store.clientes.filter((index) => index.status == "Negociación")
+              .length
           }
         </span>
       </div>
@@ -66,10 +61,7 @@ export const Box = () => {
           <p className="text-primary">CIERRES</p>
         </div>
         <span className="text-primary font-weight-bold numero">
-          {
-            store.clientes.filter((index) => index.estatus == "Cerrado")
-              .length
-          }
+          {store.clientes.filter((index) => index.status == "Cerrado").length}
         </span>
       </div>
     </div>

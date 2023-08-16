@@ -9,9 +9,9 @@ import "../../styles/single.css";
 
 export const Single = (props) => {
   const [activity, setActivity] = useState({
-    fecha: "",
-    tipo_de_contacto: "",
-    comentario: "",
+    date: "",
+    contact_type: "",
+    comment: "",
   });
   const { store, actions } = useContext(Context);
   const [indicador, setIndicador] = useState("información");
@@ -75,10 +75,7 @@ export const Single = (props) => {
         </div>
         <div className="card-body" style={{ paddingInline: "8rem" }}>
           <h5 className="card-title">
-            {
-              store.clientes.find((cliente) => cliente.id == params.theid)
-                .nombre
-            }
+            {store.clientes.find((cliente) => cliente.id == params.theid).name}
           </h5>
 
           {/* tabla de información */}
@@ -92,7 +89,7 @@ export const Single = (props) => {
                     {
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
-                      ).fecha
+                      ).birthdate
                     }
                   </td>
                 </tr>
@@ -102,7 +99,7 @@ export const Single = (props) => {
                     {actions.calcularEdad(
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
-                      ).fecha
+                      ).birthdate
                     ) + " años"}
                   </td>
                 </tr>
@@ -122,7 +119,7 @@ export const Single = (props) => {
                     {
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
-                      ).celular
+                      ).cellphone
                     }
                   </td>
                 </tr>
@@ -130,7 +127,7 @@ export const Single = (props) => {
                   <th scope="row">MONTO</th>
                   <td className="fw-bolder">{`$ ${
                     store.clientes.find((cliente) => cliente.id == params.theid)
-                      .monto
+                      .amount
                   }`}</td>
                 </tr>
                 <tr>
@@ -139,7 +136,7 @@ export const Single = (props) => {
                     {
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
-                      ).confianza
+                      ).trust
                     }
                   </td>
                 </tr>
@@ -149,7 +146,7 @@ export const Single = (props) => {
                     {
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
-                      ).estatus
+                      ).status
                     }
                   </td>
                 </tr>
@@ -159,7 +156,7 @@ export const Single = (props) => {
                     {
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
-                      ).notas
+                      ).notes
                     }
                   </td>
                 </tr>
@@ -191,9 +188,9 @@ export const Single = (props) => {
                   <input
                     type="date"
                     className="form-control fw-bold"
-                    name="fecha"
+                    name="date"
                     id="inputEmail3"
-                    value={activity.fecha}
+                    value={activity.date}
                     onChange={(e) => handleActivity(e)}
                   />
                 </div>
@@ -208,8 +205,8 @@ export const Single = (props) => {
                     <select
                       className="form-select fw-bold"
                       aria-label="Default select example"
-                      name="tipo_de_contacto"
-                      value={activity.tipo_de_contacto}
+                      name="contact_type"
+                      value={activity.contact_type}
                       onChange={(e) => handleActivity(e)}
                     >
                       <option value="">Selectiona el tipo de contacto</option>
@@ -237,9 +234,9 @@ export const Single = (props) => {
                     <textarea
                       className="form-control fw-bold"
                       aria-label="With textarea"
-                      name="comentario"
+                      name="comment"
                       placeholder="El cliente ..."
-                      value={activity.comentario}
+                      value={activity.comment}
                       onChange={(e) => handleActivity(e)}
                     ></textarea>
                   </div>
@@ -270,9 +267,9 @@ export const Single = (props) => {
               <tbody>
                 {store.clientActivity.map((act, index) => (
                   <tr key={index}>
-                    <td scope="row">{act.fecha}</td>
-                    <td className="fw-bolder">{act.tipo_de_contacto}</td>
-                    <td className="fw-bolder">{act.comentario}</td>
+                    <td scope="row">{act.date}</td>
+                    <td className="fw-bolder">{act.contact_type}</td>
+                    <td className="fw-bolder">{act.comment}</td>
                   </tr>
                 ))}
               </tbody>
