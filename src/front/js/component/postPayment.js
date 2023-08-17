@@ -37,6 +37,18 @@ function postPayment() {
       type: "Pago Móvil",
       data: "Mercantil 04242526757 16620687",
     },
+    {
+      type: "Paypal",
+      data: "Francisco Orozco frako23@gmail.com",
+    },
+    {
+      type: "Binance Pay",
+      data: "Francisco Orozco frako23@gmail.com",
+    },
+    {
+      type: "Zinli",
+      data: "Francisco Orozco frako23@gmail.com",
+    },
   ];
 
   const handleSubmit = (e) => {
