@@ -17,13 +17,15 @@ export const UserPannel = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [salesGoal, setSalesGoal] = useState(0);
-  let diasDeUso = actions.calcularDiasDeUso(store.usuario.created_at);
+  const creacionUsuario = sessionStorage.getItem("usuario.created_at");
+  const idDeUsuario = sessionStorage.getItem("usuario.id");
+  let diasDeUso = actions.calcularDiasDeUso(creacionUsuario);
 
   useEffect(() => {
     actions.getUsuario();
   }, [salesGoal]);
 
-  const id = store.usuario.id;
+  const id = idDeUsuario;
   if (salesGoal !== 0) {
     console.log(salesGoal, id);
     actions.putUserSalesGoal(salesGoal, id);

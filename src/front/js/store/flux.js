@@ -23,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       closedArray: null,
       amountSumClosed: null,
       payments: [],
+      own_agencies: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -123,7 +124,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
             throw new Error("Ha ocurrido un error");
           })
-          .then((body) => setStore({ usuario: body }))
+          .then((body) => {
+            sessionStorage.setItem("usuario.created_at", body.created_at);
+            sessionStorage.setItem("usuario.id", body.id);
+            setStore({ usuario: body });
+          })
           .catch((error) => console.log(error));
       },
 
@@ -218,6 +223,26 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ totalUsuarios: body }))
+          .catch((error) => console.log(error));
+      },
+
+      getAgenciesId: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/own_agencies/`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ own_agencies: body }))
           .catch((error) => console.log(error));
       },
 

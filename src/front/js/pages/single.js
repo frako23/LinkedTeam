@@ -269,7 +269,7 @@ export const Single = (props) => {
                   <tr key={index}>
                     <td scope="row">{act.date}</td>
                     <td className="fw-bolder">{act.contact_type}</td>
-                    <td className="fw-bolder">{act.comment}</td>
+                    <td className="fw-bolder text-wrap">{act.comment}</td>
                   </tr>
                 ))}
               </tbody>

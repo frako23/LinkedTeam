@@ -55,10 +55,11 @@ def get_users():
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
-
-@api.route('/users_by_agency/<agency_ybt>', methods=['GET'])
-def get_users_by_agency(agency_ybt):
-    users = User.query.filter_by( agency_ybt = agency_ybt)
+    
+# obtener usuarios de la agencia que pertenecen
+@api.route('/users_by_agency/<int:agency_id>', methods=['GET'])
+def get_users_by_agency(agency_id):
+    users = User.query.filter_by( agency_id = agency_id)
     print(users)
     users_dictionaries = []
     for user in users:

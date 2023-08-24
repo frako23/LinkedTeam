@@ -52,14 +52,14 @@ export const KanbanAsociado = () => {
                   >
                     {
                       store.userClients.filter(
-                        (cliente) => cliente.estatus === "Prospecto"
+                        (cliente) => cliente.status === "Prospecto"
                       ).length
                     }
                   </span>
                 </strong>
 
                 {store.userClients
-                  .filter((cliente) => cliente.estatus === "Prospecto")
+                  .filter((cliente) => cliente.status === "Prospecto")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -77,12 +77,12 @@ export const KanbanAsociado = () => {
                           }}
                         >
                           <TarjetaClienteManager cliente={cliente}>
-                            {cliente.nombre}
+                            {cliente.name}
                             <br></br>
-                            {actions.calcularEdad(cliente.fecha) + " años"}
-                            <br></br>${cliente.monto}
+                            {actions.calcularEdad(cliente.birthdate) + " años"}
+                            <br></br>${cliente.amount}
                             <br></br>
-                            Confianza {cliente.confianza}
+                            Confianza {cliente.trust}
                           </TarjetaClienteManager>
                         </div>
                       )}
@@ -108,14 +108,14 @@ export const KanbanAsociado = () => {
                   >
                     {
                       store.userClients.filter(
-                        (cliente) => cliente.estatus === "Contactado"
+                        (cliente) => cliente.status === "Contactado"
                       ).length
                     }
                   </span>
                 </strong>
 
                 {store.userClients
-                  .filter((cliente) => cliente.estatus === "Contactado")
+                  .filter((cliente) => cliente.status === "Contactado")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -133,12 +133,12 @@ export const KanbanAsociado = () => {
                           }}
                         >
                           <TarjetaClienteManager cliente={cliente}>
-                            {cliente.nombre}
+                            {cliente.name}
                             <br></br>
-                            {actions.calcularEdad(cliente.fecha) + " años"}
-                            <br></br>${cliente.monto}
+                            {actions.calcularEdad(cliente.birthdate) + " años"}
+                            <br></br>${cliente.amount}
                             <br></br>
-                            Confianza {cliente.confianza}
+                            Confianza {cliente.trust}
                           </TarjetaClienteManager>
                         </div>
                       )}
@@ -163,14 +163,14 @@ export const KanbanAsociado = () => {
                   >
                     {
                       store.userClients.filter(
-                        (cliente) => cliente.estatus === "Primera Cita"
+                        (cliente) => cliente.status === "Primera Cita"
                       ).length
                     }
                   </span>
                 </strong>
 
                 {store.userClients
-                  .filter((cliente) => cliente.estatus === "Primera Cita")
+                  .filter((cliente) => cliente.status === "Primera Cita")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -188,12 +188,12 @@ export const KanbanAsociado = () => {
                           }}
                         >
                           <TarjetaClienteManager cliente={cliente}>
-                            {cliente.nombre}
+                            {cliente.name}
                             <br></br>
-                            {actions.calcularEdad(cliente.fecha) + " años"}
-                            <br></br>${cliente.monto}
+                            {actions.calcularEdad(cliente.birthdate) + " años"}
+                            <br></br>${cliente.amount}
                             <br></br>
-                            Confianza {cliente.confianza}
+                            Confianza {cliente.trust}
                           </TarjetaClienteManager>
                         </div>
                       )}
@@ -218,14 +218,14 @@ export const KanbanAsociado = () => {
                   >
                     {
                       store.userClients.filter(
-                        (cliente) => cliente.estatus === "Negociación"
+                        (cliente) => cliente.status === "Negociación"
                       ).length
                     }
                   </span>
                 </strong>
 
                 {store.userClients
-                  .filter((cliente) => cliente.estatus === "Negociación")
+                  .filter((cliente) => cliente.status === "Negociación")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -243,12 +243,12 @@ export const KanbanAsociado = () => {
                           }}
                         >
                           <TarjetaClienteManager cliente={cliente}>
-                            {cliente.nombre}
+                            {cliente.name}
                             <br></br>
-                            {actions.calcularEdad(cliente.fecha) + " años"}
-                            <br></br>${cliente.monto}
+                            {actions.calcularEdad(cliente.birthdate) + " años"}
+                            <br></br>${cliente.amount}
                             <br></br>
-                            Confianza {cliente.confianza}
+                            Confianza {cliente.trust}
                           </TarjetaClienteManager>
                         </div>
                       )}
@@ -273,14 +273,14 @@ export const KanbanAsociado = () => {
                   >
                     {
                       store.userClients.filter(
-                        (cliente) => cliente.estatus === "Cerrado"
+                        (cliente) => cliente.status === "Cerrado"
                       ).length
                     }
                   </span>{" "}
                 </strong>
 
                 {store.userClients
-                  .filter((cliente) => cliente.estatus === "Cerrado")
+                  .filter((cliente) => cliente.status === "Cerrado")
                   .map((cliente, index) => (
                     <Draggable
                       key={cliente.id}
@@ -298,12 +298,12 @@ export const KanbanAsociado = () => {
                           }}
                         >
                           <TarjetaClienteManager cliente={cliente}>
-                            {cliente.nombre}
+                            {cliente.name}
                             <br></br>
-                            {actions.calcularEdad(cliente.fecha) + " años"}
-                            <br></br>${cliente.monto}
+                            {actions.calcularEdad(cliente.birthdate) + " años"}
+                            <br></br>${cliente.amount}
                             <br></br>
-                            Confianza {cliente.confianza}
+                            Confianza {cliente.trust}
                           </TarjetaClienteManager>
                         </div>
                       )}

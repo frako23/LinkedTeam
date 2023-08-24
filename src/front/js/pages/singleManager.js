@@ -55,7 +55,7 @@ export const SingleManager = (props) => {
           <h5 className="card-title">
             {
               store.userClients.find((cliente) => cliente.id == params.theid)
-                .nombre
+                .name
             }
           </h5>
 
@@ -70,7 +70,7 @@ export const SingleManager = (props) => {
                     {
                       store.userClients.find(
                         (cliente) => cliente.id == params.theid
-                      ).fecha
+                      ).birthdate
                     }
                   </td>
                 </tr>
@@ -80,7 +80,7 @@ export const SingleManager = (props) => {
                     {actions.calcularEdad(
                       store.userClients.find(
                         (cliente) => cliente.id == params.theid
-                      ).fecha
+                      ).birthdate
                     ) + " años"}
                   </td>
                 </tr>
@@ -100,7 +100,7 @@ export const SingleManager = (props) => {
                     {
                       store.userClients.find(
                         (cliente) => cliente.id == params.theid
-                      ).celular
+                      ).cellphone
                     }
                   </td>
                 </tr>
@@ -109,7 +109,7 @@ export const SingleManager = (props) => {
                   <td className="fw-bolder">{`$ ${
                     store.userClients.find(
                       (cliente) => cliente.id == params.theid
-                    ).monto
+                    ).amout
                   }`}</td>
                 </tr>
                 <tr>
@@ -118,7 +118,7 @@ export const SingleManager = (props) => {
                     {
                       store.userClients.find(
                         (cliente) => cliente.id == params.theid
-                      ).confianza
+                      ).trust
                     }
                   </td>
                 </tr>
@@ -128,7 +128,7 @@ export const SingleManager = (props) => {
                     {
                       store.userClients.find(
                         (cliente) => cliente.id == params.theid
-                      ).estatus
+                      ).status
                     }
                   </td>
                 </tr>
@@ -138,7 +138,7 @@ export const SingleManager = (props) => {
                     {
                       store.userClients.find(
                         (cliente) => cliente.id == params.theid
-                      ).notas
+                      ).notes
                     }
                   </td>
                 </tr>
@@ -160,9 +160,9 @@ export const SingleManager = (props) => {
               <tbody>
                 {store.managerClientActivity.map((act, index) => (
                   <tr key={index}>
-                    <td scope="row">{act.fecha}</td>
-                    <td className="fw-bolder">{act.tipo_de_contacto}</td>
-                    <td className="fw-bolder text-wrap">{act.comentario}</td>
+                    <td scope="row">{act.date}</td>
+                    <td className="fw-bolder">{act.contact_type}</td>
+                    <td className="fw-bolder text-wrap">{act.comment}</td>
                   </tr>
                 ))}
               </tbody>
