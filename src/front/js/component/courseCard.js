@@ -7,7 +7,7 @@ import img from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-ofic
 
 export function CourseCard() {
   const { store, actions } = useContext(Context);
-  console.log(store.usuario.agency_id);
+  console.log(store.usuario.agency);
   useEffect(() => actions.getUsuario(), []);
 
   if (store.usuario.agency !== null) {
@@ -17,7 +17,7 @@ export function CourseCard() {
 
   return (
     <>
-      {store.usuario.agency !== null ? (
+      {store.usuario.agency !== null && store.usuario.agency !== undefined ? (
         <div className="container courses__container">
           {store.courses.map((data) => {
             return (
