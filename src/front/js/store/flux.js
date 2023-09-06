@@ -618,7 +618,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         let hoy = new Date();
         let deMilisegundosADias =
           (hoy.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
-        let dias = 30 - Math.round(deMilisegundosADias);
+        let dias = 60 - Math.round(deMilisegundosADias);
         return dias;
       },
 

@@ -22,7 +22,7 @@ export const PricingCard = () => {
                 <span style={{ fontSize: "3rem", fontWeight: "500" }}>
                   Gratis{" "}
                 </span>{" "}
-                <span> por 30 dias </span>
+                <span> por 60 dias </span>
               </div>
             </div>
           </div>
