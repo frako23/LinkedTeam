@@ -1,7 +1,7 @@
 {
   "name": "react-hello-webapp",
   "engines": {
-    "node": "16.x"
+    "node": ">=16.x"
   },
   "version": "1.0.1",
   "description": "",
@@ -58,7 +58,7 @@
     "webpack-merge": "^5.8.0"
   },
   "resolutions": {
-    "webpack": "5.41.1"
+    "webpack": "5.65.0"
   },
   "babel": {
     "presets": [

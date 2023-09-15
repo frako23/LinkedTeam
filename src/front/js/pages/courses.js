@@ -5,6 +5,7 @@ import "../../styles/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 import { CourseCard } from "../component/courseCard";
+import { Pricing } from "./pricing";
 
 export const Courses = () => {
   const { store, actions } = useContext(Context);
@@ -14,22 +15,28 @@ export const Courses = () => {
     navigate("/video");
   };
 
-  useEffect(() => {
-    if (store.usuario.status === "inactive") {
-      navigate("/pricing");
-    }
-  }, [store.usuario.status]);
+  // useEffect(() => {
+  //   if (store.usuario.status === "inactive") {
+  //     navigate("/pricing");
+  //   }
+  // }, [store.usuario.status]);
 
   return (
     <>
       <Navbar />
-      <h1
-        className="text-white text-center mt-4 kanban-head-title"
-        style={{ paddingBottom: "3rem" }}
-      >
-        Cursos disponibles
-      </h1>
-      <CourseCard />
+      {store.usuario.status === "inactive" ? (
+        <Pricing />
+      ) : (
+        <div>
+          <h1
+            className="text-white text-center mt-4 kanban-head-title"
+            style={{ paddingBottom: "3rem" }}
+          >
+            Cursos disponibles
+          </h1>
+          <CourseCard />
+        </div>
+      )}
     </>
   );
 };

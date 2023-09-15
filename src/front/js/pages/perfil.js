@@ -6,7 +6,7 @@ import { Context } from "../store/appContext";
 import { Box } from "../component/box";
 import { AdminPannel } from "../component/adminPannel";
 import { UserPannel } from "../component/userPannel";
-
+import { Pricing } from "./pricing";
 export const Perfil = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
@@ -25,17 +25,23 @@ export const Perfil = () => {
     actions.amountSumClosed();
   }, [store.clientes.length]);
 
-  useEffect(() => {
-    if (store.usuario.status === "inactive") {
-      navigate("/pricing");
-    }
-  }, [store.usuario.status]);
+  // useEffect(() => {
+  //   if (store.usuario.status === "inactive") {
+  //     navigate("/pricing");
+  //   }
+  // }, [store.usuario.status]);
 
   return (
     <>
       <Navbar />
       {/* pagina */}
-      {store.usuario.role === "admin" ? <AdminPannel /> : <UserPannel />}
+      {store.usuario.status === "inactive" ? (
+        <Pricing />
+      ) : store.usuario.role === "admin" ? (
+        <AdminPannel />
+      ) : (
+        <UserPannel />
+      )}
     </>
   );
 };

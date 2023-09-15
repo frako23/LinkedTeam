@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "../component/navbar";
 import { OwnCourseCard } from "../component/ownCourseCard";
 import CreateCourse from "../component/createCourse";
+import { Pricing } from "./pricing";
 
 export const OwnAgencyCourses = () => {
   const { store, actions } = useContext(Context);
@@ -14,11 +15,11 @@ export const OwnAgencyCourses = () => {
     navigate("/video");
   };
 
-  useEffect(() => {
-    if (store.usuario.status === "inactive") {
-      navigate("/pricing");
-    }
-  }, [store.usuario.status]);
+  // useEffect(() => {
+  //   if (store.usuario.status === "inactive") {
+  //     navigate("/pricing");
+  //   }
+  // }, [store.usuario.status]);
 
   useEffect(() => actions.getUsuario(), []);
 
@@ -27,20 +28,26 @@ export const OwnAgencyCourses = () => {
   return (
     <>
       <Navbar />
-      <div className="create-course-heading">
-        <h1
-          className="text-white text-center mt-4 kanban-head-title"
-          style={{ paddingBottom: "3rem" }}
-        >
-          <span style={{ color: "rgb(167, 100, 255)", fontSize: "3rem" }}>
-            {store.usuario.own_agency.name}
-          </span>
-          {" / "}
-          Cursos disponibles
-        </h1>
-        <CreateCourse />
-      </div>
-      <OwnCourseCard />
+      {store.usuario.status === "inactive" ? (
+        <Pricing />
+      ) : (
+        <div>
+          <div className="create-course-heading">
+            <h1
+              className="text-white text-center mt-4 kanban-head-title"
+              style={{ paddingBottom: "3rem" }}
+            >
+              <span style={{ color: "rgb(167, 100, 255)", fontSize: "3rem" }}>
+                {store.usuario.own_agency.name}
+              </span>
+              {" / "}
+              Cursos disponibles
+            </h1>
+            <CreateCourse />
+          </div>
+          <OwnCourseCard />
+        </div>
+      )}
     </>
   );
 };

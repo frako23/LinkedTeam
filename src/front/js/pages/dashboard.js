@@ -8,16 +8,17 @@ import { Tarjetacliente } from "../component/tarjetaCliente";
 import { Kanban } from "../component/kanban";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { Pricing } from "./pricing";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (store.usuario.status === "inactive") {
-      navigate("/pricing");
-    }
-  }, [store.usuario.status]);
+  // useEffect(() => {
+  //   if (store.usuario.status === "inactive") {
+  //     navigate("/pricing");
+  //   }
+  // }, [store.usuario.status]);
 
   let notClosedArray = store.clientes.filter(
     (index) => index.status != "Cerrado"
@@ -58,66 +59,70 @@ export const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <div className=" ps-5">
-        <div className="d-flex justify-content-center">
-          {store.usuario.role === "manager" ? (
-            <Link
-              to="/dashboardAsociado"
-              className="coolbtn"
-              style={{
-                marginTop: "2.5rem",
-                right: "34rem",
-                position: "relative",
-                marginRight: "-8rem",
-              }}
-            >
-              Asociados
-            </Link>
-          ) : (
-            ""
-          )}
-          <div className="kanban-head">
-            <strong className="kanban-head-title mt-4">CRM</strong>
-          </div>
-        </div>
-        <div className="ms-2 d-flex position-relative mb-3 ">
-          <Nuevonegocio />;
-          <div className="position-absolute top-0 end-0 text-center">
-            <div
-              className="btn-group pe-5"
-              role="group"
-              aria-label="Basic mixed styles example"
-            >
-              <table className="table-color-not-closed text-white">
-                <tbody>
-                  <tr className="">
-                    <td className="">En la calle</td>
-                    <td className="">${amountSum}</td>
-                  </tr>
-                  <tr className="">
-                    <td className="">Negocios</td>
-                    <td className="">{notClosedArray.length}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <table className="ms-2 table-color-closed text-white">
-                <tbody>
-                  <tr className="">
-                    <td className="">Logrado</td>
-                    <td className="">${amountSumClosedSales}</td>
-                  </tr>
-                  <tr className="">
-                    <td className="">Negocios</td>
-                    <td className="">{closedArray.length}</td>
-                  </tr>
-                </tbody>
-              </table>
+      {store.usuario.status === "inactive" ? (
+        <Pricing />
+      ) : (
+        <div className=" ps-5">
+          <div className="d-flex justify-content-center">
+            {store.usuario.role === "manager" ? (
+              <Link
+                to="/dashboardAsociado"
+                className="coolbtn"
+                style={{
+                  marginTop: "2.5rem",
+                  right: "34rem",
+                  position: "relative",
+                  marginRight: "-8rem",
+                }}
+              >
+                Asociados
+              </Link>
+            ) : (
+              ""
+            )}
+            <div className="kanban-head">
+              <strong className="kanban-head-title mt-4">CRM</strong>
             </div>
           </div>
-        </div>
+          <div className="ms-2 d-flex position-relative mb-3 ">
+            <Nuevonegocio />;
+            <div className="position-absolute top-0 end-0 text-center">
+              <div
+                className="btn-group pe-5"
+                role="group"
+                aria-label="Basic mixed styles example"
+              >
+                <table className="table-color-not-closed text-white">
+                  <tbody>
+                    <tr className="">
+                      <td className="">En la calle</td>
+                      <td className="">${amountSum}</td>
+                    </tr>
+                    <tr className="">
+                      <td className="">Negocios</td>
+                      <td className="">{notClosedArray.length}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table className="ms-2 table-color-closed text-white">
+                  <tbody>
+                    <tr className="">
+                      <td className="">Logrado</td>
+                      <td className="">${amountSumClosedSales}</td>
+                    </tr>
+                    <tr className="">
+                      <td className="">Negocios</td>
+                      <td className="">{closedArray.length}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
-        <Kanban />
-      </div>
+          <Kanban />
+        </div>
+      )}
     </>
   );
 };
