@@ -12,13 +12,13 @@ export const ModifyClient = () => {
   const { store, actions } = useContext(Context);
   const [show, setShow] = useState(false);
   const [cliente, setCliente] = useState({
-    nombre: "",
-    fecha: "",
+    name: "",
+    birthdate: "",
     email: "",
-    celular: "",
-    monto: "",
-    confianza: "",
-    notas: "",
+    cellphone: "",
+    amount: "",
+    trust: "",
+    notes: "",
   });
   const params = useParams();
   const handleClose = () => setShow(false);
@@ -29,13 +29,13 @@ export const ModifyClient = () => {
     console.log(cliente);
     actions.putClientes(cliente, params.theid);
     setCliente({
-      nombre: "",
-      fecha: "",
+      name: "",
+      birthdate: "",
       email: "",
-      celular: "",
-      monto: "",
-      confianza: "",
-      notas: "",
+      cellphone: "",
+      amount: "",
+      trust: "",
+      notes: "",
     });
     handleClose();
   };
@@ -66,10 +66,10 @@ export const ModifyClient = () => {
                   <Form.Label>Nombre y Apellido</Form.Label>
                   <Form.Control
                     type="text"
-                    name="nombre"
+                    name="name"
                     placeholder="Nombre del cliente"
                     onChange={handleForm}
-                    value={cliente.nombre}
+                    value={cliente.name}
                     autoFocus
                   />
                 </Col>
@@ -94,9 +94,9 @@ export const ModifyClient = () => {
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
                     type="date"
-                    name="fecha"
+                    name="birthdate"
                     onChange={handleForm}
-                    value={cliente.fecha}
+                    value={cliente.birthdate}
                     autoFocus
                   />
                 </Col>
@@ -104,10 +104,10 @@ export const ModifyClient = () => {
                   <Form.Label>Celular</Form.Label>
                   <Form.Control
                     type="tel"
-                    name="celular"
+                    name="cellphone"
                     placeholder="04XX-XXXXXXX"
                     onChange={handleForm}
-                    value={cliente.celular}
+                    value={cliente.cellphone}
                   />
                 </Col>
               </Row>
@@ -119,10 +119,10 @@ export const ModifyClient = () => {
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
                     type="number"
-                    name="monto"
+                    name="amount"
                     placeholder="5000"
                     onChange={handleForm}
-                    value={cliente.monto}
+                    value={cliente.amount}
                     autoFocus
                   />
                 </Col>
@@ -130,9 +130,9 @@ export const ModifyClient = () => {
                   <Form.Label>Nivel de confianza:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    name="confianza"
+                    name="trust"
                     onChange={handleForm}
-                    value={cliente.confianza}
+                    value={cliente.trust}
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
@@ -151,10 +151,10 @@ export const ModifyClient = () => {
               <Form.Control
                 as="textarea"
                 rows={3}
-                name="notas"
+                name="notes"
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
                 onChange={handleForm}
-                value={cliente.notas}
+                value={cliente.notes}
               />
             </Form.Group>
             <Modal.Footer>

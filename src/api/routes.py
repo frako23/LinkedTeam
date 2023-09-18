@@ -301,28 +301,28 @@ def modify_cliente(id):
     body = request.json
 
     client = Cliente.query.get(id)
-    nombre= body.get("nombre", None)
-    fecha= body.get("fecha", None)
+    name= body.get("name", None)
+    birthdate= body.get("birthdate", None)
     email= body.get("email", None)
-    celular= body.get("celular", None)
-    monto= body.get("monto", None)
-    confianza= body.get("confianza", None)
-    notas= body.get("notas", None)
+    cellphone= body.get("cellphone", None)
+    amount= body.get("amount", None)
+    trust= body.get("trust", None)
+    notes= body.get("notes", None)
     
-    if nombre is not None and nombre != "":
-        client.nombre = nombre
-    if fecha is not None and fecha != "":
-        client.fecha = fecha
+    if name is not None and name != "":
+        client.name = name
+    if birthdate is not None and birthdate != "":
+        client.birthdate = birthdate
     if email is not None and email != "":
         client.email = email
-    if celular is not None and celular != "":
-        client.celular = celular
-    if monto is not None and monto != "":
-        client.monto = monto
-    if confianza is not None and confianza != "":
-        client.confianza = confianza
-    if notas is not None and notas != "":
-        client.notas = notas
+    if cellphone is not None and cellphone != "":
+        client.cellphone = cellphone
+    if amount is not None and amount != "":
+        client.amount = amount
+    if trust is not None and trust != "":
+        client.trust = trust
+    if notes is not None and notes != "":
+        client.notes = notes
     try:
         db.session.commit()
         return jsonify(client.serialize()),200 
