@@ -18,9 +18,9 @@ export const Kanban = () => {
       const sourceColIndex = store.clientes.findIndex(
         (e) => e.id === Number(draggableId)
       );
-      console.log(sourceColIndex);
+      // console.log(sourceColIndex);
       const newList = [...store.clientes];
-      console.log(newList);
+      // console.log(newList);
       newList[sourceColIndex].status = destination.droppableId;
       theid = newList[sourceColIndex].id;
       // console.log(newList[sourceColIndex].status, newList[sourceColIndex].id);

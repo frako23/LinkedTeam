@@ -26,7 +26,7 @@ export const ModifyClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(cliente);
+    // console.log(cliente);
     actions.putClientes(cliente, params.theid);
     setCliente({
       name: "",

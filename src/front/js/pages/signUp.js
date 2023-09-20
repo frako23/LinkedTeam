@@ -25,7 +25,7 @@ export const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(password, confirmPassword);
+    // console.log(password, confirmPassword);
     if (password !== confirmPassword) {
       Swal.fire({
         icon: "error",

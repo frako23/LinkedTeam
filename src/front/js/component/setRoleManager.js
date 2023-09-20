@@ -31,7 +31,7 @@ function SetRoleManager({ userId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userRole);
+    // console.log(userRole);
     actions.selectRole(userRole);
     handleClose();
     setUserRole({
@@ -78,7 +78,7 @@ function SetRoleManager({ userId }) {
                           id: com.id,
                         });
                         await actions.getAgencies(com.id);
-                        console.log(store.agencies);
+                        // console.log(store.agencies);
                       }}
                       value={company.name}
                     >
@@ -105,8 +105,8 @@ function SetRoleManager({ userId }) {
                             userId: userId,
                           });
                           setAgen(agency.name);
-                          console.log(userId);
-                          console.log(agency.name);
+                          // console.log(userId);
+                          // console.log(agency.name);
                         }}
                         value={userRole.own_agency_id}
                       >

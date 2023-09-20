@@ -10,7 +10,7 @@ export function CourseCardOwnAgency() {
 
   useEffect(() => actions.getCourses(store.usuario.own_agency.id), []);
 
-  console.log(store.courses);
+  // console.log(store.courses);
 
   return (
     <div className="container courses__container">

@@ -26,11 +26,11 @@ function CreateAgency() {
     actions.getCompany();
   }, []);
 
-  console.log(store.company);
+  // console.log(store.company);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(agency);
+    // console.log(agency);
     actions.postAgencies(agency);
     setAgency({
       name: "",

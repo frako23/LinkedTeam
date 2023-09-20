@@ -16,8 +16,8 @@ function UserPaymentInformation(index) {
 
   const handleGetPayments = () => actions.getPayments(index.id);
 
-  console.log(index.id);
-  console.log(store.payments);
+  // console.log(index.id);
+  // console.log(store.payments);
 
   return (
     <>

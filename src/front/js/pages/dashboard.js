@@ -24,18 +24,18 @@ export const Dashboard = () => {
     (index) => index.status != "Cerrado"
   );
 
-  console.log(notClosedArray);
+  // console.log(notClosedArray);
 
   let amountSum = notClosedArray.reduce(
     (acum, index) => acum + parseInt(index.amount),
     0
   );
 
-  console.log(amountSum);
+  // console.log(amountSum);
 
   let closedArray = store.clientes.filter((index) => index.status == "Cerrado");
 
-  console.log(closedArray);
+  // console.log(closedArray);
 
   let amountSumClosedSales = closedArray.reduce(
     (acum, index) => acum + parseInt(index.amount),

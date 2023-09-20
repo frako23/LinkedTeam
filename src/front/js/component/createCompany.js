@@ -20,7 +20,7 @@ function CreateCompany() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(company);
+    // console.log(company);
     actions.postCompany(company);
     setCompany({
       name: "",

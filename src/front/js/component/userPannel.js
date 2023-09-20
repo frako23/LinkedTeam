@@ -27,7 +27,7 @@ export const UserPannel = () => {
 
   const id = idDeUsuario;
   if (salesGoal !== 0) {
-    console.log(salesGoal, id);
+    // console.log(salesGoal, id);
     actions.putUserSalesGoal(salesGoal, id);
     Swal.fire(
       `Excelente! tu meta de ventas es de $ ${salesGoal} vamos por ella 💪`
@@ -35,14 +35,14 @@ export const UserPannel = () => {
   }
 
   const addSalesGoal = () => {
-    console.log("entro aqui");
+    // console.log("entro aqui");
     Swal.fire({
       title: "Para comenzar coloca tu meta de ventas 💰",
       input: "number",
       confirmButtonText: "Registra tu meta 🙌",
       showLoaderOnConfirm: true,
       preConfirm: (salesGoal) => {
-        console.log(salesGoal);
+        // console.log(salesGoal);
         setSalesGoal(salesGoal);
       },
       allowOutsideClick: () => !Swal.isLoading(),

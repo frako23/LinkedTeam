@@ -15,7 +15,7 @@ export const AgencyToSelect = () => {
   const id = store.usuario.id;
 
   if (company !== "") {
-    console.log(company, id);
+    // console.log(company, id);
     actions.putUserCompany(company, id);
     Swal.fire(` 🤝 Perteneces a ${company}`);
   }
@@ -23,7 +23,7 @@ export const AgencyToSelect = () => {
   useEffect(() => {
     if (store.usuario.agency === null) {
       actions.getCompany();
-      console.log(store.company);
+      // console.log(store.company);
       Swal.fire({
         title: "Selecciona la compañia a la que perceneces",
         input: "select",

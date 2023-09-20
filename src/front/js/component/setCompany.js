@@ -24,7 +24,7 @@ function SetCompany() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(agency);
+    // console.log(agency);
     actions.selectAgency(agency.id);
     setCompany();
     handleClose();

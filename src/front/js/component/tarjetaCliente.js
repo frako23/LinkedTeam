@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 export const TarjetaCliente = ({ children, cliente }) => {
   const { store, actions } = useContext(Context);
   const { theid } = useParams();
-  console.log(cliente);
+  // console.log(cliente);
 
   return (
     <div className="tarea fw-bold">

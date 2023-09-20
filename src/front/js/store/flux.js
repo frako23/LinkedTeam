@@ -49,9 +49,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await resp.json();
-          console.log("Esto vino del backend", data);
+          // console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
-          console.log(data);
+          // console.log(data);
           setStore({ token: data.access_token });
           return true;
         } catch (error) {
@@ -62,9 +62,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       syncTokenFromSessionStore: () => {
         const actions = getActions();
         const token = sessionStorage.getItem("token");
-        console.log(
-          "La aplicacion acaba de cargar, sincronizando el token de session storage"
-        );
+        // console.log(
+        //   "La aplicacion acaba de cargar, sincronizando el token de session storage"
+        // );
         if (token && token != "" && token != undefined) {
           setStore({ token: token });
         } else {
@@ -101,7 +101,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("There has been an error login in from the backend");
@@ -143,7 +143,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({ company: company }),
         };
-        console.log(company);
+        // console.log(company);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user_company/${id}`,
@@ -156,7 +156,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -177,8 +177,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({ sales_goal: salesGoal }),
         };
-        console.log(salesGoal);
-        console.log(id);
+        // console.log(salesGoal);
+        // console.log(id);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user_sales_goal/${id}`,
@@ -191,7 +191,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           Swal.fire(
             "!Excelente¡",
             `Tu meta de ventas es: $ ${salesGoal} vamos por ella 💪!!!`,
@@ -297,7 +297,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(agency),
         };
-        console.log(agency);
+        // console.log(agency);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user/agency_ybt/${agency}`,
@@ -311,7 +311,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getUsuario();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -332,7 +332,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(userRole),
         };
-        console.log(userRole.role);
+        // console.log(userRole.role);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user_role/${userRole.userId}`,
@@ -346,7 +346,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
 
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           actions.setNotification(`Cambiaste el role a ${role}`);
           actions.getTotalUsuarios();
           return true;
@@ -372,7 +372,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             agency_id: agency_id,
           }),
         };
-        console.log(agency, agency_id);
+        // console.log(agency, agency_id);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/agency/${user_id}`,
@@ -386,7 +386,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
 
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           actions.setNotification(`Reseteaste la agencia del usuario`);
           actions.getTotalUsuarios();
           return true;
@@ -411,7 +411,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             status: status,
           }),
         };
-        console.log(status);
+        // console.log(status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user_status/${user_id}`,
@@ -425,7 +425,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
 
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           actions.setNotification(
             `Cambiaste el estatus del usuario a ${status}`
           );
@@ -450,7 +450,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(datosCliente),
         };
-        console.log(datosCliente);
+        // console.log(datosCliente);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/clientes`,
@@ -464,7 +464,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getClientes();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar al cliente", error);
@@ -482,7 +482,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(datosCliente),
         };
-        console.log(datosCliente);
+        // console.log(datosCliente);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/modify_cliente/${id}`,
@@ -496,7 +496,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getClientes();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -539,7 +539,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             status: status,
           }),
         };
-        console.log(status);
+        // console.log(status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/cliente/${cliente_id}`,
@@ -553,7 +553,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getClientes();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -586,7 +586,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getClientes();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -634,12 +634,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       logout: () => {
         const store = getStore();
         sessionStorage.removeItem("token");
-        console.log("Se han borrado todos los tokens", store.token);
+        // console.log("Se han borrado todos los tokens", store.token);
         setStore({ token: null });
       },
 
       setNotification: (mensaje) => {
-        console.log(mensaje);
+        // console.log(mensaje);
         alert(mensaje);
         setStore({ notification: mensaje });
         setTimeout(() => {
@@ -668,7 +668,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             status: status,
           }),
         };
-        console.log(task, status);
+        // console.log(task, status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/tareas`,
@@ -682,7 +682,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getTareas();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -729,7 +729,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             status: status,
           }),
         };
-        console.log(status);
+        // console.log(status);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/tareas/${id}`,
@@ -743,7 +743,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getTareas();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -776,7 +776,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getTareas();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -798,7 +798,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({ content: content }),
         };
-        console.log(content, comment_id);
+        // console.log(content, comment_id);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/responses/${comment_id}`,
@@ -812,7 +812,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getRespuestas(comment_id);
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -823,7 +823,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getRespuestas: (id) => {
-        console.log(id);
+        // console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -840,7 +840,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((body) => {
             setStore({ respuestas: body });
-            console.log(body);
+            // console.log(body);
           })
           .catch((error) => console.log(error));
       },
@@ -857,7 +857,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(data),
         };
-        console.log(data);
+        // console.log(data);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/comments/${video_id}`,
@@ -871,7 +871,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getComentarios(video_id);
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -882,7 +882,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getComentarios: (id) => {
-        console.log(id);
+        // console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -926,7 +926,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getClientActivity(client_id);
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -937,7 +937,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getClientActivity: (client_id) => {
-        console.log(client_id);
+        // console.log(client_id);
         const store = getStore();
         const opts = {
           headers: {
@@ -959,7 +959,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener la actividad de cliente para manager
       getManagerClientActivity: (user_id, client_id) => {
-        console.log(client_id);
+        // console.log(client_id);
         const store = getStore();
         const opts = {
           headers: {
@@ -991,7 +991,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(company),
         };
-        console.log(company);
+        // console.log(company);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/company`,
@@ -1004,7 +1004,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar la compañía", error);
@@ -1013,7 +1013,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener compañías
       getCompany: () => {
-        console.log();
         const store = getStore();
         const opts = {
           headers: {
@@ -1045,7 +1044,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(agency),
         };
-        console.log(agency);
+        // console.log(agency);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/agencies/${agency.companyId}`,
@@ -1058,7 +1057,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar la empresa", error);
@@ -1067,7 +1066,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener Agencias
       getAgencies: (id) => {
-        console.log(id);
+        // console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -1100,7 +1099,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(courses),
         };
-        console.log(courses, id);
+        // console.log(courses, id);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/courses/${id}`,
@@ -1113,7 +1112,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el curso", error);
@@ -1122,7 +1121,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener Cursos
       getCourses: (id) => {
-        console.log(id);
+        // console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -1179,7 +1178,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener Pagos
       getPayments: (id) => {
-        console.log(id);
+        // console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -1211,7 +1210,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(payment),
         };
-        console.log(payment);
+        // console.log(payment);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/payments`,
@@ -1224,7 +1223,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el pago", error);
@@ -1243,7 +1242,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({ company: company }),
         };
-        console.log(company);
+        // console.log(company);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/approvepayments/${id}`,
@@ -1256,7 +1255,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          console.log("This came from the backend", data);
+          // console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(

@@ -34,21 +34,21 @@ export function Todo() {
   let status = "por realizar";
 
   const onDragEnd = (result) => {
-    console.log(result);
+    // console.log(result);
     if (!result.destination) return;
     const { source, destination, draggableId } = result;
-    console.log(source, destination, draggableId);
+    // console.log(source, destination, draggableId);
     if (source.droppableId !== destination.droppableId) {
       const sourceColIndex = store.tareas.findIndex(
         (e) => e.id === Number(draggableId)
       );
-      console.log(sourceColIndex);
+      // console.log(sourceColIndex);
       const newList = [...store.tareas];
-      console.log(newList);
+      // console.log(newList);
       newList[sourceColIndex].status = destination.droppableId;
-      console.log(newList[sourceColIndex].status, newList[sourceColIndex].id);
+      // console.log(newList[sourceColIndex].status, newList[sourceColIndex].id);
       actions.updateTaskStatus(newList);
-      console.log(store.tareas);
+      // console.log(store.tareas);
       actions.putTarea({
         status: newList[sourceColIndex].status,
         id: newList[sourceColIndex].id,
@@ -90,7 +90,7 @@ export function Todo() {
                         status: status,
                       });
                       setTask("");
-                      console.log("entro aqui");
+                      // console.log("entro aqui");
                     }
                   }}
                 >

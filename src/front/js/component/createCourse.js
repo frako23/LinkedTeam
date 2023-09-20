@@ -29,7 +29,7 @@ function CreateCourse() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(courses, store.usuario.own_agency.id);
+    // console.log(courses, store.usuario.own_agency.id);
     actions.postCourses(courses, store.usuario.own_agency.id);
     setCourses({
       title: "",

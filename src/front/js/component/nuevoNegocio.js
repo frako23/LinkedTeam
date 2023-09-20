@@ -27,7 +27,7 @@ export const Nuevonegocio = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(cliente);
+    // console.log(cliente);
     actions.postClientes(cliente);
     handleClose();
     setCliente({

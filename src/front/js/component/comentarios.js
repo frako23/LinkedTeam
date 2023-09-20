@@ -12,7 +12,7 @@ export const Comentarios = () => {
   const [respuestas, setRespuestas] = useState({}); // Estado de las respuestas como objeto
   const { store, actions } = useContext(Context);
   const { theid } = useParams();
-  console.log(theid);
+  // console.log(theid);
 
   const handleRespuestaChange = (event) => {
     setRespuestas({ [event.target.id]: event.target.value });
@@ -28,7 +28,7 @@ export const Comentarios = () => {
   };
 
   useEffect(() => {
-    console.log(theid);
+    // console.log(theid);
     actions.getComentarios(theid);
   }, []);
 
@@ -44,7 +44,7 @@ export const Comentarios = () => {
             theid
           );
           setComentario("");
-          console.log("entro aqui", comentario);
+          // console.log("entro aqui", comentario);
         }}
       >
         <div className="container-comentarios">

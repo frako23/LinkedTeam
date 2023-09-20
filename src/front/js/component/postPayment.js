@@ -53,7 +53,7 @@ function postPayment() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(payment);
+    // console.log(payment);
     actions.postPayment(payment);
     setPayment({
       payment_date: "",

@@ -7,12 +7,12 @@ import img from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-ofic
 
 export function CourseCard() {
   const { store, actions } = useContext(Context);
-  console.log(store.usuario.agency);
+  // console.log(store.usuario.agency);
   useEffect(() => actions.getUsuario(), []);
 
   if (store.usuario.agency !== null) {
     useEffect(() => actions.getCourses(store.usuario.agency_id), []);
-    console.log(store.courses);
+    // console.log(store.courses);
   }
 
   return (

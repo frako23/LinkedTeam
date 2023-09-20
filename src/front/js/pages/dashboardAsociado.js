@@ -17,27 +17,27 @@ export const DashboardAsociado = () => {
     (index) => index.status != "Cerrado"
   );
 
-  console.log(notClosedArray);
+  // console.log(notClosedArray);
 
   let amountSum = notClosedArray.reduce(
     (acum, index) => acum + parseInt(index.amount),
     0
   );
 
-  console.log(amountSum);
+  // console.log(amountSum);
 
   let closedArray = store.userClients.filter(
     (index) => index.status == "Cerrado"
   );
 
-  console.log(closedArray);
+  // console.log(closedArray);
 
   let amountSumClosedSales = closedArray.reduce(
     (acum, index) => acum + parseInt(index.amount),
     0
   );
 
-  console.log(amountSumClosedSales);
+  // console.log(amountSumClosedSales);
 
   useEffect(() => {
     if (store.usuario.role === "manager") {
@@ -46,9 +46,9 @@ export const DashboardAsociado = () => {
     }
   }, []);
 
-  console.log(store.usuario.own_agency);
-  console.log(store.own_agencies);
-  console.log(store.userClients);
+  // console.log(store.usuario.own_agency);
+  // console.log(store.own_agencies);
+  // console.log(store.userClients);
 
   return (
     <>

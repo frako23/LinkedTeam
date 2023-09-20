@@ -18,7 +18,7 @@ export const KanbanAsociado = () => {
       const sourceColIndex = store.clientes.findIndex(
         (e) => e.id === Number(draggableId)
       );
-      console.log(sourceColIndex);
+      // console.log(sourceColIndex);
       const newList = [...store.clientes];
       // console.log(newList);
       newList[sourceColIndex].estatus = destination.droppableId;
