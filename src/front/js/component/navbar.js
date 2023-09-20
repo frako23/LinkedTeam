@@ -66,6 +66,7 @@ export const Navbar = () => {
               <li className="ps-0">
                 <i className="bx bx-bar-chart-alt-2 icon"></i>
                 <span className="text nav-text">Tablero</span>
+                <span className="tooltip">Tablero</span>
               </li>
             </Link>
 
@@ -73,6 +74,7 @@ export const Navbar = () => {
               <li className="ps-0">
                 <i className="bx bxl-youtube icon"></i>
                 <span className="text nav-text">Cursos y Videos</span>
+                <span className="tooltip">Cursos y Videos</span>
               </li>
             </Link>
 
@@ -80,6 +82,7 @@ export const Navbar = () => {
               <li className="ps-0">
                 <i className="bx bxs-layout icon"></i>
                 <span className="text nav-text">CRM</span>
+                <span className="tooltip">CRM</span>
               </li>
             </Link>
 
@@ -87,6 +90,7 @@ export const Navbar = () => {
               <li className="ps-0">
                 <i className="bx bx-list-ol icon"></i>
                 <span className="text nav-text">Tareas pendientes</span>
+                <span className="tooltip">Tareas pendientes</span>
               </li>
             </Link>
 
@@ -95,6 +99,9 @@ export const Navbar = () => {
                 <li className="ps-0">
                   <i className="fa-solid fa-users-rectangle icon"></i>
                   <span className="text nav-text">
+                    {store.usuario.own_agency.name}
+                  </span>
+                  <span className="tooltip">
                     {store.usuario.own_agency.name}
                   </span>
                 </li>
@@ -106,6 +113,7 @@ export const Navbar = () => {
               <li className="ps-0">
                 <i className="fa-regular fa-money-bill-1 icon"></i>
                 <span className="text nav-text">Registra tu Pago</span>
+                <span className="tooltip">Registra tu Pago</span>
               </li>
             </Link>
             {/* <li className="nav-link">
@@ -121,6 +129,7 @@ export const Navbar = () => {
           <li className="pe-auto" onClick={(event) => handleLogOut()}>
             <i className="bx bx-log-out icon"></i>
             <span className="text nav-text">Salir</span>
+            <span className="tooltip">Salir</span>
           </li>
         </div>
       </div>
