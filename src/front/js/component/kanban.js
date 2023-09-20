@@ -34,6 +34,9 @@ export const Kanban = () => {
       actions.amountSumClosed();
     }
   };
+
+  // const Element = Scroll.Element;
+
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -59,37 +62,40 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
+                <scroll-container>
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Prospecto")
+                    .map((cliente, index) => (
+                      <Draggable
+                        key={cliente.id}
+                        draggableId={String(cliente.id)}
+                        index={index}
+                      >
+                        {(draggableProvided, snapshot) => (
+                          <div
+                            ref={draggableProvided.innerRef}
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            style={{
+                              ...draggableProvided.draggableProps.style,
+                              opacity: snapshot.isDragging ? "0.5" : "1",
+                            }}
+                          >
+                            <TarjetaCliente cliente={cliente}>
+                              {cliente.name}
+                              <br></br>
+                              {actions.calcularEdad(cliente.birthdate) +
+                                " años"}
+                              <br></br>${cliente.amount}
+                              <br></br>
+                              Confianza {cliente.trust}
+                            </TarjetaCliente>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                </scroll-container>
 
-                {store.clientes
-                  .filter((cliente) => cliente.status === "Prospecto")
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <TarjetaCliente cliente={cliente}>
-                            {cliente.name}
-                            <br></br>
-                            {actions.calcularEdad(cliente.birthdate) + " años"}
-                            <br></br>${cliente.amount}
-                            <br></br>
-                            Confianza {cliente.trust}
-                          </TarjetaCliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
                 {droppableProvided.placeholder}
               </div>
             )}
@@ -115,37 +121,39 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
-
-                {store.clientes
-                  .filter((cliente) => cliente.status === "Contactado")
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <TarjetaCliente cliente={cliente}>
-                            {cliente.name}
-                            <br></br>
-                            {actions.calcularEdad(cliente.birthdate) + " años"}
-                            <br></br>${cliente.amount}
-                            <br></br>
-                            Confianza {cliente.trust}
-                          </TarjetaCliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                <scroll-container>
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Contactado")
+                    .map((cliente, index) => (
+                      <Draggable
+                        key={cliente.id}
+                        draggableId={String(cliente.id)}
+                        index={index}
+                      >
+                        {(draggableProvided, snapshot) => (
+                          <div
+                            ref={draggableProvided.innerRef}
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            style={{
+                              ...draggableProvided.draggableProps.style,
+                              opacity: snapshot.isDragging ? "0.5" : "1",
+                            }}
+                          >
+                            <TarjetaCliente cliente={cliente}>
+                              {cliente.name}
+                              <br></br>
+                              {actions.calcularEdad(cliente.birthdate) +
+                                " años"}
+                              <br></br>${cliente.amount}
+                              <br></br>
+                              Confianza {cliente.trust}
+                            </TarjetaCliente>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                </scroll-container>
                 {droppableProvided.placeholder}
               </div>
             )}
@@ -170,37 +178,39 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
-
-                {store.clientes
-                  .filter((cliente) => cliente.status === "Primera Cita")
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <TarjetaCliente cliente={cliente}>
-                            {cliente.name}
-                            <br></br>
-                            {actions.calcularEdad(cliente.birthdate) + " años"}
-                            <br></br>${cliente.amount}
-                            <br></br>
-                            Confianza {cliente.trust}
-                          </TarjetaCliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                <scroll-container>
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Primera Cita")
+                    .map((cliente, index) => (
+                      <Draggable
+                        key={cliente.id}
+                        draggableId={String(cliente.id)}
+                        index={index}
+                      >
+                        {(draggableProvided, snapshot) => (
+                          <div
+                            ref={draggableProvided.innerRef}
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            style={{
+                              ...draggableProvided.draggableProps.style,
+                              opacity: snapshot.isDragging ? "0.5" : "1",
+                            }}
+                          >
+                            <TarjetaCliente cliente={cliente}>
+                              {cliente.name}
+                              <br></br>
+                              {actions.calcularEdad(cliente.birthdate) +
+                                " años"}
+                              <br></br>${cliente.amount}
+                              <br></br>
+                              Confianza {cliente.trust}
+                            </TarjetaCliente>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                </scroll-container>
                 {droppableProvided.placeholder}
               </div>
             )}
@@ -225,37 +235,39 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
-
-                {store.clientes
-                  .filter((cliente) => cliente.status === "Negociación")
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <TarjetaCliente cliente={cliente}>
-                            {cliente.name}
-                            <br></br>
-                            {actions.calcularEdad(cliente.birthdate) + " años"}
-                            <br></br>${cliente.amount}
-                            <br></br>
-                            Confianza {cliente.trust}
-                          </TarjetaCliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                <scroll-container>
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Negociación")
+                    .map((cliente, index) => (
+                      <Draggable
+                        key={cliente.id}
+                        draggableId={String(cliente.id)}
+                        index={index}
+                      >
+                        {(draggableProvided, snapshot) => (
+                          <div
+                            ref={draggableProvided.innerRef}
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            style={{
+                              ...draggableProvided.draggableProps.style,
+                              opacity: snapshot.isDragging ? "0.5" : "1",
+                            }}
+                          >
+                            <TarjetaCliente cliente={cliente}>
+                              {cliente.name}
+                              <br></br>
+                              {actions.calcularEdad(cliente.birthdate) +
+                                " años"}
+                              <br></br>${cliente.amount}
+                              <br></br>
+                              Confianza {cliente.trust}
+                            </TarjetaCliente>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                </scroll-container>
                 {droppableProvided.placeholder}
               </div>
             )}
@@ -280,37 +292,39 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
-
-                {store.clientes
-                  .filter((cliente) => cliente.status === "Cerrado")
-                  .map((cliente, index) => (
-                    <Draggable
-                      key={cliente.id}
-                      draggableId={String(cliente.id)}
-                      index={index}
-                    >
-                      {(draggableProvided, snapshot) => (
-                        <div
-                          ref={draggableProvided.innerRef}
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          style={{
-                            ...draggableProvided.draggableProps.style,
-                            opacity: snapshot.isDragging ? "0.5" : "1",
-                          }}
-                        >
-                          <TarjetaCliente cliente={cliente}>
-                            {cliente.name}
-                            <br></br>
-                            {actions.calcularEdad(cliente.birthdate) + " años"}
-                            <br></br>${cliente.amount}
-                            <br></br>
-                            Confianza {cliente.trust}
-                          </TarjetaCliente>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                <scroll-container>
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Cerrado")
+                    .map((cliente, index) => (
+                      <Draggable
+                        key={cliente.id}
+                        draggableId={String(cliente.id)}
+                        index={index}
+                      >
+                        {(draggableProvided, snapshot) => (
+                          <div
+                            ref={draggableProvided.innerRef}
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            style={{
+                              ...draggableProvided.draggableProps.style,
+                              opacity: snapshot.isDragging ? "0.5" : "1",
+                            }}
+                          >
+                            <TarjetaCliente cliente={cliente}>
+                              {cliente.name}
+                              <br></br>
+                              {actions.calcularEdad(cliente.birthdate) +
+                                " años"}
+                              <br></br>${cliente.amount}
+                              <br></br>
+                              Confianza {cliente.trust}
+                            </TarjetaCliente>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                </scroll-container>
                 {droppableProvided.placeholder}
               </div>
             )}
