@@ -7,6 +7,7 @@ import { Nuevonegocio } from "../component/nuevoNegocio";
 import { KanbanAsociado } from "../component/kanbanAsociado";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { ExportToExcel } from "../component/exportToExcel";
 
 export const DashboardAsociado = () => {
   const { store, actions } = useContext(Context);
@@ -144,7 +145,9 @@ export const DashboardAsociado = () => {
           >
             {agency + " " + selected}
           </span>
-
+          <div className="ms-3">
+            <ExportToExcel excelData={store.userClients} />
+          </div>
           <div className="position-absolute top-0 end-0 text-center">
             {selected !== "" ? (
               <div

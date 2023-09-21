@@ -9,6 +9,7 @@ import { Kanban } from "../component/kanban";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Pricing } from "./pricing";
+import { ExportToExcel } from "../component/exportToExcel";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
@@ -86,6 +87,7 @@ export const Dashboard = () => {
           </div>
           <div className="ms-2 d-flex position-relative mb-3 ">
             <Nuevonegocio />;
+            <ExportToExcel excelData={store.clientes} />
             <div className="position-absolute top-0 end-0 text-center">
               <div
                 className="btn-group pe-5"

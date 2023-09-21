@@ -1,0 +1,59 @@
+{
+  "InsuranceCompanies": {
+    "Time": "Feb 2019",
+    "Top Insurance Companies": [
+      {
+        "No": "1",
+        "Name": "Berkshire Hathaway ( BRK.A)",
+        "Market Capitalization": "$308 billion"
+      },
+      {
+        "No": "2",
+        "Name": "China Life Insurance (LFC)",
+        "Market Capitalization": "$80  billion"
+      },
+      {
+        "No": "3",
+        "Name": "Allianz (AZSEY) ",
+        "Market Capitalization": "$76.8 billion"
+      },
+      {
+        "No": "4",
+        "Name": "American International Group (AIG)",
+        "Market Capitalization": "$72.3 billion"
+      },
+      {
+        "No": "5",
+        "Name": "Ping An of China (PNGAY)",
+        "Market Capitalization": "$76.8 billion"
+      },
+      {
+        "No": "6",
+        "Name": "MetLife (MET)",
+        "Market Capitalization": "$59.4 billion"
+      },
+      {
+        "No": "7",
+        "Name": "AXA ( AXA)",
+        "Market Capitalization": "$57.8 billion"
+      },
+      {
+        "No": "8",
+        "Name": "AIA Group Hong Kong (AAIGF)",
+        "Market Capitalization": "$54.4 billion"
+      },
+      {
+        "No": "9",
+        "Name": "ING Groep (ING)",
+        "Market Capitalization": "$54.4 billion"
+      },
+      {
+        "No": "10",
+        "Name": "Zurich Insurance (ZURVY)",
+        "Market Capitalization": "$45.4 billion"
+      }
+    ],
+    "source": "investopedia.com",
+    "url": "https://www.investopedia.com/articles/active-trading/111314/top-10-insurance-companies-metrics.asp"
+  }
+}

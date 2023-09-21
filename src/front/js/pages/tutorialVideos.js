@@ -25,6 +25,7 @@ export const TutorialVideos = () => {
           >
             Videos Tutoriales
           </h1>
+
           <TutorialVideoCard />
         </div>
       )}
