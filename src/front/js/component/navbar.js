@@ -116,12 +116,13 @@ export const Navbar = () => {
                 <span className="tooltip">Registra tu Pago</span>
               </li>
             </Link>
-            {/* <li className="nav-link">
-              <button >
-                <i className="bx bx-wallet icon"></i>
-                <span className="text nav-text">Wallets</span>
-              </a>
-            </li> */}
+            <Link to="/tutorialVideos">
+              <li className="ps-0">
+                <i className="fa-solid fa-circle-info icon"></i>
+                <span className="text nav-text">Videos Tutoriales</span>
+                <span className="tooltip">Videos Tutoriales</span>
+              </li>
+            </Link>
           </ul>
         </div>
 

@@ -19,6 +19,8 @@ import { Pricing } from "./pages/pricing";
 import { AgencyToSelect } from "./pages/agencyToSelect";
 import { Navbar } from "./component/navbar";
 import { OwnAgencyCourses } from "./pages/ownAgencyCourses";
+import { TutorialVideos } from "./pages/tutorialVideos";
+import { VideoTutorial } from "./pages/videoTutorial";
 
 //create your first component
 const Layout = () => {
@@ -38,12 +40,14 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Courses />} path="/courses" />
+            <Route element={<TutorialVideos />} path="/tutorialVideos" />
             <Route element={<OwnAgencyCourses />} path="/ownAgencyCourses" />
             <Route element={<Pricing />} path="/pricing" />
             <Route element={<AgencyToSelect />} path="/agencyToSelect" />
             <Route element={<Todo />} path="/todo" />
             <Route element={<Perfil />} path="/perfil" />
             <Route element={<Video />} path="/video/:theid" />
+            <Route element={<VideoTutorial />} path="/videoTutorial/:theid" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<SingleManager />} path="/singleManager/:theid" />
             <Route element={<h1>Not found!</h1>} />
