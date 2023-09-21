@@ -55,4 +55,12 @@ export const tutorialVideosData = [
     linkUrl: "https://youtu.be/aiA6XIF8gIs",
     id: "g",
   },
+  {
+    title: "Descarga de data a Excel",
+    description:
+      "En este video se muestra: 1- ¿Cómo descargar data propia a Excel? 2- ¿Cómo descargar data de asociados directos a Excel? 3- ¿Cómo descargar data de asociados de agencias directas a Excel?",
+    imgUrl: "https://i3.ytimg.com/vi/DhXufpZBmwo/maxresdefault.jpg",
+    linkUrl: "https://youtu.be/DhXufpZBmwo",
+    id: "h",
+  },
 ];
