@@ -94,27 +94,39 @@ export const Dashboard = () => {
                 role="group"
                 aria-label="Basic mixed styles example"
               >
-                <table className="table-color-not-closed text-white">
-                  <tbody>
-                    <tr className="">
-                      <td className="">En la calle</td>
-                      <td className="">${amountSum}</td>
+                <table className="table">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>En la calle</th>
+                      <th>Negocios</th>
                     </tr>
-                    <tr className="">
-                      <td className="">Negocios</td>
-                      <td className="">{notClosedArray.length}</td>
+                  </thead>
+                  <tbody>
+                    <tr className="table-light">
+                      <td className="" style={{ color: "black" }}>
+                        ${amountSum}
+                      </td>
+                      <td className="" style={{ color: "black" }}>
+                        {notClosedArray.length}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <table className="ms-2 table-color-closed text-white">
-                  <tbody>
-                    <tr className="">
-                      <td className="">Logrado</td>
-                      <td className="">${amountSumClosedSales}</td>
+                <table className="table">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>Logrado</th>
+                      <th>Negocios</th>
                     </tr>
-                    <tr className="">
-                      <td className="">Negocios</td>
-                      <td className="">{closedArray.length}</td>
+                  </thead>
+                  <tbody>
+                    <tr className="table-light">
+                      <td className="" style={{ color: "black" }}>
+                        ${amountSumClosedSales}
+                      </td>
+                      <td className="" style={{ color: "black" }}>
+                        {closedArray.length}
+                      </td>
                     </tr>
                   </tbody>
                 </table>

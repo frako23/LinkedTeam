@@ -35,7 +35,7 @@ export const KanbanAsociado = () => {
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="kanban-table" style={{}}>
+        <div className="kanban-table" style={{ marginTop: "0" }}>
           {/* columnas */}
           <Droppable droppableId="Prospecto">
             {(droppableProvided) => (

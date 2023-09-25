@@ -134,7 +134,7 @@ export const DashboardAsociado = () => {
             <strong className="kanban-head-title mt-4">CRM</strong>
           </div>
         </div>
-        <div className="ms-2 d-flex position-relative mb-3 ">
+        <div className="ms-2 d-flex position-relative">
           <span
             className="fw-bold"
             style={{
@@ -148,34 +148,47 @@ export const DashboardAsociado = () => {
           <div className="ms-3">
             <ExportToExcel excelData={store.userClients} />
           </div>
-          <div className="position-absolute top-0 end-0 text-center">
+          <div className=" text-center">
             {selected !== "" ? (
               <div
                 className="btn-group pe-5"
                 role="group"
                 aria-label="Basic mixed styles example"
+                style={{ left: "34rem" }}
               >
-                <table className="table-color-not-closed">
-                  <tbody>
-                    <tr className="">
-                      <td className="">En la calle</td>
-                      <td className="">${amountSum}</td>
+                <table className="table">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>En la calle</th>
+                      <th>Negocios</th>
                     </tr>
-                    <tr className="">
-                      <td className="">Negocios</td>
-                      <td className="">{notClosedArray.length}</td>
+                  </thead>
+                  <tbody>
+                    <tr className="table-light">
+                      <td className="" style={{ color: "black" }}>
+                        ${amountSum}
+                      </td>
+                      <td className="" style={{ color: "black" }}>
+                        {notClosedArray.length}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <table className="ms-2 table-color-closed">
-                  <tbody>
-                    <tr className="">
-                      <td className="">Logrado</td>
-                      <td className="">${amountSumClosedSales}</td>
+                <table className="table">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>Logrado</th>
+                      <th>Negocios</th>
                     </tr>
-                    <tr className="">
-                      <td className="">Negocios</td>
-                      <td className="">{closedArray.length}</td>
+                  </thead>
+                  <tbody>
+                    <tr className="table-light">
+                      <td className="" style={{ color: "black" }}>
+                        ${amountSumClosedSales}
+                      </td>
+                      <td className="" style={{ color: "black" }}>
+                        {closedArray.length}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
