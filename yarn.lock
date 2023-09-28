@@ -4516,6 +4516,11 @@ ms@2.1.3:
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
+multi-range-slider-react@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/multi-range-slider-react/-/multi-range-slider-react-2.0.5.tgz"
+  integrity sha512-PaGaVzflxWqBCKz5wCOsIpYVKRv+OIGQPfLiyZx93HTZ0oegRj5NrT+Y0ceQo91ID1quDBOXVg55LcZFU7cN8A==
+
 multicast-dns@^7.2.4:
   version "7.2.5"
   resolved "https://registry.npmjs.org/multicast-dns/-/multicast-dns-7.2.5.tgz"

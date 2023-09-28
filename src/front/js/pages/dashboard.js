@@ -10,6 +10,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Pricing } from "./pricing";
 import { ExportToExcel } from "../component/exportToExcel";
+import SortCRM from "../component/sortCRM";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
@@ -85,16 +86,19 @@ export const Dashboard = () => {
               <strong className="kanban-head-title mt-4">CRM</strong>
             </div>
           </div>
-          <div className="ms-2 d-flex position-relative mb-3 ">
-            <Nuevonegocio />;
-            <ExportToExcel excelData={store.clientes} />
-            <div className="position-absolute top-0 end-0 text-center">
+          <div className="ms-2 d-flex justify-content-between">
+            <div className="box-dashboard ms-5">
+              <Nuevonegocio />
+              <ExportToExcel excelData={store.clientes} />
+            </div>
+            <SortCRM />
+            <div className="top-0 end-0 text-center d-grid me-5 ms-5">
               <div
                 className="btn-group pe-5"
                 role="group"
                 aria-label="Basic mixed styles example"
               >
-                <table className="table">
+                <table className="table t-summary">
                   <thead className="table-dark">
                     <tr>
                       <th>En la calle</th>
@@ -112,7 +116,13 @@ export const Dashboard = () => {
                     </tr>
                   </tbody>
                 </table>
-                <table className="table">
+              </div>
+              <div
+                className="btn-group pe-5"
+                role="group"
+                aria-label="Basic mixed styles example"
+              >
+                <table className="table t-summary">
                   <thead className="table-dark">
                     <tr>
                       <th>Logrado</th>

@@ -57,7 +57,8 @@ export const Nuevonegocio = () => {
       <button
         variant="primary"
         onClick={handleShow}
-        className="button-single ms-5"
+        className="button-single"
+        style={{ height: "fit-content" }}
       >
         Nuevo Negocio
       </button>

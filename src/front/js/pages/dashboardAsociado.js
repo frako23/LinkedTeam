@@ -8,11 +8,13 @@ import { KanbanAsociado } from "../component/kanbanAsociado";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { ExportToExcel } from "../component/exportToExcel";
+import SortCRMAsociados from "../component/sortCRMAsociados";
 
 export const DashboardAsociado = () => {
   const { store, actions } = useContext(Context);
   const [selected, setSelected] = useState("");
   const [agency, setAgency] = useState("");
+  const [asociadoId, setAsociadoId] = useState("");
 
   let notClosedArray = store.userClients.filter(
     (index) => index.status != "Cerrado"
@@ -106,7 +108,8 @@ export const DashboardAsociado = () => {
                       key={asociado.id}
                       onClick={(e) => {
                         actions.getUserClients(asociado.id);
-                        setSelected(asociado.name);
+                        setSelected(asociado.name + " " + asociado.lastname);
+                        setAsociadoId(asociado.id);
                       }}
                     >
                       {asociado.name + " " + asociado.lastname}
@@ -134,8 +137,8 @@ export const DashboardAsociado = () => {
             <strong className="kanban-head-title mt-4">CRM</strong>
           </div>
         </div>
-        <div className="ms-2 d-flex position-relative">
-          <span
+        <div className="ms-2 d-flex justify-content-evenly">
+          <div
             className="fw-bold"
             style={{
               marginLeft: "3rem",
@@ -143,59 +146,63 @@ export const DashboardAsociado = () => {
               fontSize: "2rem",
             }}
           >
-            {agency + " " + selected}
-          </span>
-          <div className="ms-3">
-            <ExportToExcel excelData={store.userClients} />
+            <span>{agency}</span>
+            <br />
+            <span>{selected}</span>
           </div>
-          <div className=" text-center">
-            {selected !== "" ? (
-              <div
-                className="btn-group pe-5"
-                role="group"
-                aria-label="Basic mixed styles example"
-                style={{ left: "34rem" }}
-              >
-                <table className="table">
-                  <thead className="table-dark">
-                    <tr>
-                      <th>En la calle</th>
-                      <th>Negocios</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="table-light">
-                      <td className="" style={{ color: "black" }}>
-                        ${amountSum}
-                      </td>
-                      <td className="" style={{ color: "black" }}>
-                        {notClosedArray.length}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table className="table">
-                  <thead className="table-dark">
-                    <tr>
-                      <th>Logrado</th>
-                      <th>Negocios</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="table-light">
-                      <td className="" style={{ color: "black" }}>
-                        ${amountSumClosedSales}
-                      </td>
-                      <td className="" style={{ color: "black" }}>
-                        {closedArray.length}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              ""
-            )}
+
+          <ExportToExcel excelData={store.userClients} />
+
+          <SortCRMAsociados id={asociadoId} />
+          <div className="top-0 end-0 text-center d-grid me-5 ms-5">
+            <div
+              className="btn-group pe-5"
+              role="group"
+              aria-label="Basic mixed styles example"
+            >
+              <table className="table">
+                <thead className="table-dark">
+                  <tr>
+                    <th>En la calle</th>
+                    <th>Negocios</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="table-light">
+                    <td className="" style={{ color: "black" }}>
+                      ${amountSum}
+                    </td>
+                    <td className="" style={{ color: "black" }}>
+                      {notClosedArray.length}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              className="btn-group pe-5"
+              role="group"
+              aria-label="Basic mixed styles example"
+            >
+              <table className="table">
+                <thead className="table-dark">
+                  <tr>
+                    <th>Logrado</th>
+                    <th>Negocios</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="table-light">
+                    <td className="" style={{ color: "black" }}>
+                      ${amountSumClosedSales}
+                    </td>
+                    <td className="" style={{ color: "black" }}>
+                      {closedArray.length}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 

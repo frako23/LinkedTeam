@@ -24,6 +24,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       amountSumClosed: null,
       payments: [],
       own_agencies: [],
+      amountFilter: null,
+      ageFilter: null,
+      trustFilter: null,
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -1263,6 +1266,104 @@ const getState = ({ getStore, getActions, setStore }) => {
             error
           );
         }
+      },
+      filterByAmount: (firstAmount, lastAmount) => {
+        const store = getStore();
+        const actions = getActions();
+
+        let firstFilteredClients = store.clientes.filter(
+          (cliente) => parseInt(cliente.amount) >= firstAmount
+        );
+
+        let lastFilteredClients = firstFilteredClients.filter(
+          (cliente) => parseInt(cliente.amount) <= lastAmount
+        );
+
+        setStore({ clientes: lastFilteredClients });
+      },
+      filterByAge: (firstAge, lastAge) => {
+        const store = getStore();
+        const actions = getActions();
+
+        let firstFilteredClients = store.clientes.filter(
+          (cliente) => actions.calcularEdad(cliente.birthdate) >= firstAge
+        );
+
+        let lastFilteredClients = firstFilteredClients.filter(
+          (cliente) => actions.calcularEdad(cliente.birthdate) <= lastAge
+        );
+
+        setStore({ clientes: lastFilteredClients });
+      },
+      filterByTrust: (trust) => {
+        const store = getStore();
+        const actions = getActions();
+
+        let filterByTrust = store.clientes.filter(
+          (cliente) => cliente.trust === trust
+        );
+
+        setStore({ clientes: filterByTrust });
+      },
+      findByName: (name) => {
+        const store = getStore();
+        const actions = getActions();
+        console.log(name);
+        let foundClient = store.clientes.filter((cliente) =>
+          cliente.name.toLowerCase().includes(name.toLowerCase())
+        );
+
+        console.log(foundClient);
+        setStore({ clientes: foundClient });
+      },
+      /* agregamos las funciones para el caso de los asociados */
+      filterByAmountAsociados: (firstAmount, lastAmount) => {
+        const store = getStore();
+        const actions = getActions();
+
+        let firstFilteredClients = store.userClients.filter(
+          (cliente) => parseInt(cliente.amount) >= firstAmount
+        );
+
+        let lastFilteredClients = firstFilteredClients.filter(
+          (cliente) => parseInt(cliente.amount) <= lastAmount
+        );
+
+        setStore({ userClients: lastFilteredClients });
+      },
+      filterByAgeAsociados: (firstAge, lastAge) => {
+        const store = getStore();
+        const actions = getActions();
+
+        let firstFilteredClients = store.userClients.filter(
+          (cliente) => actions.calcularEdad(cliente.birthdate) >= firstAge
+        );
+
+        let lastFilteredClients = firstFilteredClients.filter(
+          (cliente) => actions.calcularEdad(cliente.birthdate) <= lastAge
+        );
+
+        setStore({ userClients: lastFilteredClients });
+      },
+      filterByTrustAsociados: (trust) => {
+        const store = getStore();
+        const actions = getActions();
+
+        let filterByTrust = store.userClients.filter(
+          (cliente) => cliente.trust === trust
+        );
+
+        setStore({ userClients: filterByTrust });
+      },
+      findByNameAsociados: (name) => {
+        const store = getStore();
+        const actions = getActions();
+        // console.log(name);
+        let foundClient = store.userClients.filter((cliente) =>
+          cliente.name.toLowerCase().includes(name.toLowerCase())
+        );
+        // console.log(foundClient);
+        setStore({ userClients: foundClient });
       },
     },
   };
