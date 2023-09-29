@@ -350,6 +350,20 @@ section {
   align-items: center;
 }
 
+.video-not-set {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.video-not-set img {
+  height: 26rem;
+  margin-left: 7rem;
+}
+.video-not-set a h2 {
+  color: white;
+  width: 33rem;
+  font-size: 2.5rem;
+}
 .agency-not-set img {
   height: 47rem;
   margin-left: 7rem;

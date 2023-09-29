@@ -63,4 +63,12 @@ export const tutorialVideosData = [
     linkUrl: "https://youtu.be/DhXufpZBmwo",
     id: "h",
   },
+  {
+    title: "Funcionalidad de buscador y filtrado",
+    description:
+      "En este video podrás ver: 1- ¿Cómo buscar prospectos de tu CRM directamente desde la nueva barra de búsqueda? 2- ¿Cómo filtrar prospectos usando las opciones disponibles (por monto de póliza, por edad o por nivel de confianza)?",
+    imgUrl: "https://i3.ytimg.com/vi/M0W7pvt-7Os/maxresdefault.jpg",
+    linkUrl: "https://youtu.be/M0W7pvt-7Os",
+    id: "i",
+  },
 ];
