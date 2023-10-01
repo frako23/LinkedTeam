@@ -24,7 +24,7 @@ export function CourseCard() {
       {store.usuario.agency === null || store.usuario.agency === undefined ? (
         <div className="agency-not-set">
           <img src={img} />
-          <Link to="/perfil">
+          <Link className="btn btn-light" to="/perfil">
             <h2>Primero debes seleccionar la agencia a la que perteneces</h2>
           </Link>
         </div>
