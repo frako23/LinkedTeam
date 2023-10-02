@@ -11,12 +11,12 @@ export function CourseCard() {
   // console.log(store.usuario.agency);
   useEffect(() => {
     actions.getUsuario();
-    console.log(store.usuario);
+    // console.log(store.usuario);
   }, []);
 
   if (store.usuario.agency !== null) {
     useEffect(() => actions.getCourses(store.usuario.agency_id), []);
-    console.log(store.courses);
+    // console.log(store.courses);
   }
 
   return (

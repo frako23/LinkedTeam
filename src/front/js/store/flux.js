@@ -1308,12 +1308,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       findByName: (name) => {
         const store = getStore();
         const actions = getActions();
-        console.log(name);
+        // console.log(name);
         let foundClient = store.clientes.filter((cliente) =>
           cliente.name.toLowerCase().includes(name.toLowerCase())
         );
 
-        console.log(foundClient);
+        // console.log(foundClient);
         setStore({ clientes: foundClient });
       },
       /* agregamos las funciones para el caso de los asociados */

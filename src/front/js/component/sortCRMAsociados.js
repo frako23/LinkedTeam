@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 
 export default function SortCRMAsociados({ id }) {
-  console.log(id);
+  // console.log(id);
   const { store, actions } = useContext(Context);
   const [name, setName] = useState("");
   const [filter, setFilter] = useState({
@@ -12,7 +12,7 @@ export default function SortCRMAsociados({ id }) {
   });
   // const [filteredUsers, setFilteredUsers] = useState("")
 
-  console.log(store.usersByAgency, store.userClients);
+  // console.log(store.usersByAgency, store.userClients);
 
   return (
     <div style={{}}>

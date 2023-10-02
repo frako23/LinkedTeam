@@ -87,7 +87,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Celular</Form.Label>
                   <Form.Control
                     type="tel"
-                    required
+                    // required
                     name="cellphone"
                     placeholder="04XX-XXXXXXX"
                     onChange={handleForm}
@@ -98,7 +98,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
-                    required
+                    // required
                     name="email"
                     pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     placeholder="nombre@correo.com"
@@ -116,7 +116,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
                     type="date"
-                    required
+                    // required
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
@@ -127,7 +127,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
                     type="number"
-                    required
+                    // required
                     placeholder="5000"
                     name="amount"
                     value={cliente.amount}
@@ -187,7 +187,7 @@ export const Nuevonegocio = () => {
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
                 value={cliente.notes}
                 onChange={handleForm}
-                required
+                // required
               />
             </Form.Group>
             <Modal.Footer>

@@ -20,7 +20,7 @@ export function ExportToExcel({ excelData }) {
   const tiempoTranscurrido = Date.now();
   const hoy = new Date(tiempoTranscurrido);
   const fecha = hoy.toLocaleDateString();
-  console.log(excelData, fecha);
+  // console.log(excelData, fecha);
   function handleDownloadExcel() {
     downloadExcel({
       fileName: `LinkedTeam Data ${fecha}`,

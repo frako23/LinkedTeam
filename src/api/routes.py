@@ -228,20 +228,10 @@ def post_get_clientes():
     try:
         if "name" not in new_cliente_data or new_cliente_data["name"] == "":
             raise Exception("No ingresaste el name", 400)
-        if "birthdate" in new_cliente_data["birthdate"] == "":
-            raise Exception("No ingresaste la birthdate", 400)
-        if "email" not in new_cliente_data or new_cliente_data["email"] == "":
-            raise Exception("No ingresaste el email", 400)
-        if "cellphone" not in new_cliente_data or new_cliente_data["cellphone"] == "":
-            raise Exception("No ingresaste el cellphone", 400)
-        if "amount" not in new_cliente_data or new_cliente_data["amount"] == "":
-            raise Exception("No ingresaste el amount", 400)
         if "status" not in new_cliente_data or new_cliente_data["status"] == "":
             raise Exception("No ingresaste el status", 400)
         if "trust" not in new_cliente_data or new_cliente_data["trust"] == "":
             raise Exception("No ingresaste el nivel de trust", 400)
-        if "notes" not in new_cliente_data or new_cliente_data["notes"] == "":
-            raise Exception("No ingresaste notes", 400)
         new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
