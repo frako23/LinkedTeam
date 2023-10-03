@@ -152,7 +152,7 @@ export const Single = (props) => {
                 </tr>
                 <tr>
                   <th scope="row">NOTAS</th>
-                  <td className="fw-bolder">
+                  <td className="fw-bolder text-wrap">
                     {
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
