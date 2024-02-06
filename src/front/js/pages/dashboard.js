@@ -11,6 +11,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { Pricing } from "./pricing";
 import { ExportToExcel } from "../component/exportToExcel";
 import SortCRM from "../component/sortCRM";
+import { ImportFromExcel } from "../component/importFromExcel";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
@@ -90,6 +91,7 @@ export const Dashboard = () => {
             <div className="box-dashboard ms-5">
               <Nuevonegocio />
               <ExportToExcel excelData={store.clientes} />
+              <ImportFromExcel />
             </div>
             <SortCRM />
             <div className="top-0 end-0 text-center d-grid me-5 ms-5">

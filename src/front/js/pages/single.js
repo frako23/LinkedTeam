@@ -86,11 +86,11 @@ export const Single = (props) => {
                 <tr>
                   <th scope="row">FECHA DE NACIMIENTO</th>
                   <td className="fw-bolder">
-                    {
+                    {new Date(
                       store.clientes.find(
                         (cliente) => cliente.id == params.theid
                       ).birthdate
-                    }
+                    ).toLocaleDateString("en-GB")}
                   </td>
                 </tr>
                 <tr>

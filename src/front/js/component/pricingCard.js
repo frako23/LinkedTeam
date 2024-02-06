@@ -82,7 +82,7 @@ export const PricingCard = () => {
             <div className="price-area">
               <div className="inner-area">
                 <span className="text">$</span>
-                <span className="price">7</span> <span> /mes </span>
+                <span className="price">5</span> <span> /mes </span>
               </div>
             </div>
           </div>
