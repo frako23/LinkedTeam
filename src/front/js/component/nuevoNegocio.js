@@ -19,6 +19,7 @@ export const Nuevonegocio = () => {
     status: "",
     trust: "",
     notes: "",
+    tag: "",
   });
   const [show, setShow] = useState(false);
 
@@ -39,6 +40,7 @@ export const Nuevonegocio = () => {
       status: "",
       trust: "",
       notes: "",
+      tag: "",
     });
     Swal.fire({
       title: "Registraste tú cliente correctamente 🙌",
@@ -81,6 +83,7 @@ export const Nuevonegocio = () => {
                 autoFocus
               />
             </Form.Group>
+            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
@@ -109,7 +112,7 @@ export const Nuevonegocio = () => {
                 </Col>
               </Row>
             </Form.Group>
-
+            {/* ------------ SECCIÓN PARA AGREGAR FECHA DE NACIMIENTO Y MONTO ------------ */}
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
@@ -137,7 +140,7 @@ export const Nuevonegocio = () => {
                 </Col>
               </Row>
             </Form.Group>
-
+            {/* ------------ SECCIÓN PARA AGREGAR ESTATUS Y NIVEL DE CONFIANZA ----------- */}
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
@@ -174,7 +177,44 @@ export const Nuevonegocio = () => {
                 </Col>
               </Row>
             </Form.Group>
-
+            {/* ---------------------- SECCIÓN PARA AGREGAR ETIQUETA --------------------- */}
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Row>
+                <Col>
+                  <Form.Label>Etiqueta:</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    required
+                    name="status"
+                    value={cliente.status}
+                    onChange={handleForm}
+                  >
+                    <option value=""></option>
+                    <option value="Prospecto">Prospecto</option>
+                    <option value="Contactado">Contactado</option>
+                    <option value="Primera Cita">Primera Cita</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Cerrado">Cerrado</option>
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <Form.Label>Nivel de confianza:</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    required
+                    name="trust"
+                    value={cliente.trust}
+                    onChange={handleForm}
+                  >
+                    <option value=""></option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                  </Form.Select>
+                </Col>
+              </Row>
+            </Form.Group>
+            {/* ----------------------- SECCIÓN PARA AGREGAR NOTAS ----------------------- */}
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"

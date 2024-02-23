@@ -24,6 +24,25 @@ class PaymentStatus(Enum):
     approved = "approved"
     not_approved = "not_approved"
 
+class Color(Enum):
+    white = 'white'
+    black = 'black'
+    blue = 'blue'
+    grey = 'grey'
+    green = 'green'
+    yellow = 'yellow'
+    orange = 'orange'
+    pink = 'pink'
+    purple= 'purple'
+    red = 'red'
+
+class Payment_Method(Enum):
+    anual = 'anual'
+    semestral = 'semestral'
+    trimestral = 'trimestral'
+    mensual = 'mensual'
+
+# ---------------------- TABLAS DE REGISTROS DE USUARIOS --------------------- #
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
@@ -36,13 +55,8 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     status = db.Column(db.Enum(Status), default = Status.active)
     sales_goal = db.Column(db.Integer, unique=False)
-    
-    
-    own_agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
-    own_agency = db.relationship("Agencies", backref = "users_own_agency", foreign_keys=[own_agency_id])
-
-    agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
-    agency = db.relationship("Agencies", backref = "users_agency", foreign_keys=[agency_id])
+    agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'), nullable=True)
+    agency = db.relationship("Agencies", backref = "associates")
 
 
     def __init__(self, **kwargs):
@@ -54,7 +68,7 @@ class User(db.Model):
         self.role =  kwargs['role'] if 'role' in kwargs else Role.associated
         self.sales_goal = kwargs['sales_goal'] if 'sales_goal' in kwargs else None
         self.agency_id = kwargs['agency_id'] if 'agency_id' in kwargs else None
-        self.own_agency_id = kwargs['own_agency_id'] if 'own_agency_id' in kwargs else None
+
 
     @classmethod
     def create(cls, **kwargs):
@@ -88,8 +102,7 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
-# tabla de registro de clientes
-
+# ---------------------- TABLA DE REGISTROS DE CLIENTES ---------------------- #
 class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=False, nullable=False)
@@ -100,6 +113,7 @@ class Cliente(db.Model):
     trust = db.Column(db.String(20), unique=False, nullable=False)
     notes = db.Column(db.String(1000), unique=False, nullable=True)
     status = db.Column(db.String(50), unique=False, nullable=False)
+    tag = db.Column(db.Enum(Color), default=Color.white)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -113,6 +127,7 @@ class Cliente(db.Model):
         self.trust = kwargs['trust']
         self.notes = kwargs['notes']
         self.status = kwargs['status']
+        self.tag = kwargs['tag']
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -137,12 +152,14 @@ class Cliente(db.Model):
             "trust": self.trust,
             "notes": self.notes,
             "status": self.status,
+            "tag": self.tag.value,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "user_id": self.user_id
             # do not serialize the password, its a security breach
         }
 
+# ---------------------- TABLAS DE COMENTARIOS A VIDEOS ---------------------- #
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(240), nullable=False)
@@ -180,6 +197,7 @@ class Comment(db.Model):
 
         }
 
+# --------------------- TABLA DE RESPUESTAS A COMENTARIOS -------------------- #
 class Response(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(240), nullable=False)
@@ -218,8 +236,7 @@ class Response(db.Model):
 
         }
 
-# Tabla de tareas para la sección TAREAS PENDIENTES
-
+# ------------- TABLA DE TAREAS PARA LA SECCIÓN TAREAS PENDIENTES ------------ #
 class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(250), unique=False, nullable=False)
@@ -254,8 +271,7 @@ class Tarea(db.Model):
             "updated_at": self.updated_at,
         }
 
-# tabla de registro de actividades de interacciones con clientes
-
+# ------ TABLA DE REGISTRO DE ACTIVIDADES DE INTERACCIONES CON CLIENTES ------ #
 class Client_Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(10), nullable=False)
@@ -293,8 +309,7 @@ class Client_Activity(db.Model):
             # "created_at": self.created_at
         }
 
-# TABLA PARA INFOMRACION DE VIDEOS
-
+# --------------------- TABLA PARA INFORMACION DE VIDEOS --------------------- #
 class Courses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=False, nullable=False)
@@ -335,48 +350,47 @@ class Courses(db.Model):
             "updated_at": self.updated_at,
         }
 
-# TABLA PARA GUARDAR COMPAÑIAS
-class Company(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=False, nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+# ----------------------- TABLA PARA GUARDAR COMPAÑIAS ----------------------- #
+# class Company(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100), unique=False, nullable=False)
+#     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+#     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
-    def __init__(self, **kwargs):
-        self.name = kwargs['name']
+#     def __init__(self, **kwargs):
+#         self.name = kwargs['name']
 
-    @classmethod
-    def create(cls, **kwargs):
-        new_company = cls(**kwargs)
-        db.session.add(new_company)
-        try:
-            db.session.commit()
-            return new_company
-        except Exception as error:
-            raise Exception(error.args[0], 400)
+#     @classmethod
+#     def create(cls, **kwargs):
+#         new_company = cls(**kwargs)
+#         db.session.add(new_company)
+#         try:
+#             db.session.commit()
+#             return new_company
+#         except Exception as error:
+#             raise Exception(error.args[0], 400)
         
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
-        }
+#     def serialize(self):
+#         return {
+#             "id": self.id,
+#             "name": self.name,
+#             "created_at": self.created_at,
+#             "updated_at": self.updated_at
+#         }
 
-# TABLA PARA GUARDAR LAS AGENCIAS
+# ---------------------- TABLA PARA GUARDAR LAS AGENCIAS --------------------- #
 class Agencies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=False, nullable=False)
+    owner = db.relationship("User", backref = "own_agency", uselist = False )
+    # owner_id = db.Column(db.Integer, db.ForeignKey('user.id', use_alter=True))
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
-    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
-    company = db.relationship("Company", backref = "agencies")
-
     def __init__(self, **kwargs):
         self.name = kwargs['name']
-        self.company_id = kwargs['company_id']
+        self.owner_id = kwargs['owner_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -393,12 +407,12 @@ class Agencies(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "company": self.company.name,
+            "owner": self.owner.name,
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
 
-# TABLA DE REGISTROS DE PAGOS
+# ----------------------- TABLA DE REGISTROS DE PAGOS ----------------------- #
 class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     payment_date = db.Column(db.DateTime(timezone=True))
@@ -447,7 +461,7 @@ class Payment(db.Model):
             "updated_at": self.updated_at
         }
 
-# TABLA DE INFORMACIÓN DE LA CUENTA
+# --------------------- TABLA DE INFORMACIÓN DE LA CUENTA -------------------- #
 class Account_Information(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     plan_name = db.Column(db.String(100), unique=False, nullable=False)
@@ -486,3 +500,87 @@ class Account_Information(db.Model):
             "user": self.user.name,
             "payment": self.payment.id,
         }
+
+# --------------- TABLA PARA GUARDAR LOS NOMBRES DE LAS PÓLIZAS -------------- #
+class Policies_names(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    policy_name = db.Column(db.String(50), nullable=False)
+    policy_type = db.Column(db.String(50), nullable=False)
+    company = db.Column(db.String(50), nullable=False)
+    agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+
+    def __init__(self, **kwargs):
+        self.policy_name = kwargs['policy_name']
+        self.policy_type = kwargs['policy_type']
+        self.company = kwargs['company']
+        self.agencies_id = kwargs['agencies_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_policy_name = cls(**kwargs)
+        db.session.add(new_policy_name)
+        try:
+            db.session.commit()
+            return jsonify({"msg":"Nombre de póliza creada"})
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "policy_name": self.policy_name,
+            "policy_type": self.policy_type,
+            "company": self.company,
+            "agencies_id": self.agencies_id,
+        }
+
+# ---- TABLA PARA GUARDAR INFORMACIÓN DE LA PÓLIZAS COMPRADAS POR CLIENTES --- #
+class Client_Policies(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    policy_name =  db.Column(db.String(50), nullable=False)
+    policy_type =  db.Column(db.String(50), nullable=False)
+    policy_number = db.Column(db.String(50), nullable=False)
+    date_of_issue = db.Column(db.String(10), nullable=False)
+    payment_method = db.Column(db.String(250), nullable=False)
+    notes = db.Column(db.String(250), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+
+    def __init__(self, **kwargs):
+        self.policy_name = kwargs['policy_name']
+        self.policy_type = kwargs['policy_type']
+        self.policy_number = kwargs['policy_number']
+        self.date_of_issue = kwargs['date_of_issue']
+        self.payment_method = kwargs['payment_method']
+        self.notes = kwargs['notes']
+        self.user_id = kwargs['user_id']
+        self.client_id = kwargs['client_id']
+
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_activity = cls(**kwargs)
+        db.session.add(new_activity)
+        try:
+            db.session.commit()
+            return jsonify({"msg":"Póliza de cliente creada"})
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "policy_name": self.policy_name,
+            "policy_type": self.policy_type,
+            "policy_number": self.policy_number,
+            "date_of_issue": self.date_of_issue,
+            "payment_method": self.payment_method,
+            "notes": self.notes,
+            "user_id": self.user_id,
+            "client_id": self.client_id,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
