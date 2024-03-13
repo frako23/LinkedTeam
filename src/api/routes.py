@@ -67,7 +67,7 @@ def get_users_by_agency(agency_id):
         users_dictionaries.append(user.serialize())
     return jsonify(users_dictionaries), 200
 
-# --------------------- API PARA TRAER LISTA DE USUARIOS --------------------- #
+# --------------------- API PARA TRAER AL USUARIO QUE HACE LOGIN --------------------- #
 @api.route('/user', methods=['GET'])
 @jwt_required()
 def get_user():
@@ -137,7 +137,7 @@ def reset_user_agency(user_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
-# -------- MÉTODO PUT PARA QUE LOS GERENTE CREEN SUS PROPIAS AGENCIAS -------- #
+# -------- MÉTODO PUT PARA QUE LOS GERENTES CREEN SUS PROPIAS AGENCIAS -------- #
 @api.route('/user/own_agency/<int:id>/<int:agency_id>', methods=['PUT'])
 def put_user_own_agency(agency_id, id):
     agency = Agencies.query.get(agency_id)
@@ -239,6 +239,7 @@ def post_get_clientes():
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
+# --------------- API PARA TRAER LOS CLIENTES DE LOS ASOCIADOS --------------- #
 @api.route('/user_clients/<int:id>', methods=['GET'])
 # @jwt_required()
 def get_user_clients(id):    
@@ -257,6 +258,7 @@ def get_manager_user_clients(id, client_id):
         clientes_dictionaries.append(cliente.serialize())
     return jsonify(clientes_dictionaries), 200
 
+# ------------------------ API PARA ELIMINAR CLIENTES ------------------------ #
 @api.route('/cliente/<int:id>', methods=['DELETE'])
 # @jwt_required()
 def delete_cliente(id):
@@ -323,7 +325,7 @@ def modify_cliente(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
 
-# ---------------------------- API DE COMENTARIOS ---------------------------- #
+# ---------------------------- API PARA TRAER COMENTARIOS DE LOS VIDEOS ---------------------------- #
 @api.route('/comments/<int:video_id>', methods=['GET'])
 def get_comments(video_id):
     comments = Comment.query.filter_by(video_id=video_id)
@@ -332,6 +334,7 @@ def get_comments(video_id):
             [comment.serialize() for comment in comments]
         ),200
 
+# ---------------- API PARA PUBLICAR COMENTARIOS DE LOS VIDEOS --------------- #
 @api.route('/comments/<int:video_id>', methods=['POST'])
 @jwt_required()
 def add_comment(video_id):
@@ -346,7 +349,8 @@ def add_comment(video_id):
         return comentario
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-    
+
+# ---------------- API PARA ELIMINAR COMENTARIOS DE LOS VIDEOS --------------- #
 @api.route('/comments/<int:id>', methods=['DELETE'])
 def delete_comment(id):
     comment = Comment.query.get(id)
@@ -361,7 +365,7 @@ def delete_comment(id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
-# ----------------------------- API DE RESPUESTAS ---------------------------- #
+# ----------------------------- API PARA TRAER RESPUESTA A LOS COMENTARIOS ---------------------------- #
 @api.route('/responses/<int:comment_id>', methods=['GET'])
 def get_responses(comment_id):
     responses = Response.query.filter_by(comment_id=comment_id)
@@ -370,6 +374,7 @@ def get_responses(comment_id):
             [response.serialize() for response in responses]
         ),200
 
+# --------------- API PARA AGREGAR RESPUESTA A LOS COMENTARIOS --------------- #
 @api.route('/responses/<int:comment_id>', methods=['POST'])
 @jwt_required()
 def add_response(comment_id):
@@ -388,7 +393,7 @@ def add_response(comment_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
-
+# ---------------- API PARA ELIMINAR RESPUESTA DE COMENTARIOS ---------------- #
 @api.route('/response/<int:id>', methods=['DELETE'])
 def delete_response(id):
     response = Response.query.get(id)
@@ -403,7 +408,7 @@ def delete_response(id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
-# ------------------------------ API PARA TAREAS ----------------------------- #
+# ------------------------------ API PARA TRAER Y ELIMINAR TAREAS ----------------------------- #
 @api.route('/tareas/', methods=['GET','POST'])
 @jwt_required()
 def post_get_tareas():
@@ -424,7 +429,8 @@ def post_get_tareas():
         return jsonify(new_tarea.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
-        
+
+# ------------------------- API PARA MODIFICAR TAREAS ------------------------ #
 @api.route('/tareas/<int:id>', methods=['PUT'])
 def update_tarea(id):
 
@@ -439,6 +445,7 @@ def update_tarea(id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
+# ------------------------- API PARA ELIMINAR TAREAS ------------------------- #
 @api.route('/tareas/<int:id>', methods=['DELETE'])
 def delete_tarea(id):
     tarea = Tarea.query.get(id)
@@ -464,7 +471,7 @@ def get_client_activity(client_id):
             [client_activity.serialize() for client_activity in client_activities]
         ),200
 
-# ruta para que los gerentes vean la actividad de clientes
+# ------- API PARA QUE GERENTES VEAN ACTIVIDAD DE CLIENTES DE ASOCIADOS ------ #
 @api.route('/manager_client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
 def get_manager_client_activity(user_id, client_id):
     client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
@@ -534,16 +541,15 @@ def post_get_courses_data(agencies_id):
 #     except Exception as error:
 #         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
-# rutas de agencias
-# endpoint para traer todas las agencias
-# @api.route('/agencies', methods=['GET'])
-# @jwt_required()
-# def get_agencies():
-#     agencies = Agencies.query.all()
+# --------------------- API PARA TRAER TODAS LAS AGENCIAS -------------------- #
+@api.route('/agencies', methods=['GET'])
+@jwt_required()
+def get_agencies():
+    agencies = Agencies.query.all()
     
-#     agencies = list(map(lambda agency: agency.serialize(), agencies))
+    agencies = list(map(lambda agency: agency.serialize(), agencies))
     
-#     return jsonify(agencies), 200
+    return jsonify(agencies), 200
 
 #endpoint para traer agencias por compañia
 # @api.route('/agencies/<int:company_id>', methods=['GET'])
