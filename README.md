@@ -29,10 +29,11 @@ Si estás interesado en contribuir al proyecto, por favor lee el archivo `CONTRI
 
 LinkedTeam es un software de código abierto licenciado bajo la [Licencia MIT](LICENSE).
 
-Pendientes por hacer:
+## Pendientes por hacer:
 
-Probas Apis:
-Queda pendiente probar las siguientes APIs:
+### Probar Apis:
+
+#### Queda pendiente probar las siguientes APIs:
 
 1. [X]REGISTRAR USUARIO
 2. [ ]HACER LOGIN
