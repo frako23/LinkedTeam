@@ -1,99 +1,87 @@
-# WebApp boilerplate with React JS and Flask API
+# LinkedTeam la app para la supervición, prospección y entrenamiento de ventas efectivo!
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
+## Descripción
 
-> Documentation: https://start.4geeksacademy.com/
+LinkedTeam es una aplicación web innovadora diseñada para la supervisión y entrenamiento efectivo de equipos de ventas. Con una interfaz intuitiva y herramientas poderosas, LinkedTeam integra un sistema CRM para la gestión eficiente de carteras de clientes, un módulo de entrenamiento en línea para que los gerentes capaciten a sus asociados, y una sección de tareas pendientes para asegurar que ningún detalle importante sea olvidado.
 
-<p align="center">
-<a href="https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b"><img src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/how-to.png?raw=true?raw=true" /></a>
-</p>
+## Características Principales
 
-- React.js front end and python/flask backend for your web application.
-- Extensive documentation [here](https://start.4geeksacademy.com/).
-- Integrated with Pipenv for package managing.
-- Fast deloyment to heroku [in just a few steps here](https://start.4geeksacademy.com/backend/deploy-heroku-posgres).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
+- **CRM Integrado**: Gestiona y organiza carteras de clientes para maximizar las oportunidades de venta.
+- **Módulo de Entrenamiento**: Capacita a los asociados con materiales y cursos disponibles en línea.
+- **Gestión de Tareas**: Mantén un registro de las tareas pendientes y asegura su cumplimiento.
 
-### Styles
+## Tecnologías Utilizadas
 
-You can update the `styles/index.scss` or create new `.scss` files inside `styles/` and import them into your current scss or js files depending on your needs.
+- **Frontend**: Desarrollado con React y Context API para una experiencia de usuario fluida y dinámica. Los estilos son implementados con CSS puro para un diseño atractivo y responsivo.
+- **Backend**: Creado en Python, utilizando SQLAlquemy como ORM y PostgreSQL como gestor de base de datos, garantizando rendimiento y seguridad.
 
-### Components
+## Instrucciones de Instalación
 
-Add more files into your `./src/js/components` or styles folder as you need them and import them into your current files as needed.
+1. Clona el repositorio en tu máquina local.
+2. Instala las dependencias necesarias con `npm install` para el frontend y `pip install` para el backend.
+3. Configura las variables de entorno necesarias para conectar con la base de datos PostgreSQL.
+4. Ejecuta la aplicación con `npm start` para el frontend y `python app.py` para el backend.
 
-💡Note: There is an example using the Context API inside `views/demo.js`;
+<!-- ## Contribuir
+Si estás interesado en contribuir al proyecto, por favor lee el archivo `CONTRIBUTING.md` para más información sobre cómo hacerlo. -->
 
-### Views (Components)
+## Licencia
 
-Add more files into your `./src/js/views` and import them in `./src/js/layout.jsx`.
+LinkedTeam es un software de código abierto licenciado bajo la [Licencia MIT](LICENSE).
 
-### Context
+Pendientes por hacer:
 
-This boilerplate comes with a centralized general Context API. The file `./src/js/store/flux.js` has a base structure for the store, we encourage you to change it and adapt it to your needs.
+Probas Apis:
+Queda pendiente probar las siguientes APIs:
 
-React Context [docs](https://reactjs.org/docs/context.html)
-BreathCode Lesson [view](https://content.breatheco.de/lesson/react-hooks-explained)
-
-The `Provider` is already set. You can consume from any component using the useContext hook to get the `store` and `actions` from the Context. Check `/views/demo.js` to see a demo.
-
-```jsx
-import { Context } from "../store/appContext";
-const MyComponentSuper = () => {
-    //here you use useContext to get store and actions
-    const { store, actions } = useContext(Context);
-    return <div>{/* you can use your actions or store inside the html */}</div>;
-};
-```
-
-### Back-End Manual Installation:
-
-It is recomended to install the backend first, make sure you have Python 3.8, Pipenv and a database engine (Posgress recomended)
-
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure yo replace the valudes with your database information:
-
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
-
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
-
-### Backend Populate Table Users
-
-To insert test users in the database execute the following command:
-
-```sh
-$ flask insert-test-users 5
-```
-
-And you will see the following message:
-
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
-
-To update with all yours tables you can edit the file app.py and go to the line 80 to insert the code to populate others tables
-
-### Front-End Manual Installation:
-
--   Make sure you are using node version 14+ and that you have already successfully installed and runned the backend.
-
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
-
-## Publish your website!
-
-This boilerplate it's 100% read to deploy with Render.com and Herkou in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
+1. [X]REGISTRAR USUARIO
+2. [ ]HACER LOGIN
+3. [ ]TRAER LISTA DE USUARIOS
+4. [ ]TRAER DATA DEL USUARIO QUE HACE LOGIN
+5. [ ]ASIGNARLE UNA AGENCIA A UN USUARIO
+6. [ ]RESETEAR AGENCIA A LA QUE PERTENECE UN USUARIO
+7. [ ]ASIGNAR ROL DE GERENTE AL USUARIO
+8. [ ]ASIGNAR ROL DE ADMINISTRADOR AL USUARIO
+9. [ ]CREAR UNA AGENCIA CON EL ROL DE GERENTE
+10. [ ]ASIGNAR META DE VENTAS A UN USUARIO
+11. [ ]ASIGNAR AGENCIA PROPIA AL USUARIO
+12. [ ]CAMBIAR ESTATUS DEL USUARIO
+13. [ ]REGISTRAR INFORMACION DE CLIENTES
+14. [ ]TRAER LA DATA DE LOS CLIENTES
+15. [ ]TRAER LA DATA DE LOS CLIENTES A LOS GERENTES
+16. [ ]ELIMINAR CLIENTES
+17. [ ]CAMBIAR ESTATUS DE LOS PROSPECTOS
+18. [ ]CAMBIAR TODAS LAS DEMAS CARACTERISTICAS DE LOS CLIENTES
+19. [ ]PUBLICAR COMENTARIOS DE LOS VIDEOS
+20. [ ]TRAER LOS COMENTARIOS DE LOS VIDEOS
+21. [ ]ELIMINAR COMENTARIOS DE LOS VIDEOS
+22. [ ]PUBLICAR RESPUESTAS DE LOS COMENTARIOS
+23. [ ]TRAER LOS RESPUESTAS DE LOS COMENTARIOS
+24. [ ]ELIMINAR RESPUESTAS DE LOS COMENTARIOS
+25. [ ]PUBLICAR TAREA
+26. [ ]MOFICAR TAREA
+27. [ ]TRAER TAREA
+28. [ ]ELIMINAR TAREA
+29. [ ]PUBLICAR ACTIVIDAD CON CLIENTES
+30. [ ]MOFICAR ACTIVIDAD CON CLIENTES
+31. [ ]TRAER ACTIVIDAD CON CLIENTES
+32. [ ]ELIMINAR ACTIVIDAD CON CLIENTES
+33. [ ]TRAER ACTIVIDAD DE LOS CLIENTES DE LOS ASOCIADOS DE LOS GERENTES
+34. [ ]PUBLICAR CURSOS
+35. [ ]MOFICAR CURSOS
+36. [ ]TRAER CURSOS
+37. [ ]ELIMINAR CURSOS
+38. [ ]VER AGENCIAS DE ASOCIADOS DE GERENTES
+39. [ ]TRAER TODAS LAS AGENCIAS
+40. [ ]PUBLICAR AGENCIAS
+41. [ ]MOFICAR AGENCIAS
+42. [ ]TRAER AGENCIAS
+43. [ ]ELIMINAR AGENCIAS
+44. [ ]PUBLICAR POLIZAS QUE SE PUEDEN COMERCIALIZAR POR AGENCIA
+45. [ ]MOFICAR POLIZAS QUE SE PUEDEN COMERCIALIZAR POR AGENCIA
+46. [ ]TRAER POLIZAS QUE SE PUEDEN COMERCIALIZAR POR AGENCIA
+47. [ ]ELIMINAR POLIZAS QUE SE PUEDEN COMERCIALIZAR POR AGENCIA
+48. [ ]PUBLICAR POLIZAS A LOS CLIENTES
+49. [ ]MOFICAR POLIZAS A LOS CLIENTES
+50. [ ]TRAER POLIZAS A LOS CLIENTES
+51. [ ]ELIMINAR POLIZAS A LOS CLIENTES

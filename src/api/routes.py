@@ -25,7 +25,7 @@ def check_date(user_date):
     #     return False
     return True
 
-# ----------------------- API PARA REGRISTRAR USUARIOS ----------------------- #
+# ----------------------- API PARA HACER LOGIN ----------------------- #
 @api.route("/token", methods=["POST"])
 def login():
     email = request.json.get("email", None)
@@ -67,7 +67,7 @@ def get_users_by_agency(agency_id):
         users_dictionaries.append(user.serialize())
     return jsonify(users_dictionaries), 200
 
-
+# --------------------- API PARA TRAER LISTA DE USUARIOS --------------------- #
 @api.route('/user', methods=['GET'])
 @jwt_required()
 def get_user():
@@ -77,6 +77,7 @@ def get_user():
     # print(user)
     return jsonify(user.serialize()), 200
    
+# ------------------------ API PARA REGISTRAR USUARIOS ----------------------- #
 @api.route('/user', methods=['POST'])
 def add_user():
     new_user_data = request.json
