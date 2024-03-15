@@ -55,8 +55,8 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     status = db.Column(db.Enum(Status), default = Status.active)
     sales_goal = db.Column(db.Integer, unique=False)
-    agency_id = db.Column(db.Integer, db.ForeignKey('agencies.id'), nullable=True)
-    agency = db.relationship("Agencies", backref = "associates")
+    manager = db.Column(db.String(100), unique=False, nullable=True)
+    manager_id = db.Column(db.Integer, unique=False, nullable=True)
 
 
     def __init__(self, **kwargs):
@@ -67,7 +67,8 @@ class User(db.Model):
         self.salt = kwargs['salt']
         self.role =  kwargs['role'] if 'role' in kwargs else Role.associated
         self.sales_goal = kwargs['sales_goal'] if 'sales_goal' in kwargs else None
-        self.agency_id = kwargs['agency_id'] if 'agency_id' in kwargs else None
+        self.manager = kwargs['manager'] if 'manager' in kwargs else None
+        self.manager_id = kwargs['manager_id'] if 'manager_id' in kwargs else None
 
 
     @classmethod
@@ -94,11 +95,10 @@ class User(db.Model):
             "role": self.role.value,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "agency": self.agency.name if self.agency else None,
-            "own_agency": self.own_agency.serialize() if self.own_agency else None,
+            "manager": self.manager,
+            "manager_id": self.manager_id, 
             "status": self.status.value,
-            "sales_goal": self.sales_goal,
-            "agency_id": self.agency_id
+            "sales_goal": self.sales_goal,            
             # do not serialize the password, its a security breach
         }
 
@@ -318,14 +318,14 @@ class Courses(db.Model):
     link_url = db.Column(db.String(250), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-    agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+    manager_id = db.Column(db.Integer,unique=True, nullable=False)
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
         self.description = kwargs['description']
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
-        self.agencies_id = kwargs['agencies_id']
+        self.manager_id = kwargs['manager_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -345,7 +345,7 @@ class Courses(db.Model):
             "description": self.description,
             "img_url": self.img_url,
             "link_url": self.link_url,
-            "agencies_id": self.agencies_id,
+            "manager_id": self.manager_id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }
@@ -380,37 +380,37 @@ class Courses(db.Model):
 #         }
 
 # ---------------------- TABLA PARA GUARDAR LAS AGENCIAS --------------------- #
-class Agencies(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=False, nullable=False)
-    owner = db.relationship("User", backref = "own_agency", uselist = False )
-    # owner_id = db.Column(db.Integer, db.ForeignKey('user.id', use_alter=True))
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+# class Agencies(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100), unique=False, nullable=False)
+#     owner = db.relationship("User", backref = "own_agency", uselist = False )
+#     # owner_id = db.Column(db.Integer, db.ForeignKey('user.id', use_alter=True))
+#     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
+#     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
-    def __init__(self, **kwargs):
-        self.name = kwargs['name']
-        self.owner_id = kwargs['owner_id']
+#     def __init__(self, **kwargs):
+#         self.name = kwargs['name']
+#         # self.owner_id = kwargs['owner_id']
 
-    @classmethod
-    def create(cls, **kwargs):
-        new_agency = cls(**kwargs)
-        db.session.add(new_agency)
-        try:
-            db.session.commit()
-            return new_agency
-        except Exception as error:
-            raise Exception(error.args[0], 400)
+#     @classmethod
+#     def create(cls, **kwargs):
+#         new_agency = cls(**kwargs)
+#         db.session.add(new_agency)
+#         try:
+#             db.session.commit()
+#             return new_agency
+#         except Exception as error:
+#             raise Exception(error.args[0], 400)
         
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "owner": self.owner.name,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
-        }
+#     def serialize(self):
+#         return {
+#             "id": self.id,
+#             "name": self.name,
+#             "owner": self.owner.name,
+#             "created_at": self.created_at,
+#             "updated_at": self.updated_at
+#         }
 
 # ----------------------- TABLA DE REGISTROS DE PAGOS ----------------------- #
 class Payment(db.Model):
@@ -507,13 +507,13 @@ class Policies_names(db.Model):
     policy_name = db.Column(db.String(50), nullable=False)
     policy_type = db.Column(db.String(50), nullable=False)
     company = db.Column(db.String(50), nullable=False)
-    agencies_id = db.Column(db.Integer, db.ForeignKey('agencies.id'))
+    manager_id = db.Column(db.Integer, nullable=False)
 
     def __init__(self, **kwargs):
         self.policy_name = kwargs['policy_name']
         self.policy_type = kwargs['policy_type']
         self.company = kwargs['company']
-        self.agencies_id = kwargs['agencies_id']
+        self.manager_id = kwargs['manager_id']
 
     @classmethod
     def create(cls, **kwargs):
@@ -531,7 +531,7 @@ class Policies_names(db.Model):
             "policy_name": self.policy_name,
             "policy_type": self.policy_type,
             "company": self.company,
-            "agencies_id": self.agencies_id,
+            "manager_id": self.manager_id,
         }
 
 # ---- TABLA PARA GUARDAR INFORMACIÓN DE LA PÓLIZAS COMPRADAS POR CLIENTES --- #

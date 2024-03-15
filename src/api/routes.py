@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses, Agencies, Payment, Account_Information, Policies_names, Client_Policies
+from api.models import db, User, Cliente, Role, Comment, Response, Tarea, Client_Activity, Courses, Payment, Account_Information, Policies_names, Client_Policies
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -57,10 +57,10 @@ def get_users():
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
     
-# ---------- API PARA OBTENER USUARIOS DE LA AGENCIA QUE PERTENECEN ---------- #
-@api.route('/users_by_agency/<int:agency_id>', methods=['GET'])
-def get_users_by_agency(agency_id):
-    users = User.query.filter_by( agency_id = agency_id)
+# ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
+@api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
+def get_users_by_manager(manager_id):
+    users = User.query.filter_by( manager_id = manager_id)
     print(users)
     users_dictionaries = []
     for user in users:
@@ -102,59 +102,6 @@ def add_user():
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
-# --------- METODO PUT PARA SELECCIONAR LA AGENCIA A LA QUE PERTENECE -------- #
-@api.route('/user/agency_ybt/<int:agency_id>', methods=['PUT'])
-@jwt_required()
-def put_user_agency(agency_id):
-    id = get_jwt_identity()
-    agency = Agencies.query.get(agency_id)
-
-    if agency is None:
-        return jsonify({"msg":"No existe la agencia"}), 401
-    try:
-        user = User.query.get(id)
-        
-        user.agency_id = agency_id
-
-        db.session.commit()
-        return jsonify(user.serialize()),200 
-
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
-
-# ------------ MÉTODO PUT PARA RESETEAR LA AGENCIA DE LOS USUARIOS ----------- #
-@api.route('/agency/<int:user_id>', methods=['PUT'])
-def reset_user_agency(user_id):
-    try:
-        user = User.query.get(user_id)
-        
-        user.agency = request.json['agency']
-        user.agency_id = request.json['agency_id']
-
-        db.session.commit()
-        return jsonify(user.serialize()),200 
-
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
-
-# -------- MÉTODO PUT PARA QUE LOS GERENTES CREEN SUS PROPIAS AGENCIAS -------- #
-@api.route('/user/own_agency/<int:id>/<int:agency_id>', methods=['PUT'])
-def put_user_own_agency(agency_id, id):
-    agency = Agencies.query.get(agency_id)
-    print(agency)
-
-    if agency is None:
-        return jsonify({"msg":"No existe la agencia"}), 401
-    try:
-        user = User.query.get(id)
-        
-        user.own_agency_id = agency.id
-
-        db.session.commit()
-        return jsonify(user.serialize()),200 
-
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # --------------- MÉTODO PUT PARA SELECCIONAR LA META DE VENTAS -------------- #
 @api.route('/user_sales_goal/<int:id>', methods=['PUT'])
@@ -522,86 +469,6 @@ def post_get_courses_data(agencies_id):
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
-
-# ------------------------ API PARA AGREGAR COMPAÑÍAS ------------------------ #
-# @api.route('/company/', methods=['GET','POST'])
-# def post_get_company():
-#     if request.method == 'GET':
-#         companies = Company.query.all()
-#         company_dictionary = []
-#         for company in companies:
-#             company_dictionary.append(company.serialize())
-#         return jsonify(company_dictionary), 200
-#     new_company = request.json
-#     try:
-#         if "name" not in new_company or new_company["name"] == "":
-#             raise Exception("No ingresaste el nombre de la empresa", 400)
-#         new_company = Company.create(**new_company)
-#         return jsonify(new_company.serialize()), 201
-#     except Exception as error:
-#         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
-
-# --------------------- API PARA TRAER TODAS LAS AGENCIAS -------------------- #
-@api.route('/agencies', methods=['GET'])
-@jwt_required()
-def get_agencies():
-    agencies = Agencies.query.all()
-    
-    agencies = list(map(lambda agency: agency.serialize(), agencies))
-    
-    return jsonify(agencies), 200
-
-#endpoint para traer agencias por compañia
-# @api.route('/agencies/<int:company_id>', methods=['GET'])
-# @jwt_required()
-# def get_agencies_by_company(company_id):
-#     agencies = Agencies.query.filter_by(company_id = company_id)
-    
-#     agencies = list(map(lambda agency: agency.serialize(), agencies))
-    
-#     return jsonify(agencies), 200
-
-# --------------- API PARA TRAER LAS AGENCIAS DE MIS ASOCIADOS --------------- #
-@api.route('/own_agencies', methods=['GET'])
-@jwt_required()
-def get_own_agencies():
-    user_id = get_jwt_identity()
-    user = User.query.get(user_id)
-    my_users = User.query.filter_by( agency_id= user.own_agency_id)
-
-    def check_own_agency(user):
-        if user.serialize()["own_agency"] != None and user.serialize()["agency"] != user.serialize()["own_agency"]["name"]:
-            return True
-        return False
-    
-    users_filter = list(filter(check_own_agency, my_users))
-    users = list(map(lambda user: user.serialize()["own_agency"], users_filter))
-    return jsonify(users), 200
-
-# ------------------------- API PARA AÑADIR AGENCIAS ------------------------- #
-@api.route('/agencies/<int:user_id>', methods=['POST'])
-@jwt_required()
-def add_agency(user_id):
-    user_id = get_jwt_identity()
-
-    user = User.query.get(user_id)
-    print(user.role.value)
-    if user.role.value != "manager":
-        return jsonify({"msg":"No tienes permisos para crear agencias"})
-    
-    new_agency_data = request.json
-
-    if "name" not in new_agency_data or new_agency_data["name"] == "":
-        raise Exception("No ingresaste el nombre", 400)
-    
-    new_agency = Agencies.create(**new_agency_data,user_id = user_id)
-
-    db.session.add(new_agency)
-    try:
-        db.session.commit()
-        return jsonify(new_agency.serialize()), 201
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
 # ------------------------ API PARA REGRISTRO DE PAGOS ----------------------- #
 @api.route('/get_payments/<int:user_id>', methods=['GET'])
@@ -665,7 +532,7 @@ def post_get_client_policies(client_id):
         client_policies = Client_Policies.query.filter_by(user_id = user_id, client_id = client_id)
         client_policies_dictionary = []
         for client_policy in client_policies:
-           client_policies_dictionary.append(client_policy.serialize())
+            client_policies_dictionary.append(client_policy.serialize())
         return jsonify(client_policies_dictionary), 200
     new_client_policy_data = request.json
     try:
@@ -684,3 +551,140 @@ def post_get_client_policies(client_id):
         return jsonify(new_client_policy.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+    
+# ------------------------------ APIS DESECHADAS ----------------------------- #
+    
+
+# --------- METODO PUT PARA SELECCIONAR LA AGENCIA A LA QUE PERTENECE -------- #
+# @api.route('/user/agency_ybt/<int:agency_id>', methods=['PUT'])
+# @jwt_required()
+# def put_user_agency(agency_id):
+#     id = get_jwt_identity()
+#     agency = Agencies.query.get(agency_id)
+
+#     if agency is None:
+#         return jsonify({"msg":"No existe la agencia"}), 401
+#     try:
+#         user = User.query.get(id)
+        
+#         user.agency_id = agency_id
+
+#         db.session.commit()
+#         return jsonify(user.serialize()),200 
+
+#     except Exception as error:
+#         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+# ------------ MÉTODO PUT PARA RESETEAR LA AGENCIA DE LOS USUARIOS ----------- #
+# @api.route('/agency/<int:user_id>', methods=['PUT'])
+# def reset_user_agency(user_id):
+#     try:
+#         user = User.query.get(user_id)
+        
+#         user.agency = request.json['agency']
+#         user.agency_id = request.json['agency_id']
+
+#         db.session.commit()
+#         return jsonify(user.serialize()),200 
+
+#     except Exception as error:
+#         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+
+# -------- MÉTODO PUT PARA QUE LOS GERENTES CREEN SUS PROPIAS AGENCIAS -------- #
+# @api.route('/user/own_agency/<int:id>/<int:agency_id>', methods=['PUT'])
+# def put_user_own_agency(agency_id, id):
+#     agency = Agencies.query.get(agency_id)
+#     print(agency)
+
+#     if agency is None:
+#         return jsonify({"msg":"No existe la agencia"}), 401
+#     try:
+#         user = User.query.get(id)
+        
+#         user.own_agency_id = agency.id
+
+#         db.session.commit()
+#         return jsonify(user.serialize()),200 
+
+#     except Exception as error:
+#         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
+# --------------------- API PARA TRAER TODAS LAS AGENCIAS -------------------- #
+# @api.route('/agencies', methods=['GET'])
+# @jwt_required()
+# def get_agencies():
+#     agencies = Agencies.query.all()
+    
+#     agencies = list(map(lambda agency: agency.serialize(), agencies))
+    
+#     return jsonify(agencies), 200
+
+#endpoint para traer agencias por compañia
+# @api.route('/agencies/<int:company_id>', methods=['GET'])
+# @jwt_required()
+# def get_agencies_by_company(company_id):
+#     agencies = Agencies.query.filter_by(company_id = company_id)
+    
+#     agencies = list(map(lambda agency: agency.serialize(), agencies))
+    
+#     return jsonify(agencies), 200
+
+# --------------- API PARA TRAER LAS AGENCIAS DE MIS ASOCIADOS --------------- #
+# @api.route('/own_agencies', methods=['GET'])
+# @jwt_required()
+# def get_own_agencies():
+#     user_id = get_jwt_identity()
+#     user = User.query.get(user_id)
+#     my_users = User.query.filter_by( agency_id= user.own_agency_id)
+
+#     def check_own_agency(user):
+#         if user.serialize()["own_agency"] != None and user.serialize()["agency"] != user.serialize()["own_agency"]["name"]:
+#             return True
+#         return False
+    
+#     users_filter = list(filter(check_own_agency, my_users))
+#     users = list(map(lambda user: user.serialize()["own_agency"], users_filter))
+#     return jsonify(users), 200
+
+# ------------------------- API PARA AÑADIR AGENCIAS ------------------------- #
+# @api.route('/agencies/<int:user_id>', methods=['POST'])
+# @jwt_required()
+# def add_agency(user_id):
+#     user_id = get_jwt_identity()
+
+#     user = User.query.get(user_id)
+#     print(user.role.value)
+#     if user.role.value != "manager":
+#         return jsonify({"msg":"No tienes permisos para crear agencias"})
+    
+#     new_agency_data = request.json
+
+#     if "name" not in new_agency_data or new_agency_data["name"] == "":
+#         raise Exception("No ingresaste el nombre", 400)
+    
+#     new_agency = Agencies.create(**new_agency_data,user_id = user_id)
+
+#     db.session.add(new_agency)
+#     try:
+#         db.session.commit()
+#         return jsonify(new_agency.serialize()), 201
+#     except Exception as error:
+#         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
+# ------------------------ API PARA AGREGAR COMPAÑÍAS ------------------------ #
+# @api.route('/company/', methods=['GET','POST'])
+# def post_get_company():
+#     if request.method == 'GET':
+#         companies = Company.query.all()
+#         company_dictionary = []
+#         for company in companies:
+#             company_dictionary.append(company.serialize())
+#         return jsonify(company_dictionary), 200
+#     new_company = request.json
+#     try:
+#         if "name" not in new_company or new_company["name"] == "":
+#             raise Exception("No ingresaste el nombre de la empresa", 400)
+#         new_company = Company.create(**new_company)
+#         return jsonify(new_company.serialize()), 201
+#     except Exception as error:
+#         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
