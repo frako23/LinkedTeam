@@ -56,7 +56,22 @@ def get_users():
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
-    
+
+# --------------- MÉTODO PUT PARA ASIGNAR GERENCIA LA USUARIO -------------- #
+@api.route('/management_assignment', methods=['PUT'])
+@jwt_required()
+def put_user_manager():
+    id = get_jwt_identity()
+    try:
+        user = User.query.get(id)
+        user.manager = request.json['manager']
+        user.manager_id = request.json['manager_id']
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+
 # ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
 @api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
 def get_users_by_manager(manager_id):
@@ -93,20 +108,18 @@ def add_user():
         if  "role" in new_user_data:
             if new_user_data["role"] not in Role.__members__:
                 return {"error": f"No existe en los roles disponibles"},400
-        
         salt = b64encode(os.urandom(32)).decode('utf-8')
         new_user_data["password"] = set_password(new_user_data["password"], salt)
         new_user = User.create(**new_user_data, salt=salt)
         return jsonify(new_user.serialize()), 201
-       
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 
 # --------------- MÉTODO PUT PARA SELECCIONAR LA META DE VENTAS -------------- #
-@api.route('/user_sales_goal/<int:id>', methods=['PUT'])
+@api.route('/user_sales_goal', methods=['PUT'])
 @jwt_required()
-def put_user_sales_goal(id):
+def put_user_sales_goal():
     id = get_jwt_identity()
     try:
         user = User.query.get(id)
@@ -126,21 +139,6 @@ def put_user_role_admin(user_id):
         user = User.query.get(user_id)
         
         user.role = request.json['role']
-
-        db.session.commit()
-        return jsonify(user.serialize()),200 
-
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-
-# ---------- MÉTODO PUT PARA CAMBIAR LOS OWN_AGENCY DE LOS USUARIOS ---------- #
-@api.route('/user_role/<int:user_id>', methods=['PUT'])
-def put_user_role_own_agency(user_id):
-    try:
-        user = User.query.get(user_id)
-        
-        user.role = request.json['role']
-        user.own_agency_id = request.json['own_agency_id']
 
         db.session.commit()
         return jsonify(user.serialize()),200 
@@ -248,7 +246,9 @@ def modify_cliente(id):
     cellphone= body.get("cellphone", None)
     amount= body.get("amount", None)
     trust= body.get("trust", None)
+    status= body.get("status", None)
     notes= body.get("notes", None)
+    tag= body.get("tag", None)
     
     if name is not None and name != "":
         client.name = name
@@ -262,8 +262,12 @@ def modify_cliente(id):
         client.amount = amount
     if trust is not None and trust != "":
         client.trust = trust
+    if status is not None and status != "":
+        client.status = status
     if notes is not None and notes != "":
         client.notes = notes
+    if tag is not None and tag != "":
+        client.tag = tag
     try:
         db.session.commit()
         return jsonify(client.serialize()),200 
@@ -422,7 +426,6 @@ def get_client_activity(client_id):
 @api.route('/manager_client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
 def get_manager_client_activity(user_id, client_id):
     client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
-
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
         ),200
@@ -445,6 +448,21 @@ def add_client_activity(client_id):
         return new_client_activity, 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# ---------------- API PARA ELIMINAR ACTIVIDADES CON LOS CLIENTES ---------------- #
+@api.route('/delete_client_activity/<int:id>', methods=['DELETE'])
+def delete_client_activity(id):
+    client_activity = Client_Activity.query.get(id)
+
+    if not client_activity:
+        return jsonify({"msg": "No existe la acvitidad del cliente"}),404
+    
+    db.session.delete(client_activity)
+    try:
+        db.session.commit()
+        return jsonify({"msg": "Se elimino la acvitidad del cliente"}),200 
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # ---------------------- API PARA CARGAR LOS CURSOS ---------------------- #
 @api.route('/courses/<int:agencies_id>', methods=['GET','POST'])
@@ -688,3 +706,18 @@ def post_get_client_policies(client_id):
 #         return jsonify(new_company.serialize()), 201
 #     except Exception as error:
 #         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+    
+# ---------- MÉTODO PUT PARA CAMBIAR LOS OWN_AGENCY DE LOS USUARIOS ---------- #
+# @api.route('/user_role/<int:user_id>', methods=['PUT'])
+# def put_user_role_own_agency(user_id):
+#     try:
+#         user = User.query.get(user_id)
+        
+#         user.role = request.json['role']
+#         user.own_agency_id = request.json['own_agency_id']
+
+#         db.session.commit()
+#         return jsonify(user.serialize()),200 
+
+#     except Exception as error:
+#         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500

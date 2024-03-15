@@ -120,14 +120,14 @@ class Cliente(db.Model):
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
-        self.birthdate = kwargs['birthdate']
-        self.email = kwargs['email']
-        self.cellphone = kwargs['cellphone']
-        self.amount = kwargs['amount']
+        self.birthdate = kwargs['birthdate'] if 'sales_goal' in kwargs else None
+        self.email = kwargs['email'] if 'sales_goal' in kwargs else None
+        self.cellphone = kwargs['cellphone'] if 'sales_goal' in kwargs else None
+        self.amount = kwargs['amount'] if 'sales_goal' in kwargs else None 
         self.trust = kwargs['trust']
-        self.notes = kwargs['notes']
+        self.notes = kwargs['notes'] if 'sales_goal' in kwargs else None
         self.status = kwargs['status']
-        self.tag = kwargs['tag']
+        self.tag = kwargs['tag'] if 'sales_goal' in kwargs else None
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -350,67 +350,6 @@ class Courses(db.Model):
             "updated_at": self.updated_at,
         }
 
-# ----------------------- TABLA PARA GUARDAR COMPAÑIAS ----------------------- #
-# class Company(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), unique=False, nullable=False)
-#     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-#     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-
-#     def __init__(self, **kwargs):
-#         self.name = kwargs['name']
-
-#     @classmethod
-#     def create(cls, **kwargs):
-#         new_company = cls(**kwargs)
-#         db.session.add(new_company)
-#         try:
-#             db.session.commit()
-#             return new_company
-#         except Exception as error:
-#             raise Exception(error.args[0], 400)
-        
-
-#     def serialize(self):
-#         return {
-#             "id": self.id,
-#             "name": self.name,
-#             "created_at": self.created_at,
-#             "updated_at": self.updated_at
-#         }
-
-# ---------------------- TABLA PARA GUARDAR LAS AGENCIAS --------------------- #
-# class Agencies(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), unique=False, nullable=False)
-#     owner = db.relationship("User", backref = "own_agency", uselist = False )
-#     # owner_id = db.Column(db.Integer, db.ForeignKey('user.id', use_alter=True))
-#     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-#     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-
-#     def __init__(self, **kwargs):
-#         self.name = kwargs['name']
-#         # self.owner_id = kwargs['owner_id']
-
-#     @classmethod
-#     def create(cls, **kwargs):
-#         new_agency = cls(**kwargs)
-#         db.session.add(new_agency)
-#         try:
-#             db.session.commit()
-#             return new_agency
-#         except Exception as error:
-#             raise Exception(error.args[0], 400)
-        
-
-#     def serialize(self):
-#         return {
-#             "id": self.id,
-#             "name": self.name,
-#             "owner": self.owner.name,
-#             "created_at": self.created_at,
-#             "updated_at": self.updated_at
-#         }
 
 # ----------------------- TABLA DE REGISTROS DE PAGOS ----------------------- #
 class Payment(db.Model):
