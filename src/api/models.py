@@ -364,23 +364,26 @@ class Account_Information(db.Model):
         }
 
 # --------------- TABLA PARA GUARDAR LOS NOMBRES DE LAS PÓLIZAS -------------- #
-class Policies_names(db.Model):
+class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    policy_name = db.Column(db.String(50), nullable=False)
-    policy_type = db.Column(db.String(50), nullable=False)
+    business_type = db.Column(db.String(50), nullable=False)
     company = db.Column(db.String(50), nullable=False)
-    manager_id = db.Column(db.Integer, nullable=False)
+    product_name = db.Column(db.String(50), nullable=False)
+    product_type = db.Column(db.String(50), nullable=False)
+    product_description = db.Column(db.String(1000), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __init__(self, **kwargs):
-        self.policy_name = kwargs['policy_name']
-        self.policy_type = kwargs['policy_type']
+        self.business_type = kwargs['business_type']
         self.company = kwargs['company']
-        self.manager_id = kwargs['manager_id']
+        self.product_name = kwargs['product_name']
+        self.product_type = kwargs['product_type']
+        self.product_description = kwargs['product_description']
 
     @classmethod
     def create(cls, **kwargs):
-        new_policy_name = cls(**kwargs)
-        db.session.add(new_policy_name)
+        new_product_name = cls(**kwargs)
+        db.session.add(new_product_name)
         try:
             db.session.commit()
             return jsonify({"msg":"Nombre de póliza creada"})
@@ -390,36 +393,32 @@ class Policies_names(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "policy_name": self.policy_name,
-            "policy_type": self.policy_type,
+            "business_type": self.business_type,
             "company": self.company,
-            "manager_id": self.manager_id,
+            "product_name": self.product_name,
+            "product_type": self.product_type,
+            "product_description": self.product_description,
+            "user_id": self.user_id,
         }
 
 # ---- TABLA PARA GUARDAR INFORMACIÓN DE LA PÓLIZAS COMPRADAS POR CLIENTES --- #
-class Client_Policies(db.Model):
+class Client_Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    policy_name =  db.Column(db.String(50), nullable=False)
-    policy_type =  db.Column(db.String(50), nullable=False)
-    policy_number = db.Column(db.String(50), nullable=False)
-    date_of_issue = db.Column(db.String(10), nullable=False)
-    payment_method = db.Column(db.String(250), nullable=False)
-    notes = db.Column(db.String(250), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    product_id =  db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
+    amount = db.Column(db.String(30), nullable=False)
+    date_of_closing = db.Column(db.String(10), nullable=False)
+    notes = db.Column(db.String(500), nullable=True)
+    payment_recurrence = db.Column(db.String(20), nullable=False)
+    product = db.relationship("Product", backref = "client_products")
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
     def __init__(self, **kwargs):
-        self.policy_name = kwargs['policy_name']
-        self.policy_type = kwargs['policy_type']
-        self.policy_number = kwargs['policy_number']
-        self.date_of_issue = kwargs['date_of_issue']
-        self.payment_method = kwargs['payment_method']
+        self.amount = kwargs['amount']
+        self.date_of_closing = kwargs['date_of_closing']
         self.notes = kwargs['notes']
-        self.user_id = kwargs['user_id']
-        self.client_id = kwargs['client_id']
-
+        self.payment_recurrence = kwargs['payment_recurrence']
 
     @classmethod
     def create(cls, **kwargs):
@@ -427,7 +426,7 @@ class Client_Policies(db.Model):
         db.session.add(new_activity)
         try:
             db.session.commit()
-            return jsonify({"msg":"Póliza de cliente creada"})
+            return jsonify({"msg":"Producto de cliente creado"})
         except Exception as error:
             raise Exception(error.args[0], 400)
 
@@ -437,13 +436,15 @@ class Client_Policies(db.Model):
             "policy_name": self.policy_name,
             "policy_type": self.policy_type,
             "policy_number": self.policy_number,
-            "date_of_issue": self.date_of_issue,
+            "date_of_closing": self.date_of_closing,
             "payment_method": self.payment_method,
             "notes": self.notes,
-            "user_id": self.user_id,
+            "product_id": self.product_id,
             "client_id": self.client_id,
             "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "updated_at": self.updated_at,
+            "company": self.product.company,
+            "product": self.product.product_name
         }
 
 

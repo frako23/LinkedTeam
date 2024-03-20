@@ -31,7 +31,7 @@ LinkedTeam es un software de código abierto licenciado bajo la [Licencia MIT](L
 
 ## Pendientes por hacer:
 
-### Probar Apis:
+### Backend:
 
 #### Queda pendiente probar las siguientes APIs:
 

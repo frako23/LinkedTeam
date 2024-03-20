@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Tarea, Client_Activity, Courses, Payment, Account_Information, Policies_names, Client_Policies
+from api.models import db, User, Cliente, Role, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -480,24 +480,24 @@ def post_payments():
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # -------------------------- API PARA CREAR CARGAR POLIZAS -------------------------- #
-@api.route('/policies_names/<int:agency_id>', methods=['GET','POST'])
-def post_get_policies_names(agency_id):
+@api.route('/product_names/<int:agency_id>', methods=['GET','POST'])
+def post_get_product_names(agency_id):
     if request.method == 'GET':
-        policies_names = Policies_names.query.filter_by(agencies_id = agency_id)
-        policies_names_dictionary = []
-        for policies in policies_names:
-            policies_names_dictionary.append(policies.serialize())
-        return jsonify(policies_names_dictionary), 200
-    new_policy_data = request.json
+        product_names = Policies_names.query.filter_by(agencies_id = agency_id)
+        product_names_dictionary = []
+        for product in product_names:
+            product_names_dictionary.append(product.serialize())
+        return jsonify(product_names_dictionary), 200
+    new_product_data = request.json
     try:
-        if "policy_name" not in new_policy_data or new_policy_data["policy_name"] == "":
+        if "product_name" not in new_product_data or new_product_data["product_name"] == "":
             raise Exception("No ingresaste el nombre de la póliza", 400)
-        if "policy_type" not in new_policy_data or new_policy_data["policy_type"] == "":
+        if "product_type" not in new_product_data or new_product_data["product_type"] == "":
             raise Exception("No ingresaste el tipo de póliza", 400)
-        if "company" not in new_policy_data or new_policy_data["company"] == "":
+        if "company" not in new_product_data or new_product_data["company"] == "":
             raise Exception("No ingresaste la compañía de la póliza", 400)
-        new_policy = Courses.create(**new_policy_data, agencies_id = agency_id)
-        return jsonify(new_policy.serialize()), 201
+        new_product = Courses.create(**new_product_data, agencies_id = agency_id)
+        return jsonify(new_product.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
     
