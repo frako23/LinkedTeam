@@ -159,83 +159,6 @@ class Cliente(db.Model):
             # do not serialize the password, its a security breach
         }
 
-# ---------------------- TABLAS DE COMENTARIOS A VIDEOS ---------------------- #
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(240), nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
-    video_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    user = db.relationship('User')
-    
-    def __repr__(self):
-        return '<Comment %r>' % self.id
-    
-    def __init__(self, **kwargs):
-        self.content = kwargs['content']
-        self.video_id = kwargs['video_id']
-        self.user_id = kwargs['user_id']
-
-    
-    @classmethod
-    def create(cls, **kwargs):
-        new_comment = cls(**kwargs)
-        db.session.add(new_comment)
-        try:
-            db.session.commit()
-            return jsonify({"msg":"Comentario creado"})
-        except Exception as error:
-            raise Exception(error.args[0], 400)
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "content": self.content,
-            "name": self.user.name,
-            "lastname": self.user.lastname,
-            "created_at": self.created_at,
-
-        }
-
-# --------------------- TABLA DE RESPUESTAS A COMENTARIOS -------------------- #
-class Response(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(240), nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User')
-    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
-    comment = db.relationship('Comment')
-    
-    def __repr__(self):
-        return '<Comment %r>' % self.id
-    
-    def __init__(self, **kwargs):
-        self.content = kwargs['content']
-        self.comment_id = kwargs['comment_id']
-        self.user_id = kwargs['user_id']
-    
-    @classmethod
-    def create(cls, **kwargs):
-        new_response = cls(**kwargs)
-        db.session.add(new_response)
-        try:
-            db.session.commit()
-            return jsonify({"msg":"Respuesta creada"})
-        except Exception as error:
-            raise Exception(error.args[0], 400)
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "content": self.content,
-            "name": self.user.name,
-            "lastname": self.user.lastname,
-            "comment_id": self.comment_id,
-            "created_at": self.created_at,
-
-        }
-
 # ------------- TABLA DE TAREAS PARA LA SECCIÓN TAREAS PENDIENTES ------------ #
 class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -318,7 +241,7 @@ class Courses(db.Model):
     link_url = db.Column(db.String(250), unique=False, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-    manager_id = db.Column(db.Integer,unique=True, nullable=False)
+    manager_id = db.Column(db.Integer,unique=False, nullable=False)
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']
@@ -523,3 +446,80 @@ class Client_Policies(db.Model):
             "updated_at": self.updated_at
         }
 
+
+# ---------------------- TABLAS DE COMENTARIOS A VIDEOS ---------------------- #
+# class Exam(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     grade = db.Column(db.String(10), nullable=False)
+#     created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+#     video_id = db.Column(db.Integer, nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+#     user = db.relationship('User')
+    
+#     def __repr__(self):
+#         return '<Comment %r>' % self.id
+    
+#     def __init__(self, **kwargs):
+#         self.grade = kwargs['grade']
+#         self.video_id = kwargs['video_id']
+#         self.user_id = kwargs['user_id']
+
+    
+#     @classmethod
+#     def create(cls, **kwargs):
+#         new_comment = cls(**kwargs)
+#         db.session.add(new_comment)
+#         try:
+#             db.session.commit()
+#             return jsonify({"msg":"Comentario creado"})
+#         except Exception as error:
+#             raise Exception(error.args[0], 400)
+
+#     def serialize(self):
+#         return {
+#             "id": self.id,
+#             "grade": self.grade,
+#             "name": self.user.name,
+#             "lastname": self.user.lastname,
+#             "created_at": self.created_at,
+
+#         }
+
+# --------------------- TABLA DE RESPUESTAS A COMENTARIOS -------------------- #
+# class Grades(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     content = db.Column(db.String(240), nullable=False)
+#     created_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     user = db.relationship('User')
+#     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+#     comment = db.relationship('Comment')
+    
+#     def __repr__(self):
+#         return '<Comment %r>' % self.id
+    
+#     def __init__(self, **kwargs):
+#         self.content = kwargs['content']
+#         self.comment_id = kwargs['comment_id']
+#         self.user_id = kwargs['user_id']
+    
+#     @classmethod
+#     def create(cls, **kwargs):
+#         new_response = cls(**kwargs)
+#         db.session.add(new_response)
+#         try:
+#             db.session.commit()
+#             return jsonify({"msg":"Respuesta creada"})
+#         except Exception as error:
+#             raise Exception(error.args[0], 400)
+
+#     def serialize(self):
+#         return {
+#             "id": self.id,
+#             "content": self.content,
+#             "name": self.user.name,
+#             "lastname": self.user.lastname,
+#             "comment_id": self.comment_id,
+#             "created_at": self.created_at,
+
+#         }
