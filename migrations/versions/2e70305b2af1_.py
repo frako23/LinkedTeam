@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: eed6d85adcae
+Revision ID: 2e70305b2af1
 Revises: 
-Create Date: 2024-03-14 22:55:25.057825
+Create Date: 2024-03-21 10:20:38.062443
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'eed6d85adcae'
+revision = '2e70305b2af1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,15 +26,6 @@ def upgrade():
     sa.Column('link_url', sa.String(length=250), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('manager_id', sa.Integer(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('manager_id')
-    )
-    op.create_table('policies_names',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('policy_name', sa.String(length=50), nullable=False),
-    sa.Column('policy_type', sa.String(length=50), nullable=False),
-    sa.Column('company', sa.String(length=50), nullable=False),
     sa.Column('manager_id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -72,15 +63,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('comment',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.String(length=240), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('video_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('payment',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('payment_date', sa.DateTime(timezone=True), nullable=True),
@@ -92,6 +74,17 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('products',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('business_type', sa.String(length=50), nullable=False),
+    sa.Column('company', sa.String(length=50), nullable=False),
+    sa.Column('product_name', sa.String(length=50), nullable=False),
+    sa.Column('product_type', sa.String(length=50), nullable=False),
+    sa.Column('product_description', sa.String(length=1000), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -128,30 +121,18 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('client__policies',
+    op.create_table('client__products',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('policy_name', sa.String(length=50), nullable=False),
-    sa.Column('policy_type', sa.String(length=50), nullable=False),
-    sa.Column('policy_number', sa.String(length=50), nullable=False),
-    sa.Column('date_of_issue', sa.String(length=10), nullable=False),
-    sa.Column('payment_method', sa.String(length=250), nullable=False),
-    sa.Column('notes', sa.String(length=250), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('product_id', sa.Integer(), nullable=False),
     sa.Column('client_id', sa.Integer(), nullable=False),
+    sa.Column('amount', sa.String(length=30), nullable=False),
+    sa.Column('date_of_closing', sa.String(length=10), nullable=False),
+    sa.Column('notes', sa.String(length=500), nullable=True),
+    sa.Column('payment_recurrence', sa.String(length=20), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['client_id'], ['cliente.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('response',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.String(length=240), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('comment_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['comment_id'], ['comment.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
@@ -159,15 +140,13 @@ def upgrade():
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('response')
-    op.drop_table('client__policies')
+    op.drop_table('client__products')
     op.drop_table('client__activity')
     op.drop_table('account__information')
     op.drop_table('tarea')
+    op.drop_table('products')
     op.drop_table('payment')
-    op.drop_table('comment')
     op.drop_table('cliente')
     op.drop_table('user')
-    op.drop_table('policies_names')
     op.drop_table('courses')
     # ### end Alembic commands ###

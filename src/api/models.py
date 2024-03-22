@@ -370,7 +370,7 @@ class Products(db.Model):
     company = db.Column(db.String(50), nullable=False)
     product_name = db.Column(db.String(50), nullable=False)
     product_type = db.Column(db.String(50), nullable=False)
-    product_description = db.Column(db.String(1000), nullable=False)
+    product_description = db.Column(db.String(1000), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __init__(self, **kwargs):
@@ -379,14 +379,15 @@ class Products(db.Model):
         self.product_name = kwargs['product_name']
         self.product_type = kwargs['product_type']
         self.product_description = kwargs['product_description']
+        self.user_id = kwargs['user_id']
 
     @classmethod
     def create(cls, **kwargs):
-        new_product_name = cls(**kwargs)
-        db.session.add(new_product_name)
+        new_product = cls(**kwargs)
+        db.session.add(new_product)
         try:
             db.session.commit()
-            return jsonify({"msg":"Nombre de póliza creada"})
+            return new_product
         except Exception as error:
             raise Exception(error.args[0], 400)
 
@@ -410,7 +411,7 @@ class Client_Products(db.Model):
     date_of_closing = db.Column(db.String(10), nullable=False)
     notes = db.Column(db.String(500), nullable=True)
     payment_recurrence = db.Column(db.String(20), nullable=False)
-    product = db.relationship("Product", backref = "client_products")
+    product = db.relationship("Products", backref = "client_products")
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
 
@@ -419,32 +420,34 @@ class Client_Products(db.Model):
         self.date_of_closing = kwargs['date_of_closing']
         self.notes = kwargs['notes']
         self.payment_recurrence = kwargs['payment_recurrence']
+        self.product_id = kwargs['product_id']
+        self.client_id = kwargs['client_id']
 
     @classmethod
     def create(cls, **kwargs):
-        new_activity = cls(**kwargs)
-        db.session.add(new_activity)
+        new_client_product = cls(**kwargs)
+        db.session.add(new_client_product)
         try:
             db.session.commit()
-            return jsonify({"msg":"Producto de cliente creado"})
+            return new_client_product
         except Exception as error:
             raise Exception(error.args[0], 400)
 
     def serialize(self):
         return {
             "id": self.id,
-            "policy_name": self.policy_name,
-            "policy_type": self.policy_type,
-            "policy_number": self.policy_number,
-            "date_of_closing": self.date_of_closing,
-            "payment_method": self.payment_method,
-            "notes": self.notes,
             "product_id": self.product_id,
             "client_id": self.client_id,
+            "amount": self.amount,
+            "date_of_closing": self.date_of_closing,
+            "notes": self.notes,
+            "payment_recurrence": self.payment_recurrence,
+            "business_type": self.product.business_type,
+            "company": self.product.company,
+            "product_name": self.product.product_name,
+            "product_type": self.product.product_type,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "company": self.product.company,
-            "product": self.product.product_name
         }
 
 

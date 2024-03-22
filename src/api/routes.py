@@ -427,7 +427,7 @@ def delete_put_courses_data(id):
     course = Courses.query.get(id)
 
     title= body.get("title", None)
-    description= body.get("title", None)
+    description= body.get("description", None)
     img_url= body.get("img_url", None)
     link_url= body.get("link_url", None)
     
@@ -479,57 +479,141 @@ def post_payments():
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
-# -------------------------- API PARA CREAR CARGAR POLIZAS -------------------------- #
-@api.route('/product_names/<int:agency_id>', methods=['GET','POST'])
-def post_get_product_names(agency_id):
-    if request.method == 'GET':
-        product_names = Policies_names.query.filter_by(agencies_id = agency_id)
-        product_names_dictionary = []
-        for product in product_names:
-            product_names_dictionary.append(product.serialize())
-        return jsonify(product_names_dictionary), 200
-    new_product_data = request.json
-    try:
-        if "product_name" not in new_product_data or new_product_data["product_name"] == "":
-            raise Exception("No ingresaste el nombre de la póliza", 400)
-        if "product_type" not in new_product_data or new_product_data["product_type"] == "":
-            raise Exception("No ingresaste el tipo de póliza", 400)
-        if "company" not in new_product_data or new_product_data["company"] == "":
-            raise Exception("No ingresaste la compañía de la póliza", 400)
-        new_product = Courses.create(**new_product_data, agencies_id = agency_id)
-        return jsonify(new_product.serialize()), 201
-    except Exception as error:
-        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
-    
-# -------------------------- API PARA CREAR CARGAR POLIZAS A LOS CLIENTES-------------------------- #
-@api.route('/client_policies/<int:client_id>', methods=['GET','POST'])
+# -------------------------- API PARA CREAR CARGAR PRODUCTOS -------------------------- #
+@api.route('/products', methods=['GET','POST'])
 @jwt_required()
-def post_get_client_policies(client_id):
+def post_get_products():
     user_id = get_jwt_identity()
     if request.method == 'GET':
-        client_policies = Client_Policies.query.filter_by(user_id = user_id, client_id = client_id)
-        client_policies_dictionary = []
-        for client_policy in client_policies:
-            client_policies_dictionary.append(client_policy.serialize())
-        return jsonify(client_policies_dictionary), 200
+        products_names = Products.query.filter_by(user_id = user_id)
+        products_names_dictionary = []
+        for product in products_names:
+            products_names_dictionary.append(product.serialize())
+        return jsonify(products_names_dictionary), 200
+    new_product_data = request.json
+    try:
+        if "business_type" not in new_product_data or new_product_data["business_type"] == "":
+            raise Exception("No ingresaste el tipo de negocio", 400)
+        if "company" not in new_product_data or new_product_data["company"] == "":
+            raise Exception("No ingresaste la compañía del producto", 400)
+        if "product_name" not in new_product_data or new_product_data["product_name"] == "":
+            raise Exception("No ingresaste el nombre del producto", 400)
+        if "product_type" not in new_product_data or new_product_data["product_type"] == "":
+            raise Exception("No ingresaste el tipo de producto", 400)
+        if "product_description" not in new_product_data or new_product_data["product_description"] == "":
+            raise Exception("No ingresaste la descripción del producto", 400)
+        new_product = Products.create(**new_product_data, user_id = user_id)
+        return jsonify(new_product.serialize()), 201
+    except Exception as error:
+        print([arg for arg in error.args])
+        return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# -------------------- API PARA CAMBIAR Y ELIMINAR PRODUCTOS -------------------- #
+@api.route('/products/<int:product_id>', methods=['DELETE', 'PUT'])
+@jwt_required()
+def delete_put_products(product_id):
+    if request.method == 'DELETE':
+        product = Products.query.get(product_id)
+        if not product:
+            return jsonify({"msg": "No existe el producto que deseas eliminar"}),404
+    
+        db.session.delete(product)
+        try:
+            db.session.commit()
+            return jsonify({"msg": "Se eliminó el producto correctamente"}),200 
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
+    body = request.json
+    product = Products.query.get(product_id)
+
+    business_type= body.get("business_type", None)
+    company= body.get("company", None)
+    product_name= body.get("product_name", None)
+    product_type= body.get("product_type", None)
+    product_description= body.get("product_description", None)
+    
+    if business_type is not None and business_type != "":
+        product.business_type = business_type
+    if company is not None and company != "":
+        product.company = company
+    if product_name is not None and product_name != "":
+        product.product_name = product_name
+    if product_type is not None and product_type != "":
+        product.product_type = product_type
+    if product_description is not None and product_description != "":
+        product.product_description = product_description
+    try:
+        db.session.commit()
+        return jsonify(product.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+
+# -------------------------- API PARA CREAR CARGAR POLIZAS A LOS CLIENTES-------------------------- #
+@api.route('/client_products/<int:client_id>/<int:product_id>', methods=['GET','POST'])
+def post_get_client_products(client_id, product_id):
+    if request.method == 'GET':
+        client_products = Client_Products.query.filter_by(product_id = product_id, client_id = client_id)
+        client_products_dictionary = []
+        for client_policy in client_products:
+            client_products_dictionary.append(client_policy.serialize())
+        return jsonify(client_products_dictionary), 200
     new_client_policy_data = request.json
     try:
-        if "policy_name" not in new_client_policy_data or new_client_policy_data["policy_name"] == "":
-            raise Exception("No ingresaste el nombre de la póliza", 400)
-        if "policy_type" not in new_client_policy_data or new_client_policy_data["policy_type"] == "":
-            raise Exception("No ingresaste el tipo de póliza", 400)
-        if "policy_number" not in new_client_policy_data or new_client_policy_data["policy_number"] == "":
-            raise Exception("No ingresaste el número de póliza", 400)
-        if "date_of_issue" not in new_client_policy_data or new_client_policy_data["date_of_issue"] == "":
-            raise Exception("No ingresaste el nombre de la póliza", 400)
-        if "payment_method" not in new_client_policy_data or new_client_policy_data["payment_method"] == "":
-            raise Exception("No ingresaste el nombre de la póliza", 400)
+        if "amount" not in new_client_policy_data or new_client_policy_data["amount"] == "":
+            raise Exception("Monto", 400)
+        if "date_of_closing" not in new_client_policy_data or new_client_policy_data["date_of_closing"] == "":
+            raise Exception("No ingresaste la fecha del cierre", 400)
+        if "notes" not in new_client_policy_data or new_client_policy_data["notes"] == "":
+            raise Exception("No ingresaste notas", 400)
+        if "payment_recurrence" not in new_client_policy_data or new_client_policy_data["payment_recurrence"] == "":
+            raise Exception("No ingresaste la frecuenta de pago", 400)
 
-        new_client_policy = Client_Policies.create(**new_client_policy_data, client_id = client_id)
+        new_client_policy = Client_Products.create(**new_client_policy_data, product_id = product_id, client_id = client_id)
         return jsonify(new_client_policy.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
+
+# -------------------- API PARA CAMBIAR Y ELIMINAR PRODUCTOS DE LOS CLIENTES -------------------- #
+@api.route('/client_products/<int:id>', methods=['DELETE', 'PUT'])
+def delete_put_client_products(id):
+    if request.method == 'DELETE':
+        client_product = Client_Products.query.get(id)
+        if not client_product:
+            return jsonify({"msg": "No existe el producto para ese cliente"}),404
     
+        db.session.delete(client_product)
+        try:
+            db.session.commit()
+            return jsonify({"msg": "Se eliminó el producto correctamente"}),200 
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    
+    body = request.json
+    client_product = Client_Products.query.get(id)
+
+    amount= body.get("amount", None)
+    date_of_closing= body.get("date_of_closing", None)
+    notes= body.get("notes", None)
+    payment_recurrence= body.get("payment_recurrence", None)
+    product_description= body.get("product_description", None)
+    
+    if amount is not None and amount != "":
+        client_product.amount = amount
+    if date_of_closing is not None and date_of_closing != "":
+        client_product.date_of_closing = date_of_closing
+    if notes is not None and notes != "":
+        client_product.notes = notes
+    if payment_recurrence is not None and payment_recurrence != "":
+        client_product.payment_recurrence = payment_recurrence
+    try:
+        db.session.commit()
+        return jsonify(client_product.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+
 # ------------------------------ APIS DESECHADAS ----------------------------- #
     
 
