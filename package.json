@@ -1,5 +1,5 @@
 {
-  "name": "react-hello-webapp",
+  "name": "linkedteam",
   "engines": {
     "node": ">=16.x"
   },
@@ -11,17 +11,17 @@
     "build": "webpack --config webpack.prod.js"
   },
   "author": {
-    "name": "Alejandro Sanchez",
-    "url": "http://alesanchezr.com/"
+    "name": "Francisco Orozco",
+    "url": "https://frako-dev.vercel.app/"
   },
   "contributors": [
     {
-      "name": "Alejandro Sanchez",
-      "url": "http://alesanchezr.com/"
+      "name": "Francisco Orozco",
+      "url": "https://github.com/frako23"
     },
     {
-      "name": "Ignacio Cordoba",
-      "url": "http://github.com/nachovz"
+      "name": "Daniel Moret",
+      "url": "https://github.com/danielmoret"
     }
   ],
   "license": "ISC",
@@ -87,19 +87,19 @@
     "file-saver": "^2.0.5",
     "multi-range-slider-react": "^2.0.5",
     "prop-types": "^15.6.1",
-    "react": "^16.8.4",
-    "react-bootstrap": "^2.7.0",
-    "react-dom": "^16.8.4",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
+    "react-dom": "^18.2.0",
     "react-export-table-to-excel": "^1.0.6",
     "react-gauge-chart": "^0.4.1",
     "react-hot-toast": "^2.4.1",
-    "react-player": "^2.11.0",
+    "react-player": "^2.15.1",
     "react-polyfills": "0.0.1",
-    "react-router-dom": "^6.3.0",
-    "react-scroll": "^1.8.9",
+    "react-router-dom": "^6.22.3",
+    "react-scroll": "^1.9.0",
     "recharts": "^2.6.2",
     "sheetjs-style": "^0.15.8",
-    "sweetalert2": "^11.7.12",
+    "sweetalert2": "^11.10.7",
     "swiper": "^9.4.1",
     "xlsx": "^0.18.5"
   }
