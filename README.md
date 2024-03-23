@@ -34,3 +34,5 @@ LinkedTeam es un software de código abierto licenciado bajo la [Licencia MIT](L
 ### Backend ✔:
 
 ### Frontend:
+
+1. [] Construir Dashboard

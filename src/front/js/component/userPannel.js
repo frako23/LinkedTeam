@@ -1,20 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../../styles/perfil.css";
-import { Navbar } from "../component/navbar";
 import { Context } from "../store/appContext";
 import { Box } from "../component/box";
-import { AdminPanel } from "./adminPannel";
-import { ToDoChart } from "../component/todo";
 import { FuelChart } from "../component/fuelChart";
 import SetCompany from "../component/setCompany";
-// import { ProfileCard } from "../component/profileCard";
-// import Example from "../component/charts";
 import Swal from "sweetalert2";
-import mujer from "../../img/exitosa-empresaria-trabajando-equipo-portatil-su-oficina-vestida-ropa-blanca.jpg";
+import { TopBar } from "./TopBar";
 
 export const UserPannel = () => {
-  const navigate = useNavigate();
   const { store, actions } = useContext(Context);
   const [salesGoal, setSalesGoal] = useState(0);
   const creacionUsuario = sessionStorage.getItem("usuario.created_at");
@@ -35,14 +28,12 @@ export const UserPannel = () => {
   }
 
   const addSalesGoal = () => {
-    // console.log("entro aqui");
     Swal.fire({
       title: "Para comenzar coloca tu meta de ventas 💰",
       input: "number",
       confirmButtonText: "Registra tu meta 🙌",
       showLoaderOnConfirm: true,
       preConfirm: (salesGoal) => {
-        // console.log(salesGoal);
         setSalesGoal(salesGoal);
       },
       allowOutsideClick: () => !Swal.isLoading(),

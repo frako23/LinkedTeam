@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Signup } from "./signup";
-import { Login } from "./login";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
-import Dropdown from "react-bootstrap/Dropdown";
-import Nav from "react-bootstrap/Nav";
 import "../../styles/navbar.css";
 import logo from "../../img/logoNavBar.png";
-import toast, { Toaster } from "react-hot-toast";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -36,24 +31,6 @@ export const Navbar = () => {
       className={`sidebar ${toggle == "close" ? "close" : "open"}`}
       id="body"
     >
-      <header>
-        <div className="image-text">
-          <span className="image">
-            <img src={logo} alt="" />
-          </span>
-
-          <div className="text logo-text">
-            <span className="name">LinkedTeam</span>
-          </div>
-        </div>
-        <a href="#">
-          <i
-            className={`${toggle} toggle bx bx-chevron-right`}
-            onClick={() => toggleFunc()}
-          ></i>
-        </a>
-      </header>
-
       <div className="menu-bar">
         <div className="menu">
           {/* <li className="search-box">
@@ -123,6 +100,12 @@ export const Navbar = () => {
                 <span className="tooltip">Videos Tutoriales</span>
               </li>
             </Link>
+            <a href="#">
+              <i
+                className={`${toggle} toggle bx bx-chevron-right`}
+                onClick={() => toggleFunc()}
+              ></i>
+            </a>
           </ul>
         </div>
 

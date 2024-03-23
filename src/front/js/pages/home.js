@@ -8,7 +8,6 @@ import three from "../../img/3.jpg";
 import four from "../../img/4.jpg";
 import { Link } from "react-router-dom";
 import { Navigation, Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
@@ -59,7 +58,7 @@ export const Home = () => {
       {/* comienza la sección del home */}
 
       <section className="new-home">
-        <Swiper
+        {/* <Swiper
           // install Swiper modules
           modules={[Navigation, Autoplay]}
           spaceBetween={50}
@@ -106,7 +105,7 @@ export const Home = () => {
               </div>
             </div>
           </SwiperSlide>
-        </Swiper>
+        </Swiper> */}
       </section>
 
       {/* termina la sección del home */}

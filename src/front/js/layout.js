@@ -21,6 +21,7 @@ import { Navbar } from "./component/navbar";
 import { OwnAgencyCourses } from "./pages/ownAgencyCourses";
 import { TutorialVideos } from "./pages/tutorialVideos";
 import { VideoTutorial } from "./pages/videoTutorial";
+import { TopBar } from "./component/TopBar";
 
 //create your first component
 const Layout = () => {
@@ -32,6 +33,7 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
+          <TopBar />
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Dashboard />} path="/dashboard" />

@@ -152,7 +152,7 @@ body.dark .sidebar header .toggle {
 }
 
 .sidebar .menu {
-  margin-top: 10px;
+  margin-top: 70px;
 }
 
 .sidebar li.search-box {
@@ -313,7 +313,8 @@ body.dark .home .text {
   white-space: nowrap;
   pointer-events: none;
   transition: 0s;
-  font-family: "Montserrat", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 li:hover .tooltip {
@@ -348,4 +349,28 @@ li:hover .tooltip {
   .main__title > p {
     text-align: center;
   }
+}
+
+/* ---------------------------- ESTILOS DE TOPBAR --------------------------- */
+.tb-image-text {
+  display: flex;
+  align-items: center;
+}
+
+.tb-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tb-image img {
+  width: 60px;
+}
+
+.tb-name {
+  margin-top: 2px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin-left: 1rem;
 }

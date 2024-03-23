@@ -7,6 +7,8 @@ import { Box } from "../component/box";
 import { AdminPannel } from "../component/adminPannel";
 import { UserPannel } from "../component/userPannel";
 import { Pricing } from "./pricing";
+import { NewUserPannel } from "../component/NewUserPannel";
+
 export const Perfil = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
@@ -40,7 +42,8 @@ export const Perfil = () => {
       ) : store.usuario.role === "admin" ? (
         <AdminPannel />
       ) : (
-        <UserPannel />
+        // <UserPannel />
+        <NewUserPannel />
       )}
     </>
   );
