@@ -72,6 +72,19 @@ def put_user_manager():
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
+# --------------- MÉTODO PUT PARA ASIGNAR GPT COINS -------------- #
+@api.route('/gpt_coins/<int:user_id>', methods=['PUT'])
+@jwt_required()
+def put_user_gpt_coins(user_id):
+    try:
+        user = User.query.get(user_id)
+        user.gpt_coins = request.json['gpt_coins']
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args
+
 # ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
 @api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
 def get_users_by_manager(manager_id):

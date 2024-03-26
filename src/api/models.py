@@ -57,6 +57,7 @@ class User(db.Model):
     sales_goal = db.Column(db.Integer, unique=False)
     manager = db.Column(db.String(100), unique=False, nullable=True)
     manager_id = db.Column(db.Integer, unique=False, nullable=True)
+    gpt_coins = db.Column(db.Integer, nullable=True,default=5)
 
 
     def __init__(self, **kwargs):
@@ -98,7 +99,8 @@ class User(db.Model):
             "manager": self.manager,
             "manager_id": self.manager_id, 
             "status": self.status.value,
-            "sales_goal": self.sales_goal,            
+            "sales_goal": self.sales_goal,
+            "gpt_coins": self.gpt_coins            
             # do not serialize the password, its a security breach
         }
 
