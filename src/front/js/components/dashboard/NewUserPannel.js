@@ -1,6 +1,7 @@
 import React from "react";
 import "../../../styles/newuserpannel.css";
 import DashboardSalesGraphic from "./DashboardSalesGraphic";
+import { TotalSales } from "./TotalSales";
 
 export const NewUserPannel = () => {
   return (
@@ -31,20 +32,13 @@ export const NewUserPannel = () => {
             </button> */}
           </div>
         </div>
-
-        <DashboardSalesGraphic />
-        <canvas
-          className="my-4 w-100"
-          id="myChart"
-          width="1037"
-          height="438"
-          style={{
-            display: "block",
-            boxSizing: "border-box",
-            height: "438px",
-            width: "1037px",
-          }}
-        ></canvas>
+        <div className="d-flex justify-content-around">
+          <DashboardSalesGraphic />
+          <div>
+            <TotalSales />
+            <TotalSales />
+          </div>
+        </div>
 
         <h2>Section title</h2>
         <div className="table-responsive small">

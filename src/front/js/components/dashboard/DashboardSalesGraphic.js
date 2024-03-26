@@ -78,7 +78,7 @@ const renderCustomizedLabel = (props) => {
 export default function DashboardSalesGraphic() {
   return (
     <BarChart
-      width={750}
+      width={900}
       height={300}
       data={data}
       margin={{
