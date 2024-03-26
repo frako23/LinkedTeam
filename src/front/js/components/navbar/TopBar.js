@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import logo from "../../../img/logoNavBar.png";
 import "../../../styles/navbar.css";
 
 export const TopBar = () => {
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
+  useEffect(() => {
+    actions.getUsuario();
+  }, []);
+  console.log(store.usuario);
   return (
     <nav
       className="navbar sticky-top flex-md-nowrap p-0 shadow tb"
@@ -18,15 +22,11 @@ export const TopBar = () => {
 
         <div className="text logo-text">
           <span className="tb-name">LinkedTeam - </span>{" "}
-          <span
-            style={{ color: "#695cfe", fontWeight: "bold", fontSize: "18px" }}
-          >
-            {store.header}
-          </span>
+          <span className="lt-name">{store.header}</span>
         </div>
       </div>
 
-      <ul className="navbar-nav flex-row me-4 gap-2">
+      <ul className="navbar-nav flex-row me-4 gap-1">
         <li className="nav-item text-nowrap">
           <button
             className="px-3 tb-icon"
@@ -37,7 +37,8 @@ export const TopBar = () => {
             aria-expanded="false"
             aria-label="Toggle search"
           >
-            <i className="fa-solid fa-user-tie"></i>
+            <span className="lt-name me-2">{store.usuario.name}</span>
+            <i className="fa-solid fa-user"></i>
           </button>
         </li>
         <li className="nav-item text-nowrap">
@@ -51,6 +52,19 @@ export const TopBar = () => {
             aria-label="Toggle navigation"
           >
             <i className="fa-solid fa-coins"></i>
+          </button>
+        </li>
+        <li className="nav-item text-nowrap">
+          <button
+            className="px-3 tb-icon"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#sidebarMenu"
+            aria-controls="sidebarMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i className="fa-solid fa-bell"></i>
           </button>
         </li>
       </ul>

@@ -398,3 +398,9 @@ li:hover .tooltip {
 .tb-icon:hover {
   color: #695cfe;
 }
+
+.lt-name {
+  color: #695cfe;
+  font-weight: bold;
+  font-size: 18px;
+}

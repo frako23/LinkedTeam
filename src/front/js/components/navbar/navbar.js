@@ -75,12 +75,8 @@ export const Navbar = () => {
               <Link to="/OwnAgencyCourses">
                 <li className="ps-0">
                   <i className="fa-solid fa-users-rectangle icon"></i>
-                  <span className="text nav-text">
-                    {/* {store.usuario.own_agency.name} */}
-                  </span>
-                  <span className="tooltip">
-                    {/* {store.usuario.own_agency.name} */}
-                  </span>
+                  <span className="text nav-text">Cursos para tu equipo</span>
+                  <span className="tooltip">Cursos para tu equipo</span>
                 </li>
               </Link>
             ) : (

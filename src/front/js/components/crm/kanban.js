@@ -45,16 +45,13 @@ export const Kanban = () => {
           <Droppable droppableId="Prospecto">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   PROSPECTOS{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "black" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Prospecto"
@@ -104,16 +101,13 @@ export const Kanban = () => {
           <Droppable droppableId="Contactado">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   CONTACTADOS{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "black" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Contactado"
@@ -161,16 +155,13 @@ export const Kanban = () => {
           <Droppable droppableId="Primera Cita">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   PRIMERA CITA{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "black" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Primera Cita"
@@ -218,16 +209,13 @@ export const Kanban = () => {
           <Droppable droppableId="Negociación">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   NEGOCIACIÓN{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "black" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Negociación"
@@ -275,16 +263,13 @@ export const Kanban = () => {
           <Droppable droppableId="Cerrado">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   CIERRES{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "black" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Cerrado"

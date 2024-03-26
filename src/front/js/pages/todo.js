@@ -71,8 +71,7 @@ export function Todo() {
             <main
               className=""
               style={{
-                paddingLeft: "10rem",
-                paddingRight: "6rem",
+                paddingLeft: "5rem",
               }}
             >
               <div className="board">
