@@ -13,6 +13,10 @@ export const DashboardAsociado = () => {
   const [agency, setAgency] = useState("");
   const [asociadoId, setAsociadoId] = useState("");
 
+  useEffect(() => {
+    actions.setHeader("CRM Asociados");
+  }, []);
+
   let notClosedArray = store.userClients.filter(
     (index) => index.status != "Cerrado"
   );

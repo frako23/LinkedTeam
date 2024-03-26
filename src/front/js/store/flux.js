@@ -27,6 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       amountFilter: null,
       ageFilter: null,
       trustFilter: null,
+      header: "",
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -390,7 +391,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
 
           // console.log("This came from the backend", data);
-          actions.setNotification(`Reseteaste la agencia del usuario`);
+          actions.setNotification("Reseteaste la agencia del usuario");
           actions.getTotalUsuarios();
           return true;
         } catch (error) {
@@ -1364,6 +1365,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
         // console.log(foundClient);
         setStore({ userClients: foundClient });
+      },
+      setHeader: (name) => {
+        console.log(name);
+        setStore({ header: name });
       },
     },
   };

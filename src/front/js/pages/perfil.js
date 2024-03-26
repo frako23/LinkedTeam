@@ -10,7 +10,7 @@ export const Perfil = () => {
 
   useEffect(() => {
     actions.getUsuario();
-    // actions.getClientes();
+    actions.setHeader("Tablero de control");
     // actions.closedArray();
     // actions.amountSumClosed();
   }, []);

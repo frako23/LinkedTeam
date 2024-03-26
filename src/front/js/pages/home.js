@@ -1,19 +1,11 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import React, { useState } from "react";
 import "../../styles/home.css";
-import one from "../../img/1.jpg";
-import two from "../../img/2.jpg";
-import three from "../../img/3.jpg";
-import four from "../../img/4.jpg";
 import { Link } from "react-router-dom";
-import { Navigation, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
 export const Home = () => {
-  const { store, actions } = useContext(Context);
   const [menuBar, setMenuBar] = useState(false);
   return (
     <>

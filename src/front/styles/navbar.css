@@ -394,3 +394,7 @@ li:hover .tooltip {
 .tb {
   color: #707070;
 }
+
+.tb-icon:hover {
+  color: #695cfe;
+}

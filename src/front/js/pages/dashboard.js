@@ -12,6 +12,10 @@ import { ImportFromExcel } from "../components/crm/importFromExcel";
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
 
+  useEffect(() => {
+    actions.setHeader("CRM");
+  }, []);
+
   // useEffect(() => {
   //   if (store.usuario.status === "inactive") {
   //     navigate("/pricing");
@@ -77,11 +81,8 @@ export const Dashboard = () => {
             ) : (
               ""
             )}
-            <div className="kanban-head">
-              <strong className="kanban-head-title mt-4">CRM</strong>
-            </div>
           </div>
-          <div className="ms-2 d-flex justify-content-between">
+          <div className="ms-2 d-flex justify-content-between mt-2">
             <div className="box-dashboard ms-5">
               <Nuevonegocio />
               <ExportToExcel excelData={store.clientes} />

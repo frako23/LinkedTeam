@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../../store/appContext";
 import logo from "../../../img/logoNavBar.png";
 import "../../../styles/navbar.css";
 
 export const TopBar = () => {
+  const { store } = useContext(Context);
   return (
     <nav
       className="navbar sticky-top flex-md-nowrap p-0 shadow tb"
@@ -15,14 +17,19 @@ export const TopBar = () => {
         </span>
 
         <div className="text logo-text">
-          <span className="tb-name">LinkedTeam</span>
+          <span className="tb-name">LinkedTeam - </span>{" "}
+          <span
+            style={{ color: "#695cfe", fontWeight: "bold", fontSize: "18px" }}
+          >
+            {store.header}
+          </span>
         </div>
       </div>
 
       <ul className="navbar-nav flex-row me-4 gap-2">
         <li className="nav-item text-nowrap">
           <button
-            className="nav-link px-3 tb-icon"
+            className="px-3 tb-icon"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSearch"
@@ -35,7 +42,7 @@ export const TopBar = () => {
         </li>
         <li className="nav-item text-nowrap">
           <button
-            className="nav-link px-3 tb-icon"
+            className="px-3 tb-icon"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#sidebarMenu"
@@ -48,14 +55,14 @@ export const TopBar = () => {
         </li>
       </ul>
 
-      <div id="navbarSearch" className="navbar-search w-100 collapse">
+      {/* <div id="navbarSearch" className="navbar-search w-100 collapse">
         <input
           className="form-control w-100 rounded-0 border-0"
           type="text"
           placeholder="Search"
           aria-label="Search"
         />
-      </div>
+      </div> */}
     </nav>
   );
 };

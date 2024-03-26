@@ -50,8 +50,8 @@ export const Navbar = () => {
             <Link to="/courses">
               <li className="ps-0">
                 <i className="bx bxl-youtube icon"></i>
-                <span className="text nav-text">Cursos y Videos</span>
-                <span className="tooltip">Cursos y Videos</span>
+                <span className="text nav-text">Cursos disponibles</span>
+                <span className="tooltip">Cursos disponibles</span>
               </li>
             </Link>
 
