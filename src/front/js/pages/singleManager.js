@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
-import { Navbar } from "../component/navbar";
+
 import "../../styles/single.css";
 
 export const SingleManager = (props) => {
@@ -25,7 +25,6 @@ export const SingleManager = (props) => {
 
   return (
     <>
-      <Navbar />
       <div className="card text-center single-view-card">
         <div className="card-header">
           <ul className="nav nav-tabs card-header-tabs">

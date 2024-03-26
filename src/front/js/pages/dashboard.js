@@ -1,21 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
-import { Link, useNavigate } from "react-router-dom";
-import { Navbar } from "../component/navbar";
-import { Nuevonegocio } from "../component/nuevoNegocio";
-import { Tarjetacliente } from "../component/tarjetaCliente";
-import { Kanban } from "../component/kanban";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import { Link } from "react-router-dom";
+import { Nuevonegocio } from "../components/crm/nuevoNegocio";
+import { Kanban } from "../components/crm/kanban";
 import { Pricing } from "./pricing";
-import { ExportToExcel } from "../component/exportToExcel";
-import SortCRM from "../component/sortCRM";
-import { ImportFromExcel } from "../component/importFromExcel";
+import { ExportToExcel } from "../components/crm/exportToExcel";
+import SortCRM from "../components/crm/sortCRM";
+import { ImportFromExcel } from "../components/crm/importFromExcel";
 
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
 
   // useEffect(() => {
   //   if (store.usuario.status === "inactive") {
@@ -61,7 +56,6 @@ export const Dashboard = () => {
 
   return (
     <>
-      <Navbar />
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (

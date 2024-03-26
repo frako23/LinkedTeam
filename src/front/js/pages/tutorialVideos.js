@@ -1,20 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/dashboard.css";
-import { Link, useNavigate } from "react-router-dom";
-import { Navbar } from "../component/navbar";
-import { CourseCard } from "../component/courseCard";
 import { Pricing } from "./pricing";
-import { TutorialVideoCard } from "../component/tutorialVideoCard";
+import { TutorialVideoCard } from "../components/Courses/tutorialVideoCard";
 
 export const TutorialVideos = () => {
-  const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
+  const { store } = useContext(Context);
 
   return (
     <>
-      <Navbar />
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (

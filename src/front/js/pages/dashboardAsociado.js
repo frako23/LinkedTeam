@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
-import { Link, useNavigate } from "react-router-dom";
-import { Navbar } from "../component/navbar";
-import { Nuevonegocio } from "../component/nuevoNegocio";
-import { KanbanAsociado } from "../component/kanbanAsociado";
+import { KanbanAsociado } from "../components/crm/kanbanAsociado";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { ExportToExcel } from "../component/exportToExcel";
-import SortCRMAsociados from "../component/sortCRMAsociados";
+import { ExportToExcel } from "../components/crm/exportToExcel";
+import SortCRMAsociados from "../components/crm/sortCRMAsociados";
 
 export const DashboardAsociado = () => {
   const { store, actions } = useContext(Context);
@@ -55,7 +52,6 @@ export const DashboardAsociado = () => {
 
   return (
     <>
-      <Navbar />
       <div className=" ps-5">
         <div className="d-flex" style={{ marginLeft: "4rem" }}>
           <div className="kanban-head">
@@ -78,7 +74,7 @@ export const DashboardAsociado = () => {
                     <Dropdown.Item
                       eventKey="1"
                       key={agencia.id}
-                      onClick={(e) => {
+                      onClick={() => {
                         actions.getUsersByAgency(agencia.id);
                         setAgency(agencia.name);
                       }}
@@ -106,7 +102,7 @@ export const DashboardAsociado = () => {
                     <Dropdown.Item
                       eventKey="1"
                       key={asociado.id}
-                      onClick={(e) => {
+                      onClick={() => {
                         actions.getUserClients(asociado.id);
                         setSelected(asociado.name + " " + asociado.lastname);
                         setAsociadoId(asociado.id);

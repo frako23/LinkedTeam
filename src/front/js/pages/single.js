@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { ModifyClient } from "../component/modifyClient";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import { Navbar } from "../component/navbar";
+import { ModifyClient } from "../components/crm/modifyClient";
+
 import "../../styles/single.css";
 
-export const Single = (props) => {
+export const Single = () => {
   const [activity, setActivity] = useState({
     date: "",
     contact_type: "",
@@ -37,7 +35,6 @@ export const Single = (props) => {
 
   return (
     <>
-      <Navbar />
       <div className="card text-center single-view-card">
         <div className="card-header">
           <ul className="nav nav-tabs card-header-tabs">
@@ -46,7 +43,7 @@ export const Single = (props) => {
                 className={`nav-link ${
                   indicador == "información" ? "active" : ""
                 } fw-bolder`}
-                onClick={(e) => setIndicador("información")}
+                onClick={() => setIndicador("información")}
               >
                 Información
               </button>
@@ -56,7 +53,7 @@ export const Single = (props) => {
                 className={`nav-link ${
                   indicador == "registrar" ? "active" : ""
                 } fw-bolder`}
-                onClick={(e) => setIndicador("registrar")}
+                onClick={() => setIndicador("registrar")}
               >
                 Registrar Actividad
               </button>
@@ -66,7 +63,7 @@ export const Single = (props) => {
                 className={`nav-link ${
                   indicador == "historico" ? "active" : ""
                 } fw-bolder`}
-                onClick={(e) => setIndicador("historico")}
+                onClick={() => setIndicador("historico")}
               >
                 Histórico
               </button>
@@ -289,8 +286,4 @@ export const Single = (props) => {
       </div>
     </>
   );
-};
-
-Single.propTypes = {
-  match: PropTypes.object,
 };

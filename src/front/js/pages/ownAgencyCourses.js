@@ -2,9 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar } from "../component/navbar";
-import { OwnCourseCard } from "../component/ownCourseCard";
-import CreateCourse from "../component/createCourse";
+import { OwnCourseCard } from "../components/Courses/ownCourseCard";
+import CreateCourse from "../components/Courses/createCourse";
 import { Pricing } from "./pricing";
 
 export const OwnAgencyCourses = () => {
@@ -27,7 +26,6 @@ export const OwnAgencyCourses = () => {
 
   return (
     <>
-      <Navbar />
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (

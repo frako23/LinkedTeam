@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import "../../styles/todo.css";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar } from "../component/navbar";
+
 import toast, { Toaster } from "react-hot-toast";
 import { Pricing } from "./pricing";
 
@@ -59,7 +59,6 @@ export function Todo() {
 
   return (
     <>
-      <Navbar />
       {/* pagina */}
       {store.usuario.status === "inactive" ? (
         <Pricing />

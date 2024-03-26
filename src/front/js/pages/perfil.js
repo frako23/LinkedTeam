@@ -1,16 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../../styles/perfil.css";
-import { Navbar } from "../component/navbar";
 import { Context } from "../store/appContext";
-import { Box } from "../component/box";
-import { AdminPannel } from "../component/adminPannel";
-import { UserPannel } from "../component/userPannel";
+import { AdminPannel } from "../components/admin/adminPannel";
 import { Pricing } from "./pricing";
-import { NewUserPannel } from "../component/NewUserPannel";
+import { NewUserPannel } from "../components/dashboard/NewUserPannel";
 
 export const Perfil = () => {
-  const navigate = useNavigate();
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
@@ -35,7 +30,6 @@ export const Perfil = () => {
 
   return (
     <>
-      <Navbar />
       {/* pagina */}
       {store.usuario.status === "inactive" ? (
         <Pricing />

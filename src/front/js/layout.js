@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
+import ScrollToTop from "./components/utils/scrollToTop";
 import { Dashboard } from "./pages/dashboard";
 import { DashboardAsociado } from "./pages/dashboardAsociado";
 import { Home } from "./pages/home";
@@ -9,7 +9,7 @@ import { Single } from "./pages/single";
 import { SingleManager } from "./pages/singleManager";
 import injectContext from "./store/appContext";
 import { Courses } from "./pages/courses";
-import { Footer } from "./component/footer";
+import { Footer } from "./components/landing/footer";
 import { Perfil } from "./pages/perfil";
 import { Video } from "./pages/video";
 import { Login } from "./pages/login";
@@ -17,16 +17,17 @@ import { Todo } from "./pages/todo";
 import { SignUp } from "./pages/signUp";
 import { Pricing } from "./pages/pricing";
 import { AgencyToSelect } from "./pages/agencyToSelect";
-import { Navbar } from "./component/navbar";
 import { OwnAgencyCourses } from "./pages/ownAgencyCourses";
 import { TutorialVideos } from "./pages/tutorialVideos";
 import { VideoTutorial } from "./pages/videoTutorial";
-import { TopBar } from "./component/TopBar";
+import { TopBar } from "../js/components/navbar/TopBar";
+import { Navbar } from "./components/navbar/navbar";
 
 //create your first component
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
   // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+  // eslint-disable-next-line no-undef
   const basename = process.env.BASENAME || "";
 
   return (
@@ -34,6 +35,7 @@ const Layout = () => {
       <BrowserRouter basename={basename}>
         <ScrollToTop>
           <TopBar />
+          <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Dashboard />} path="/dashboard" />

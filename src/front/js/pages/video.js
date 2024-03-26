@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import ReactPlayer from "react-player";
 import "../../styles/video.css";
-import { Comentarios } from "../component/comentarios";
-import { Navbar } from "../component/navbar";
-import { Link, useParams } from "react-router-dom";
+import { Comentarios } from "../components/Courses/comentarios";
+
+import { useParams } from "react-router-dom";
 
 export const Video = () => {
   const params = useParams();
-  const { store, actions } = useContext(Context);
+  const { store } = useContext(Context);
 
   return (
     <div className="d-flex">
-      <Navbar />
       <div className="contenedor">
         <div className="contenedor-video">
           <ReactPlayer
