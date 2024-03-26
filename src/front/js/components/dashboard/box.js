@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import "../../styles/perfil.css";
+import "../../../styles/perfil.css";
 
 export const Box = () => {
   const { store, actions } = useContext(Context);
@@ -13,18 +13,18 @@ export const Box = () => {
     <div className="main__card">
       <div className="card__profile">
         <div className="card__inner ">
-          <p className="text-primary">PROSPECTOS</p>
+          <p className="text-black">PROSPECTOS</p>
         </div>
-        <p className="text-primary font-weight-bold numero">
+        <p className="text-black font-weight-bold numero">
           {store.clientes.filter((index) => index.status == "Prospecto").length}
         </p>
       </div>
 
       <div className="card__profile">
         <div className="card__inner">
-          <p className="text-primary">CONTACTADOS</p>
+          <p className="text-black">CONTACTADOS</p>
         </div>
-        <span className="text-primary font-weight-bold numero">
+        <span className="text-black font-weight-bold numero">
           {
             store.clientes.filter((index) => index.status == "Contactado")
               .length
@@ -34,9 +34,9 @@ export const Box = () => {
 
       <div className="card__profile">
         <div className="card__inner">
-          <p className="text-primary">PRIMERA CITA</p>
+          <p className="text-black">PRIMERA CITA</p>
         </div>
-        <span className="text-primary font-weight-bold numero">
+        <span className="text-black font-weight-bold numero">
           {
             store.clientes.filter((index) => index.status == "Primera Cita")
               .length
@@ -46,9 +46,9 @@ export const Box = () => {
 
       <div className="card__profile">
         <div className="card__inner">
-          <p className="text-primary">NEGOCIACIÓN</p>
+          <p className="text-black">NEGOCIACIÓN</p>
         </div>
-        <span className="text-primary font-weight-bold numero">
+        <span className="text-black font-weight-bold numero">
           {
             store.clientes.filter((index) => index.status == "Negociación")
               .length
@@ -58,9 +58,9 @@ export const Box = () => {
 
       <div className="card__profile">
         <div className="card__inner">
-          <p className="text-primary">CIERRES</p>
+          <p className="text-black">CIERRES</p>
         </div>
-        <span className="text-primary font-weight-bold numero">
+        <span className="text-black font-weight-bold numero">
           {store.clientes.filter((index) => index.status == "Cerrado").length}
         </span>
       </div>

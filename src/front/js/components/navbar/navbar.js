@@ -8,7 +8,6 @@ export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   const [toggle, setToggle] = useState("close");
-  const [appBar, setAppBar] = useState(false);
 
   const toggleFunc = () => {
     if (toggle == "close") {
@@ -24,6 +23,8 @@ export const Navbar = () => {
   }
 
   useEffect(() => actions.getUsuario, []);
+
+  console.log(store.usuario);
 
   return (
     <nav
@@ -75,10 +76,10 @@ export const Navbar = () => {
                 <li className="ps-0">
                   <i className="fa-solid fa-users-rectangle icon"></i>
                   <span className="text nav-text">
-                    {store.usuario.own_agency.name}
+                    {/* {store.usuario.own_agency.name} */}
                   </span>
                   <span className="tooltip">
-                    {store.usuario.own_agency.name}
+                    {/* {store.usuario.own_agency.name} */}
                   </span>
                 </li>
               </Link>
@@ -109,7 +110,7 @@ export const Navbar = () => {
         </div>
 
         <div className="bottom-content">
-          <li className="pe-auto" onClick={(event) => handleLogOut()}>
+          <li className="pe-auto" onClick={() => handleLogOut()}>
             <i className="bx bx-log-out icon"></i>
             <span className="text nav-text">Salir</span>
             <span className="tooltip">Salir</span>
