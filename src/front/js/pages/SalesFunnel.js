@@ -64,30 +64,21 @@ export const SalesFunnel = () => {
         <Pricing />
       ) : (
         <div className=" ps-5">
-          <div className="d-flex justify-content-center">
-            {store.usuario.role === "manager" ? (
-              <Link
-                to="/dashboardAsociado"
-                className="coolbtn"
-                style={{
-                  marginTop: "2.5rem",
-                  right: "34rem",
-                  position: "relative",
-                  marginRight: "-8rem",
-                }}
-              >
-                Asociados
-              </Link>
-            ) : (
-              ""
-            )}
-          </div>
           <div className="ms-2 d-flex justify-content-between mt-2">
             <div className="btn-group me-2 ms-5">
               <Nuevonegocio />
               <ExportToExcel excelData={store.clientes} />
               <ImportFromExcel />
-
+              {store.usuario.role === "manager" ? (
+                <Link
+                  to="/dashboardAsociado"
+                  className="btn btn-sm btn-outline-secondary"
+                >
+                  Asociados
+                </Link>
+              ) : (
+                ""
+              )}
               {/* <table className="table t-summary">
                 <thead className="table-dark">
                   <tr>

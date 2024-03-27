@@ -22,6 +22,7 @@ import { VideoTutorial } from "./pages/videoTutorial";
 import { TopBar } from "../js/components/navbar/TopBar";
 import { Navbar } from "./components/navbar/navbar";
 import { SalesFunnel } from "./pages/SalesFunnel";
+import { Clients } from "./pages/Clients";
 
 //create your first component
 const Layout = () => {
@@ -39,6 +40,7 @@ const Layout = () => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<SalesFunnel />} path="/salesFunnel" />
+            <Route element={<Clients />} path="/clients" />
             <Route element={<DashboardAsociado />} path="/dashboardAsociado" />
             <Route element={<SignUp />} path="/signup" />
             <Route element={<Login />} path="/login" />

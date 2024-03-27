@@ -68,7 +68,15 @@ export const Navbar = () => {
                 <span className="tooltip">Embudo de ventas</span>
               </li>
             </Link>
-
+            <Link to="/clients">
+              <li className="ps-0">
+                <i
+                  className={`fa-solid fa-users icon-fa ${store.header === "Clientes" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Clientes</span>
+                <span className="tooltip">Clientes</span>
+              </li>
+            </Link>
             <Link to="/todo">
               <li className="ps-0">
                 <i
@@ -83,7 +91,7 @@ export const Navbar = () => {
               <Link to="/OwnAgencyCourses">
                 <li className="ps-0">
                   <i
-                    className={`fa-solid fa-users-rectangle icon-fa ${store.header === "Cursos para tu equipo" ? "active" : "unactive"}`}
+                    className={`fa-solid fa-person-chalkboard icon-fa ${store.header === "Cursos para tu equipo" ? "active" : "unactive"}`}
                   ></i>
                   <span className="text nav-text">Cursos para tu equipo</span>
                   <span className="tooltip">Cursos para tu equipo</span>
