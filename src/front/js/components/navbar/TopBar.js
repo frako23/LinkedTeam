@@ -37,7 +37,9 @@ export const TopBar = () => {
             aria-expanded="false"
             aria-label="Toggle search"
           >
-            <span className="lt-name me-2">{store.usuario.name}</span>
+            <span className="lt-name me-2">
+              {store.usuario.name} {store.usuario.lastname}
+            </span>
             <i className="fa-solid fa-user"></i>
           </button>
         </li>

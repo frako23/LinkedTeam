@@ -13,21 +13,34 @@ export default function SortCRM() {
 
   return (
     <div style={{}}>
-      <div className="input-group mb-3">
+      <div className="form-floating my-3">
         <input
-          type="text"
-          className="form-control"
-          placeholder="Buscar cliente"
-          aria-label="Recipient's username"
-          aria-describedby="button-addon2"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
             actions.findByName(name);
           }}
+          type="email"
+          className="form-control"
+          id="floatingInput"
+          placeholder="name@example.com"
         />
+        <label htmlFor="floatingInput" className="text-secondary">
+          Buscar cliente
+        </label>
       </div>
       <div className="input-group mb-3 sort-search">
+        <div className="col-md-3">
+          <select className="form-select" id="validationCustom04" required>
+            <option selected disabled value="">
+              Confianza
+            </option>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+          </select>
+          <div className="invalid-feedback">Please select a valid state.</div>
+        </div>
         <button
           className="btn btn-dark dropdown-toggle rounded-pill border"
           type="button"

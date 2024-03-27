@@ -36,3 +36,8 @@ LinkedTeam es un software de código abierto licenciado bajo la [Licencia MIT](L
 ### Frontend:
 
 1. [] Construir Dashboard
+2. Arreglar filtro en embudo de ventas
+3. crear seccion de tablas tipo CRM para clientes con productos y para prospectos
+4. crear chat para usar con ChatGPT
+5. hacer autenticacion OAuth
+6. traer videos de youtube con la API
