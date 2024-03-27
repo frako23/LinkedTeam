@@ -13,7 +13,7 @@ export default function SortCRM() {
 
   return (
     <div style={{}}>
-      <div className="form-floating my-3">
+      <div className="form-floating mt-3 mb-1">
         <input
           value={name}
           onChange={(e) => {
@@ -29,27 +29,16 @@ export default function SortCRM() {
           Buscar cliente
         </label>
       </div>
-      <div className="input-group mb-3 sort-search">
-        <div className="col-md-3">
-          <select className="form-select" id="validationCustom04" required>
-            <option selected disabled value="">
-              Confianza
-            </option>
-            <option>Alta</option>
-            <option>Media</option>
-            <option>Baja</option>
-          </select>
-          <div className="invalid-feedback">Please select a valid state.</div>
-        </div>
+      <div className="input-group mb-3 sort-search w-100">
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border"
+          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           {filter.amount}
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu w-25">
           <li>
             <button
               className="dropdown-item"
@@ -96,14 +85,14 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border"
+          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           {filter.age}
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu w-25">
           <li>
             <button
               className="dropdown-item"
@@ -172,14 +161,14 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border"
+          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           {filter.trust}
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu w-25">
           <li>
             <button
               className="dropdown-item"
@@ -215,7 +204,8 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-light rounded-pill border-dark fw-bold"
+          className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+          style={{ background: "#695cfe" }}
           type="button"
           aria-expanded="false"
           onClick={() => {
