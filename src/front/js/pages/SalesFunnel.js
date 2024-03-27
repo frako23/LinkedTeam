@@ -3,17 +3,17 @@ import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { Link } from "react-router-dom";
 import { Nuevonegocio } from "../components/crm/nuevoNegocio";
-import { Kanban } from "../components/crm/kanban";
 import { Pricing } from "./pricing";
 import { ExportToExcel } from "../components/crm/exportToExcel";
 import SortCRM from "../components/crm/sortCRM";
 import { ImportFromExcel } from "../components/crm/importFromExcel";
+import { Kanban } from "../components/CRM/kanban";
 
-export const Dashboard = () => {
+export const SalesFunnel = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    actions.setHeader("CRM");
+    actions.setHeader("Embudo de ventas");
   }, []);
 
   // useEffect(() => {
@@ -83,64 +83,53 @@ export const Dashboard = () => {
             )}
           </div>
           <div className="ms-2 d-flex justify-content-between mt-2">
-            <div className="box-dashboard ms-5">
+            <div className="btn-group me-2 ms-5">
               <Nuevonegocio />
               <ExportToExcel excelData={store.clientes} />
               <ImportFromExcel />
-            </div>
-            <SortCRM />
-            <div className="top-0 end-0 text-center d-grid me-5 ms-5">
-              <div
-                className="btn-group pe-5"
-                role="group"
-                aria-label="Basic mixed styles example"
-              >
-                <table className="table t-summary">
-                  <thead className="table-dark">
-                    <tr>
-                      <th>En la calle</th>
-                      <th>Negocios</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="table-light">
-                      <td className="" style={{ color: "black" }}>
-                        ${amountSum}
-                      </td>
-                      <td className="" style={{ color: "black" }}>
-                        {notClosedArray.length}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div
-                className="btn-group pe-5"
-                role="group"
-                aria-label="Basic mixed styles example"
-              >
-                <table className="table t-summary">
-                  <thead className="table-dark">
-                    <tr>
-                      <th>Logrado</th>
-                      <th>Negocios</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="table-light">
-                      <td className="" style={{ color: "black" }}>
-                        ${amountSumClosedSales}
-                      </td>
-                      <td className="" style={{ color: "black" }}>
-                        {closedArray.length}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+
+              {/* <table className="table t-summary">
+                <thead className="table-dark">
+                  <tr>
+                    <th>En la calle</th>
+                    <th>Negocios</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="table-light">
+                    <td className="" style={{ color: "black" }}>
+                      ${amountSum}
+                    </td>
+                    <td className="" style={{ color: "black" }}>
+                      {notClosedArray.length}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table className="table t-summary">
+                <thead className="table-dark">
+                  <tr>
+                    <th>Logrado</th>
+                    <th>Negocios</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="table-light">
+                    <td className="" style={{ color: "black" }}>
+                      ${amountSumClosedSales}
+                    </td>
+                    <td className="" style={{ color: "black" }}>
+                      {closedArray.length}
+                    </td>
+                  </tr>
+                </tbody>
+              </table> */}
             </div>
           </div>
-
+          <div className="form-outline mb-4 mx-5">
+            <SortCRM />
+          </div>
           <Kanban />
         </div>
       )}

@@ -37,15 +37,11 @@ export function ExportToExcel({ excelData }) {
     <>
       <button
         type="button"
-        className="btn btn-light"
-        onClick={(e) => handleDownloadExcel()}
-        style={{
-          height: "fit-content",
-          width: "fit-content",
-          marginInline: "0.5rem",
-        }}
+        className="btn btn-sm btn-outline-secondary"
+        onClick={() => handleDownloadExcel()}
+        style={{ height: "fit-content" }}
       >
-        Descargar a Excel <i className="fa-solid fa-file-excel"></i>
+        Descargar <i className="fa-solid fa-file-excel"></i>
       </button>
     </>
   );

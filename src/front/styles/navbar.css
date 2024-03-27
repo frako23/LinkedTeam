@@ -73,8 +73,19 @@ body.dark {
   font-size: 28px;
 }
 
+.sidebar .icon-fa {
+  min-width: 60px;
+  border-radius: 6px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
 .sidebar .text,
-.sidebar .icon {
+.sidebar .icon,
+.sidebar .icon-fa {
   color: var(--text-color);
   transition: var(--tran-03);
 }
@@ -192,10 +203,12 @@ body.dark .sidebar header .toggle {
   background-color: var(--primary-color);
 }
 .sidebar li:hover .icon,
+.sidebar li:hover .icon-fa,
 .sidebar li:hover .text {
   color: var(--sidebar-color);
 }
 body.dark .sidebar li:hover .icon,
+body.dark .sidebar li:hover .icon-fa,
 body.dark .sidebar li:hover .text {
   color: var(--text-color);
 }

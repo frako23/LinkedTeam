@@ -58,10 +58,10 @@ export const Nuevonegocio = () => {
     <>
       <button
         onClick={handleShow}
-        className="button-single"
+        className="btn btn-sm btn-outline-secondary"
         style={{ height: "fit-content" }}
       >
-        Nuevo Negocio
+        Nuevo Cliente
       </button>
 
       <Modal show={show} onHide={handleClose}>

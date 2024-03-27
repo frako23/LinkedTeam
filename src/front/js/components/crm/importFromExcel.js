@@ -51,13 +51,13 @@ export const ImportFromExcel = () => {
 
   return (
     <>
-      <Button
-        variant="success"
+      <button
+        className="btn btn-sm btn-outline-secondary"
         onClick={handleShow}
-        style={{ width: "12rem", marginInline: "0.5rem" }}
+        style={{ height: "fit-content" }}
       >
-        Importar de Excel <i className="fa-solid fa-file-excel"></i>
-      </Button>
+        Importar <i className="fa-solid fa-file-excel"></i>
+      </button>
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Form>

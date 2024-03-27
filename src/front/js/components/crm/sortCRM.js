@@ -13,14 +13,11 @@ export default function SortCRM() {
 
   return (
     <div style={{}}>
-      <label className="text-white d-flex justify-content-center">
-        Buscador y filtros
-      </label>
       <div className="input-group mb-3">
         <input
           type="text"
           className="form-control"
-          placeholder="Nombre del Prospecto"
+          placeholder="Buscar cliente"
           aria-label="Recipient's username"
           aria-describedby="button-addon2"
           value={name}

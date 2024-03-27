@@ -55,11 +55,11 @@ export const Navbar = () => {
               </li>
             </Link>
 
-            <Link to="/dashboard">
+            <Link to="/salesFunnel">
               <li className="ps-0">
-                <i className="bx bxs-layout icon"></i>
-                <span className="text nav-text">CRM</span>
-                <span className="tooltip">CRM</span>
+                <i className="fa-solid fa-filter-circle-dollar icon-fa"></i>
+                <span className="text nav-text">Embudo de ventas</span>
+                <span className="tooltip">Embudo de ventas</span>
               </li>
             </Link>
 
@@ -74,7 +74,7 @@ export const Navbar = () => {
             {store.usuario.role == "manager" ? (
               <Link to="/OwnAgencyCourses">
                 <li className="ps-0">
-                  <i className="fa-solid fa-users-rectangle icon"></i>
+                  <i className="fa-solid fa-users-rectangle icon-fa"></i>
                   <span className="text nav-text">Cursos para tu equipo</span>
                   <span className="tooltip">Cursos para tu equipo</span>
                 </li>
@@ -84,14 +84,14 @@ export const Navbar = () => {
             )}
             <Link to="/pricing">
               <li className="ps-0">
-                <i className="fa-regular fa-money-bill-1 icon"></i>
+                <i className="fa-regular fa-money-bill-1 icon-fa"></i>
                 <span className="text nav-text">Registra tu Pago</span>
                 <span className="tooltip">Registra tu Pago</span>
               </li>
             </Link>
             <Link to="/tutorialVideos">
               <li className="ps-0">
-                <i className="fa-solid fa-circle-info icon"></i>
+                <i className="fa-solid fa-circle-info icon-fa"></i>
                 <span className="text nav-text">Videos Tutoriales</span>
                 <span className="tooltip">Videos Tutoriales</span>
               </li>
