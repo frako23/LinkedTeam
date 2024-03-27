@@ -7,7 +7,7 @@ import { TutorialVideoCard } from "../components/Courses/tutorialVideoCard";
 export const TutorialVideos = () => {
   const { store, actions } = useContext(Context);
   useEffect(() => {
-    actions.setHeader("Videos Tutoriales");
+    actions.setHeader("Videos tutoriales");
   }, []);
 
   return (

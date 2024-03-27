@@ -86,7 +86,6 @@ body.dark {
 .sidebar .text,
 .sidebar .icon,
 .sidebar .icon-fa {
-  color: var(--text-color);
   transition: var(--tran-03);
 }
 
@@ -416,4 +415,12 @@ li:hover .tooltip {
   color: #695cfe;
   font-weight: bold;
   font-size: 18px;
+}
+
+.active {
+  color: #695cfe;
+}
+
+.unactive {
+  color: var(--text-color);
 }

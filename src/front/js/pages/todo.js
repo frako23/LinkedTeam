@@ -18,7 +18,7 @@ export function Todo() {
     });
 
   useEffect(() => {
-    actions.setHeader("Tareas Pendientes");
+    actions.setHeader("Tareas pendientes");
   }, []);
 
   // useEffect(() => {

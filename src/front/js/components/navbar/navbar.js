@@ -41,15 +41,19 @@ export const Navbar = () => {
           <ul className="p-0">
             <Link to="/perfil">
               <li className="ps-0">
-                <i className="bx bx-bar-chart-alt-2 icon"></i>
-                <span className="text nav-text">Tablero</span>
-                <span className="tooltip">Tablero</span>
+                <i
+                  className={`bx bx-bar-chart-alt-2 icon ${store.header === "Tablero de control" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Tablero de control</span>
+                <span className="tooltip">Tablero de control</span>
               </li>
             </Link>
 
             <Link to="/courses">
               <li className="ps-0">
-                <i className="bx bxl-youtube icon"></i>
+                <i
+                  className={`bx bxl-youtube icon ${store.header === "Cursos disponibles" ? "active" : "unactive"}`}
+                ></i>
                 <span className="text nav-text">Cursos disponibles</span>
                 <span className="tooltip">Cursos disponibles</span>
               </li>
@@ -57,7 +61,9 @@ export const Navbar = () => {
 
             <Link to="/salesFunnel">
               <li className="ps-0">
-                <i className="fa-solid fa-filter-circle-dollar icon-fa"></i>
+                <i
+                  className={`fa-solid fa-filter-circle-dollar icon-fa ${store.header === "Embudo de ventas" ? "active" : "unactive"}`}
+                ></i>
                 <span className="text nav-text">Embudo de ventas</span>
                 <span className="tooltip">Embudo de ventas</span>
               </li>
@@ -65,7 +71,9 @@ export const Navbar = () => {
 
             <Link to="/todo">
               <li className="ps-0">
-                <i className="bx bx-list-ol icon"></i>
+                <i
+                  className={`bx bx-list-ol icon ${store.header === "Tareas pendientes" ? "active" : "unactive"}`}
+                ></i>
                 <span className="text nav-text">Tareas pendientes</span>
                 <span className="tooltip">Tareas pendientes</span>
               </li>
@@ -74,7 +82,9 @@ export const Navbar = () => {
             {store.usuario.role == "manager" ? (
               <Link to="/OwnAgencyCourses">
                 <li className="ps-0">
-                  <i className="fa-solid fa-users-rectangle icon-fa"></i>
+                  <i
+                    className={`fa-solid fa-users-rectangle icon-fa ${store.header === "Cursos para tu equipo" ? "active" : "unactive"}`}
+                  ></i>
                   <span className="text nav-text">Cursos para tu equipo</span>
                   <span className="tooltip">Cursos para tu equipo</span>
                 </li>
@@ -84,16 +94,20 @@ export const Navbar = () => {
             )}
             <Link to="/pricing">
               <li className="ps-0">
-                <i className="fa-regular fa-money-bill-1 icon-fa"></i>
-                <span className="text nav-text">Registra tu Pago</span>
-                <span className="tooltip">Registra tu Pago</span>
+                <i
+                  className={`fa-regular fa-money-bill-1 icon-fa ${store.header === "Registra tu pago" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Registra tu pago</span>
+                <span className="tooltip">Registra tu pago</span>
               </li>
             </Link>
             <Link to="/tutorialVideos">
               <li className="ps-0">
-                <i className="fa-solid fa-circle-info icon-fa"></i>
-                <span className="text nav-text">Videos Tutoriales</span>
-                <span className="tooltip">Videos Tutoriales</span>
+                <i
+                  className={`fa-solid fa-circle-info icon-fa ${store.header === "Videos tutoriales" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Videos tutoriales</span>
+                <span className="tooltip">Videos tutoriales</span>
               </li>
             </Link>
             <a href="#">
@@ -107,7 +121,7 @@ export const Navbar = () => {
 
         <div className="bottom-content">
           <li className="pe-auto" onClick={() => handleLogOut()}>
-            <i className="bx bx-log-out icon"></i>
+            <i className="bx bx-log-out icon unactive"></i>
             <span className="text nav-text">Salir</span>
             <span className="tooltip">Salir</span>
           </li>

@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 
 import { PricingCard } from "../components/payment/pricingCard";
 
 export const Pricing = () => {
+  const { actions } = useContext(Context);
+  useEffect(() => {
+    actions.setHeader("Registra tu pago");
+  }, []);
   return (
     <>
       <h1
