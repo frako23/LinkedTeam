@@ -342,3 +342,6 @@ body {
   display: flex;
   justify-content: space-evenly;
 }
+.toaster {
+  margin-top: 5rem;
+}

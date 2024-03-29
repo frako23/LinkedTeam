@@ -192,10 +192,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           // console.log("This came from the backend", data);
-          Swal.fire(
-            "!Excelente¡",
-            `Tu meta de ventas es: $ ${salesGoal} vamos por ella 💪!!!`,
-            "sucess"
+          toast.success(
+            `Tu meta de ventas es: $ ${salesGoal} vamos por ella!`,
+            {
+              // Custom Icon
+              icon: "💪",
+            }
           );
           return true;
         } catch (error) {

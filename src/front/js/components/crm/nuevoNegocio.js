@@ -6,7 +6,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Swal from "sweetalert2";
+
+import toast from "react-hot-toast";
 
 export const Nuevonegocio = () => {
   const { actions } = useContext(Context);
@@ -42,11 +43,9 @@ export const Nuevonegocio = () => {
       notes: "",
       tag: "",
     });
-    Swal.fire({
-      title: "Registraste tú cliente correctamente 🙌",
-      confirmButtonText: "OK",
-      showLoaderOnConfirm: true,
-      allowOutsideClick: () => !Swal.isLoading(),
+    toast.success("Tu prospecto fue registrado correctamente", {
+      // Custom Icon
+      icon: "🙌",
     });
   };
 
@@ -64,27 +63,26 @@ export const Nuevonegocio = () => {
         Nuevo Cliente
       </button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Datos del cliente</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Nombre y Apellido</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                name="name"
-                placeholder="Nombre del cliente"
-                onChange={handleForm}
-                value={cliente.name}
-                autoFocus
-              />
-            </Form.Group>
-            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
+                <Col>
+                  <Form.Label>Nombre y Apellido</Form.Label>
+                  <Form.Control
+                    type="text"
+                    required
+                    name="name"
+                    placeholder="Nombre del cliente"
+                    onChange={handleForm}
+                    value={cliente.name}
+                    autoFocus
+                  />
+                </Col>
                 <Col>
                   <Form.Label>Celular</Form.Label>
                   <Form.Control
@@ -109,11 +107,6 @@ export const Nuevonegocio = () => {
                     autoFocus
                   />
                 </Col>
-              </Row>
-            </Form.Group>
-            {/* ------------ SECCIÓN PARA AGREGAR FECHA DE NACIMIENTO Y MONTO ------------ */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
                 <Col>
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
@@ -125,6 +118,11 @@ export const Nuevonegocio = () => {
                     autoFocus
                   />
                 </Col>
+              </Row>
+            </Form.Group>
+            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Row>
                 <Col>
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
@@ -137,13 +135,8 @@ export const Nuevonegocio = () => {
                     autoFocus
                   />
                 </Col>
-              </Row>
-            </Form.Group>
-            {/* ------------ SECCIÓN PARA AGREGAR ESTATUS Y NIVEL DE CONFIANZA ----------- */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
                 <Col>
-                  <Form.Label>Estatus:</Form.Label>
+                  <Form.Label>Etiqueta:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     required
@@ -160,27 +153,7 @@ export const Nuevonegocio = () => {
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Nivel de confianza:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    required
-                    name="trust"
-                    value={cliente.trust}
-                    onChange={handleForm}
-                  >
-                    <option value=""></option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* ---------------------- SECCIÓN PARA AGREGAR ETIQUETA --------------------- */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <Col>
-                  <Form.Label>Etiqueta:</Form.Label>
+                  <Form.Label>Estatus:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     required

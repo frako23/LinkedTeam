@@ -66,10 +66,9 @@ export function Todo() {
         <Pricing />
       ) : (
         <div>
-          <Toaster />
           <DragDropContext onDragEnd={onDragEnd}>
             <main
-              className=""
+              className="clients"
               style={{
                 paddingLeft: "5rem",
               }}

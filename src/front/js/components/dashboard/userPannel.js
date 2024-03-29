@@ -5,6 +5,7 @@ import { Box } from "../component/box";
 import { FuelChart } from "../component/fuelChart";
 import SetCompany from "../component/setCompany";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 export const UserPannel = () => {
   const { store, actions } = useContext(Context);
@@ -21,9 +22,10 @@ export const UserPannel = () => {
   if (salesGoal !== 0) {
     // console.log(salesGoal, id);
     actions.putUserSalesGoal(salesGoal, id);
-    Swal.fire(
-      `Excelente! tu meta de ventas es de $ ${salesGoal} vamos por ella 💪`
-    );
+    toast.success(`Tu meta de ventas es: $ ${salesGoal} vamos por ella!`, {
+      // Custom Icon
+      icon: "💪",
+    });
   }
 
   const addSalesGoal = () => {

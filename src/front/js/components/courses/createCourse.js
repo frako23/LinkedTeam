@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function CreateCourse() {
   const [show, setShow] = useState(false);
@@ -38,11 +38,9 @@ function CreateCourse() {
       link_url: "",
     });
     handleClose();
-    Swal.fire({
-      title: "Registraste el curso correctamente 🙌",
-      confirmButtonText: "OK",
-      showLoaderOnConfirm: true,
-      allowOutsideClick: () => !Swal.isLoading(),
+    toast.success("Registraste el curso correctamente 🙌", {
+      // Custom Icon
+      icon: "🙋‍♂️",
     });
     actions.getCourses(store.usuario.own_agency.id);
   };

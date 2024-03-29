@@ -4,18 +4,20 @@ import "../../styles/dashboard.css";
 import { OwnCourseCard } from "../components/Courses/ownCourseCard";
 import CreateCourse from "../components/Courses/createCourse";
 import { Pricing } from "./pricing";
+import { useNavigate } from "react-router-dom";
 
 export const OwnAgencyCourses = () => {
+  const navigate = useNavigate();
   const { store, actions } = useContext(Context);
   useEffect(() => {
     actions.setHeader("Cursos para tu equipo");
   }, []);
 
-  // useEffect(() => {
-  //   if (store.usuario.status === "inactive") {
-  //     navigate("/pricing");
-  //   }
-  // }, [store.usuario.status]);
+  useEffect(() => {
+    if (store.usuario.status === "inactive") {
+      navigate("/pricing");
+    }
+  }, [store.usuario.status]);
 
   useEffect(() => actions.getUsuario(), []);
 

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 export const SalesFunnel = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+
   useEffect(() => {
     actions.setHeader("Embudo de ventas");
   }, []);
@@ -64,8 +65,8 @@ export const SalesFunnel = () => {
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (
-        <div className=" ps-5">
-          <div className="ms-2 d-flex justify-content-between mt-2">
+        <div className=" ps-5 clients">
+          <div className="ms-2 d-flex justify-content-between pt-2">
             <div className="btn-group me-2 ms-5">
               <Nuevonegocio />
               <ExportToExcel excelData={store.clientes} />

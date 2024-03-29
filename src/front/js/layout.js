@@ -23,6 +23,7 @@ import { TopBar } from "../js/components/navbar/TopBar";
 import { Navbar } from "./components/navbar/navbar";
 import { SalesFunnel } from "./pages/SalesFunnel";
 import { Clients } from "./pages/Clients";
+import { Toaster } from "react-hot-toast";
 
 //create your first component
 const Layout = () => {
@@ -34,6 +35,7 @@ const Layout = () => {
   return (
     <div>
       <BrowserRouter basename={basename}>
+        <Toaster />
         <ScrollToTop>
           <TopBar />
           <Navbar />
