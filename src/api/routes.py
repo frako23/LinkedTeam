@@ -443,6 +443,7 @@ def delete_put_courses_data(id):
     description= body.get("description", None)
     img_url= body.get("img_url", None)
     link_url= body.get("link_url", None)
+    category= body.get("category", None)
     
     if title is not None and title != "":
         course.title = title
@@ -452,6 +453,8 @@ def delete_put_courses_data(id):
         course.img_url = img_url
     if link_url is not None and link_url != "":
         course.link_url = link_url
+    if category is not None and category != "":
+        course.category = category
     try:
         db.session.commit()
         return jsonify(course.serialize()),200 
@@ -513,8 +516,6 @@ def post_get_products():
             raise Exception("No ingresaste el nombre del producto", 400)
         if "product_type" not in new_product_data or new_product_data["product_type"] == "":
             raise Exception("No ingresaste el tipo de producto", 400)
-        if "product_description" not in new_product_data or new_product_data["product_description"] == "":
-            raise Exception("No ingresaste la descripción del producto", 400)
         new_product = Products.create(**new_product_data, user_id = user_id)
         return jsonify(new_product.serialize()), 201
     except Exception as error:

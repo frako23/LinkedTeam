@@ -241,6 +241,7 @@ class Courses(db.Model):
     description = db.Column(db.String(1000), unique=False, nullable=False)
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
+    category = db.Column(db.String(50), unique=False, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     manager_id = db.Column(db.Integer,unique=False, nullable=False)
@@ -251,6 +252,7 @@ class Courses(db.Model):
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
         self.manager_id = kwargs['manager_id']
+        self.category = kwargs['category'] if 'category' in kwargs else None
 
     @classmethod
     def create(cls, **kwargs):
@@ -273,6 +275,7 @@ class Courses(db.Model):
             "manager_id": self.manager_id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
+            "category":self.category
         }
 
 
@@ -380,7 +383,7 @@ class Products(db.Model):
         self.company = kwargs['company']
         self.product_name = kwargs['product_name']
         self.product_type = kwargs['product_type']
-        self.product_description = kwargs['product_description']
+        self.product_description = kwargs['product_description'] if 'product_description' in kwargs else None
         self.user_id = kwargs['user_id']
 
     @classmethod
