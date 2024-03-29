@@ -85,6 +85,7 @@
     "@hello-pangea/dnd": "^16.5.0",
     "@mui/material": "^5.15.14",
     "@tremor/react": "^3.14.1",
+    "babel-preset-es2015": "^6.24.1",
     "bootstrap": "^5.2.3",
     "file-saver": "^2.0.5",
     "multi-range-slider-react": "^2.0.5",
@@ -102,7 +103,7 @@
     "recharts": "^2.12.3",
     "sheetjs-style": "^0.15.8",
     "sweetalert2": "^11.10.7",
-    "swiper": "^11.0.7",
+    "swiper": "^11.1.0",
     "xlsx": "^0.18.5"
   }
 }

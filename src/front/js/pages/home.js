@@ -2,9 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import one from "../../img/1.webp";
+import two from "../../img/2.webp";
+import three from "../../img/3.webp";
+import four from "../../img/4.webp";
 
 export const Home = () => {
   const [menuBar, setMenuBar] = useState(false);
@@ -55,11 +61,12 @@ export const Home = () => {
       {/* comienza la sección del home */}
 
       <section className="new-home">
-        {/* <Swiper
+        <Swiper
           // install Swiper modules
-          modules={[Navigation, Autoplay]}
+          modules={[Navigation, Autoplay, Pagination]}
           spaceBetween={50}
           slidesPerView={1}
+          pagination={{ clickable: true }}
           navigation
           autoplay={{
             delay: 5000,
@@ -69,7 +76,12 @@ export const Home = () => {
           onSlideChange={() => console.log("slide change")}
         >
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${one})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${one})`,
+              }}
+            >
               <div className="content">
                 <span>Sácale el máximo potencial a tú equipo de trabajo</span>
                 <h3>Mantente conectado con tu equipo de trabajo</h3>
@@ -77,7 +89,12 @@ export const Home = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${two})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${two})`,
+              }}
+            >
               <div className="content">
                 <span>Entrenamiento constante</span>
                 <h3>Forma a tú equipo de trabajo</h3>
@@ -85,7 +102,12 @@ export const Home = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${three})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${three})`,
+              }}
+            >
               <div className="content">
                 <span>
                   Haz seguimiento efectivo de prospectos propios y de tu equipo
@@ -95,14 +117,19 @@ export const Home = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${four})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${four})`,
+              }}
+            >
               <div className="content">
                 <span>Registra y haz seguimiento de todas tus tareas</span>
                 <h3>Nunca olvides una tarea</h3>
               </div>
             </div>
           </SwiperSlide>
-        </Swiper> */}
+        </Swiper>
       </section>
 
       {/* termina la sección del home */}

@@ -1,7 +1,6 @@
 import React from "react";
 import "../../styles/home.css";
 import one from "../../img/1.jpg";
-import { Link } from "react-router-dom";
 
 export const First = () => {
   return (

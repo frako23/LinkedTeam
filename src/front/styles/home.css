@@ -193,6 +193,7 @@ section {
   color: var(--white);
   padding-bottom: 1rem;
   text-shadow: var(--text-shadow);
+  position: relative;
 }
 
 .new-home .slide .content h3 {
