@@ -19,7 +19,9 @@ export const Login = () => {
     actions.login(email, password);
     // success && navigate("/");
   };
-
+  useEffect(() => {
+    actions.setNotNav(true);
+  }, []);
   useEffect(() => {
     if (store.token && store.token != "" && store.token != undefined) {
       // console.log("entrando al use effect");

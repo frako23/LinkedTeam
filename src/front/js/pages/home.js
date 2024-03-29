@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
 import "swiper/css";
@@ -7,6 +8,10 @@ import "swiper/css/autoplay";
 
 export const Home = () => {
   const [menuBar, setMenuBar] = useState(false);
+  const { actions } = useContext(Context);
+  useEffect(() => {
+    actions.setNotNav(true);
+  }, []);
   return (
     <>
       {/* comienza la seccion del header */}
@@ -158,7 +163,7 @@ export const Home = () => {
 
         <div className="credit">
           {" "}
-          Creado por <a href="https://devix-eight.vercel.app/">Devix</a> todos
+          Creado por <a href="https://frako-dev.vercel.app/">frakoDev</a> todos
           los derechos reservados!
         </div>
       </section>

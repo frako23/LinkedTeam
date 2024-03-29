@@ -11,6 +11,7 @@ export const Perfil = () => {
   useEffect(() => {
     actions.getUsuario();
     actions.setHeader("Tablero de control");
+    actions.setNotNav(false);
     // actions.closedArray();
     // actions.amountSumClosed();
   }, []);

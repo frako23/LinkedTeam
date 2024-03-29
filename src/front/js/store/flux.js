@@ -28,12 +28,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       ageFilter: null,
       trustFilter: null,
       header: "",
+      notnav: false,
     },
     actions: {
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
-        const store = getStore();
-        const actions = getActions();
         const opts = {
           method: "POST",
           headers: {
@@ -77,8 +76,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       signup: async (name, lastname, email, password) => {
-        const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -105,7 +102,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("There has been an error login in from the backend");
@@ -138,7 +135,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       putUserCompany: async (company, id) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "PUT",
           headers: {
@@ -160,7 +156,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -172,7 +168,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       putUserSalesGoal: async (salesGoal, id) => {
         const store = getStore();
-        const actions = getActions();
+
         const options = {
           method: "PUT",
           headers: {
@@ -1039,7 +1035,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // crear Agencias
       postAgencies: async (agency) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -1061,7 +1056,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar la empresa", error);
@@ -1094,7 +1089,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // crear Courses
       postCourses: async (courses, id) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -1116,7 +1110,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el curso", error);
@@ -1205,7 +1199,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Cargar Pago
       postPayment: async (payment) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -1227,7 +1220,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el pago", error);
@@ -1237,7 +1230,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // aprobar Pago
       approvePayment: async (company, id) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "PUT",
           headers: {
@@ -1259,7 +1251,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -1270,7 +1262,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       filterByAmount: (firstAmount, lastAmount) => {
         const store = getStore();
-        const actions = getActions();
 
         let firstFilteredClients = store.clientes.filter(
           (cliente) => parseInt(cliente.amount) >= firstAmount
@@ -1298,7 +1289,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       filterByTrust: (trust) => {
         const store = getStore();
-        const actions = getActions();
 
         let filterByTrust = store.clientes.filter(
           (cliente) => cliente.trust === trust
@@ -1308,7 +1298,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       findByName: (name) => {
         const store = getStore();
-        const actions = getActions();
+
         // console.log(name);
         let foundClient = store.clientes.filter((cliente) =>
           cliente.name.toLowerCase().includes(name.toLowerCase())
@@ -1320,7 +1310,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* agregamos las funciones para el caso de los asociados */
       filterByAmountAsociados: (firstAmount, lastAmount) => {
         const store = getStore();
-        const actions = getActions();
 
         let firstFilteredClients = store.userClients.filter(
           (cliente) => parseInt(cliente.amount) >= firstAmount
@@ -1348,7 +1337,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       filterByTrustAsociados: (trust) => {
         const store = getStore();
-        const actions = getActions();
 
         let filterByTrust = store.userClients.filter(
           (cliente) => cliente.trust === trust
@@ -1358,7 +1346,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       findByNameAsociados: (name) => {
         const store = getStore();
-        const actions = getActions();
+
         // console.log(name);
         let foundClient = store.userClients.filter((cliente) =>
           cliente.name.toLowerCase().includes(name.toLowerCase())
@@ -1369,6 +1357,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       setHeader: (name) => {
         console.log(name);
         setStore({ header: name });
+      },
+      setNotNav: (param) => {
+        setStore({ notnav: param });
       },
     },
   };

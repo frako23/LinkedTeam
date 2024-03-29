@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 
 export const SignUp = () => {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
@@ -22,6 +22,10 @@ export const SignUp = () => {
       // Custom Icon
       icon: "👏",
     });
+
+  useEffect(() => {
+    actions.setNotNav(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

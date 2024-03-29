@@ -11,7 +11,7 @@ export const TopBar = () => {
   console.log(store.usuario);
   return (
     <nav
-      className="navbar sticky-top flex-md-nowrap p-0 shadow tb"
+      className={`navbar sticky-top flex-md-nowrap p-0 shadow tb ${store.notnav && "d-none"}`}
       data-bs-theme="dark"
       style={{ backgroundColor: "#e4e9f7" }}
     >

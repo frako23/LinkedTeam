@@ -28,7 +28,7 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`sidebar shadow ${toggle == "close" ? "close" : "open"}`}
+      className={`sidebar shadow ${toggle == "close" ? "close" : "open"} ${store.notnav && "d-none"}`}
       id="body"
     >
       <div className="menu-bar">
