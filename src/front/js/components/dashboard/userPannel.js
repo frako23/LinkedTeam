@@ -22,10 +22,7 @@ export const UserPannel = () => {
   if (salesGoal !== 0) {
     // console.log(salesGoal, id);
     actions.putUserSalesGoal(salesGoal, id);
-    toast.success(`Tu meta de ventas es: $ ${salesGoal} vamos por ella!`, {
-      // Custom Icon
-      icon: "💪",
-    });
+    toast.success(`Tu meta de ventas es: $ ${salesGoal} vamos por ella!`);
   }
 
   const addSalesGoal = () => {

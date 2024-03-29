@@ -10,20 +10,46 @@ export const TarjetaCliente = ({ children, cliente }) => {
   // console.log(cliente);
 
   return (
-    <div className="tarea fw-bold">
-      {children}
-      <Link to={`/single/${cliente?.id}`} className="button-single mt-1">
-        Detalle
-      </Link>
-
-      <button
-        className="todo-button"
-        onClick={() => {
-          actions.deleteCliente(cliente?.id);
-        }}
+    <div className="tarea">
+      <div
+        className="btn-group px-2"
+        role="group"
+        aria-label="Basic outlined example"
       >
-        <i className="bx bx-trash fs-5"></i>
-      </button>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Editar"
+        >
+          <i className="bx bx-edit-alt fs-5"></i>
+        </button>
+        <Link to={`/single/${cliente?.id}`}>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Detalle"
+          >
+            <i className="bx bxs-detail fs-5"></i>
+          </button>
+        </Link>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Borrar"
+          onClick={() => {
+            actions.deleteCliente(cliente?.id);
+          }}
+        >
+          <i className="bx bx-trash fs-5"></i>
+        </button>
+      </div>
+      {children}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Context } from "../store/appContext";
 import "../../styles/todo.css";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Pricing } from "./pricing";
 
 export function Todo() {
@@ -11,11 +11,7 @@ export function Todo() {
   const { store, actions } = useContext(Context);
   const [dragOn, setDragOn] = useState(false);
 
-  const notify = () =>
-    toast.error("No puedes crear tareas vacias", {
-      // Custom Icon
-      icon: "🖐",
-    });
+  const notify = () => toast.error("No puedes crear tareas vacias");
 
   useEffect(() => {
     actions.setHeader("Tareas pendientes");

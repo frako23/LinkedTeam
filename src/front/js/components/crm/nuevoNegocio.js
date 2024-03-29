@@ -43,10 +43,7 @@ export const Nuevonegocio = () => {
       notes: "",
       tag: "",
     });
-    toast.success("Tu prospecto fue registrado correctamente", {
-      // Custom Icon
-      icon: "🙌",
-    });
+    toast.success("Tu prospecto fue registrado correctamente");
   };
 
   const handleForm = ({ target }) => {
@@ -139,7 +136,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Etiqueta:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    required
+                    // required
                     name="status"
                     value={cliente.status}
                     onChange={handleForm}

@@ -41,11 +41,7 @@ function SetRoleManager({ userId }) {
     });
     handleClose();
     toast.success(
-      `Registraste a usuario como ${userRole.role} en con el gerente... 🙌`,
-      {
-        // Custom Icon
-        icon: "🙋‍♂️",
-      }
+      `Registraste a usuario como ${userRole.role} en con el gerente... 🙌`
     );
   };
 

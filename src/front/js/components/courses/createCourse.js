@@ -38,10 +38,7 @@ function CreateCourse() {
       link_url: "",
     });
     handleClose();
-    toast.success("Registraste el curso correctamente 🙌", {
-      // Custom Icon
-      icon: "🙋‍♂️",
-    });
+    toast.success("Registraste el curso correctamente");
     actions.getCourses(store.usuario.own_agency.id);
   };
 
