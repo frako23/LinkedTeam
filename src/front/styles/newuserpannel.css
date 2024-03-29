@@ -3,3 +3,9 @@
   padding-inline: 2rem;
   background-color: #e4e9f7;
 }
+
+.clients {
+  background-color: #e4e9f7;
+  /* padding: 6rem, 2rem, 2rem, 0; */
+  height: 100vh;
+}

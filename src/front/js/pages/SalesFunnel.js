@@ -8,19 +8,20 @@ import { ExportToExcel } from "../components/crm/exportToExcel";
 import SortCRM from "../components/crm/sortCRM";
 import { ImportFromExcel } from "../components/crm/importFromExcel";
 import { Kanban } from "../components/CRM/kanban";
+import { useNavigate } from "react-router-dom";
 
 export const SalesFunnel = () => {
   const { store, actions } = useContext(Context);
-
+  const navigate = useNavigate();
   useEffect(() => {
     actions.setHeader("Embudo de ventas");
   }, []);
 
-  // useEffect(() => {
-  //   if (store.usuario.status === "inactive") {
-  //     navigate("/pricing");
-  //   }
-  // }, [store.usuario.status]);
+  useEffect(() => {
+    if (store.usuario.status === "inactive") {
+      navigate("/pricing");
+    }
+  }, [store.usuario.status]);
 
   let notClosedArray = store.clientes.filter(
     (index) => index.status != "Cerrado"
