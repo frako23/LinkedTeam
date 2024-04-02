@@ -7,23 +7,28 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import PropTypes from "prop-types";
 
-export const ModifyClient = () => {
+export const ModifyClient = ({ prospecto }) => {
   const { actions } = useContext(Context);
+  // console.log(prospecto);
   const [show, setShow] = useState(false);
   const [cliente, setCliente] = useState({
-    name: "",
-    birthdate: "",
-    email: "",
-    cellphone: "",
-    amount: "",
-    trust: "",
-    notes: "",
+    name: prospecto.name,
+    birthdate: prospecto.birthdate,
+    email: prospecto.email,
+    cellphone: prospecto.cellphone,
+    amount: prospecto.amount,
+    trust: prospecto.trust,
+    tag: prospecto.tag,
+    status: prospecto.status,
+    notes: prospecto.notes,
   });
+  const [edit, setEdit] = useState(false);
   const params = useParams();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  console.log(edit);
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(cliente);
@@ -35,6 +40,8 @@ export const ModifyClient = () => {
       cellphone: "",
       amount: "",
       trust: "",
+      tag: "",
+      status: "",
       notes: "",
     });
     handleClose();
@@ -46,19 +53,32 @@ export const ModifyClient = () => {
 
   return (
     <>
-      <Button
-        variant="primary"
+      <button
+        type="button"
+        className="btn btn-primary"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Detalle"
         onClick={handleShow}
-        className="btn btn-warning btn-lg mb-3"
       >
-        Modificar Cliente
-      </Button>
+        <i className="bx bxs-detail fs-5"></i>
+      </button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>Modificar datos</Modal.Title>
+          <Modal.Title>{cliente.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className="form-check form-switch float-end">
+            <i className="bx bx-edit-alt fs-5"></i>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+              onClick={() => setEdit(!edit)}
+            />
+          </div>
+
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
@@ -70,7 +90,18 @@ export const ModifyClient = () => {
                     placeholder="Nombre del cliente"
                     onChange={handleForm}
                     value={cliente.name}
-                    autoFocus
+                    disabled={edit ? false : true}
+                  />
+                </Col>
+                <Col>
+                  <Form.Label>Celular</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    name="cellphone"
+                    placeholder="04XX-XXXXXXX"
+                    onChange={handleForm}
+                    value={cliente.cellphone}
+                    disabled={edit ? false : true}
                   />
                 </Col>
                 <Col>
@@ -82,14 +113,9 @@ export const ModifyClient = () => {
                     placeholder="nombre@correo.com"
                     onChange={handleForm}
                     value={cliente.email}
-                    autoFocus
+                    disabled={edit ? false : true}
                   />
                 </Col>
-              </Row>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
                 <Col>
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
@@ -97,42 +123,67 @@ export const ModifyClient = () => {
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
-                    autoFocus
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Celular</Form.Label>
-                  <Form.Control
-                    type="tel"
-                    name="cellphone"
-                    placeholder="04XX-XXXXXXX"
-                    onChange={handleForm}
-                    value={cliente.cellphone}
+                    disabled={edit ? false : true}
                   />
                 </Col>
               </Row>
             </Form.Group>
-
+            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
                     type="number"
-                    name="amount"
                     placeholder="5000"
-                    onChange={handleForm}
+                    name="amount"
                     value={cliente.amount}
-                    autoFocus
+                    onChange={handleForm}
+                    disabled={edit ? false : true}
                   />
+                </Col>
+                <Col>
+                  <Form.Label>Etiqueta:</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="status"
+                    value={cliente.tag}
+                    onChange={handleForm}
+                    disabled={edit ? false : true}
+                  >
+                    <option value=""></option>
+                    <option value="Prospecto">Prospecto</option>
+                    <option value="Contactado">Contactado</option>
+                    <option value="Primera Cita">Primera Cita</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Cerrado">Cerrado</option>
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <Form.Label>Estatus:</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="status"
+                    value={cliente.status}
+                    onChange={handleForm}
+                    disabled={edit ? false : true}
+                  >
+                    <option value=""></option>
+                    <option value="Prospecto">Prospecto</option>
+                    <option value="Contactado">Contactado</option>
+                    <option value="Primera Cita">Primera Cita</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Cerrado">Cerrado</option>
+                  </Form.Select>
                 </Col>
                 <Col>
                   <Form.Label>Nivel de confianza:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     name="trust"
-                    onChange={handleForm}
                     value={cliente.trust}
+                    onChange={handleForm}
+                    disabled={edit ? false : true}
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
@@ -142,7 +193,7 @@ export const ModifyClient = () => {
                 </Col>
               </Row>
             </Form.Group>
-
+            {/* ----------------------- SECCIÓN PARA AGREGAR NOTAS ----------------------- */}
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
@@ -150,11 +201,12 @@ export const ModifyClient = () => {
               <Form.Label>Notas</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
                 name="notes"
+                rows={3}
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
-                onChange={handleForm}
                 value={cliente.notes}
+                onChange={handleForm}
+                disabled={edit ? false : true}
               />
             </Form.Group>
             <Modal.Footer>
@@ -170,4 +222,8 @@ export const ModifyClient = () => {
       </Modal>
     </>
   );
+};
+
+ModifyClient.propTypes = {
+  prospecto: PropTypes.object,
 };

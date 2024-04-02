@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
 
 export default function SortCRM() {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [name, setName] = useState("");
   const [filter, setFilter] = useState({
     amount: "Monto",

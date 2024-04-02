@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 
 import toast from "react-hot-toast";
 
-export const Nuevonegocio = () => {
+export const ClientsDetail = () => {
   const { actions } = useContext(Context);
   const [cliente, setCliente] = useState({
     name: "",
@@ -69,7 +69,7 @@ export const Nuevonegocio = () => {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
-                  <Form.Label>Nombre y Apellido*</Form.Label>
+                  <Form.Label>Nombre y Apellido</Form.Label>
                   <Form.Control
                     type="text"
                     required
@@ -84,6 +84,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Celular</Form.Label>
                   <Form.Control
                     type="tel"
+                    // required
                     name="cellphone"
                     placeholder="04XX-XXXXXXX"
                     onChange={handleForm}
@@ -94,6 +95,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
+                    // required
                     name="email"
                     pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     placeholder="nombre@correo.com"
@@ -106,6 +108,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
                     type="date"
+                    // required
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
@@ -121,6 +124,7 @@ export const Nuevonegocio = () => {
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
                     type="number"
+                    // required
                     placeholder="5000"
                     name="amount"
                     value={cliente.amount}
@@ -132,8 +136,9 @@ export const Nuevonegocio = () => {
                   <Form.Label>Etiqueta:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
+                    // required
                     name="status"
-                    value={cliente.tag}
+                    value={cliente.status}
                     onChange={handleForm}
                   >
                     <option value=""></option>
@@ -145,7 +150,7 @@ export const Nuevonegocio = () => {
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Estatus:*</Form.Label>
+                  <Form.Label>Estatus:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     required
@@ -162,7 +167,7 @@ export const Nuevonegocio = () => {
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Nivel de confianza:*</Form.Label>
+                  <Form.Label>Nivel de confianza:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     required
@@ -191,6 +196,7 @@ export const Nuevonegocio = () => {
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
                 value={cliente.notes}
                 onChange={handleForm}
+                // required
               />
             </Form.Group>
             <Modal.Footer>

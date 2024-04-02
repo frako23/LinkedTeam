@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import "../../../styles/dashboard.css";
 import { Context } from "../../store/appContext";
@@ -8,6 +8,12 @@ import { TarjetaCliente } from "./tarjetaCliente";
 export const Kanban = () => {
   const { store, actions } = useContext(Context);
   let { theid } = useParams();
+  useEffect(() => {
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      actions.getClientActivity();
+    }
+  }, [store.token]);
+  console.log(store.clientActivity);
 
   const onDragEnd = (result) => {
     // console.log(result);
@@ -51,7 +57,7 @@ export const Kanban = () => {
               >
                 <strong className="kanban-title text-white">
                   PROSPECTOS{" "}
-                  <span style={{ background: "black" }} className="badge">
+                  <span style={{ background: "#246dec" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Prospecto"
@@ -79,13 +85,58 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li className="list-group-item activity">
+                                  <i className="fa-solid fa-phone fs-4 position-relative">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {/* {
+                                        store.clientActivity
+                                          .find(
+                                            (elem) =>
+                                              elem.client_id == cliente.id
+                                          )
+                                          .find(
+                                            (elem) =>
+                                              elem.contact_type == "llamada"
+                                          ).length
+                                      } */}
+                                    </span>
+                                  </i>
+                                  <i className="fa-solid fa-message fs-4 position-relative">
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      99+
+                                    </span>
+                                  </i>
+                                  <i className="fa-solid fa-calendar-days fs-4 position-relative">
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      99+
+                                    </span>
+                                  </i>
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -107,7 +158,10 @@ export const Kanban = () => {
               >
                 <strong className="kanban-title text-white">
                   CONTACTADOS{" "}
-                  <span style={{ background: "black" }} className="badge">
+                  <span
+                    style={{ background: "#f5b74f" }}
+                    className="badge text-black"
+                  >
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Contactado"
@@ -135,13 +189,20 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -161,7 +222,7 @@ export const Kanban = () => {
               >
                 <strong className="kanban-title text-white">
                   PRIMERA CITA{" "}
-                  <span style={{ background: "black" }} className="badge">
+                  <span style={{ background: "#cc3c43" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Primera Cita"
@@ -189,13 +250,20 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -215,7 +283,10 @@ export const Kanban = () => {
               >
                 <strong className="kanban-title text-white">
                   NEGOCIACIÓN{" "}
-                  <span style={{ background: "black" }} className="badge">
+                  <span
+                    style={{ background: "#4ff0f5" }}
+                    className="badge text-black"
+                  >
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Negociación"
@@ -243,13 +314,20 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -269,7 +347,7 @@ export const Kanban = () => {
               >
                 <strong className="kanban-title text-white">
                   CIERRES{" "}
-                  <span style={{ background: "black" }} className="badge">
+                  <span style={{ background: "#367952" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Cerrado"
@@ -297,13 +375,20 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}

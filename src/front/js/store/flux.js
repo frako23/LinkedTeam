@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {

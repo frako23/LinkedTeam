@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { ModifyClient } from "../components/crm/modifyClient";
 
 import "../../styles/single.css";
 
@@ -276,7 +275,6 @@ export const Single = () => {
           )}
         </div>
         <div className="d-flex justify-content-evenly">
-          {indicador == "información" ? <ModifyClient /> : ""}
           <Link to="/dashboard">
             <span className="btn btn-primary btn-lg mb-3" role="button">
               Regresar
