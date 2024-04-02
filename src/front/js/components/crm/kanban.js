@@ -104,17 +104,9 @@ export const Kanban = () => {
                                       style={{ fontSize: "10px" }}
                                       className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     >
-                                      {/* {
-                                        store.clientActivity
-                                          .find(
-                                            (elem) =>
-                                              elem.client_id == cliente.id
-                                          )
-                                          .find(
-                                            (elem) =>
-                                              elem.contact_type == "llamada"
-                                          ).length
-                                      } */}
+                                      {store.clientActivity.length > 0
+                                        ? store.clientActivity.length
+                                        : 0}
                                     </span>
                                   </i>
                                   <i className="fa-solid fa-message fs-4 position-relative">

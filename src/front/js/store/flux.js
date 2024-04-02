@@ -939,7 +939,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      getClientActivity: (client_id) => {
+      getClientActivity: () => {
         // console.log(client_id);
         const store = getStore();
         const opts = {
@@ -947,7 +947,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/client_activity/${client_id}`;
+        const apiURL = `${process.env.BACKEND_URL}/client_activity`;
 
         fetch(apiURL, opts)
           .then((response) => {
