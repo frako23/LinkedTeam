@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import "../../../styles/dashboard.css";
 import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import { TarjetaCliente } from "./tarjetaCliente";
+import { Activity } from "./Activity";
 
 export const Kanban = () => {
   const { store, actions } = useContext(Context);
@@ -13,7 +14,7 @@ export const Kanban = () => {
       actions.getClientActivity();
     }
   }, [store.token]);
-  console.log(store.clientActivity);
+  console.log(store.clientActivity.filter((item) => item.client_id === 1));
 
   const onDragEnd = (result) => {
     // console.log(result);
@@ -42,7 +43,9 @@ export const Kanban = () => {
   };
 
   // const Element = Scroll.Element;
-
+  const [show, setShow] = useState(false);
+  const [indexToSet, setIndexToSet] = useState();
+  console.log(indexToSet);
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -98,33 +101,68 @@ export const Kanban = () => {
                                 <li className="list-group-item">
                                   <strong>Confianza: </strong> {cliente.trust}
                                 </li>
-                                <li className="list-group-item activity">
-                                  <i className="fa-solid fa-phone fs-4 position-relative">
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
                                     <span
                                       style={{ fontSize: "10px" }}
                                       className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     >
-                                      {store.clientActivity.length > 0
-                                        ? store.clientActivity.length
-                                        : 0}
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
                                     </span>
                                   </i>
-                                  <i className="fa-solid fa-message fs-4 position-relative">
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
                                     {" "}
                                     <span
                                       style={{ fontSize: "10px" }}
                                       className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     >
-                                      99+
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
                                     </span>
                                   </i>
-                                  <i className="fa-solid fa-calendar-days fs-4 position-relative">
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
                                     {" "}
                                     <span
                                       style={{ fontSize: "10px" }}
                                       className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                     >
-                                      99+
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
                                     </span>
                                   </i>
                                 </li>
@@ -194,6 +232,71 @@ export const Kanban = () => {
                                 <li className="list-group-item">
                                   <strong>Confianza: </strong> {cliente.trust}
                                 </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
                               </ul>
                             </TarjetaCliente>
                           </div>
@@ -254,6 +357,71 @@ export const Kanban = () => {
                                 </li>
                                 <li className="list-group-item">
                                   <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
                                 </li>
                               </ul>
                             </TarjetaCliente>
@@ -319,6 +487,71 @@ export const Kanban = () => {
                                 <li className="list-group-item">
                                   <strong>Confianza: </strong> {cliente.trust}
                                 </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
                               </ul>
                             </TarjetaCliente>
                           </div>
@@ -380,6 +613,71 @@ export const Kanban = () => {
                                 <li className="list-group-item">
                                   <strong>Confianza: </strong> {cliente.trust}
                                 </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
                               </ul>
                             </TarjetaCliente>
                           </div>
@@ -393,6 +691,13 @@ export const Kanban = () => {
           </Droppable>
         </div>
       </DragDropContext>
+      <Activity
+        setShow={setShow}
+        show={show}
+        actividad={store.clientActivity.filter(
+          (elem) => elem.client_id === indexToSet
+        )}
+      />
     </>
   );
 };

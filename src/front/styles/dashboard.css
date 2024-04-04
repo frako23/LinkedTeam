@@ -65,7 +65,7 @@
   /* padding: 0.6rem; */
   margin: 0.5rem;
   width: 17vw;
-  height: auto;
+  height: 67vh;
   min-width: 13rem;
   min-height: 6.5rem;
   border-radius: 0.3rem;
@@ -248,4 +248,5 @@ scroll-container {
   display: flex;
   justify-content: center;
   gap: 3vw;
+  cursor: pointer;
 }
