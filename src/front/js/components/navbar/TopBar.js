@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
+import { useNavigate } from "react-router-dom";
 import logo from "../../../img/logoNavBar.png";
 import "../../../styles/navbar.css";
 
@@ -9,6 +10,11 @@ export const TopBar = () => {
     actions.getUsuario();
   }, []);
   console.log(store.usuario);
+  const navigate = useNavigate();
+  function handleLogOut() {
+    actions.logout();
+    navigate("/");
+  }
   return (
     <nav
       className={`navbar sticky-top flex-md-nowrap p-0 shadow tb ${store.notnav && "d-none"}`}
@@ -29,7 +35,7 @@ export const TopBar = () => {
       <ul className="navbar-nav flex-row me-4 gap-1">
         <li className="nav-item text-nowrap">
           <button
-            className="px-3 tb-icon"
+            className="px-2 tb-icon"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSearch"
@@ -43,7 +49,7 @@ export const TopBar = () => {
             <i className="fa-solid fa-user"></i>
           </button>
         </li>
-        <li className="nav-item text-nowrap">
+        {/* <li className="nav-item text-nowrap">
           <button
             className="px-3 tb-icon"
             type="button"
@@ -67,6 +73,11 @@ export const TopBar = () => {
             aria-label="Toggle navigation"
           >
             <i className="fa-solid fa-bell"></i>
+          </button>
+        </li> */}
+        <li className="nav-item text-nowrap" onClick={() => handleLogOut()}>
+          <button className="px-2 tb-icon" type="button">
+            <i className="bx bx-log-out" style={{ fontSize: "2rem" }}></i>
           </button>
         </li>
       </ul>

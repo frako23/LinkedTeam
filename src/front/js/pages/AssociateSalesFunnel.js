@@ -7,7 +7,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { ExportToExcel } from "../components/crm/exportToExcel";
 import SortCRMAsociados from "../components/crm/sortCRMAsociados";
 
-export const DashboardAsociado = () => {
+export const AssociateSalesFunnel = () => {
   const { store, actions } = useContext(Context);
   const [selected, setSelected] = useState("");
   const [agency, setAgency] = useState("");

@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/utils/scrollToTop";
-import { DashboardAsociado } from "./pages/dashboardAsociado";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
@@ -24,6 +23,7 @@ import { Navbar } from "./components/navbar/navbar";
 import { SalesFunnel } from "./pages/SalesFunnel";
 import { Clients } from "./pages/Clients";
 import { Toaster } from "react-hot-toast";
+import { AssociateSalesFunnel } from "./pages/AssociateSalesFunnel";
 
 //create your first component
 const Layout = () => {
@@ -43,7 +43,10 @@ const Layout = () => {
             <Route element={<Home />} path="/" />
             <Route element={<SalesFunnel />} path="/salesFunnel" />
             <Route element={<Clients />} path="/clients" />
-            <Route element={<DashboardAsociado />} path="/dashboardAsociado" />
+            <Route
+              element={<AssociateSalesFunnel />}
+              path="/associatesalesfunnel"
+            />
             <Route element={<SignUp />} path="/signup" />
             <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />

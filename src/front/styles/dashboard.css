@@ -7,7 +7,7 @@
 .container {
   width: 90%;
   min-width: 50%;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
 }
 

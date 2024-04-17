@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/navbar.css";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
+
   const [toggle, setToggle] = useState("close");
 
   const toggleFunc = () => {
@@ -16,11 +16,6 @@ export const Navbar = () => {
       setToggle("close");
     }
   };
-
-  function handleLogOut() {
-    actions.logout();
-    navigate("/");
-  }
 
   useEffect(() => actions.getUsuario, []);
 
@@ -125,14 +120,6 @@ export const Navbar = () => {
               ></i>
             </a>
           </ul>
-        </div>
-
-        <div className="bottom-content">
-          <li className="pe-auto" onClick={() => handleLogOut()}>
-            <i className="bx bx-log-out icon unactive"></i>
-            <span className="text nav-text">Salir</span>
-            <span className="tooltip">Salir</span>
-          </li>
         </div>
       </div>
     </nav>

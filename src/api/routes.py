@@ -49,6 +49,7 @@ def login():
 
 # -------------------- API PARA TRAER LA LISTA DE USUARIOS ------------------- #
 @api.route('/users', methods=['GET'])
+@jwt_required()
 def get_users():
     if request.method == 'GET':
         users = User.query.all()
@@ -87,6 +88,7 @@ def put_user_gpt_coins(user_id):
 
 # ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
 @api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
+@jwt_required()
 def get_users_by_manager(manager_id):
     users = User.query.filter_by( manager_id = manager_id)
     print(users)
@@ -107,6 +109,7 @@ def get_user():
    
 # ------------------------ API PARA REGISTRAR USUARIOS ----------------------- #
 @api.route('/user', methods=['POST'])
+@jwt_required()
 def add_user():
     new_user_data = request.json
     try:
@@ -147,6 +150,7 @@ def put_user_sales_goal():
 
 # -------------- MÉTODO PUT PARA CAMBIAR EL ROL DE LOS USUARIOS -------------- #
 @api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
+@jwt_required()
 def put_user_role_admin(user_id):
     try:
         user = User.query.get(user_id)
@@ -161,6 +165,7 @@ def put_user_role_admin(user_id):
 
 # ------------ MÉTODO PUT PARA CAMBIAR EL ESTATUS DE LOS USUARIOS ------------ #
 @api.route('/user_status/<int:user_id>', methods=['PUT'])
+@jwt_required()
 def put_user_status(user_id):
     try:
         user = User.query.get(user_id)
@@ -199,7 +204,7 @@ def post_get_clientes():
 
 # --------------- API PARA TRAER LOS CLIENTES DE LOS ASOCIADOS --------------- #
 @api.route('/user_clients/<int:id>', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_user_clients(id):    
     clientes = Cliente.query.filter_by(user_id = id)
     clientes_dictionaries = []
@@ -209,6 +214,7 @@ def get_user_clients(id):
 
 # ----------- API PARA TRAER LA DATA DE LOS CLIENTES A LOS GERENTES ---------- #
 @api.route('/manager_user_clients/<int:id>/<int:client_id>', methods=['GET'])
+@jwt_required()
 def get_manager_user_clients(id, client_id):    
     clientes = Cliente.query.filter_by(user_id = id, client_id = client_id)
     clientes_dictionaries = []
@@ -218,7 +224,7 @@ def get_manager_user_clients(id, client_id):
 
 # ------------------------ API PARA ELIMINAR CLIENTES ------------------------ #
 @api.route('/cliente/<int:id>', methods=['DELETE'])
-# @jwt_required()
+@jwt_required()
 def delete_cliente(id):
     cliente = Cliente.query.get(id)
 
@@ -234,6 +240,7 @@ def delete_cliente(id):
 
 # ---------------- API PARA CAMBIAR ESTATUS DE LOS PROSPECTOS ---------------- #
 @api.route('/cliente/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_cliente(id):
 
     try:
@@ -249,6 +256,7 @@ def update_cliente(id):
 
 # ----- API PARA CAMBIAR TODAS LAS DEMÁS CARATERÍSTICAS DE LOS PROSPECTOS ---- #
 @api.route('/modify_cliente/<int:id>', methods=['PUT'])
+@jwt_required()
 def modify_cliente(id):
     body = request.json
 
@@ -312,6 +320,7 @@ def post_get_tareas():
 
 # ------------------------- API PARA MODIFICAR TAREAS ------------------------ #
 @api.route('/tareas/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_tarea(id):
 
     try:
@@ -327,6 +336,7 @@ def update_tarea(id):
 
 # ------------------------- API PARA ELIMINAR TAREAS ------------------------- #
 @api.route('/tareas/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_tarea(id):
     tarea = Tarea.query.get(id)
 
@@ -353,6 +363,7 @@ def get_client_activity():
 
 # ------- API PARA QUE GERENTES VEAN ACTIVIDAD DE CLIENTES DE ASOCIADOS ------ #
 @api.route('/manager_client_activity/<int:user_id>/', methods=['GET'])
+@jwt_required()
 def get_manager_client_activity(user_id):
     client_activities = Client_Activity.query.filter_by(user_id = user_id)
     return jsonify(
@@ -380,6 +391,7 @@ def add_client_activity(client_id):
 
 # ---------------- API PARA ELIMINAR ACTIVIDADES CON LOS CLIENTES ---------------- #
 @api.route('/delete_client_activity/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_client_activity(id):
     client_activity = Client_Activity.query.get(id)
 
@@ -466,6 +478,7 @@ def delete_put_courses_data(id):
 
 # ------------------------ API PARA REGRISTRO DE PAGOS ----------------------- #
 @api.route('/get_payments/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_payments(user_id):
     payments_data = Payment.query.filter_by(user_id = user_id)
     payments_data_dictionary = []
@@ -566,6 +579,7 @@ def delete_put_products(product_id):
 
 # -------------------------- API PARA CREAR CARGAR POLIZAS A LOS CLIENTES-------------------------- #
 @api.route('/client_products/<int:client_id>/<int:product_id>', methods=['GET','POST'])
+@jwt_required()
 def post_get_client_products(client_id, product_id):
     if request.method == 'GET':
         client_products = Client_Products.query.filter_by(product_id = product_id, client_id = client_id)
@@ -591,6 +605,7 @@ def post_get_client_products(client_id, product_id):
 
 # -------------------- API PARA CAMBIAR Y ELIMINAR PRODUCTOS DE LOS CLIENTES -------------------- #
 @api.route('/client_products/<int:id>', methods=['DELETE', 'PUT'])
+@jwt_required()
 def delete_put_client_products(id):
     if request.method == 'DELETE':
         client_product = Client_Products.query.get(id)

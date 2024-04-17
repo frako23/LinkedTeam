@@ -132,16 +132,80 @@ export const Nuevonegocio = () => {
                   <Form.Label>Etiqueta:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    name="status"
+                    name="tag"
                     value={cliente.tag}
                     onChange={handleForm}
                   >
-                    <option value=""></option>
-                    <option value="Prospecto">Prospecto</option>
-                    <option value="Contactado">Contactado</option>
-                    <option value="Primera Cita">Primera Cita</option>
-                    <option value="Negociación">Negociación</option>
-                    <option value="Cerrado">Cerrado</option>
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "white" }}
+                      value="white"
+                    >
+                      Blanco
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "black" }}
+                      value="black"
+                    >
+                      Negro
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "blue" }}
+                      value="blue"
+                    >
+                      Azúl
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "grey" }}
+                      value="grey"
+                    >
+                      Gris
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "green" }}
+                      value="green"
+                    >
+                      Verde
+                    </option>
+                    <option
+                      className="text-center "
+                      style={{ backgroundColor: "yellow" }}
+                      value="yellow"
+                    >
+                      Amarillo
+                    </option>
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "orange" }}
+                      value="orange"
+                    >
+                      Naranja
+                    </option>
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "pink" }}
+                      value="pink"
+                    >
+                      Rosado
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "purple" }}
+                      value="purple"
+                    >
+                      Púrpura
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "red" }}
+                      value="red"
+                    >
+                      Rojo
+                    </option>
                   </Form.Select>
                 </Col>
                 <Col>
@@ -192,6 +256,7 @@ export const Nuevonegocio = () => {
                 value={cliente.notes}
                 onChange={handleForm}
               />
+              <span className="fw-bolder">* Campos requeridos</span>
             </Form.Group>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
