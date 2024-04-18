@@ -58,11 +58,10 @@ def get_users():
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
 
-# --------------- MÉTODO PUT PARA ASIGNAR GERENCIA LA USUARIO -------------- #
-@api.route('/management_assignment', methods=['PUT'])
+# --------------- MÉTODO PUT PARA ASIGNAR GERENCIA AL USUARIO -------------- #
+@api.route('/management_assignment/<int:id>', methods=['PUT'])
 @jwt_required()
-def put_user_manager():
-    id = get_jwt_identity()
+def put_user_manager(id):
     try:
         user = User.query.get(id)
         user.manager = request.json['manager']

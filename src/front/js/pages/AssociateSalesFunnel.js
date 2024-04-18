@@ -5,18 +5,19 @@ import { KanbanAsociado } from "../components/crm/kanbanAsociado";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { ExportToExcel } from "../components/crm/exportToExcel";
-import SortCRMAsociados from "../components/crm/sortCRMAsociados";
+import { Pricing } from "./pricing";
+import { ImportFromExcel } from "../components/crm/importFromExcel";
+import { Link } from "react-router-dom";
+import SortCRM from "../components/crm/sortCRM";
 
 export const AssociateSalesFunnel = () => {
   const { store, actions } = useContext(Context);
   const [selected, setSelected] = useState("");
-  const [agency, setAgency] = useState("");
   const [asociadoId, setAsociadoId] = useState("");
-
+  const id = sessionStorage.getItem("usuario.id");
   useEffect(() => {
     actions.setHeader("CRM Asociados");
   }, []);
-
   let notClosedArray = store.userClients.filter(
     (index) => index.status != "Cerrado"
   );
@@ -44,170 +45,51 @@ export const AssociateSalesFunnel = () => {
   // console.log(amountSumClosedSales);
 
   useEffect(() => {
-    if (store.usuario.role === "manager") {
-      actions.getAgenciesId();
-      actions.getUsersByAgency(store.usuario.own_agency.id);
-    }
+    actions.getUsersByManager(id);
   }, []);
 
   // console.log(store.usuario.own_agency);
-  // console.log(store.own_agencies);
-  // console.log(store.userClients);
+  console.log(id);
+  console.log(store.usersByManager);
 
   return (
     <>
-      <div className=" ps-5">
-        <div className="d-flex" style={{ marginLeft: "4rem" }}>
-          <div className="kanban-head">
-            <div className="d-flex ">
-              {["Warning"].map((variant) => (
-                <DropdownButton
-                  // as={ButtonGroup}
-                  key={variant}
-                  id={`dropdown-variants-${variant}`}
-                  variant={variant.toLowerCase()}
-                  title="Agencias Directas"
-                  style={{
-                    marginTop: "3rem",
-                    right: "2rem",
-                    // position: "relative",
-                    // marginRight: "-8rem",
-                  }}
+      {store.usuario.status === "inactive" ? (
+        <Pricing />
+      ) : (
+        <div className=" ps-5 clients">
+          <div className="ms-2 d-flex justify-content-between pt-2">
+            <div className="btn-group me-2 ms-5">
+              <ExportToExcel excelData={store.clientes} />
+              <ImportFromExcel />
+              <Dropdown>
+                <Dropdown.Toggle
+                  className="btn btn-sm btn-outline-secondary"
+                  id="dropdown-basic"
+                  variant="outline-secondary"
                 >
-                  {store.own_agencies.map((agencia) => (
+                  Asociados
+                </Dropdown.Toggle>
+
+                {store.usersByManager.map((asociado) => (
+                  <Dropdown.Menu key={asociado.id}>
                     <Dropdown.Item
-                      eventKey="1"
-                      key={agencia.id}
-                      onClick={() => {
-                        actions.getUsersByAgency(agencia.id);
-                        setAgency(agencia.name);
-                      }}
+                      href="#/action-1"
+                      onClick={() => setAsociadoId(asociado.id)}
                     >
-                      {agencia.name}
+                      {asociado.name + " " + asociado.lastname}{" "}
                     </Dropdown.Item>
-                  ))}
-                </DropdownButton>
-              ))}
-              {["Danger"].map((variant) => (
-                <DropdownButton
-                  // as={ButtonGroup}
-                  key={variant}
-                  id={`dropdown-variants-${variant}`}
-                  variant={variant.toLowerCase()}
-                  title="Asociados"
-                  style={{
-                    marginTop: "3rem",
-                    right: "0rem",
-                    // position: "relative",
-                    // marginRight: "-8rem",
-                  }}
-                >
-                  {store.usersByAgency.map((asociado) => (
-                    <Dropdown.Item
-                      eventKey="1"
-                      key={asociado.id}
-                      onClick={() => {
-                        actions.getUserClients(asociado.id);
-                        setSelected(asociado.name + " " + asociado.lastname);
-                        setAsociadoId(asociado.id);
-                      }}
-                    >
-                      {asociado.name + " " + asociado.lastname}
-                    </Dropdown.Item>
-                  ))}
-                </DropdownButton>
-              ))}
-
-              <button
-                className="btn btn-info"
-                style={{
-                  height: "2.5rem",
-                  marginTop: "3rem",
-                  marginLeft: "2rem",
-                }}
-                onClick={() => {
-                  actions.getUsersByAgency(store.usuario.own_agency.id);
-                  setAgency("");
-                  setSelected("");
-                }}
-              >
-                Volver a asociados directos
-              </button>
+                  </Dropdown.Menu>
+                ))}
+              </Dropdown>
             </div>
-            <strong className="kanban-head-title mt-4">CRM</strong>
           </div>
+          <div className="form-outline mb-4 mx-5">
+            <SortCRM />
+          </div>
+          <KanbanAsociado asociadoId={asociadoId} />
         </div>
-        <div className="ms-2 d-flex justify-content-evenly">
-          <div
-            className="fw-bold"
-            style={{
-              marginLeft: "3rem",
-              color: "rgb(167, 100, 255)",
-              fontSize: "2rem",
-            }}
-          >
-            <span>{agency}</span>
-            <br />
-            <span>{selected}</span>
-          </div>
-
-          <ExportToExcel excelData={store.userClients} />
-
-          <SortCRMAsociados id={asociadoId} />
-          <div className="top-0 end-0 text-center d-grid me-5 ms-5">
-            <div
-              className="btn-group pe-5"
-              role="group"
-              aria-label="Basic mixed styles example"
-            >
-              <table className="table">
-                <thead className="table-dark">
-                  <tr>
-                    <th>En la calle</th>
-                    <th>Negocios</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="table-light">
-                    <td className="" style={{ color: "black" }}>
-                      ${amountSum}
-                    </td>
-                    <td className="" style={{ color: "black" }}>
-                      {notClosedArray.length}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div
-              className="btn-group pe-5"
-              role="group"
-              aria-label="Basic mixed styles example"
-            >
-              <table className="table">
-                <thead className="table-dark">
-                  <tr>
-                    <th>Logrado</th>
-                    <th>Negocios</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="table-light">
-                    <td className="" style={{ color: "black" }}>
-                      ${amountSumClosedSales}
-                    </td>
-                    <td className="" style={{ color: "black" }}>
-                      {closedArray.length}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <KanbanAsociado />
-      </div>
+      )}
     </>
   );
 };

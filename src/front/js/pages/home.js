@@ -190,8 +190,7 @@ export const Home = () => {
 
         <div className="credit">
           {" "}
-          Creado por <a href="https://frako-dev.vercel.app/">frakoDev</a> todos
-          los derechos reservados!
+          Creado por <a href="https://frako-dev.vercel.app/">frakoDev</a>
         </div>
       </section>
 

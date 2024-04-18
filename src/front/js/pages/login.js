@@ -25,8 +25,8 @@ export const Login = () => {
   useEffect(() => {
     if (store.token && store.token != "" && store.token != undefined) {
       // console.log("entrando al use effect");
-      navigate("/perfil");
       actions.getUsuario();
+      navigate("/perfil");
     }
   }, [store.token]);
   return (

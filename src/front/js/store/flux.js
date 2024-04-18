@@ -16,7 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       agencies: [],
       courses: [],
       totalUsuarios: [],
-      usersByAgency: [],
+      usersByManager: [],
       userClients: [],
       managerClientActivity: [],
       notClosedArray: null,
@@ -55,6 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           // console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
+
           // console.log(data);
           setStore({ token: data.access_token });
           return true;
@@ -129,6 +130,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((body) => {
             sessionStorage.setItem("usuario.created_at", body.created_at);
             sessionStorage.setItem("usuario.id", body.id);
+            sessionStorage.setItem("usuario.name", body.name);
+            sessionStorage.setItem("usuario.lastname", body.lastname);
+            sessionStorage.setItem("usuario.role", body.role);
             setStore({ usuario: body });
           })
           .catch((error) => console.log(error));
@@ -249,14 +253,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      getUsersByAgency: (agency_ybt) => {
+      getUsersByManager: (manager_id) => {
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/users_by_agency/${agency_ybt}`;
+        const apiURL = `${process.env.BACKEND_URL}/users_by_manager/${manager_id}`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -265,7 +269,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
             throw new Error("Ha ocurrido un error");
           })
-          .then((body) => setStore({ usersByAgency: body }))
+          .then((body) => setStore({ usersByManager: body }))
           .catch((error) => console.log(error));
       },
 

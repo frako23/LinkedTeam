@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../img/logoNavBar.png";
@@ -6,10 +6,8 @@ import "../../../styles/navbar.css";
 
 export const TopBar = () => {
   const { store, actions } = useContext(Context);
-  useEffect(() => {
-    actions.getUsuario();
-  }, []);
-  console.log(store.usuario);
+  const name = sessionStorage.getItem("usuario.name");
+  const lastName = sessionStorage.getItem("usuario.lastname");
   const navigate = useNavigate();
   function handleLogOut() {
     actions.logout();
@@ -44,7 +42,7 @@ export const TopBar = () => {
             aria-label="Toggle search"
           >
             <span className="lt-name me-2">
-              {store.usuario.name} {store.usuario.lastname}
+              {name} {lastName}
             </span>
             <i className="fa-solid fa-user"></i>
           </button>

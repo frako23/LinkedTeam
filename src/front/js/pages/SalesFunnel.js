@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 export const SalesFunnel = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-
+  const role = sessionStorage.getItem("usuario.role");
   useEffect(() => {
     actions.setHeader("Embudo de ventas");
   }, []);
@@ -52,12 +52,6 @@ export const SalesFunnel = () => {
     }
   }, [store.token]);
 
-  useEffect(() => {
-    if (store.usuario.role === "manager") {
-      actions.getUsersByAgency(store.usuario.own_agency);
-    }
-  }, []);
-
   // console.log(store.client);
 
   return (
@@ -71,12 +65,12 @@ export const SalesFunnel = () => {
               <Nuevonegocio />
               <ExportToExcel excelData={store.clientes} />
               <ImportFromExcel />
-              {store.usuario.role === "manager" ? (
+              {role === "manager" ? (
                 <Link
-                  to="/dashboardAsociado"
+                  to="/associatesalesfunnel"
                   className="btn btn-sm btn-outline-secondary"
                 >
-                  Asociados
+                  Enbudo de ventas de Asociados
                 </Link>
               ) : (
                 ""

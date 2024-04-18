@@ -17,10 +17,6 @@ export const Navbar = () => {
     }
   };
 
-  useEffect(() => actions.getUsuario, []);
-
-  console.log(store.usuario);
-
   return (
     <nav
       className={`sidebar shadow ${toggle == "close" ? "close" : "open"} ${store.notnav && "d-none"}`}
