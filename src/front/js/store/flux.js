@@ -1094,7 +1094,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // crear Courses
-      postCourses: async (courses, id) => {
+      postCourses: async (courses) => {
         const store = getStore();
         const options = {
           method: "POST",
@@ -1107,7 +1107,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         // console.log(courses, id);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/courses/${id}`,
+            `${process.env.BACKEND_URL}/courses/`,
             options
           );
 
@@ -1126,7 +1126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener Cursos
       getCourses: (id) => {
-        // console.log(id);
+        console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -1144,7 +1144,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((body) => setStore({ courses: body }))
           .catch((error) => console.log(error));
-        // actions.getAgencies(id)
+        // actions.getAgencies(id);
       },
 
       // registro de meta de ventas

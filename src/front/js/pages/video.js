@@ -11,7 +11,7 @@ export const Video = () => {
   const { store } = useContext(Context);
 
   return (
-    <div className="d-flex">
+    <div className="d-flex n-container">
       <div className="contenedor">
         <div className="contenedor-video">
           <ReactPlayer

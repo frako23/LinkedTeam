@@ -22,7 +22,7 @@ export const Courses = () => {
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (
-        <div>
+        <div className="n-container">
           <h1
             className="text-black text-center mt-4 kanban-head-title"
             style={{ paddingBottom: "3rem" }}

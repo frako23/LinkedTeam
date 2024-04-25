@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/navbar.css";
 
 export const Navbar = () => {
-  const { store, actions } = useContext(Context);
-
+  const { store } = useContext(Context);
+  const role = sessionStorage.getItem("usuario.role");
   const [toggle, setToggle] = useState("close");
 
   const toggleFunc = () => {
@@ -78,7 +78,7 @@ export const Navbar = () => {
               </li>
             </Link>
 
-            {store.usuario.role == "manager" ? (
+            {role == "manager" ? (
               <Link to="/OwnAgencyCourses">
                 <li className="ps-0">
                   <i

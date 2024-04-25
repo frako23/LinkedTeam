@@ -1,0 +1,14 @@
+.nc-container {
+  padding: 3rem 6rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.nc-container div {
+  align-self: center;
+}
+
+.nc-container img {
+  width: 50rem;
+}

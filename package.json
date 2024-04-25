@@ -104,6 +104,7 @@
     "sheetjs-style": "^0.15.8",
     "sweetalert2": "^11.10.7",
     "swiper": "^11.1.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "youtube-info-ant": "^1.5.3"
   }
 }

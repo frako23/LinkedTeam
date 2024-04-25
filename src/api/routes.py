@@ -51,26 +51,35 @@ def login():
 @api.route('/users', methods=['GET'])
 @jwt_required()
 def get_users():
-    if request.method == 'GET':
+    admin_id = get_jwt_identity()
+    admin = User.query.get(admin_id)
+    if admin.role.value == 'admin':
         users = User.query.all()
         users_dictionaries = []
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
+    else:
+        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin.role.value.value} "} ), 401 
 
 # --------------- MÉTODO PUT PARA ASIGNAR GERENCIA AL USUARIO -------------- #
 @api.route('/management_assignment/<int:id>', methods=['PUT'])
 @jwt_required()
 def put_user_manager(id):
-    try:
-        user = User.query.get(id)
-        user.manager = request.json['manager']
-        user.manager_id = request.json['manager_id']
-        db.session.commit()
-        return jsonify(user.serialize()),200 
+    admin_id = get_jwt_identity()
+    admin = User.query.get(admin_id)
+    if admin.role.value == 'admin':
+        try:
+            user = User.query.get(id)
+            user.manager = request.json['manager']
+            user.manager_id = request.json['manager_id']
+            db.session.commit()
+            return jsonify(user.serialize()),200 
 
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+    else:
+        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"}), 401 
 
 # --------------- MÉTODO PUT PARA ASIGNAR GPT COINS -------------- #
 @api.route('/gpt_coins/<int:user_id>', methods=['PUT'])
@@ -90,7 +99,6 @@ def put_user_gpt_coins(user_id):
 @jwt_required()
 def get_users_by_manager(manager_id):
     users = User.query.filter_by( manager_id = manager_id)
-    print(users)
     users_dictionaries = []
     for user in users:
         users_dictionaries.append(user.serialize())
@@ -108,7 +116,6 @@ def get_user():
    
 # ------------------------ API PARA REGISTRAR USUARIOS ----------------------- #
 @api.route('/user', methods=['POST'])
-@jwt_required()
 def add_user():
     new_user_data = request.json
     try:
@@ -121,7 +128,7 @@ def add_user():
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
         if  "role" in new_user_data:
-            if new_user_data["role"] not in Role.__members__:
+            if new_user_data["role"] not in __members__:
                 return {"error": f"No existe en los roles disponibles"},400
         salt = b64encode(os.urandom(32)).decode('utf-8')
         new_user_data["password"] = set_password(new_user_data["password"], salt)
@@ -151,16 +158,22 @@ def put_user_sales_goal():
 @api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
 @jwt_required()
 def put_user_role_admin(user_id):
-    try:
-        user = User.query.get(user_id)
-        
-        user.role = request.json['role']
+    admin_id = get_jwt_identity()
+    admin = User.query.get(admin_id)
+    print(admin)
+    if admin.role.value.value == 'admin':
+        try:
+            user = User.query.get(user_id)
+            
+            user.role = request.json['role']
 
-        db.session.commit()
-        return jsonify(user.serialize()),200 
+            db.session.commit()
+            return jsonify(user.serialize()),200 
 
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    else:
+        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin} "}), 401 
 
 # ------------ MÉTODO PUT PARA CAMBIAR EL ESTATUS DE LOS USUARIOS ------------ #
 @api.route('/user_status/<int:user_id>', methods=['PUT'])
@@ -405,12 +418,11 @@ def delete_client_activity(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # ---------------------- API PARA CARGAR LOS CURSOS ---------------------- #
-@api.route('/courses', methods=['GET','POST'])
+@api.route('/courses/<int:id>', methods=['GET','POST'])
 @jwt_required()
-def post_get_courses_data():
-    user_id = get_jwt_identity()
+def post_get_courses_data(id):
     if request.method == 'GET':
-        courses_data = Courses.query.filter_by(manager_id = user_id)
+        courses_data = Courses.query.filter_by(manager_id = id)
         courses_data_dictionary = []
         for course_data in courses_data:
             courses_data_dictionary.append(course_data.serialize())
@@ -426,7 +438,7 @@ def post_get_courses_data():
             raise Exception("No ingresaste el img_url", 400)
         if "link_url" not in new_course_data or new_course_data["link_url"] == "":
             raise Exception("No ingresaste el link_url", 400)
-        new_course = Courses.create(**new_course_data, manager_id = user_id)
+        new_course = Courses.create(**new_course_data, manager_id = id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
@@ -455,6 +467,7 @@ def delete_put_courses_data(id):
     img_url= body.get("img_url", None)
     link_url= body.get("link_url", None)
     category= body.get("category", None)
+    tag= body.get("tag", None)
     
     if title is not None and title != "":
         course.title = title
@@ -466,6 +479,8 @@ def delete_put_courses_data(id):
         course.link_url = link_url
     if category is not None and category != "":
         course.category = category
+    if tag is not None and tag != "":
+        course.tag = tag
     try:
         db.session.commit()
         return jsonify(course.serialize()),200 

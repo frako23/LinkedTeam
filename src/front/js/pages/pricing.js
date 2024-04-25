@@ -10,14 +10,14 @@ export const Pricing = () => {
     actions.setHeader("Registra tu pago");
   }, []);
   return (
-    <>
+    <div className="n-container">
       <h1
-        className="text-white text-center mt-4 kanban-head-title"
+        className="text-black  text-center pt-6 kanban-head-title"
         style={{ paddingBottom: "2rem" }}
       >
         Renueva tu suscripción
       </h1>
       <PricingCard />
-    </>
+    </div>
   );
 };

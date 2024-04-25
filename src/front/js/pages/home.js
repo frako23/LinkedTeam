@@ -136,7 +136,7 @@ export const Home = () => {
       <div id="quePuedesHacer"></div>
       {/* empieza la sección de servicios */}
 
-      <section className="services">
+      <section className="services background-linkedin">
         <h1 className="heading-tittle">
           {" "}
           ¿Qué podrás hacer en <span>LinkedTeam</span>?

@@ -5,6 +5,7 @@ import { OwnCourseCard } from "../components/Courses/ownCourseCard";
 import CreateCourse from "../components/Courses/createCourse";
 import { Pricing } from "./pricing";
 import { useNavigate } from "react-router-dom";
+import { NoCourses } from "./NoCourses";
 
 export const OwnAgencyCourses = () => {
   const navigate = useNavigate();
@@ -13,26 +14,26 @@ export const OwnAgencyCourses = () => {
     actions.setHeader("Cursos para tu equipo");
   }, []);
 
+  const id = sessionStorage.getItem("usuario.id");
   useEffect(() => {
     if (store.usuario.status === "inactive") {
       navigate("/pricing");
     }
   }, [store.usuario.status]);
 
-  useEffect(() => actions.getUsuario(), []);
-
-  // useEffect(() => actions.getCourses(store.usuario.own_agency.id), []);
-
+  useEffect(() => actions.getCourses(id), []);
+  console.log(store.courses);
   return (
     <>
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (
-        <div>
+        <div className="n-container">
           <div className="create-course-heading">
             <CreateCourse />
+            <h3>Haz click aqui para añadir un curso para tu equipo</h3>
           </div>
-          {/* <OwnCourseCard /> */}
+          {store.courses.length > 0 ? <OwnCourseCard /> : <NoCourses />}
         </div>
       )}
     </>

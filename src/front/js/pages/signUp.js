@@ -49,7 +49,7 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-2">
+    <div className="container px-4 py-5 m-0  px-md-5 text-center text-lg-start  background-linkedin">
       <Toaster />
       <div className="row gx-lg-5 align-items-center mb-5">
         <div

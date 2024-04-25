@@ -15,7 +15,9 @@ export const TutorialVideos = () => {
       {store.usuario.status === "inactive" ? (
         <Pricing />
       ) : (
-        <TutorialVideoCard />
+        <div className="n-container">
+          <TutorialVideoCard />
+        </div>
       )}
     </>
   );

@@ -242,6 +242,7 @@ class Courses(db.Model):
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
     category = db.Column(db.String(50), unique=False, nullable=True)
+    tag = db.Column(db.Enum(Color), default=Color.white)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     manager_id = db.Column(db.Integer,unique=False, nullable=False)
@@ -252,6 +253,7 @@ class Courses(db.Model):
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
         self.manager_id = kwargs['manager_id']
+        self.tag = kwargs['tag'] if 'sales_goal' in kwargs else None
         self.category = kwargs['category'] if 'category' in kwargs else None
 
     @classmethod
@@ -275,6 +277,7 @@ class Courses(db.Model):
             "manager_id": self.manager_id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
+            "tag": self.tag.value,
             "category":self.category
         }
 
