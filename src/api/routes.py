@@ -158,10 +158,10 @@ def put_user_sales_goal():
 @api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
 @jwt_required()
 def put_user_role_admin(user_id):
-    admin_id = get_jwt_identity()
-    admin = User.query.get(admin_id)
-    print(admin)
-    if admin.role.value.value == 'admin':
+    # admin_id = get_jwt_identity()
+    # admin = User.query.get(admin_id)
+    # print(admin)
+    # if admin.role.value.value == 'admin':
         try:
             user = User.query.get(user_id)
             
@@ -172,8 +172,8 @@ def put_user_role_admin(user_id):
 
         except Exception as error:
             return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-    else:
-        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin} "}), 401 
+    # else:
+    #     return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin} "}), 401 
 
 # ------------ MÉTODO PUT PARA CAMBIAR EL ESTATUS DE LOS USUARIOS ------------ #
 @api.route('/user_status/<int:user_id>', methods=['PUT'])

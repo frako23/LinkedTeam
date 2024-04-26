@@ -1094,8 +1094,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // crear Courses
-      postCourses: async (courses) => {
+      postCourses: async (courses, id) => {
         const store = getStore();
+        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -1107,7 +1108,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         // console.log(courses, id);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/courses/`,
+            `${process.env.BACKEND_URL}/courses/${id}`,
             options
           );
 
@@ -1118,6 +1119,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           console.log("This came from the backend", data);
+          actions.getCourses(id);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el curso", error);

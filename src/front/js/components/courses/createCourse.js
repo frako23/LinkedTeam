@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 function CreateCourse() {
   const [show, setShow] = useState(false);
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [courses, setCourses] = useState({
@@ -19,6 +19,7 @@ function CreateCourse() {
     img_url: "",
     link_url: "",
   });
+  const id = sessionStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
     setCourses({ ...courses, [target.name]: target.value });
   };
@@ -30,7 +31,7 @@ function CreateCourse() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(courses, store.usuario.own_agency.id);
-    actions.postCourses(courses);
+    actions.postCourses(courses, id);
     setCourses({
       title: "",
       description: "",
