@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/navbar.css";
 
 export const Navbar = () => {
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const role = sessionStorage.getItem("usuario.role");
   const [toggle, setToggle] = useState("close");
 
@@ -16,6 +16,19 @@ export const Navbar = () => {
       setToggle("close");
     }
   };
+
+  useEffect(() => {
+    actions.getUsuario();
+  }, []);
+  console.log(store.usuario.manager_id);
+
+  useEffect(() => {
+    if (store.usuario.manager_id) {
+      actions.getCourses(store.usuario.manager_id);
+    }
+  }, [store.usuario.manager_id]);
+
+  console.log(store.courses);
 
   return (
     <nav
@@ -39,17 +52,20 @@ export const Navbar = () => {
                 <span className="tooltip">Tablero de control</span>
               </li>
             </Link>
-
-            <Link to="/courses">
-              <li className="ps-0">
-                <i
-                  className={`bx bxl-youtube icon ${store.header === "Cursos disponibles" ? "active" : "unactive"}`}
-                ></i>
-                <span className="text nav-text">Cursos disponibles</span>
-                <span className="tooltip">Cursos disponibles</span>
-              </li>
-            </Link>
-
+            {store.courses.length > 0 && (
+              <Link to="/courses">
+                <li className="ps-0">
+                  <span className="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+                    {store.courses.length}
+                  </span>
+                  <i
+                    className={`bx bxl-youtube icon ${store.header === "Cursos disponibles" ? "active" : "unactive"}`}
+                  ></i>
+                  <span className="text nav-text">Cursos disponibles</span>
+                  <span className="tooltip">Cursos disponibles</span>
+                </li>
+              </Link>
+            )}
             <Link to="/salesFunnel">
               <li className="ps-0">
                 <i
