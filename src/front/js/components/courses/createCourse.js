@@ -58,7 +58,7 @@ function CreateCourse() {
       <Modal show={show} onHide={handleClose}>
         <Form onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Crear el curso para tu agencia aquí</Modal.Title>
+            <Modal.Title>Crea el curso para tu equipo aquí</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">

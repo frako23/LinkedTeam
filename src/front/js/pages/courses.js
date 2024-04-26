@@ -18,20 +18,6 @@ export const Courses = () => {
   }, [store.usuario.status]);
 
   return (
-    <>
-      {store.usuario.status === "inactive" ? (
-        <Pricing />
-      ) : (
-        <div className="n-container">
-          <h1
-            className="text-black text-center mt-4 kanban-head-title"
-            style={{ paddingBottom: "3rem" }}
-          >
-            Cursos disponibles
-          </h1>
-          <CourseCard />
-        </div>
-      )}
-    </>
+    <>{store.usuario.status === "inactive" ? <Pricing /> : <CourseCard />}</>
   );
 };
