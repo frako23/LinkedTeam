@@ -23,6 +23,12 @@ export const CreateClient = () => {
     notes: "",
     tag: "",
   });
+  const [clienteProducto, setClienteProducto] = useState({
+    amount: "",
+    date_of_closing: "",
+    notes: "",
+    payment_recurrence: "",
+  });
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -49,6 +55,10 @@ export const CreateClient = () => {
 
   const handleForm = ({ target }) => {
     setCliente({ ...cliente, [target.name]: target.value });
+  };
+
+  const handleFormProducto = ({ target }) => {
+    setClienteProducto({ ...cliente, [target.name]: target.value });
   };
 
   return (
@@ -119,126 +129,42 @@ export const CreateClient = () => {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
-                  <Form.Label>Monto</Form.Label>
+                  <Form.Label>Monto*</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="5000"
                     name="amount"
-                    value={cliente.amount}
-                    onChange={handleForm}
+                    value={clienteProducto.amount}
+                    onChange={handleFormProducto}
+                    autoFocus
+                    required
+                  />
+                </Col>
+                <Col>
+                  <Form.Label>Fecha de cierre*</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="date_of_closing"
+                    onChange={handleFormProducto}
+                    value={clienteProducto.date_of_closing}
                     autoFocus
                   />
                 </Col>
                 <Col>
-                  <Form.Label>Etiqueta:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="tag"
-                    value={cliente.tag}
-                    onChange={handleForm}
-                  >
-                    <option
-                      className="text-center"
-                      style={{ backgroundColor: "white" }}
-                      value="white"
-                    >
-                      Blanco
-                    </option>
-                    <option
-                      className="text-center text-white"
-                      style={{ backgroundColor: "black" }}
-                      value="black"
-                    >
-                      Negro
-                    </option>
-                    <option
-                      className="text-center text-white"
-                      style={{ backgroundColor: "blue" }}
-                      value="blue"
-                    >
-                      Azúl
-                    </option>
-                    <option
-                      className="text-center text-white"
-                      style={{ backgroundColor: "grey" }}
-                      value="grey"
-                    >
-                      Gris
-                    </option>
-                    <option
-                      className="text-center text-white"
-                      style={{ backgroundColor: "green" }}
-                      value="green"
-                    >
-                      Verde
-                    </option>
-                    <option
-                      className="text-center "
-                      style={{ backgroundColor: "yellow" }}
-                      value="yellow"
-                    >
-                      Amarillo
-                    </option>
-                    <option
-                      className="text-center"
-                      style={{ backgroundColor: "orange" }}
-                      value="orange"
-                    >
-                      Naranja
-                    </option>
-                    <option
-                      className="text-center"
-                      style={{ backgroundColor: "pink" }}
-                      value="pink"
-                    >
-                      Rosado
-                    </option>
-                    <option
-                      className="text-center text-white"
-                      style={{ backgroundColor: "purple" }}
-                      value="purple"
-                    >
-                      Púrpura
-                    </option>
-                    <option
-                      className="text-center text-white"
-                      style={{ backgroundColor: "red" }}
-                      value="red"
-                    >
-                      Rojo
-                    </option>
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label>Estatus:*</Form.Label>
+                  <Form.Label>Recurrencia de pago*</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     required
-                    name="status"
-                    value={cliente.status}
-                    onChange={handleForm}
+                    name="payment_recurrence"
+                    value={clienteProducto.payment_recurrence}
+                    onChange={handleFormProducto}
                   >
                     <option value=""></option>
-                    <option value="Prospecto">Prospecto</option>
-                    <option value="Contactado">Contactado</option>
-                    <option value="Primera Cita">Primera Cita</option>
-                    <option value="Negociación">Negociación</option>
-                    <option value="Cerrado">Cerrado</option>
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label>Nivel de confianza:*</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    required
-                    name="trust"
-                    value={cliente.trust}
-                    onChange={handleForm}
-                  >
-                    <option value=""></option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
+                    <option value="Prospecto">Mensual</option>
+                    <option value="Contactado">Trimestral</option>
+                    <option value="Primera Cita">Semestral</option>
+                    <option value="Negociación">Anual</option>
+                    <option value="Cerrado">Otro</option>
                   </Form.Select>
                 </Col>
               </Row>
@@ -254,8 +180,8 @@ export const CreateClient = () => {
                 name="notes"
                 rows={3}
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
-                value={cliente.notes}
-                onChange={handleForm}
+                value={clienteProducto.notes}
+                onChange={handleFormProducto}
               />
               <span className="fw-bolder">* Campos requeridos</span>
             </Form.Group>
