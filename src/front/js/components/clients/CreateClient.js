@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import toast from "react-hot-toast";
+import CreateProduct from "./CreateProduct";
 
 export const CreateClient = () => {
   const { actions } = useContext(Context);
@@ -38,8 +39,8 @@ export const CreateClient = () => {
       email: "",
       cellphone: "",
       amount: "",
-      status: "",
-      trust: "",
+      status: "Cliente",
+      trust: "Alta",
       notes: "",
       tag: "",
     });
@@ -262,6 +263,7 @@ export const CreateClient = () => {
               <Button variant="secondary" onClick={handleClose}>
                 Cerrar
               </Button>
+              <CreateProduct />
               <Button variant="primary" type="submit">
                 Guardar
               </Button>

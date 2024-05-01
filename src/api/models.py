@@ -374,7 +374,6 @@ class Account_Information(db.Model):
 # --------------- TABLA PARA GUARDAR LOS NOMBRES DE LAS PÓLIZAS -------------- #
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    business_type = db.Column(db.String(50), nullable=False)
     company = db.Column(db.String(50), nullable=False)
     product_name = db.Column(db.String(50), nullable=False)
     product_type = db.Column(db.String(50), nullable=False)
@@ -382,7 +381,7 @@ class Products(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __init__(self, **kwargs):
-        self.business_type = kwargs['business_type']
+        
         self.company = kwargs['company']
         self.product_name = kwargs['product_name']
         self.product_type = kwargs['product_type']
@@ -402,7 +401,6 @@ class Products(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "business_type": self.business_type,
             "company": self.company,
             "product_name": self.product_name,
             "product_type": self.product_type,

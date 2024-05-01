@@ -535,8 +535,6 @@ def post_get_products():
         return jsonify(products_names_dictionary), 200
     new_product_data = request.json
     try:
-        if "business_type" not in new_product_data or new_product_data["business_type"] == "":
-            raise Exception("No ingresaste el tipo de negocio", 400)
         if "company" not in new_product_data or new_product_data["company"] == "":
             raise Exception("No ingresaste la compañía del producto", 400)
         if "product_name" not in new_product_data or new_product_data["product_name"] == "":
