@@ -1374,7 +1374,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       /* ----------------------------- CREAR PRODUCTOS ---------------------------- */
-      postProdudcts: async (clienteProducto) => {
+      postProducts: async (producto) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -1383,12 +1383,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(clienteProducto),
+          body: JSON.stringify(producto),
         };
-        // console.log(clienteProducto, id);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/clienteProducto`,
+            `${process.env.BACKEND_URL}/products`,
             options
           );
 
@@ -1399,7 +1398,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           console.log("This came from the backend", data);
-          actions.getCourses(id);
+          actions.getProducts();
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el curso", error);
@@ -1407,15 +1406,14 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       /* ----------------------------- LEER PRODUCTOS ----------------------------- */
-      getProducts: (id) => {
-        console.log(id);
+      getProducts: () => {
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/courses/${id}`;
+        const apiURL = `${process.env.BACKEND_URL}/products`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -1424,7 +1422,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
             throw new Error("Ha ocurrido un error");
           })
-          .then((body) => setStore({ courses: body }))
+          .then((body) => setStore({ productos: body }))
           .catch((error) => console.log(error));
         // actions.getAgencies(id);
       },

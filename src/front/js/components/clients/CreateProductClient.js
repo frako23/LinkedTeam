@@ -4,22 +4,23 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import toast from "react-hot-toast";
-import { Badge, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
-function CreateProduct() {
+function CreateProductClient() {
   const [show, setShow] = useState(false);
   const { store, actions } = useContext(Context);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [products, setProducts] = useState({
-    company: "",
-    product_name: "",
-    product_type: "",
-    product_description: "",
+  const [clienteProducto, setClienteProducto] = useState({
+    product: "",
+    amount: "",
+    date_of_closing: "",
+    payment_recurrence: "",
+    notes: "",
   });
   const id = sessionStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
-    setProducts({ ...products, [target.name]: target.value });
+    setClienteProducto({ ...clienteProducto, [target.name]: target.value });
   };
 
   useEffect(() => {
@@ -28,13 +29,14 @@ function CreateProduct() {
   console.log(store.productos);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(products, store.usuario.own_agency.id);
-    actions.postProducts(products);
-    setProducts({
-      company: "",
-      product_name: "",
-      product_type: "",
-      product_description: "",
+    // console.log(clienteProducto, store.usuario.own_agency.id);
+    actions.postProducts(clienteProducto);
+    setClienteProducto({
+      product: "",
+      amount: "",
+      date_of_closing: "",
+      payment_recurrence: "",
+      notes: "",
     });
     handleClose();
     toast.success("Registraste el producto correctamente");
@@ -48,65 +50,87 @@ function CreateProduct() {
         style={{ background: "#695cfe" }}
         onClick={handleShow}
       >
-        Nuevo Producto
+        <i className="fa-solid fa-folder-plus"></i>
       </button>
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Form onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Crea tu producto</Modal.Title>
+            <Modal.Title>Registra el producto para: </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
-                  <Form.Label>Productos Cargados</Form.Label>
-                  <div className="d-flex gap-3 ">
-                    {store.productos.length > 0 ? (
-                      store.productos.map((producto) => (
-                        <Badge key={producto.id} bg="dark">
-                          <span>{producto.product_name}</span>
-                        </Badge>
-                      ))
-                    ) : (
-                      <h5>Aún no tienes productos cargados</h5>
-                    )}
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>Empresa*</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="CICA LIFE, Best Doctor, VUMI..."
-                    autoFocus
-                    name="company"
-                    value={products.company}
+                  <Form.Label>Producto*</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="product"
+                    value={clienteProducto.product}
                     onChange={handleForm}
                     required
-                  />
+                  >
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "white" }}
+                      value="white"
+                    ></option>
+                    {store.productos.length > 0 ? (
+                      store.productos.map((producto) => (
+                        <option
+                          key={producto.id}
+                          className="text-center"
+                          style={{ backgroundColor: "white" }}
+                          value="white"
+                        >
+                          <span>{producto.product_name}</span>
+                        </option>
+                      ))
+                    ) : (
+                      <option
+                        className="text-center"
+                        style={{ backgroundColor: "white" }}
+                        value="white"
+                      >
+                        No hay productos guardados
+                      </option>
+                    )}
+                  </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Nombre de la póliza*</Form.Label>
+                  <Form.Label>Fecha de cierre*</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Fredom 20"
                     autoFocus
                     name="product_name"
-                    value={products.product_name}
+                    value={clienteProducto.date_of_closing}
                     onChange={handleForm}
                     required
                   />
                 </Col>
+              </Row>
+              <Row>
                 <Col>
-                  <Form.Label>Tipo de póliza*</Form.Label>
+                  <Form.Label>Monto*</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Seguro de Vida"
                     autoFocus
                     name="product_type"
-                    value={products.product_type}
+                    value={clienteProducto.amount}
+                    onChange={handleForm}
+                    required
+                  />
+                </Col>
+                <Col>
+                  <Form.Label>Frecuencia de pago*</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Seguro de Vida"
+                    autoFocus
+                    name="product_type"
+                    value={clienteProducto.payment_recurrence}
                     onChange={handleForm}
                     required
                   />
@@ -119,7 +143,7 @@ function CreateProduct() {
                 rows={3}
                 name="product_description"
                 maxLength="1000"
-                value={products.product_description}
+                value={clienteProducto.product_description}
                 onChange={handleForm}
               />
             </Form.Group>
@@ -139,4 +163,4 @@ function CreateProduct() {
   );
 }
 
-export default CreateProduct;
+export default CreateProductClient;

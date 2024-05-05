@@ -3,6 +3,9 @@ import { Context } from "../store/appContext";
 import "../../styles/newuserpannel.css";
 import { useNavigate } from "react-router-dom";
 import { CreateClient } from "../components/clients/CreateClient";
+import CreateProduct from "../components/clients/CreateProduct";
+import CreateProductClient from "../components/clients/CreateProductClient";
+import { EditClient } from "../components/clients/EditClient";
 export const Clients = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
@@ -15,10 +18,14 @@ export const Clients = () => {
     }
   }, [store.usuario.status]);
 
+  console.log(store.clientes);
   return (
     <>
       <div className="create-course-heading">
-        <CreateClient />
+        <div>
+          <CreateClient />
+          <CreateProduct />
+        </div>
         <h3>Haz click aqui para añadir un cliente</h3>
       </div>
 
@@ -26,30 +33,59 @@ export const Clients = () => {
         <table className="table table-hover clients-table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th className="col" scope="col">
+                #
+              </th>
+              <th className="col-3" scope="col">
+                Nombre
+              </th>
+              <th className="col-2" scope="col">
+                Celular
+              </th>
+              <th className="col-3" scope="col">
+                Email
+              </th>
+              <th className="col-2" scope="col">
+                Fecha de Nacimiento
+              </th>
+              <th className="col-2 text-center" scope="col">
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colSpan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
+            {store.clientes?.length > 0 ? (
+              store.clientes.map((cliente, index) => (
+                <tr key={cliente.id}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{cliente.name}</td>
+                  <td>{cliente.cellphone}</td>
+                  <td>{cliente.email}</td>
+                  <td>{cliente.birthdate}</td>
+                  <td className="d-flex justify-content-center gap-3 ">
+                    <CreateProductClient />
+                    <EditClient
+                      name={cliente.name}
+                      email={cliente.email}
+                      cellphone={cliente.cellphone}
+                      birthdate={cliente.birthdate}
+                      id={cliente.id}
+                    />
+                    <button
+                      className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+                      style={{ background: "#695cfe" }}
+                      // onClick={handleShow}
+                    >
+                      <i className="fa-solid fa-user-slash"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <div className="d-flex justify-content-center ">
+                <h4>Aún no tienes clientes cargados</h4>
+              </div>
+            )}
           </tbody>
         </table>
       </section>

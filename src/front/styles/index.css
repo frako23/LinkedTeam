@@ -334,9 +334,10 @@ body {
 
 .create-course-heading {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   padding-block: 2rem;
+  gap: 2rem;
 }
 
 .dropdown-type {

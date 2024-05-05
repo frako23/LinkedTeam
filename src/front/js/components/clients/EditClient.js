@@ -9,13 +9,13 @@ import Col from "react-bootstrap/Col";
 
 import toast from "react-hot-toast";
 
-export const CreateClient = () => {
+export const EditClient = ({ name, birthdate, cellphone, email, id }) => {
   const { actions } = useContext(Context);
   const [cliente, setCliente] = useState({
-    name: "",
-    birthdate: "",
-    email: "",
-    cellphone: "",
+    name: name,
+    birthdate: birthdate,
+    email: email,
+    cellphone: cellphone,
     amount: "",
     status: "Cliente",
     trust: "Alta",
@@ -31,7 +31,7 @@ export const CreateClient = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(cliente);
-    actions.postClientes(cliente);
+    actions.putClientes(cliente, id);
     handleClose();
     setCliente({
       name: "",
@@ -58,7 +58,7 @@ export const CreateClient = () => {
         className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
         style={{ background: "#695cfe" }}
       >
-        Nuevo Cliente
+        <i className="fa-solid fa-user-pen"></i>
       </button>
 
       <Modal show={show} onHide={handleClose} size="xl">
