@@ -46,7 +46,7 @@ export const AgencyToSelect = () => {
   return (
     <>
       <h1
-        className="text-white text-center mt-4 kanban-head-title"
+        className="text-black text-center mt-4 kanban-head-title"
         style={{ paddingBottom: "3rem" }}
       >
         Selecciona la agencia a la que perteneces

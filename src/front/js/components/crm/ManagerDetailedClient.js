@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../../store/appContext";
+import React, { useState } from "react";
 import "../../../styles/dashboard.css";
-import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -9,9 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import PropTypes from "prop-types";
 
-export const ModifyClient = ({ prospecto }) => {
-  const { actions } = useContext(Context);
-  // console.log(prospecto);
+export const ManagerDetailedClient = ({ prospecto }) => {
   const [show, setShow] = useState(false);
   const [cliente, setCliente] = useState({
     name: prospecto.name,
@@ -24,28 +20,9 @@ export const ModifyClient = ({ prospecto }) => {
     status: prospecto.status,
     notes: prospecto.notes,
   });
-  const [edit, setEdit] = useState(false);
-  const params = useParams();
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  console.log(edit);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(cliente);
-    actions.putClientes(cliente, params.theid);
-    setCliente({
-      name: "",
-      birthdate: "",
-      email: "",
-      cellphone: "",
-      amount: "",
-      trust: "",
-      tag: "",
-      status: "",
-      notes: "",
-    });
-    handleClose();
-  };
 
   const handleForm = ({ target }) => {
     setCliente({ [target.name]: target.value });
@@ -69,17 +46,7 @@ export const ModifyClient = ({ prospecto }) => {
           <Modal.Title>{cliente.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="form-check form-switch float-end">
-            <i className="bx bx-edit-alt fs-5"></i>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckDefault"
-              onClick={() => setEdit(!edit)}
-            />
-          </div>
-
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
                 <Col>
@@ -88,9 +55,8 @@ export const ModifyClient = ({ prospecto }) => {
                     type="text"
                     name="name"
                     placeholder="Nombre del cliente"
-                    onChange={handleForm}
                     value={cliente.name}
-                    disabled={edit ? false : true}
+                    disabled
                   />
                 </Col>
                 <Col>
@@ -99,9 +65,8 @@ export const ModifyClient = ({ prospecto }) => {
                     type="tel"
                     name="cellphone"
                     placeholder="04XX-XXXXXXX"
-                    onChange={handleForm}
                     value={cliente.cellphone}
-                    disabled={edit ? false : true}
+                    disabled
                   />
                 </Col>
                 <Col>
@@ -111,9 +76,8 @@ export const ModifyClient = ({ prospecto }) => {
                     name="email"
                     pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     placeholder="nombre@correo.com"
-                    onChange={handleForm}
                     value={cliente.email}
-                    disabled={edit ? false : true}
+                    disabled
                   />
                 </Col>
                 <Col>
@@ -121,9 +85,8 @@ export const ModifyClient = ({ prospecto }) => {
                   <Form.Control
                     type="date"
                     name="birthdate"
-                    onChange={handleForm}
                     value={cliente.birthdate}
-                    disabled={edit ? false : true}
+                    disabled
                   />
                 </Col>
               </Row>
@@ -138,8 +101,7 @@ export const ModifyClient = ({ prospecto }) => {
                     placeholder="5000"
                     name="amount"
                     value={cliente.amount}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
+                    disabled
                   />
                 </Col>
                 <Col>
@@ -148,8 +110,7 @@ export const ModifyClient = ({ prospecto }) => {
                     aria-label="Default select example"
                     name="status"
                     value={cliente.tag}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
+                    disabled
                   >
                     <option value=""></option>
                     <option value="Prospecto">Prospecto</option>
@@ -165,8 +126,7 @@ export const ModifyClient = ({ prospecto }) => {
                     aria-label="Default select example"
                     name="status"
                     value={cliente.status}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
+                    disabled
                   >
                     <option value=""></option>
                     <option value="Prospecto">Prospecto</option>
@@ -182,8 +142,7 @@ export const ModifyClient = ({ prospecto }) => {
                     aria-label="Default select example"
                     name="trust"
                     value={cliente.trust}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
+                    disabled
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
@@ -205,16 +164,12 @@ export const ModifyClient = ({ prospecto }) => {
                 rows={3}
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
                 value={cliente.notes}
-                onChange={handleForm}
-                disabled={edit ? false : true}
+                disabled
               />
             </Form.Group>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Cerrar
-              </Button>
-              <Button variant="primary" type="submit">
-                Guardar
               </Button>
             </Modal.Footer>
           </Form>
@@ -224,6 +179,6 @@ export const ModifyClient = ({ prospecto }) => {
   );
 };
 
-ModifyClient.propTypes = {
+ManagerDetailedClient.propTypes = {
   prospecto: PropTypes.object,
 };

@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function SetRoleManager({ userId }) {
   const [show, setShow] = useState(false);
@@ -40,12 +40,9 @@ function SetRoleManager({ userId }) {
       userId: "",
     });
     handleClose();
-    Swal.fire({
-      title: `Registraste a usuario como ${userRole.role} en la agencia 🙌`,
-      confirmButtonText: "OK",
-      showLoaderOnConfirm: true,
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
+    toast.success(
+      `Registraste a usuario como ${userRole.role} en con el gerente... 🙌`
+    );
   };
 
   return (

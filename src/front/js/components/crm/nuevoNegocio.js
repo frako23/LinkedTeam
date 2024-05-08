@@ -6,7 +6,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Swal from "sweetalert2";
+
+import toast from "react-hot-toast";
 
 export const Nuevonegocio = () => {
   const { actions } = useContext(Context);
@@ -42,12 +43,7 @@ export const Nuevonegocio = () => {
       notes: "",
       tag: "",
     });
-    Swal.fire({
-      title: "Registraste tú cliente correctamente 🙌",
-      confirmButtonText: "OK",
-      showLoaderOnConfirm: true,
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
+    toast.success("Tu prospecto fue registrado correctamente");
   };
 
   const handleForm = ({ target }) => {
@@ -58,38 +54,36 @@ export const Nuevonegocio = () => {
     <>
       <button
         onClick={handleShow}
-        className="button-single"
+        className="btn btn-sm btn-outline-secondary"
         style={{ height: "fit-content" }}
       >
-        Nuevo Negocio
+        Nuevo Cliente
       </button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Datos del cliente</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Nombre y Apellido</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                name="name"
-                placeholder="Nombre del cliente"
-                onChange={handleForm}
-                value={cliente.name}
-                autoFocus
-              />
-            </Form.Group>
-            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
+                <Col>
+                  <Form.Label>Nombre y Apellido*</Form.Label>
+                  <Form.Control
+                    type="text"
+                    required
+                    name="name"
+                    placeholder="Nombre del cliente"
+                    onChange={handleForm}
+                    value={cliente.name}
+                    autoFocus
+                  />
+                </Col>
                 <Col>
                   <Form.Label>Celular</Form.Label>
                   <Form.Control
                     type="tel"
-                    // required
                     name="cellphone"
                     placeholder="04XX-XXXXXXX"
                     onChange={handleForm}
@@ -100,7 +94,6 @@ export const Nuevonegocio = () => {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
-                    // required
                     name="email"
                     pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     placeholder="nombre@correo.com"
@@ -109,27 +102,25 @@ export const Nuevonegocio = () => {
                     autoFocus
                   />
                 </Col>
-              </Row>
-            </Form.Group>
-            {/* ------------ SECCIÓN PARA AGREGAR FECHA DE NACIMIENTO Y MONTO ------------ */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
                 <Col>
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
                     type="date"
-                    // required
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
                     autoFocus
                   />
                 </Col>
+              </Row>
+            </Form.Group>
+            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Row>
                 <Col>
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
                     type="number"
-                    // required
                     placeholder="5000"
                     name="amount"
                     value={cliente.amount}
@@ -137,52 +128,90 @@ export const Nuevonegocio = () => {
                     autoFocus
                   />
                 </Col>
-              </Row>
-            </Form.Group>
-            {/* ------------ SECCIÓN PARA AGREGAR ESTATUS Y NIVEL DE CONFIANZA ----------- */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <Col>
-                  <Form.Label>Estatus:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    required
-                    name="status"
-                    value={cliente.status}
-                    onChange={handleForm}
-                  >
-                    <option value=""></option>
-                    <option value="Prospecto">Prospecto</option>
-                    <option value="Contactado">Contactado</option>
-                    <option value="Primera Cita">Primera Cita</option>
-                    <option value="Negociación">Negociación</option>
-                    <option value="Cerrado">Cerrado</option>
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label>Nivel de confianza:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    required
-                    name="trust"
-                    value={cliente.trust}
-                    onChange={handleForm}
-                  >
-                    <option value=""></option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* ---------------------- SECCIÓN PARA AGREGAR ETIQUETA --------------------- */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
                 <Col>
                   <Form.Label>Etiqueta:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
+                    name="tag"
+                    value={cliente.tag}
+                    onChange={handleForm}
+                  >
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "white" }}
+                      value="white"
+                    >
+                      Blanco
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "black" }}
+                      value="black"
+                    >
+                      Negro
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "blue" }}
+                      value="blue"
+                    >
+                      Azúl
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "grey" }}
+                      value="grey"
+                    >
+                      Gris
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "green" }}
+                      value="green"
+                    >
+                      Verde
+                    </option>
+                    <option
+                      className="text-center "
+                      style={{ backgroundColor: "yellow" }}
+                      value="yellow"
+                    >
+                      Amarillo
+                    </option>
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "orange" }}
+                      value="orange"
+                    >
+                      Naranja
+                    </option>
+                    <option
+                      className="text-center"
+                      style={{ backgroundColor: "pink" }}
+                      value="pink"
+                    >
+                      Rosado
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "purple" }}
+                      value="purple"
+                    >
+                      Púrpura
+                    </option>
+                    <option
+                      className="text-center text-white"
+                      style={{ backgroundColor: "red" }}
+                      value="red"
+                    >
+                      Rojo
+                    </option>
+                  </Form.Select>
+                </Col>
+                <Col>
+                  <Form.Label>Estatus:*</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
                     required
                     name="status"
                     value={cliente.status}
@@ -197,7 +226,7 @@ export const Nuevonegocio = () => {
                   </Form.Select>
                 </Col>
                 <Col>
-                  <Form.Label>Nivel de confianza:</Form.Label>
+                  <Form.Label>Nivel de confianza:*</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     required
@@ -226,8 +255,8 @@ export const Nuevonegocio = () => {
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
                 value={cliente.notes}
                 onChange={handleForm}
-                // required
               />
+              <span className="fw-bolder">* Campos requeridos</span>
             </Form.Group>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>

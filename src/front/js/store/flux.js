@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
@@ -15,7 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       agencies: [],
       courses: [],
       totalUsuarios: [],
-      usersByAgency: [],
+      usersByManager: [],
       userClients: [],
       managerClientActivity: [],
       notClosedArray: null,
@@ -27,12 +28,14 @@ const getState = ({ getStore, getActions, setStore }) => {
       amountFilter: null,
       ageFilter: null,
       trustFilter: null,
+      header: "",
+      notnav: false,
+      productos: [],
+      clienteProductos: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
-        const store = getStore();
-        const actions = getActions();
         const opts = {
           method: "POST",
           headers: {
@@ -54,6 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           // console.log("Esto vino del backend", data);
           sessionStorage.setItem("token", data.access_token);
+
           // console.log(data);
           setStore({ token: data.access_token });
           return true;
@@ -76,8 +80,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       signup: async (name, lastname, email, password) => {
-        const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -104,7 +106,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("There has been an error login in from the backend");
@@ -130,6 +132,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((body) => {
             sessionStorage.setItem("usuario.created_at", body.created_at);
             sessionStorage.setItem("usuario.id", body.id);
+            sessionStorage.setItem("usuario.name", body.name);
+            sessionStorage.setItem("usuario.lastname", body.lastname);
+            sessionStorage.setItem("usuario.role", body.role);
             setStore({ usuario: body });
           })
           .catch((error) => console.log(error));
@@ -137,7 +142,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       putUserCompany: async (company, id) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "PUT",
           headers: {
@@ -159,7 +163,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -171,7 +175,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       putUserSalesGoal: async (salesGoal, id) => {
         const store = getStore();
-        const actions = getActions();
+
         const options = {
           method: "PUT",
           headers: {
@@ -195,10 +199,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           // console.log("This came from the backend", data);
-          Swal.fire(
-            "!Excelente¡",
-            `Tu meta de ventas es: $ ${salesGoal} vamos por ella 💪!!!`,
-            "sucess"
+          toast.success(
+            `Tu meta de ventas es: $ ${salesGoal} vamos por ella!`,
+            {
+              // Custom Icon
+              icon: "💪",
+            }
           );
           return true;
         } catch (error) {
@@ -249,14 +255,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      getUsersByAgency: (agency_ybt) => {
+      getUsersByManager: (manager_id) => {
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/users_by_agency/${agency_ybt}`;
+        const apiURL = `${process.env.BACKEND_URL}/users_by_manager/${manager_id}`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -265,7 +271,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
             throw new Error("Ha ocurrido un error");
           })
-          .then((body) => setStore({ usersByAgency: body }))
+          .then((body) => setStore({ usersByManager: body }))
           .catch((error) => console.log(error));
       },
 
@@ -390,7 +396,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
 
           // console.log("This came from the backend", data);
-          actions.setNotification(`Reseteaste la agencia del usuario`);
+          actions.setNotification("Reseteaste la agencia del usuario");
           actions.getTotalUsuarios();
           return true;
         } catch (error) {
@@ -939,7 +945,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      getClientActivity: (client_id) => {
+      getClientActivity: () => {
         // console.log(client_id);
         const store = getStore();
         const opts = {
@@ -947,7 +953,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/client_activity/${client_id}`;
+        const apiURL = `${process.env.BACKEND_URL}/client_activity`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -1038,7 +1044,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // crear Agencias
       postAgencies: async (agency) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -1060,7 +1065,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar la empresa", error);
@@ -1115,7 +1120,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
+          actions.getCourses(id);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el curso", error);
@@ -1124,7 +1130,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       // obtener Cursos
       getCourses: (id) => {
-        // console.log(id);
+        console.log(id);
         const store = getStore();
         const opts = {
           headers: {
@@ -1142,7 +1148,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((body) => setStore({ courses: body }))
           .catch((error) => console.log(error));
-        // actions.getAgencies(id)
+        // actions.getAgencies(id);
       },
 
       // registro de meta de ventas
@@ -1204,7 +1210,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Cargar Pago
       postPayment: async (payment) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
@@ -1226,7 +1231,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el pago", error);
@@ -1236,7 +1241,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // aprobar Pago
       approvePayment: async (company, id) => {
         const store = getStore();
-        const actions = getActions();
         const options = {
           method: "PUT",
           headers: {
@@ -1258,7 +1262,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          // console.log("This came from the backend", data);
+          console.log("This came from the backend", data);
           return true;
         } catch (error) {
           console.error(
@@ -1269,7 +1273,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       filterByAmount: (firstAmount, lastAmount) => {
         const store = getStore();
-        const actions = getActions();
 
         let firstFilteredClients = store.clientes.filter(
           (cliente) => parseInt(cliente.amount) >= firstAmount
@@ -1297,7 +1300,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       filterByTrust: (trust) => {
         const store = getStore();
-        const actions = getActions();
 
         let filterByTrust = store.clientes.filter(
           (cliente) => cliente.trust === trust
@@ -1307,7 +1309,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       findByName: (name) => {
         const store = getStore();
-        const actions = getActions();
+
         // console.log(name);
         let foundClient = store.clientes.filter((cliente) =>
           cliente.name.toLowerCase().includes(name.toLowerCase())
@@ -1319,7 +1321,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       /* agregamos las funciones para el caso de los asociados */
       filterByAmountAsociados: (firstAmount, lastAmount) => {
         const store = getStore();
-        const actions = getActions();
 
         let firstFilteredClients = store.userClients.filter(
           (cliente) => parseInt(cliente.amount) >= firstAmount
@@ -1347,7 +1348,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       filterByTrustAsociados: (trust) => {
         const store = getStore();
-        const actions = getActions();
 
         let filterByTrust = store.userClients.filter(
           (cliente) => cliente.trust === trust
@@ -1357,13 +1357,130 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       findByNameAsociados: (name) => {
         const store = getStore();
-        const actions = getActions();
+
         // console.log(name);
         let foundClient = store.userClients.filter((cliente) =>
           cliente.name.toLowerCase().includes(name.toLowerCase())
         );
         // console.log(foundClient);
         setStore({ userClients: foundClient });
+      },
+      setHeader: (name) => {
+        // console.log(name);
+        setStore({ header: name });
+      },
+      setNotNav: (param) => {
+        setStore({ notnav: param });
+      },
+
+      /* ----------------------------- CREAR PRODUCTOS ---------------------------- */
+      postProducts: async (producto) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(producto),
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/products`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          actions.getProducts();
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar el curso", error);
+        }
+      },
+
+      /* ----------------------------- LEER PRODUCTOS ----------------------------- */
+      getProducts: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/products`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ productos: body }))
+          .catch((error) => console.log(error));
+        // actions.getAgencies(id);
+      },
+
+      /* --------------------- CREAR PRODUCTOS DE LOS CLIENTES -------------------- */
+      postClienteProductos: async (clienteProducto, clienteId, productId) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify(clienteProducto),
+        };
+        // console.log(courses, id);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/client_products/${clienteId}/${productId}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          console.log("This came from the backend", data);
+          actions.getClienteProductos(id);
+          return true;
+        } catch (error) {
+          console.error("Ha habido un error al registrar el curso", error);
+        }
+      },
+
+      /* --------------------- LEER PRODUCTOS DE LOS CLIENTES --------------------- */
+      getClienteProductos: (clienteId, productId) => {
+        // console.log(id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/client_products/${clienteId}/${productId}`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => setStore({ clienteProductos: body }))
+          .catch((error) => console.log(error));
+        // actions.getAgencies(id);
       },
     },
   };

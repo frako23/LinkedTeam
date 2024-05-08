@@ -57,6 +57,7 @@ class User(db.Model):
     sales_goal = db.Column(db.Integer, unique=False)
     manager = db.Column(db.String(100), unique=False, nullable=True)
     manager_id = db.Column(db.Integer, unique=False, nullable=True)
+    gpt_coins = db.Column(db.Integer, nullable=True,default=5)
 
 
     def __init__(self, **kwargs):
@@ -98,7 +99,8 @@ class User(db.Model):
             "manager": self.manager,
             "manager_id": self.manager_id, 
             "status": self.status.value,
-            "sales_goal": self.sales_goal,            
+            "sales_goal": self.sales_goal,
+            "gpt_coins": self.gpt_coins            
             # do not serialize the password, its a security breach
         }
 
@@ -239,6 +241,8 @@ class Courses(db.Model):
     description = db.Column(db.String(1000), unique=False, nullable=False)
     img_url = db.Column(db.String(250), unique=False, nullable=False)
     link_url = db.Column(db.String(250), unique=False, nullable=False)
+    category = db.Column(db.String(50), unique=False, nullable=True)
+    tag = db.Column(db.Enum(Color), default=Color.white)
     created_at = db.Column(db.DateTime(timezone=True), default=date.today())
     updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
     manager_id = db.Column(db.Integer,unique=False, nullable=False)
@@ -249,6 +253,8 @@ class Courses(db.Model):
         self.img_url = kwargs['img_url']
         self.link_url = kwargs['link_url']
         self.manager_id = kwargs['manager_id']
+        self.tag = kwargs['tag'] if 'sales_goal' in kwargs else None
+        self.category = kwargs['category'] if 'category' in kwargs else None
 
     @classmethod
     def create(cls, **kwargs):
@@ -271,6 +277,8 @@ class Courses(db.Model):
             "manager_id": self.manager_id,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
+            "tag": self.tag.value,
+            "category":self.category
         }
 
 
@@ -366,7 +374,6 @@ class Account_Information(db.Model):
 # --------------- TABLA PARA GUARDAR LOS NOMBRES DE LAS PÓLIZAS -------------- #
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    business_type = db.Column(db.String(50), nullable=False)
     company = db.Column(db.String(50), nullable=False)
     product_name = db.Column(db.String(50), nullable=False)
     product_type = db.Column(db.String(50), nullable=False)
@@ -374,11 +381,11 @@ class Products(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __init__(self, **kwargs):
-        self.business_type = kwargs['business_type']
+        
         self.company = kwargs['company']
         self.product_name = kwargs['product_name']
         self.product_type = kwargs['product_type']
-        self.product_description = kwargs['product_description']
+        self.product_description = kwargs['product_description'] if 'product_description' in kwargs else None
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -394,7 +401,6 @@ class Products(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "business_type": self.business_type,
             "company": self.company,
             "product_name": self.product_name,
             "product_type": self.product_type,
@@ -442,7 +448,6 @@ class Client_Products(db.Model):
             "date_of_closing": self.date_of_closing,
             "notes": self.notes,
             "payment_recurrence": self.payment_recurrence,
-            "business_type": self.product.business_type,
             "company": self.product.company,
             "product_name": self.product.product_name,
             "product_type": self.product.product_type,

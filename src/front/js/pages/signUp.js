@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 
 export const SignUp = () => {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
@@ -22,6 +22,10 @@ export const SignUp = () => {
       // Custom Icon
       icon: "👏",
     });
+
+  useEffect(() => {
+    actions.setNotNav(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,7 +49,10 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-2">
+    <div
+      className="px-4 py-5 m-0  px-md-5 text-center text-lg-start  background-linkedin"
+      style={{ height: "100vh", width: "100vw" }}
+    >
       <Toaster />
       <div className="row gx-lg-5 align-items-center mb-5">
         <div

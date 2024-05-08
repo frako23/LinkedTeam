@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
 
 export default function SortCRM() {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [name, setName] = useState("");
   const [filter, setFilter] = useState({
     amount: "Monto",
@@ -13,33 +13,32 @@ export default function SortCRM() {
 
   return (
     <div style={{}}>
-      <label className="text-white d-flex justify-content-center">
-        Buscador y filtros
-      </label>
-      <div className="input-group mb-3">
+      <div className="form-floating mt-3 mb-1">
         <input
-          type="text"
-          className="form-control"
-          placeholder="Nombre del Prospecto"
-          aria-label="Recipient's username"
-          aria-describedby="button-addon2"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
             actions.findByName(name);
           }}
+          type="email"
+          className="form-control"
+          id="floatingInput"
+          placeholder="name@example.com"
         />
+        <label htmlFor="floatingInput" className="text-secondary">
+          Buscar cliente
+        </label>
       </div>
-      <div className="input-group mb-3 sort-search">
+      <div className="input-group mb-3 sort-search w-100">
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border"
+          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           {filter.amount}
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu w-25">
           <li>
             <button
               className="dropdown-item"
@@ -86,14 +85,14 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border"
+          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           {filter.age}
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu w-25">
           <li>
             <button
               className="dropdown-item"
@@ -162,14 +161,14 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border"
+          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           {filter.trust}
         </button>
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu w-25">
           <li>
             <button
               className="dropdown-item"
@@ -205,7 +204,8 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-light rounded-pill border-dark fw-bold"
+          className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+          style={{ background: "#695cfe" }}
           type="button"
           aria-expanded="false"
           onClick={() => {

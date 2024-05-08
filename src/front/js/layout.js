@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/utils/scrollToTop";
-import { Dashboard } from "./pages/dashboard";
-import { DashboardAsociado } from "./pages/dashboardAsociado";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
@@ -22,6 +20,10 @@ import { TutorialVideos } from "./pages/tutorialVideos";
 import { VideoTutorial } from "./pages/videoTutorial";
 import { TopBar } from "../js/components/navbar/TopBar";
 import { Navbar } from "./components/navbar/navbar";
+import { SalesFunnel } from "./pages/SalesFunnel";
+import { Clients } from "./pages/Clients";
+import { Toaster } from "react-hot-toast";
+import { AssociateSalesFunnel } from "./pages/AssociateSalesFunnel";
 
 //create your first component
 const Layout = () => {
@@ -33,13 +35,18 @@ const Layout = () => {
   return (
     <div>
       <BrowserRouter basename={basename}>
+        <Toaster />
         <ScrollToTop>
           <TopBar />
           <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
-            <Route element={<Dashboard />} path="/dashboard" />
-            <Route element={<DashboardAsociado />} path="/dashboardAsociado" />
+            <Route element={<SalesFunnel />} path="/salesFunnel" />
+            <Route element={<Clients />} path="/clients" />
+            <Route
+              element={<AssociateSalesFunnel />}
+              path="/associatesalesfunnel"
+            />
             <Route element={<SignUp />} path="/signup" />
             <Route element={<Login />} path="/login" />
             <Route element={<Demo />} path="/demo" />

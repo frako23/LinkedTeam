@@ -1,20 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-import one from "../../img/1.jpg";
-import two from "../../img/2.jpg";
-import three from "../../img/3.jpg";
-import four from "../../img/4.jpg";
 import { Link } from "react-router-dom";
-import { Navigation, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import one from "../../img/1.webp";
+import two from "../../img/2.webp";
+import three from "../../img/3.webp";
+import four from "../../img/4.webp";
 
 export const Home = () => {
-  const { store, actions } = useContext(Context);
   const [menuBar, setMenuBar] = useState(false);
+  const { actions } = useContext(Context);
+  useEffect(() => {
+    actions.setNotNav(true);
+  }, []);
   return (
     <>
       {/* comienza la seccion del header */}
@@ -58,11 +61,12 @@ export const Home = () => {
       {/* comienza la sección del home */}
 
       <section className="new-home">
-        {/* <Swiper
+        <Swiper
           // install Swiper modules
-          modules={[Navigation, Autoplay]}
+          modules={[Navigation, Autoplay, Pagination]}
           spaceBetween={50}
           slidesPerView={1}
+          pagination={{ clickable: true }}
           navigation
           autoplay={{
             delay: 5000,
@@ -72,7 +76,12 @@ export const Home = () => {
           onSlideChange={() => console.log("slide change")}
         >
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${one})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${one})`,
+              }}
+            >
               <div className="content">
                 <span>Sácale el máximo potencial a tú equipo de trabajo</span>
                 <h3>Mantente conectado con tu equipo de trabajo</h3>
@@ -80,7 +89,12 @@ export const Home = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${two})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${two})`,
+              }}
+            >
               <div className="content">
                 <span>Entrenamiento constante</span>
                 <h3>Forma a tú equipo de trabajo</h3>
@@ -88,7 +102,12 @@ export const Home = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${three})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${three})`,
+              }}
+            >
               <div className="content">
                 <span>
                   Haz seguimiento efectivo de prospectos propios y de tu equipo
@@ -98,21 +117,26 @@ export const Home = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="slide" style={{ backgroundImage: `url(${four})` }}>
+            <div
+              className="slide"
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${four})`,
+              }}
+            >
               <div className="content">
                 <span>Registra y haz seguimiento de todas tus tareas</span>
                 <h3>Nunca olvides una tarea</h3>
               </div>
             </div>
           </SwiperSlide>
-        </Swiper> */}
+        </Swiper>
       </section>
 
       {/* termina la sección del home */}
       <div id="quePuedesHacer"></div>
       {/* empieza la sección de servicios */}
 
-      <section className="services">
+      <section className="services background-linkedin">
         <h1 className="heading-tittle">
           {" "}
           ¿Qué podrás hacer en <span>LinkedTeam</span>?
@@ -166,8 +190,7 @@ export const Home = () => {
 
         <div className="credit">
           {" "}
-          Creado por <a href="https://devix-eight.vercel.app/">Devix</a> todos
-          los derechos reservados!
+          Creado por <a href="https://frako-dev.vercel.app/">frakoDev</a>
         </div>
       </section>
 

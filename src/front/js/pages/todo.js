@@ -2,22 +2,20 @@ import React, { useContext, useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Context } from "../store/appContext";
 import "../../styles/todo.css";
-import { useParams } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
 
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Pricing } from "./pricing";
 
 export function Todo() {
   const [task, setTask] = useState("");
   const { store, actions } = useContext(Context);
   const [dragOn, setDragOn] = useState(false);
-  const navigate = useNavigate();
-  const notify = () =>
-    toast.error("No puedes crear tareas vacias", {
-      // Custom Icon
-      icon: "🖐",
-    });
+
+  const notify = () => toast.error("No puedes crear tareas vacias");
+
+  useEffect(() => {
+    actions.setHeader("Tareas pendientes");
+  }, []);
 
   // useEffect(() => {
   //   if (store.usuario.status === "inactive") {
@@ -55,7 +53,7 @@ export function Todo() {
       });
     }
   };
-  let { theid } = useParams();
+  // let { theid } = useParams();
 
   return (
     <>
@@ -64,18 +62,13 @@ export function Todo() {
         <Pricing />
       ) : (
         <div>
-          <Toaster />
           <DragDropContext onDragEnd={onDragEnd}>
             <main
-              className=""
+              className="clients"
               style={{
-                paddingLeft: "10rem",
-                paddingRight: "6rem",
+                paddingLeft: "5rem",
               }}
             >
-              <h1 className="text-white text-center mt-4 kanban-head-title">
-                Tareas pendientes
-              </h1>
               <div className="board">
                 <form
                   id="todo-form"
@@ -151,8 +144,8 @@ export function Todo() {
                                                     d-flex justify-content-between
                                                     `}
                                     key={index}
-                                    onDragStart={(e) => setDragOn(true)}
-                                    onDragEnd={(e) => setDragOn(false)}
+                                    onDragStart={() => setDragOn(true)}
+                                    onDragEnd={() => setDragOn(false)}
                                     onDragOver={(e) => {
                                       e.preventDefault();
                                     }}
@@ -162,7 +155,7 @@ export function Todo() {
 
                                     <button
                                       className="todo-button"
-                                      onClick={(e) =>
+                                      onClick={() =>
                                         actions.deleteTarea(task.id)
                                       }
                                     >
@@ -226,8 +219,8 @@ export function Todo() {
                                                     d-flex justify-content-between
                                                     `}
                                     key={index}
-                                    onDragStart={(e) => setDragOn(true)}
-                                    onDragEnd={(e) => setDragOn(false)}
+                                    onDragStart={() => setDragOn(true)}
+                                    onDragEnd={() => setDragOn(false)}
                                     onDragOver={(e) => {
                                       e.preventDefault();
                                     }}
@@ -237,7 +230,7 @@ export function Todo() {
 
                                     <button
                                       className="todo-button"
-                                      onClick={(e) => {
+                                      onClick={() => {
                                         actions.deleteTarea(task.id);
                                       }}
                                     >
@@ -301,8 +294,8 @@ export function Todo() {
                                                     d-flex justify-content-between text-decoration-line-through
                                                     `}
                                     key={index}
-                                    onDragStart={(e) => setDragOn(true)}
-                                    onDragEnd={(e) => setDragOn(false)}
+                                    onDragStart={() => setDragOn(true)}
+                                    onDragEnd={() => setDragOn(false)}
                                     onDragOver={(e) => {
                                       e.preventDefault();
                                     }}
@@ -312,7 +305,7 @@ export function Todo() {
 
                                     <button
                                       className="todo-button"
-                                      onClick={(e) => {
+                                      onClick={() => {
                                         actions.deleteTarea(task.id);
                                       }}
                                     >

@@ -1,13 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import "../../../styles/dashboard.css";
 import { Context } from "../../store/appContext";
 import { useParams } from "react-router-dom";
 import { TarjetaCliente } from "./tarjetaCliente";
+import { Activity } from "./Activity";
 
 export const Kanban = () => {
   const { store, actions } = useContext(Context);
   let { theid } = useParams();
+  useEffect(() => {
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      actions.getClientActivity();
+    }
+  }, [store.token]);
+  console.log(store.clientActivity.filter((item) => item.client_id === 1));
 
   const onDragEnd = (result) => {
     // console.log(result);
@@ -36,7 +43,9 @@ export const Kanban = () => {
   };
 
   // const Element = Scroll.Element;
-
+  const [show, setShow] = useState(false);
+  const [indexToSet, setIndexToSet] = useState();
+  console.log(indexToSet);
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -45,16 +54,13 @@ export const Kanban = () => {
           <Droppable droppableId="Prospecto">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   PROSPECTOS{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "#246dec" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Prospecto"
@@ -82,13 +88,85 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -104,15 +182,15 @@ export const Kanban = () => {
           <Droppable droppableId="Contactado">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   CONTACTADOS{" "}
                   <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
+                    style={{ background: "#f5b74f" }}
+                    className="badge text-black"
                   >
                     {
                       store.clientes.filter(
@@ -141,13 +219,85 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -161,16 +311,13 @@ export const Kanban = () => {
           <Droppable droppableId="Primera Cita">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   PRIMERA CITA{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "#cc3c43" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Primera Cita"
@@ -198,13 +345,85 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -218,15 +437,15 @@ export const Kanban = () => {
           <Droppable droppableId="Negociación">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   NEGOCIACIÓN{" "}
                   <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
+                    style={{ background: "#4ff0f5" }}
+                    className="badge text-black"
                   >
                     {
                       store.clientes.filter(
@@ -255,13 +474,85 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -275,16 +566,13 @@ export const Kanban = () => {
           <Droppable droppableId="Cerrado">
             {(droppableProvided) => (
               <div
-                className="kanban-block tabla"
+                className="kanban-block swim-lane"
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <strong className="kanban-title text-primary">
+                <strong className="kanban-title text-white">
                   CIERRES{" "}
-                  <span
-                    style={{ background: "rgb(50,110,253)" }}
-                    className="badge"
-                  >
+                  <span style={{ background: "#367952" }} className="badge">
                     {
                       store.clientes.filter(
                         (cliente) => cliente.status === "Cerrado"
@@ -312,13 +600,85 @@ export const Kanban = () => {
                             }}
                           >
                             <TarjetaCliente cliente={cliente}>
-                              {cliente.name}
-                              <br></br>
-                              {actions.calcularEdad(cliente.birthdate) +
-                                " años"}
-                              <br></br>${cliente.amount}
-                              <br></br>
-                              Confianza {cliente.trust}
+                              <ul className="list-group list-group-flush">
+                                <span className="fs-5">{cliente.name}</span>
+                                <li className="list-group-item">
+                                  <strong>Edad: </strong>
+                                  {actions.calcularEdad(cliente.birthdate) +
+                                    " años"}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Monto: </strong> ${cliente.amount}
+                                </li>
+                                <li className="list-group-item">
+                                  <strong>Confianza: </strong> {cliente.trust}
+                                </li>
+                                <li
+                                  className="list-group-item activity"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Llamadas"
+                                  onClick={() => {
+                                    setShow(!show);
+                                    setIndexToSet(cliente.id);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-phone fs-4 position-relative text-secondary">
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "llamada"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-message fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Mensajes"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "mensaje"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                  <i
+                                    className="fa-solid fa-calendar-days fs-4 position-relative text-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Citas"
+                                  >
+                                    {" "}
+                                    <span
+                                      style={{ fontSize: "10px" }}
+                                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    >
+                                      {
+                                        store.clientActivity.filter(
+                                          (elem) =>
+                                            elem.client_id === cliente.id &&
+                                            elem.contact_type === "cita"
+                                        ).length
+                                      }
+                                    </span>
+                                  </i>
+                                </li>
+                              </ul>
                             </TarjetaCliente>
                           </div>
                         )}
@@ -331,6 +691,13 @@ export const Kanban = () => {
           </Droppable>
         </div>
       </DragDropContext>
+      <Activity
+        setShow={setShow}
+        show={show}
+        actividad={store.clientActivity.filter(
+          (elem) => elem.client_id === indexToSet
+        )}
+      />
     </>
   );
 };

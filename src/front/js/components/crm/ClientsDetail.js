@@ -1,84 +1,70 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/dashboard.css";
-import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import PropTypes from "prop-types";
 
-export const ModifyClient = ({ prospecto }) => {
+import toast from "react-hot-toast";
+
+export const ClientsDetail = () => {
   const { actions } = useContext(Context);
-  // console.log(prospecto);
-  const [show, setShow] = useState(false);
   const [cliente, setCliente] = useState({
-    name: prospecto.name,
-    birthdate: prospecto.birthdate,
-    email: prospecto.email,
-    cellphone: prospecto.cellphone,
-    amount: prospecto.amount,
-    trust: prospecto.trust,
-    tag: prospecto.tag,
-    status: prospecto.status,
-    notes: prospecto.notes,
+    name: "",
+    birthdate: "",
+    email: "",
+    cellphone: "",
+    amount: "",
+    status: "",
+    trust: "",
+    notes: "",
+    tag: "",
   });
-  const [edit, setEdit] = useState(false);
-  const params = useParams();
+  const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  console.log(edit);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(cliente);
-    actions.putClientes(cliente, params.theid);
+    actions.postClientes(cliente);
+    handleClose();
     setCliente({
       name: "",
       birthdate: "",
       email: "",
       cellphone: "",
       amount: "",
-      trust: "",
-      tag: "",
       status: "",
+      trust: "",
       notes: "",
+      tag: "",
     });
-    handleClose();
+    toast.success("Tu prospecto fue registrado correctamente");
   };
 
   const handleForm = ({ target }) => {
-    setCliente({ [target.name]: target.value });
+    setCliente({ ...cliente, [target.name]: target.value });
   };
 
   return (
     <>
       <button
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        title="Detalle"
         onClick={handleShow}
+        className="btn btn-sm btn-outline-secondary"
+        style={{ height: "fit-content" }}
       >
-        <i className="bx bxs-detail fs-5"></i>
+        Nuevo Cliente
       </button>
 
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>{cliente.name}</Modal.Title>
+          <Modal.Title>Datos del cliente</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="form-check form-switch float-end">
-            <i className="bx bx-edit-alt fs-5"></i>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckDefault"
-              onClick={() => setEdit(!edit)}
-            />
-          </div>
-
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Row>
@@ -86,44 +72,47 @@ export const ModifyClient = ({ prospecto }) => {
                   <Form.Label>Nombre y Apellido</Form.Label>
                   <Form.Control
                     type="text"
+                    required
                     name="name"
                     placeholder="Nombre del cliente"
                     onChange={handleForm}
                     value={cliente.name}
-                    disabled={edit ? false : true}
+                    autoFocus
                   />
                 </Col>
                 <Col>
                   <Form.Label>Celular</Form.Label>
                   <Form.Control
                     type="tel"
+                    // required
                     name="cellphone"
                     placeholder="04XX-XXXXXXX"
                     onChange={handleForm}
                     value={cliente.cellphone}
-                    disabled={edit ? false : true}
                   />
                 </Col>
                 <Col>
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
+                    // required
                     name="email"
                     pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                     placeholder="nombre@correo.com"
                     onChange={handleForm}
                     value={cliente.email}
-                    disabled={edit ? false : true}
+                    autoFocus
                   />
                 </Col>
                 <Col>
                   <Form.Label>Fecha de Nacimiento</Form.Label>
                   <Form.Control
                     type="date"
+                    // required
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
-                    disabled={edit ? false : true}
+                    autoFocus
                   />
                 </Col>
               </Row>
@@ -135,21 +124,22 @@ export const ModifyClient = ({ prospecto }) => {
                   <Form.Label>Monto</Form.Label>
                   <Form.Control
                     type="number"
+                    // required
                     placeholder="5000"
                     name="amount"
                     value={cliente.amount}
                     onChange={handleForm}
-                    disabled={edit ? false : true}
+                    autoFocus
                   />
                 </Col>
                 <Col>
                   <Form.Label>Etiqueta:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
+                    // required
                     name="status"
-                    value={cliente.tag}
+                    value={cliente.status}
                     onChange={handleForm}
-                    disabled={edit ? false : true}
                   >
                     <option value=""></option>
                     <option value="Prospecto">Prospecto</option>
@@ -163,10 +153,10 @@ export const ModifyClient = ({ prospecto }) => {
                   <Form.Label>Estatus:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
+                    required
                     name="status"
                     value={cliente.status}
                     onChange={handleForm}
-                    disabled={edit ? false : true}
                   >
                     <option value=""></option>
                     <option value="Prospecto">Prospecto</option>
@@ -180,10 +170,10 @@ export const ModifyClient = ({ prospecto }) => {
                   <Form.Label>Nivel de confianza:</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
+                    required
                     name="trust"
                     value={cliente.trust}
                     onChange={handleForm}
-                    disabled={edit ? false : true}
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
@@ -206,7 +196,7 @@ export const ModifyClient = ({ prospecto }) => {
                 placeholder="Breve descripción ¿hijos? ¿espos@?"
                 value={cliente.notes}
                 onChange={handleForm}
-                disabled={edit ? false : true}
+                // required
               />
             </Form.Group>
             <Modal.Footer>
@@ -222,8 +212,4 @@ export const ModifyClient = ({ prospecto }) => {
       </Modal>
     </>
   );
-};
-
-ModifyClient.propTypes = {
-  prospecto: PropTypes.object,
 };

@@ -23,9 +23,8 @@ html {
 }
 
 body {
-  background-color: rgb(16, 23, 40);
-
-  /* color: white; */
+  background-color: #e4e9f7;
+  color: black;
 }
 
 .font1 {
@@ -58,8 +57,8 @@ body {
 
 .course:hover {
   background: transparent;
-  border-color: white;
-  color: white;
+  border-color: black;
+  color: black;
 }
 
 .course__image {
@@ -85,7 +84,7 @@ body {
 }
 
 .course__btn:hover {
-  background-color: transparent;
+  background-color: green;
   color: white;
   border-color: white;
 }
@@ -177,6 +176,7 @@ section {
   color: var(--white);
   padding-bottom: 1rem;
   text-shadow: var(--text-shadow);
+  position: relative;
 }
 
 .new-home .slide .content h3 {
@@ -223,9 +223,10 @@ section {
 }
 
 .footer .credit a {
-  color: #101223;
+  color: #35ad94;
   font-size: 3rem;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  font-family: system-ui, sans-serif;
 }
 
 .services .box-container {
@@ -387,4 +388,24 @@ section {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.background-linkedin {
+  background-color: hsl(218, 41%, 15%);
+  background-image: radial-gradient(
+      650px circle at 0% 0%,
+      hsl(218, 41%, 35%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%
+    ),
+    radial-gradient(
+      1250px circle at 100% 100%,
+      hsl(218, 41%, 45%) 15%,
+      hsl(218, 41%, 30%) 35%,
+      hsl(218, 41%, 20%) 75%,
+      hsl(218, 41%, 19%) 80%,
+      transparent 100%
+    );
 }

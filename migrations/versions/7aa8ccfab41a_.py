@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 2e70305b2af1
+Revision ID: 7aa8ccfab41a
 Revises: 
-Create Date: 2024-03-21 10:20:38.062443
+Create Date: 2024-05-08 06:06:10.524540
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2e70305b2af1'
+revision = '7aa8ccfab41a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,8 @@ def upgrade():
     sa.Column('description', sa.String(length=1000), nullable=False),
     sa.Column('img_url', sa.String(length=250), nullable=False),
     sa.Column('link_url', sa.String(length=250), nullable=False),
+    sa.Column('category', sa.String(length=50), nullable=True),
+    sa.Column('tag', sa.Enum('white', 'black', 'blue', 'grey', 'green', 'yellow', 'orange', 'pink', 'purple', 'red', name='color'), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('manager_id', sa.Integer(), nullable=False),
@@ -43,6 +45,7 @@ def upgrade():
     sa.Column('sales_goal', sa.Integer(), nullable=True),
     sa.Column('manager', sa.String(length=100), nullable=True),
     sa.Column('manager_id', sa.Integer(), nullable=True),
+    sa.Column('gpt_coins', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -79,7 +82,6 @@ def upgrade():
     )
     op.create_table('products',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('business_type', sa.String(length=50), nullable=False),
     sa.Column('company', sa.String(length=50), nullable=False),
     sa.Column('product_name', sa.String(length=50), nullable=False),
     sa.Column('product_type', sa.String(length=50), nullable=False),

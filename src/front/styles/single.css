@@ -4,13 +4,3 @@ table th {
   white-space: nowrap;
   overflow: hidden;
 }
-
-thead th,
-tbody th {
-  color: #fff;
-}
-
-tbody td {
-  font-weight: 500;
-  color: white;
-}

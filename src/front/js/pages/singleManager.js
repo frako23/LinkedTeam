@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 
 import "../../styles/single.css";
 
-export const SingleManager = (props) => {
+export const SingleManager = () => {
   const { store, actions } = useContext(Context);
   const [indicador, setIndicador] = useState("información");
   const params = useParams();
@@ -33,7 +32,7 @@ export const SingleManager = (props) => {
                 className={`nav-link ${
                   indicador == "información" ? "active" : ""
                 } fw-bolder`}
-                onClick={(e) => setIndicador("información")}
+                onClick={() => setIndicador("información")}
               >
                 Información
               </button>
@@ -43,7 +42,7 @@ export const SingleManager = (props) => {
                 className={`nav-link ${
                   indicador == "historico" ? "active" : ""
                 } fw-bolder`}
-                onClick={(e) => setIndicador("historico")}
+                onClick={() => setIndicador("historico")}
               >
                 Histórico
               </button>

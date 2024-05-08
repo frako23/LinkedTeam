@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/navbar.css";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
+  const role = sessionStorage.getItem("usuario.role");
   const [toggle, setToggle] = useState("close");
-  const [appBar, setAppBar] = useState(false);
 
   const toggleFunc = () => {
     if (toggle == "close") {
@@ -18,16 +17,22 @@ export const Navbar = () => {
     }
   };
 
-  function handleLogOut() {
-    actions.logout();
-    navigate("/");
-  }
+  useEffect(() => {
+    actions.getUsuario();
+  }, []);
+  console.log(store.usuario.manager_id);
 
-  useEffect(() => actions.getUsuario, []);
+  useEffect(() => {
+    if (store.usuario.manager_id) {
+      actions.getCourses(store.usuario.manager_id);
+    }
+  }, [store.usuario.manager_id]);
+
+  console.log(store.courses);
 
   return (
     <nav
-      className={`sidebar shadow ${toggle == "close" ? "close" : "open"}`}
+      className={`sidebar shadow ${toggle == "close" ? "close" : "open"} ${store.notnav && "d-none"}`}
       id="body"
     >
       <div className="menu-bar">
@@ -40,46 +45,63 @@ export const Navbar = () => {
           <ul className="p-0">
             <Link to="/perfil">
               <li className="ps-0">
-                <i className="bx bx-bar-chart-alt-2 icon"></i>
-                <span className="text nav-text">Tablero</span>
-                <span className="tooltip">Tablero</span>
+                <i
+                  className={`bx bx-bar-chart-alt-2 icon ${store.header === "Tablero de control" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Tablero de control</span>
+                <span className="tooltip">Tablero de control</span>
               </li>
             </Link>
-
-            <Link to="/courses">
+            {store.courses.length > 0 && (
+              <Link to="/courses">
+                <li className="ps-0">
+                  <span className="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+                    {store.courses.length}
+                  </span>
+                  <i
+                    className={`bx bxl-youtube icon ${store.header === "Cursos disponibles" ? "active" : "unactive"}`}
+                  ></i>
+                  <span className="text nav-text">Cursos disponibles</span>
+                  <span className="tooltip">Cursos disponibles</span>
+                </li>
+              </Link>
+            )}
+            <Link to="/salesFunnel">
               <li className="ps-0">
-                <i className="bx bxl-youtube icon"></i>
-                <span className="text nav-text">Cursos y Videos</span>
-                <span className="tooltip">Cursos y Videos</span>
+                <i
+                  className={`fa-solid fa-filter-circle-dollar icon-fa ${store.header === "Embudo de ventas" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Embudo de ventas</span>
+                <span className="tooltip">Embudo de ventas</span>
               </li>
             </Link>
-
-            <Link to="/dashboard">
+            <Link to="/clients">
               <li className="ps-0">
-                <i className="bx bxs-layout icon"></i>
-                <span className="text nav-text">CRM</span>
-                <span className="tooltip">CRM</span>
+                <i
+                  className={`fa-solid fa-users icon-fa ${store.header === "Clientes" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Clientes</span>
+                <span className="tooltip">Clientes</span>
               </li>
             </Link>
-
             <Link to="/todo">
               <li className="ps-0">
-                <i className="bx bx-list-ol icon"></i>
+                <i
+                  className={`bx bx-list-ol icon ${store.header === "Tareas pendientes" ? "active" : "unactive"}`}
+                ></i>
                 <span className="text nav-text">Tareas pendientes</span>
                 <span className="tooltip">Tareas pendientes</span>
               </li>
             </Link>
 
-            {store.usuario.role == "manager" ? (
+            {role == "manager" ? (
               <Link to="/OwnAgencyCourses">
                 <li className="ps-0">
-                  <i className="fa-solid fa-users-rectangle icon"></i>
-                  <span className="text nav-text">
-                    {store.usuario.own_agency.name}
-                  </span>
-                  <span className="tooltip">
-                    {store.usuario.own_agency.name}
-                  </span>
+                  <i
+                    className={`fa-solid fa-person-chalkboard icon-fa ${store.header === "Cursos para tu equipo" ? "active" : "unactive"}`}
+                  ></i>
+                  <span className="text nav-text">Cursos para tu equipo</span>
+                  <span className="tooltip">Cursos para tu equipo</span>
                 </li>
               </Link>
             ) : (
@@ -87,16 +109,20 @@ export const Navbar = () => {
             )}
             <Link to="/pricing">
               <li className="ps-0">
-                <i className="fa-regular fa-money-bill-1 icon"></i>
-                <span className="text nav-text">Registra tu Pago</span>
-                <span className="tooltip">Registra tu Pago</span>
+                <i
+                  className={`fa-regular fa-money-bill-1 icon-fa ${store.header === "Registra tu pago" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Registra tu pago</span>
+                <span className="tooltip">Registra tu pago</span>
               </li>
             </Link>
             <Link to="/tutorialVideos">
               <li className="ps-0">
-                <i className="fa-solid fa-circle-info icon"></i>
-                <span className="text nav-text">Videos Tutoriales</span>
-                <span className="tooltip">Videos Tutoriales</span>
+                <i
+                  className={`fa-solid fa-circle-info icon-fa ${store.header === "Videos tutoriales" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Videos tutoriales</span>
+                <span className="tooltip">Videos tutoriales</span>
               </li>
             </Link>
             <a href="#">
@@ -106,14 +132,6 @@ export const Navbar = () => {
               ></i>
             </a>
           </ul>
-        </div>
-
-        <div className="bottom-content">
-          <li className="pe-auto" onClick={(event) => handleLogOut()}>
-            <i className="bx bx-log-out icon"></i>
-            <span className="text nav-text">Salir</span>
-            <span className="tooltip">Salir</span>
-          </li>
         </div>
       </div>
     </nav>

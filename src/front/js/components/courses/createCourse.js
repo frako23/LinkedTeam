@@ -6,11 +6,11 @@ import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function CreateCourse() {
   const [show, setShow] = useState(false);
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [courses, setCourses] = useState({
@@ -19,6 +19,7 @@ function CreateCourse() {
     img_url: "",
     link_url: "",
   });
+  const id = sessionStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
     setCourses({ ...courses, [target.name]: target.value });
   };
@@ -30,37 +31,34 @@ function CreateCourse() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(courses, store.usuario.own_agency.id);
-    actions.postCourses(courses, store.usuario.own_agency.id);
+    actions.postCourses(courses, id);
     setCourses({
       title: "",
       description: "",
       img_url: "",
       link_url: "",
+      category: "",
+      tag: "",
     });
     handleClose();
-    Swal.fire({
-      title: "Registraste el curso correctamente 🙌",
-      confirmButtonText: "OK",
-      showLoaderOnConfirm: true,
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
-    actions.getCourses(store.usuario.own_agency.id);
+    toast.success("Registraste el curso correctamente");
+    actions.getCourses();
   };
 
   return (
     <>
-      <Button
-        variant="light"
+      <button
+        className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+        style={{ background: "#695cfe" }}
         onClick={handleShow}
-        style={{ height: "fit-content" }}
       >
         Crear Curso
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose}>
         <Form onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Crear el curso para tu agencia aquí</Modal.Title>
+            <Modal.Title>Crea el curso para tu equipo aquí</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -91,6 +89,26 @@ function CreateCourse() {
                 autoFocus
                 name="link_url"
                 value={courses.link_url}
+                onChange={handleForm}
+              />
+
+              <Form.Label>Categoria</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Motivación"
+                autoFocus
+                name="category"
+                value={courses.category}
+                onChange={handleForm}
+              />
+
+              <Form.Label>Color de la etiqueta</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Verde"
+                autoFocus
+                name="tag"
+                value={courses.tag}
                 onChange={handleForm}
               />
 

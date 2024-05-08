@@ -49,34 +49,56 @@ def login():
 
 # -------------------- API PARA TRAER LA LISTA DE USUARIOS ------------------- #
 @api.route('/users', methods=['GET'])
+@jwt_required()
 def get_users():
-    if request.method == 'GET':
+    admin_id = get_jwt_identity()
+    admin = User.query.get(admin_id)
+    if admin.role.value == 'admin':
         users = User.query.all()
         users_dictionaries = []
         for user in users:
             users_dictionaries.append(user.serialize())
         return jsonify(users_dictionaries), 200
+    else:
+        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin.role.value.value} "} ), 401 
 
-# --------------- MÉTODO PUT PARA ASIGNAR GERENCIA LA USUARIO -------------- #
-@api.route('/management_assignment', methods=['PUT'])
+# --------------- MÉTODO PUT PARA ASIGNAR GERENCIA AL USUARIO -------------- #
+@api.route('/management_assignment/<int:id>', methods=['PUT'])
 @jwt_required()
-def put_user_manager():
-    id = get_jwt_identity()
+def put_user_manager(id):
+    admin_id = get_jwt_identity()
+    admin = User.query.get(admin_id)
+    if admin.role.value == 'admin':
+        try:
+            user = User.query.get(id)
+            user.manager = request.json['manager']
+            user.manager_id = request.json['manager_id']
+            db.session.commit()
+            return jsonify(user.serialize()),200 
+
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+    else:
+        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"}), 401 
+
+# --------------- MÉTODO PUT PARA ASIGNAR GPT COINS -------------- #
+@api.route('/gpt_coins/<int:user_id>', methods=['PUT'])
+@jwt_required()
+def put_user_gpt_coins(user_id):
     try:
-        user = User.query.get(id)
-        user.manager = request.json['manager']
-        user.manager_id = request.json['manager_id']
+        user = User.query.get(user_id)
+        user.gpt_coins = request.json['gpt_coins']
         db.session.commit()
         return jsonify(user.serialize()),200 
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args
 
 # ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
 @api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
+@jwt_required()
 def get_users_by_manager(manager_id):
     users = User.query.filter_by( manager_id = manager_id)
-    print(users)
     users_dictionaries = []
     for user in users:
         users_dictionaries.append(user.serialize())
@@ -106,7 +128,7 @@ def add_user():
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
         if  "role" in new_user_data:
-            if new_user_data["role"] not in Role.__members__:
+            if new_user_data["role"] not in __members__:
                 return {"error": f"No existe en los roles disponibles"},400
         salt = b64encode(os.urandom(32)).decode('utf-8')
         new_user_data["password"] = set_password(new_user_data["password"], salt)
@@ -134,20 +156,28 @@ def put_user_sales_goal():
 
 # -------------- MÉTODO PUT PARA CAMBIAR EL ROL DE LOS USUARIOS -------------- #
 @api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
+@jwt_required()
 def put_user_role_admin(user_id):
-    try:
-        user = User.query.get(user_id)
-        
-        user.role = request.json['role']
+    # admin_id = get_jwt_identity()
+    # admin = User.query.get(admin_id)
+    # print(admin)
+    # if admin.role.value.value == 'admin':
+        try:
+            user = User.query.get(user_id)
+            
+            user.role = request.json['role']
 
-        db.session.commit()
-        return jsonify(user.serialize()),200 
+            db.session.commit()
+            return jsonify(user.serialize()),200 
 
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    # else:
+    #     return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin} "}), 401 
 
 # ------------ MÉTODO PUT PARA CAMBIAR EL ESTATUS DE LOS USUARIOS ------------ #
 @api.route('/user_status/<int:user_id>', methods=['PUT'])
+@jwt_required()
 def put_user_status(user_id):
     try:
         user = User.query.get(user_id)
@@ -186,7 +216,7 @@ def post_get_clientes():
 
 # --------------- API PARA TRAER LOS CLIENTES DE LOS ASOCIADOS --------------- #
 @api.route('/user_clients/<int:id>', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_user_clients(id):    
     clientes = Cliente.query.filter_by(user_id = id)
     clientes_dictionaries = []
@@ -196,6 +226,7 @@ def get_user_clients(id):
 
 # ----------- API PARA TRAER LA DATA DE LOS CLIENTES A LOS GERENTES ---------- #
 @api.route('/manager_user_clients/<int:id>/<int:client_id>', methods=['GET'])
+@jwt_required()
 def get_manager_user_clients(id, client_id):    
     clientes = Cliente.query.filter_by(user_id = id, client_id = client_id)
     clientes_dictionaries = []
@@ -205,7 +236,7 @@ def get_manager_user_clients(id, client_id):
 
 # ------------------------ API PARA ELIMINAR CLIENTES ------------------------ #
 @api.route('/cliente/<int:id>', methods=['DELETE'])
-# @jwt_required()
+@jwt_required()
 def delete_cliente(id):
     cliente = Cliente.query.get(id)
 
@@ -221,6 +252,7 @@ def delete_cliente(id):
 
 # ---------------- API PARA CAMBIAR ESTATUS DE LOS PROSPECTOS ---------------- #
 @api.route('/cliente/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_cliente(id):
 
     try:
@@ -236,6 +268,7 @@ def update_cliente(id):
 
 # ----- API PARA CAMBIAR TODAS LAS DEMÁS CARATERÍSTICAS DE LOS PROSPECTOS ---- #
 @api.route('/modify_cliente/<int:id>', methods=['PUT'])
+@jwt_required()
 def modify_cliente(id):
     body = request.json
 
@@ -299,6 +332,7 @@ def post_get_tareas():
 
 # ------------------------- API PARA MODIFICAR TAREAS ------------------------ #
 @api.route('/tareas/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_tarea(id):
 
     try:
@@ -314,6 +348,7 @@ def update_tarea(id):
 
 # ------------------------- API PARA ELIMINAR TAREAS ------------------------- #
 @api.route('/tareas/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_tarea(id):
     tarea = Tarea.query.get(id)
 
@@ -328,20 +363,21 @@ def delete_tarea(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
 # -------------------- API DE ACTIVIDADES DE LOS CLIENTES -------------------- #
-@api.route('/client_activity/<int:client_id>', methods=['GET'])
+@api.route('/client_activity/', methods=['GET'])
 @jwt_required()
-def get_client_activity(client_id):
+def get_client_activity():
     user_id = get_jwt_identity()
-    client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
+    client_activities = Client_Activity.query.filter_by(user_id = user_id)
 
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
         ),200
 
 # ------- API PARA QUE GERENTES VEAN ACTIVIDAD DE CLIENTES DE ASOCIADOS ------ #
-@api.route('/manager_client_activity/<int:user_id>/<int:client_id>', methods=['GET'])
-def get_manager_client_activity(user_id, client_id):
-    client_activities = Client_Activity.query.filter_by(user_id = user_id, client_id = client_id)
+@api.route('/manager_client_activity/<int:user_id>/', methods=['GET'])
+@jwt_required()
+def get_manager_client_activity(user_id):
+    client_activities = Client_Activity.query.filter_by(user_id = user_id)
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
         ),200
@@ -367,6 +403,7 @@ def add_client_activity(client_id):
 
 # ---------------- API PARA ELIMINAR ACTIVIDADES CON LOS CLIENTES ---------------- #
 @api.route('/delete_client_activity/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_client_activity(id):
     client_activity = Client_Activity.query.get(id)
 
@@ -381,12 +418,11 @@ def delete_client_activity(id):
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # ---------------------- API PARA CARGAR LOS CURSOS ---------------------- #
-@api.route('/courses', methods=['GET','POST'])
+@api.route('/courses/<int:id>', methods=['GET','POST'])
 @jwt_required()
-def post_get_courses_data():
-    user_id = get_jwt_identity()
+def post_get_courses_data(id):
     if request.method == 'GET':
-        courses_data = Courses.query.filter_by(manager_id = user_id)
+        courses_data = Courses.query.filter_by(manager_id = id)
         courses_data_dictionary = []
         for course_data in courses_data:
             courses_data_dictionary.append(course_data.serialize())
@@ -402,7 +438,7 @@ def post_get_courses_data():
             raise Exception("No ingresaste el img_url", 400)
         if "link_url" not in new_course_data or new_course_data["link_url"] == "":
             raise Exception("No ingresaste el link_url", 400)
-        new_course = Courses.create(**new_course_data, manager_id = user_id)
+        new_course = Courses.create(**new_course_data, manager_id = id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
@@ -430,6 +466,8 @@ def delete_put_courses_data(id):
     description= body.get("description", None)
     img_url= body.get("img_url", None)
     link_url= body.get("link_url", None)
+    category= body.get("category", None)
+    tag= body.get("tag", None)
     
     if title is not None and title != "":
         course.title = title
@@ -439,6 +477,10 @@ def delete_put_courses_data(id):
         course.img_url = img_url
     if link_url is not None and link_url != "":
         course.link_url = link_url
+    if category is not None and category != "":
+        course.category = category
+    if tag is not None and tag != "":
+        course.tag = tag
     try:
         db.session.commit()
         return jsonify(course.serialize()),200 
@@ -450,6 +492,7 @@ def delete_put_courses_data(id):
 
 # ------------------------ API PARA REGRISTRO DE PAGOS ----------------------- #
 @api.route('/get_payments/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_payments(user_id):
     payments_data = Payment.query.filter_by(user_id = user_id)
     payments_data_dictionary = []
@@ -492,16 +535,12 @@ def post_get_products():
         return jsonify(products_names_dictionary), 200
     new_product_data = request.json
     try:
-        if "business_type" not in new_product_data or new_product_data["business_type"] == "":
-            raise Exception("No ingresaste el tipo de negocio", 400)
         if "company" not in new_product_data or new_product_data["company"] == "":
             raise Exception("No ingresaste la compañía del producto", 400)
         if "product_name" not in new_product_data or new_product_data["product_name"] == "":
             raise Exception("No ingresaste el nombre del producto", 400)
         if "product_type" not in new_product_data or new_product_data["product_type"] == "":
             raise Exception("No ingresaste el tipo de producto", 400)
-        if "product_description" not in new_product_data or new_product_data["product_description"] == "":
-            raise Exception("No ingresaste la descripción del producto", 400)
         new_product = Products.create(**new_product_data, user_id = user_id)
         return jsonify(new_product.serialize()), 201
     except Exception as error:
@@ -527,14 +566,11 @@ def delete_put_products(product_id):
     body = request.json
     product = Products.query.get(product_id)
 
-    business_type= body.get("business_type", None)
     company= body.get("company", None)
     product_name= body.get("product_name", None)
     product_type= body.get("product_type", None)
     product_description= body.get("product_description", None)
     
-    if business_type is not None and business_type != "":
-        product.business_type = business_type
     if company is not None and company != "":
         product.company = company
     if product_name is not None and product_name != "":
@@ -552,6 +588,7 @@ def delete_put_products(product_id):
 
 # -------------------------- API PARA CREAR CARGAR POLIZAS A LOS CLIENTES-------------------------- #
 @api.route('/client_products/<int:client_id>/<int:product_id>', methods=['GET','POST'])
+@jwt_required()
 def post_get_client_products(client_id, product_id):
     if request.method == 'GET':
         client_products = Client_Products.query.filter_by(product_id = product_id, client_id = client_id)
@@ -565,8 +602,6 @@ def post_get_client_products(client_id, product_id):
             raise Exception("Monto", 400)
         if "date_of_closing" not in new_client_policy_data or new_client_policy_data["date_of_closing"] == "":
             raise Exception("No ingresaste la fecha del cierre", 400)
-        if "notes" not in new_client_policy_data or new_client_policy_data["notes"] == "":
-            raise Exception("No ingresaste notas", 400)
         if "payment_recurrence" not in new_client_policy_data or new_client_policy_data["payment_recurrence"] == "":
             raise Exception("No ingresaste la frecuenta de pago", 400)
 
@@ -577,6 +612,7 @@ def post_get_client_products(client_id, product_id):
 
 # -------------------- API PARA CAMBIAR Y ELIMINAR PRODUCTOS DE LOS CLIENTES -------------------- #
 @api.route('/client_products/<int:id>', methods=['DELETE', 'PUT'])
+@jwt_required()
 def delete_put_client_products(id):
     if request.method == 'DELETE':
         client_product = Client_Products.query.get(id)
