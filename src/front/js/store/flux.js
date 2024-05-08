@@ -1428,7 +1428,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       /* --------------------- CREAR PRODUCTOS DE LOS CLIENTES -------------------- */
-      postClienteProdudctos: async (clienteProductos) => {
+      postClienteProductos: async (clienteProducto, clienteId, productId) => {
         const store = getStore();
         const actions = getActions();
         const options = {
@@ -1437,12 +1437,12 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
           },
-          body: JSON.stringify(courses),
+          body: JSON.stringify(clienteProducto),
         };
         // console.log(courses, id);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/courses`,
+            `${process.env.BACKEND_URL}/client_products/${clienteId}/${productId}`,
             options
           );
 
@@ -1453,7 +1453,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           console.log("This came from the backend", data);
-          actions.getCourses(id);
+          actions.getClienteProductos(id);
           return true;
         } catch (error) {
           console.error("Ha habido un error al registrar el curso", error);
@@ -1461,15 +1461,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       /* --------------------- LEER PRODUCTOS DE LOS CLIENTES --------------------- */
-      getClienteProductos: (id) => {
-        console.log(id);
+      getClienteProductos: (clienteId, productId) => {
+        // console.log(id);
         const store = getStore();
         const opts = {
           headers: {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/courses/${id}`;
+        const apiURL = `${process.env.BACKEND_URL}/client_products/${clienteId}/${productId}`;
 
         fetch(apiURL, opts)
           .then((response) => {
@@ -1478,7 +1478,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
             throw new Error("Ha ocurrido un error");
           })
-          .then((body) => setStore({ courses: body }))
+          .then((body) => setStore({ clienteProductos: body }))
           .catch((error) => console.log(error));
         // actions.getAgencies(id);
       },

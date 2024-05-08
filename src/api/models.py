@@ -448,7 +448,6 @@ class Client_Products(db.Model):
             "date_of_closing": self.date_of_closing,
             "notes": self.notes,
             "payment_recurrence": self.payment_recurrence,
-            "business_type": self.product.business_type,
             "company": self.product.company,
             "product_name": self.product.product_name,
             "product_type": self.product.product_type,

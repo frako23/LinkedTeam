@@ -566,14 +566,11 @@ def delete_put_products(product_id):
     body = request.json
     product = Products.query.get(product_id)
 
-    business_type= body.get("business_type", None)
     company= body.get("company", None)
     product_name= body.get("product_name", None)
     product_type= body.get("product_type", None)
     product_description= body.get("product_description", None)
     
-    if business_type is not None and business_type != "":
-        product.business_type = business_type
     if company is not None and company != "":
         product.company = company
     if product_name is not None and product_name != "":
@@ -605,8 +602,6 @@ def post_get_client_products(client_id, product_id):
             raise Exception("Monto", 400)
         if "date_of_closing" not in new_client_policy_data or new_client_policy_data["date_of_closing"] == "":
             raise Exception("No ingresaste la fecha del cierre", 400)
-        if "notes" not in new_client_policy_data or new_client_policy_data["notes"] == "":
-            raise Exception("No ingresaste notas", 400)
         if "payment_recurrence" not in new_client_policy_data or new_client_policy_data["payment_recurrence"] == "":
             raise Exception("No ingresaste la frecuenta de pago", 400)
 

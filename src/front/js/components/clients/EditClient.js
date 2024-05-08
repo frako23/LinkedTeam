@@ -54,6 +54,8 @@ export const EditClient = ({ name, birthdate, cellphone, email, id }) => {
   return (
     <>
       <button
+        data-toggle="tooltip"
+        title="Editar Cliente"
         onClick={handleShow}
         className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
         style={{ background: "#695cfe" }}

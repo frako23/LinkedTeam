@@ -63,7 +63,7 @@ export const Clients = () => {
                   <td>{cliente.email}</td>
                   <td>{cliente.birthdate}</td>
                   <td className="d-flex justify-content-center gap-3 ">
-                    <CreateProductClient />
+                    <CreateProductClient clientId={cliente.id} />
                     <EditClient
                       name={cliente.name}
                       email={cliente.email}
@@ -72,6 +72,8 @@ export const Clients = () => {
                       id={cliente.id}
                     />
                     <button
+                      data-toggle="tooltip"
+                      title="Eliminar Cliente"
                       className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
                       style={{ background: "#695cfe" }}
                       // onClick={handleShow}

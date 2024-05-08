@@ -6,21 +6,34 @@ import Modal from "react-bootstrap/Modal";
 import toast from "react-hot-toast";
 import { Col, Row } from "react-bootstrap";
 
-function CreateProductClient() {
+function CreateProductClient({ clientId }) {
   const [show, setShow] = useState(false);
   const { store, actions } = useContext(Context);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [clienteProducto, setClienteProducto] = useState({
-    product: "",
     amount: "",
     date_of_closing: "",
     payment_recurrence: "",
     notes: "",
   });
-  const id = sessionStorage.getItem("usuario.id");
+  const [productId, setProductId] = useState({
+    company: "",
+    id: 0,
+    product_description: "",
+    product_name: "",
+    product_type: "",
+    user_id: 0,
+  });
+  console.log(clientId);
+  // const id = sessionStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
     setClienteProducto({ ...clienteProducto, [target.name]: target.value });
+  };
+  const handleProductId = ({ target }) => {
+    setProductId(
+      store.productos.find((producto) => producto.product_name == target.value)
+    );
   };
 
   useEffect(() => {
@@ -30,9 +43,8 @@ function CreateProductClient() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(clienteProducto, store.usuario.own_agency.id);
-    actions.postProducts(clienteProducto);
+    actions.postClienteProductos(clienteProducto, clientId, productId.id);
     setClienteProducto({
-      product: "",
       amount: "",
       date_of_closing: "",
       payment_recurrence: "",
@@ -42,10 +54,12 @@ function CreateProductClient() {
     toast.success("Registraste el producto correctamente");
     actions.getProducts();
   };
-
+  console.log(clienteProducto, productId);
   return (
     <>
       <button
+        data-toggle="tooltip"
+        title="Asignar Producto al Cliente"
         className="btn btn-light rounded-pill ms-2 border w-25-dark fw-bold text-white"
         style={{ background: "#695cfe" }}
         onClick={handleShow}
@@ -65,15 +79,15 @@ function CreateProductClient() {
                   <Form.Label>Producto*</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    name="product"
-                    value={clienteProducto.product}
-                    onChange={handleForm}
+                    name="product_name"
+                    value={productId.product_name}
+                    onChange={handleProductId}
                     required
                   >
                     <option
                       className="text-center"
                       style={{ backgroundColor: "white" }}
-                      value="white"
+                      value=""
                     ></option>
                     {store.productos.length > 0 ? (
                       store.productos.map((producto) => (
@@ -81,7 +95,7 @@ function CreateProductClient() {
                           key={producto.id}
                           className="text-center"
                           style={{ backgroundColor: "white" }}
-                          value="white"
+                          value={producto.product_name}
                         >
                           <span>{producto.product_name}</span>
                         </option>
@@ -90,7 +104,7 @@ function CreateProductClient() {
                       <option
                         className="text-center"
                         style={{ backgroundColor: "white" }}
-                        value="white"
+                        value=""
                       >
                         No hay productos guardados
                       </option>
@@ -100,10 +114,10 @@ function CreateProductClient() {
                 <Col>
                   <Form.Label>Fecha de cierre*</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Fredom 20"
+                    type="date"
+                    placeholder="06/05/2024"
                     autoFocus
-                    name="product_name"
+                    name="date_of_closing"
                     value={clienteProducto.date_of_closing}
                     onChange={handleForm}
                     required
@@ -114,10 +128,10 @@ function CreateProductClient() {
                 <Col>
                   <Form.Label>Monto*</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Seguro de Vida"
+                    type="number"
+                    placeholder="5000"
                     autoFocus
-                    name="product_type"
+                    name="amount"
                     value={clienteProducto.amount}
                     onChange={handleForm}
                     required
@@ -125,15 +139,27 @@ function CreateProductClient() {
                 </Col>
                 <Col>
                   <Form.Label>Frecuencia de pago*</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Seguro de Vida"
-                    autoFocus
-                    name="product_type"
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="payment_recurrence"
                     value={clienteProducto.payment_recurrence}
                     onChange={handleForm}
                     required
-                  />
+                  >
+                    <option className="text-center" value=""></option>
+                    <option className="text-center" value="mensual">
+                      Mensual
+                    </option>
+                    <option className="text-center" value="trimestral">
+                      Trimestral
+                    </option>
+                    <option className="text-center" value="semestral">
+                      Semestral
+                    </option>
+                    <option className="text-center" value="anual">
+                      Anual
+                    </option>
+                  </Form.Select>
                 </Col>
               </Row>
 
@@ -141,9 +167,9 @@ function CreateProductClient() {
               <Form.Control
                 as="textarea"
                 rows={3}
-                name="product_description"
+                name="notes"
                 maxLength="1000"
-                value={clienteProducto.product_description}
+                value={clienteProducto.notes}
                 onChange={handleForm}
               />
             </Form.Group>
