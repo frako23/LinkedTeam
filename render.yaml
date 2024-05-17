@@ -3,9 +3,9 @@
 # Schema documented at https://render.com/docs/yaml-spec
 services:
   - type: web # valid values: https://render.com/docs/yaml-spec#type
+    runtime: python
     region: ohio
     name: sample-service-name
-    env: python # valid values: https://render.com/docs/yaml-spec#environment
     buildCommand: "./render_build.sh"
     startCommand: "gunicorn app:app"
     plan: free # optional; defaults to starter
