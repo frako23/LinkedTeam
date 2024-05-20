@@ -7,7 +7,7 @@ services:
     region: ohio
     name: sample-service-name
     buildCommand: "./render_build.sh"
-    startCommand: "gunicorn gunicorn wsgi --chdir src.app:app"
+    startCommand: "gunicorn wsgi --chdir src.app:app"
     plan: free # optional; defaults to starter
     numInstances: 1
     envVars:
