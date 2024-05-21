@@ -23,5 +23,5 @@ services:
         value: 3.10.6
       - key: DATABASE_URL # Render PostgreSQL database
         fromDatabase:
-          name: postgres.kbqdpzfmbkoygczfhhun:EMnjvlJnZSS9kIsp@aws-0-sa-east-1.pooler.supabase.com:5432/postgres
+          name: postgresql://postgres.kbqdpzfmbkoygczfhhun:EMnjvlJnZSS9kIsp@aws-0-sa-east-1.pooler.supabase.com:5432/postgres
           property: connectionString
