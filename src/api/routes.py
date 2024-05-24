@@ -3,8 +3,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products
-from api.utils import generate_sitemap, APIException
+from src.api.models import db, User, Cliente, Role, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products
+from src.api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 from flask_jwt_extended import create_access_token, get_jwt_identity,jwt_required
