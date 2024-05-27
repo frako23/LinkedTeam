@@ -11,6 +11,10 @@ class Role(Enum):
     manager = "manager"
     associated = "associated"
 
+    @classmethod
+    def has_member(cls, value):
+        return value in cls._value2member_map_
+
 class TipoDeContacto(Enum):
     llamada = "llamada"
     mensaje = "mensaje"

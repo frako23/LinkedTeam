@@ -128,7 +128,7 @@ def add_user():
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
         if  "role" in new_user_data:
-            if new_user_data["role"] not in __members__:
+            if not Role.has_member(new_user_data["role"]):
                 return {"error": f"No existe en los roles disponibles"},400
         salt = b64encode(os.urandom(32)).decode('utf-8')
         new_user_data["password"] = set_password(new_user_data["password"], salt)
