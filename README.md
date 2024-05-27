@@ -1,43 +1,51 @@
-# LinkedTeam la app para la supervición, prospección y entrenamiento de ventas efectivo!
+# LinkedTeam
 
 ## Descripción
 
-LinkedTeam es una aplicación web innovadora diseñada para la supervisión y entrenamiento efectivo de equipos de ventas. Con una interfaz intuitiva y herramientas poderosas, LinkedTeam integra un sistema CRM para la gestión eficiente de carteras de clientes, un módulo de entrenamiento en línea para que los gerentes capaciten a sus asociados, y una sección de tareas pendientes para asegurar que ningún detalle importante sea olvidado.
+LinkedTeam es una aplicación CRM innovadora diseñada para gestionar y hacer seguimiento de clientes, integrando una plataforma de e-learning para la capacitación continua de la fuerza de ventas. Además, incluye una lista de tareas para asegurar que ningún compromiso o actividad importante sea olvidada.
 
-## Características Principales
+## Características
 
-- **CRM Integrado**: Gestiona y organiza carteras de clientes para maximizar las oportunidades de venta.
-- **Módulo de Entrenamiento**: Capacita a los asociados con materiales y cursos disponibles en línea.
-- **Gestión de Tareas**: Mantén un registro de las tareas pendientes y asegura su cumplimiento.
+- **CRM**: Gestión y seguimiento detallado de clientes.
+- **E-learning**: Plataforma integrada para la formación y el desarrollo de habilidades de ventas.
+- **Todo List**: Organizador de tareas para maximizar la productividad del equipo.
 
-## Tecnologías Utilizadas
+## Tecnologías
 
-- **Frontend**: Desarrollado con React y Context API para una experiencia de usuario fluida y dinámica. Los estilos son implementados con CSS puro para un diseño atractivo y responsivo.
-- **Backend**: Creado en Python, utilizando SQLAlquemy como ORM y PostgreSQL como gestor de base de datos, garantizando rendimiento y seguridad.
+- **Backend**: Python con el framework Flask.
+- **Base de Datos**: PostgreSQL.
+- **ORM**: SQLAlchemy.
+- **Autenticación**: JWT (JSON Web Tokens).
 
-## Instrucciones de Instalación
+## Instalación
 
-1. Clona el repositorio en tu máquina local.
-2. Instala las dependencias necesarias con `npm install` para el frontend y `pip install` para el backend.
-3. Configura las variables de entorno necesarias para conectar con la base de datos PostgreSQL.
-4. Ejecuta la aplicación con `npm start` para el frontend y `python app.py` para el backend.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/linkedteam.git
+   ```
+2. Instala las dependencias:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Configura tus variables de entorno en `.env`.
 
-<!-- ## Contribuir
-Si estás interesado en contribuir al proyecto, por favor lee el archivo `CONTRIBUTING.md` para más información sobre cómo hacerlo. -->
+4. Ejecuta la aplicación:
+   ```bash
+   pipenv run start
+   ```
+
+## Uso
+
+Para iniciar sesión en la aplicación, envía una solicitud POST a `/api/user` con tus credenciales para recibir un JWT. Utiliza este token para autenticarte en las siguientes solicitudes.
+
+## Contribuir
+
+Si deseas contribuir al proyecto, por favor envía un pull request o abre un issue para discutir los cambios que propones.
 
 ## Licencia
 
-LinkedTeam es un software de código abierto licenciado bajo la [Licencia MIT](LICENSE).
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
-## Pendientes por hacer:
+## Contacto
 
-### Backend ✔:
-
-### Frontend:
-
-1. [] Construir Dashboard
-2. Arreglar filtro en embudo de ventas
-3. crear seccion de tablas tipo CRM para clientes con productos y para prospectos
-4. crear chat para usar con ChatGPT
-5. hacer autenticacion OAuth
-6. traer videos de youtube con la API
+Si tienes alguna pregunta o comentario, no dudes en contactarme a través de [frakodev.code@gmail.com](mailto:frakodev.code@gmail.com).
