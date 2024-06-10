@@ -154,7 +154,7 @@ def put_user_sales_goal():
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
 
-# -------------- MÉTODO PUT PARA CAMBIAR EL ROL DE LOS USUARIOS -------------- #
+# -------------- MÉTODO PUT PARA CAMBIAR EL ROL DEL USUARIO A ADMIN -------------- #
 @api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
 @jwt_required()
 def put_user_role_admin(user_id):
@@ -174,6 +174,18 @@ def put_user_role_admin(user_id):
             return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     else:
         return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin} "}), 401 
+
+# ---------- MÉTODO PUT PARA CAMBIAR EL ROL DEL USUARIO A GERENTE ---------- #
+@api.route('/user_role/<int:user_id>', methods=['PUT'])
+def put_user_role_manager(user_id):
+    try:
+        user = User.query.get(user_id)
+        user.role = request.json['role']
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
 
 # ------------ MÉTODO PUT PARA CAMBIAR EL ESTATUS DE LOS USUARIOS ------------ #
 @api.route('/user_status/<int:user_id>', methods=['PUT'])
@@ -786,21 +798,6 @@ def delete_put_client_products(id):
 #         return jsonify(new_company.serialize()), 201
 #     except Exception as error:
 #         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
-    
-# ---------- MÉTODO PUT PARA CAMBIAR LOS OWN_AGENCY DE LOS USUARIOS ---------- #
-# @api.route('/user_role/<int:user_id>', methods=['PUT'])
-# def put_user_role_own_agency(user_id):
-#     try:
-#         user = User.query.get(user_id)
-        
-#         user.role = request.json['role']
-#         user.own_agency_id = request.json['own_agency_id']
-
-#         db.session.commit()
-#         return jsonify(user.serialize()),200 
-
-#     except Exception as error:
-#         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
     
 # ---------------------------- API PARA TRAER COMENTARIOS DE LOS VIDEOS ---------------------------- #
 # @api.route('/comments/<int:video_id>', methods=['GET'])
