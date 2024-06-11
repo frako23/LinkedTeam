@@ -97,7 +97,7 @@ def put_user_gpt_coins(user_id):
 # --------------- MÉTODO PUT PARA RESETEAR CONTRASEÑA AL USUARIO -------------- #
 @api.route('/reset_pass/<int:user_id>', methods=['PUT'])
 @jwt_required()
-def put_user_gpt_coins(user_id):
+def put_user_password(user_id):
     try:
         user = User.query.get(user_id)
         user.password = request.json['password']
