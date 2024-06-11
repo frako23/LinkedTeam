@@ -94,6 +94,19 @@ def put_user_gpt_coins(user_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args
 
+# --------------- MÉTODO PUT PARA RESETEAR CONTRASEÑA AL USUARIO -------------- #
+@api.route('/reset_pass/<int:user_id>', methods=['PUT'])
+@jwt_required()
+def put_user_gpt_coins(user_id):
+    try:
+        user = User.query.get(user_id)
+        user.password = request.json['password']
+        db.session.commit()
+        return jsonify(user.serialize()),200 
+
+    except Exception as error:
+        return jsonify({"message": f"Error: {error.args[0]}"}), error.args
+
 # ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
 @api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
 @jwt_required()
