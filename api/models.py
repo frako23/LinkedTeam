@@ -126,14 +126,14 @@ class Cliente(db.Model):
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
-        self.birthdate = kwargs['birthdate'] if 'sales_goal' in kwargs else None
-        self.email = kwargs['email'] if 'sales_goal' in kwargs else None
-        self.cellphone = kwargs['cellphone'] if 'sales_goal' in kwargs else None
-        self.amount = kwargs['amount'] if 'sales_goal' in kwargs else None 
+        self.birthdate = kwargs['birthdate'] if 'birthdate' in kwargs else None
+        self.email = kwargs['email'] if 'email' in kwargs else None
+        self.cellphone = kwargs['cellphone'] if 'cellphone' in kwargs else None
+        self.amount = kwargs['amount'] if 'amount' in kwargs else None 
         self.trust = kwargs['trust']
-        self.notes = kwargs['notes'] if 'sales_goal' in kwargs else None
+        self.notes = kwargs['notes'] if 'notes' in kwargs else None
         self.status = kwargs['status']
-        self.tag = kwargs['tag'] if 'sales_goal' in kwargs else None
+        self.tag = kwargs['tag'] if 'tag' in kwargs else None
         self.user_id = kwargs['user_id']
 
     @classmethod
