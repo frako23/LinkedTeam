@@ -611,6 +611,17 @@ def delete_put_products(product_id):
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
 
+# -------------------------- API PARA CARGAR TODAS LAS POLIZAS QUE TIENE UN CLIENTE -------------------------- #
+@api.route('/get_all_client_products/<int:client_id>', methods=['GET'])
+@jwt_required()
+def get_all_client_products(client_id):
+    client_products = Client_Products.query.filter_by(client_id = client_id)
+    client_products_dictionary = []
+    for client_policy in client_products:
+        client_products_dictionary.append(client_policy.serialize())
+    return jsonify(client_products_dictionary), 200
+
+
 # -------------------------- API PARA CREAR CARGAR POLIZAS A LOS CLIENTES-------------------------- #
 @api.route('/client_products/<int:client_id>/<int:product_id>', methods=['GET','POST'])
 @jwt_required()
