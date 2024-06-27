@@ -100,7 +100,7 @@ def put_user_gpt_coins(user_id):
 def put_user_password(user_id):
     try:
         user = User.query.get(user_id)
-        user.password = request.json['password']
+        user.password = set_password(request.json['password'])
         db.session.commit()
         return jsonify(user.serialize()),200 
 
