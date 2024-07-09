@@ -35,7 +35,7 @@ def login():
     else:
         user = User.query.filter_by(email=email).first()
         if user is None:
-            return jsonify({"msg":"credenciales invalidas"}), 401 
+            return jsonify({"msg":"No existe el usuario"}), 401 
         if user.status == "inactive":
             return jsonify({"msg":"Usuario inactivo"}), 401
         if not check_date(user.updated_at):
@@ -44,7 +44,7 @@ def login():
             access_token = create_access_token(identity=user.id)
             return jsonify(access_token=access_token)
         else:
-            return jsonify({"msg":"credenciales invalidas"}), 401 
+            return jsonify({"msg":"Contraseña incorrecta"}), 401 
             
 
 # -------------------- API PARA TRAER LA LISTA DE USUARIOS ------------------- #
@@ -101,10 +101,10 @@ def put_user_password(user_id):
     try:
         user = User.query.get(user_id)
         salt = b64encode(os.urandom(32)).decode('utf-8')
-        user.password = set_password(request.json['password'], salt)
+        user.password = set_password(request.json['password'], salt) 
+        user.salt = salt
         db.session.commit()
         return jsonify(user.serialize()),200 
-
     except Exception as error:
         return jsonify({"message": f"Error: {error.args[0]}"}), error.args
 
