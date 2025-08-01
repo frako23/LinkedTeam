@@ -17,7 +17,9 @@ LinkedTeam es una aplicación CRM innovadora diseñada para gestionar y hacer se
 - **ORM**: SQLAlchemy.
 - **Autenticación**: JWT (JSON Web Tokens).
 
-## Instalación
+## Instalación 
+
+# Primera opción
 
 1. Clona el repositorio:
    ```bash
@@ -33,6 +35,21 @@ LinkedTeam es una aplicación CRM innovadora diseñada para gestionar y hacer se
    ```bash
    pipenv run start
    ```
+
+# Segunda opción (Docker)
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/linkedteam.git
+   ```
+2. Configura el archivo .env (usa .env.example como referencia).
+3. Construye y levanta los contenedores:
+```bash
+docker-compose up
+```
+
+4. Accede a la aplicación en http://localhost:5000 (o el puerto configurado).
+
 
 ## Uso
 
