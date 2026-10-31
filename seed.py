@@ -10,7 +10,6 @@ con correo @corredoramedina.test, así que se puede correr varias veces sin
 duplicar y sin tocar datos reales.
 
 Clave de todos los usuarios:  Demo1234!
-    admin@corredoramedina.test      -> admin
     carolina@corredoramedina.test   -> gerente (equipo de 4 asesores)
     rafael@corredoramedina.test     -> gerente (equipo de 2 asesores)
     valentina, andres, mariana, diego  @corredoramedina.test -> asesores de Carolina
@@ -76,7 +75,6 @@ CATALOGO = [
 ]
 
 # ------------------------------ PERSONAS ---------------------------------- #
-ADMIN = ("Sofía", "Medina", "admin")
 GERENTES = [
     # nombre, apellido, prefijo del correo, meta de ventas (USD)
     ("Carolina", "Méndez", "carolina", 60000),
@@ -319,7 +317,6 @@ def main():
             print("Datos demo eliminados.")
             return
 
-        admin = crear_usuario(ADMIN[0], ADMIN[1], ADMIN[2], Role.admin)
         gerentes = {}
         for nombre, apellido, prefijo, meta in GERENTES:
             gerentes[prefijo] = crear_usuario(nombre, apellido, prefijo, Role.manager, meta)
@@ -339,8 +336,8 @@ def main():
         nombres = NOMBRES[:]
         random.shuffle(nombres)
         resumen = []
-        # admin y gerentes también venden: cartera propia para probar su embudo
-        for u, n, perfil in [(admin, 5, "medio")] + [(g, 6, "medio") for g in gerentes.values()]:
+        # los gerentes también venden: cartera propia para probar su embudo
+        for u, n, perfil in [(g, 6, "medio") for g in gerentes.values()]:
             total, cierres = cargar_cartera(u, nombres, n, perfil)
             resumen.append((f"{u.name} {u.lastname} ({u.role.value})", total, cierres))
         for nombre, apellido, prefijo, gkey, meta, n_clientes, perfil in ASESORES:
@@ -361,7 +358,6 @@ def main():
 
         print("Seed completado.\n")
         print(f"Clave de todos los usuarios: {PASSWORD}")
-        print(f"  admin   : admin{DOMAIN}")
         for g in GERENTES:
             print(f"  gerente : {g[2]}{DOMAIN}  ({g[0]} {g[1]})")
         for a in ASESORES:
