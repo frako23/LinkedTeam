@@ -3,15 +3,18 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products
+from api.models import db, User, Cliente, Role, Status, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products
 from api.utils import generate_sitemap, APIException
+from api.auth import current_user, roles_required, any_user, is_admin, can_access_user, can_access_client, not_found, forbidden
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
-from flask_jwt_extended import create_access_token, get_jwt_identity,jwt_required
+from flask_jwt_extended import create_access_token
 from datetime import date
 
 
 api = Blueprint('api', __name__)
+
+admin_only = roles_required(Role.admin)
 
 def set_password(password, salt):
     return generate_password_hash(f"{password}{salt}")
@@ -25,6 +28,10 @@ def check_date(user_date):
     #     return False
     return True
 
+def error_response(error):
+    status = error.args[1] if len(error.args) > 1 and isinstance(error.args[1], int) else 500
+    return jsonify({"message": f"Error: {error.args[0]}"}), status
+
 # ----------------------- API PARA HACER LOGIN ----------------------- #
 @api.route("/token", methods=["POST"])
 def login():
@@ -35,99 +42,90 @@ def login():
     else:
         user = User.query.filter_by(email=email).first()
         if user is None:
-            return jsonify({"msg":"No existe el usuario"}), 401 
-        if user.status == "inactive":
+            return jsonify({"msg":"No existe el usuario"}), 401
+        if user.status == Status.inactive:
             return jsonify({"msg":"Usuario inactivo"}), 401
         if not check_date(user.updated_at):
-            return jsonify({"msg":"debes renovar tu suscripción"}), 401 
+            return jsonify({"msg":"debes renovar tu suscripción"}), 401
         if check_password(user.password, password, user.salt):
             access_token = create_access_token(identity=user.id)
             return jsonify(access_token=access_token)
         else:
-            return jsonify({"msg":"Contraseña incorrecta"}), 401 
-            
+            return jsonify({"msg":"Contraseña incorrecta"}), 401
+
 
 # -------------------- API PARA TRAER LA LISTA DE USUARIOS ------------------- #
 @api.route('/users', methods=['GET'])
-@jwt_required()
+@admin_only
 def get_users():
-    admin_id = get_jwt_identity()
-    admin = User.query.get(admin_id)
-    if admin.role.value == 'admin':
-        users = User.query.all()
-        users_dictionaries = []
-        for user in users:
-            users_dictionaries.append(user.serialize())
-        return jsonify(users_dictionaries), 200
-    else:
-        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin.role.value.value} "} ), 401 
+    return jsonify([user.serialize() for user in User.query.all()]), 200
 
 # --------------- MÉTODO PUT PARA ASIGNAR GERENCIA AL USUARIO -------------- #
 @api.route('/management_assignment/<int:id>', methods=['PUT'])
-@jwt_required()
+@admin_only
 def put_user_manager(id):
-    admin_id = get_jwt_identity()
-    admin = User.query.get(admin_id)
-    if admin.role.value == 'admin':
-        try:
-            user = User.query.get(id)
-            user.manager = request.json['manager']
-            user.manager_id = request.json['manager_id']
-            db.session.commit()
-            return jsonify(user.serialize()),200 
+    try:
+        user = db.session.get(User, id)
+        if user is None:
+            return not_found("No existe el usuario")
+        user.manager = request.json['manager']
+        user.manager_id = request.json['manager_id']
+        db.session.commit()
+        return jsonify(user.serialize()),200
 
-        except Exception as error:
-            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
-    else:
-        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"}), 401 
+    except Exception as error:
+        return error_response(error)
 
 # --------------- MÉTODO PUT PARA ASIGNAR GPT COINS -------------- #
 @api.route('/gpt_coins/<int:user_id>', methods=['PUT'])
-@jwt_required()
+@admin_only
 def put_user_gpt_coins(user_id):
     try:
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
+        if user is None:
+            return not_found("No existe el usuario")
         user.gpt_coins = request.json['gpt_coins']
         db.session.commit()
-        return jsonify(user.serialize()),200 
+        return jsonify(user.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args
+        return error_response(error)
 
 # --------------- MÉTODO PUT PARA RESETEAR CONTRASEÑA AL USUARIO -------------- #
 @api.route('/reset_pass/<int:user_id>', methods=['PUT'])
-@jwt_required()
+@any_user
 def put_user_password(user_id):
+    me = current_user()
+    if not (is_admin(me) or me.id == user_id):
+        return forbidden()
     try:
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
+        if user is None:
+            return not_found("No existe el usuario")
         salt = b64encode(os.urandom(32)).decode('utf-8')
-        user.password = set_password(request.json['password'], salt) 
+        user.password = set_password(request.json['password'], salt)
         user.salt = salt
         db.session.commit()
-        return jsonify(user.serialize()),200 
+        return jsonify(user.serialize()),200
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args
+        return error_response(error)
 
 # ---------- API PARA OBTENER USUARIOS DE LA GERENCIA QUE PERTENECEN ---------- #
 @api.route('/users_by_manager/<int:manager_id>', methods=['GET'])
-@jwt_required()
+@any_user
 def get_users_by_manager(manager_id):
+    me = current_user()
+    if not (is_admin(me) or me.id == manager_id):
+        return forbidden()
     users = User.query.filter_by( manager_id = manager_id)
-    users_dictionaries = []
-    for user in users:
-        users_dictionaries.append(user.serialize())
-    return jsonify(users_dictionaries), 200
+    return jsonify([user.serialize() for user in users]), 200
 
 # --------------------- API PARA TRAER AL USUARIO QUE HACE LOGIN --------------------- #
 @api.route('/user', methods=['GET'])
-@jwt_required()
+@any_user
 def get_user():
-    id = get_jwt_identity()
-    # print(id)
-    user = User.query.get(id)
-    # print(user)
-    return jsonify(user.serialize()), 200
-   
+    return jsonify(current_user().serialize()), 200
+
 # ------------------------ API PARA REGISTRAR USUARIOS ----------------------- #
 @api.route('/user', methods=['POST'])
 def add_user():
@@ -141,12 +139,11 @@ def add_user():
             raise Exception("No ingresaste el email", 400)
         if "password" not in new_user_data or new_user_data["password"] == "":
             raise Exception("No ingresaste el password", 400)
-        if  "role" in new_user_data:
-            if not Role.has_member(new_user_data["role"]):
-                return {"error": f"No existe en los roles disponibles"},400
+        # El registro público solo crea asesores: rol, gerencia y meta no se aceptan del body
+        allowed = {key: new_user_data[key] for key in ("name", "lastname", "email", "password")}
         salt = b64encode(os.urandom(32)).decode('utf-8')
-        new_user_data["password"] = set_password(new_user_data["password"], salt)
-        new_user = User.create(**new_user_data, salt=salt)
+        allowed["password"] = set_password(allowed["password"], salt)
+        new_user = User.create(**allowed, salt=salt)
         return jsonify(new_user.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
@@ -154,79 +151,70 @@ def add_user():
 
 # --------------- MÉTODO PUT PARA SELECCIONAR LA META DE VENTAS -------------- #
 @api.route('/user_sales_goal', methods=['PUT'])
-@jwt_required()
+@any_user
 def put_user_sales_goal():
-    id = get_jwt_identity()
     try:
-        user = User.query.get(id)
-        
+        user = current_user()
         user.sales_goal = request.json['sales_goal']
-        
         db.session.commit()
-        return jsonify(user.serialize()),200 
+        return jsonify(user.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+        return error_response(error)
+
+def change_user_role(user_id):
+    try:
+        new_role = request.json.get('role')
+        if not Role.has_member(new_role):
+            return jsonify({"msg": "No existe en los roles disponibles"}), 400
+        user = db.session.get(User, user_id)
+        if user is None:
+            return not_found("No existe el usuario")
+        user.role = Role(new_role)
+        db.session.commit()
+        return jsonify(user.serialize()),200
+
+    except Exception as error:
+        return error_response(error)
 
 # -------------- MÉTODO PUT PARA CAMBIAR EL ROL DEL USUARIO A ADMIN -------------- #
 @api.route('/user_role_admin/<int:user_id>', methods=['PUT'])
-@jwt_required()
+@admin_only
 def put_user_role_admin(user_id):
-    admin_id = get_jwt_identity()
-    admin = User.query.get(admin_id)
-    print(admin)
-    if admin.role.value.value == 'admin':
-        try:
-            user = User.query.get(user_id)
-            
-            user.role = request.json['role']
-
-            db.session.commit()
-            return jsonify(user.serialize()),200 
-
-        except Exception as error:
-            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-    else:
-        return jsonify({"msg":"no eres el administrador de la aplicación, acceso denegado 🚫"  f"user: {admin} "}), 401 
+    return change_user_role(user_id)
 
 # ---------- MÉTODO PUT PARA CAMBIAR EL ROL DEL USUARIO A GERENTE ---------- #
 @api.route('/user_role/<int:user_id>', methods=['PUT'])
+@admin_only
 def put_user_role_manager(user_id):
-    try:
-        user = User.query.get(user_id)
-        user.role = request.json['role']
-        db.session.commit()
-        return jsonify(user.serialize()),200 
-
-    except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+    return change_user_role(user_id)
 
 # ------------ MÉTODO PUT PARA CAMBIAR EL ESTATUS DE LOS USUARIOS ------------ #
 @api.route('/user_status/<int:user_id>', methods=['PUT'])
-@jwt_required()
+@admin_only
 def put_user_status(user_id):
     try:
-        user = User.query.get(user_id)
-        
-        user.status = request.json['status']
-
+        new_status = request.json.get('status')
+        if new_status not in Status._value2member_map_:
+            return jsonify({"msg": "Estatus inválido"}), 400
+        user = db.session.get(User, user_id)
+        if user is None:
+            return not_found("No existe el usuario")
+        user.status = Status(new_status)
         db.session.commit()
-        return jsonify(user.serialize()),200 
+        return jsonify(user.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+        return error_response(error)
 
 # ------------------------------ API DE CLIENTES ----------------------------- #
 @api.route('/clientes', methods=['GET','POST'])
-@jwt_required()
+@any_user
 def post_get_clientes():
-    user_id = get_jwt_identity()
+    user_id = current_user().id
     if request.method == 'GET':
         clientes = Cliente.query.filter_by(user_id = user_id)
-        clientes_dictionaries = []
-        for cliente in clientes:
-            clientes_dictionaries.append(cliente.serialize())
-        return jsonify(clientes_dictionaries), 200
+        return jsonify([cliente.serialize() for cliente in clientes]), 200
     new_cliente_data = request.json
     try:
         if "name" not in new_cliente_data or new_cliente_data["name"] == "":
@@ -235,6 +223,7 @@ def post_get_clientes():
             raise Exception("No ingresaste el status", 400)
         if "trust" not in new_cliente_data or new_cliente_data["trust"] == "":
             raise Exception("No ingresaste el nivel de trust", 400)
+        new_cliente_data.pop("user_id", None)
         new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
@@ -242,63 +231,74 @@ def post_get_clientes():
 
 # --------------- API PARA TRAER LOS CLIENTES DE LOS ASOCIADOS --------------- #
 @api.route('/user_clients/<int:id>', methods=['GET'])
-@jwt_required()
-def get_user_clients(id):    
+@any_user
+def get_user_clients(id):
+    if not can_access_user(current_user(), id):
+        return forbidden()
     clientes = Cliente.query.filter_by(user_id = id)
-    clientes_dictionaries = []
-    for cliente in clientes:
-        clientes_dictionaries.append(cliente.serialize())
-    return jsonify(clientes_dictionaries), 200
+    return jsonify([cliente.serialize() for cliente in clientes]), 200
 
 # ----------- API PARA TRAER LA DATA DE LOS CLIENTES A LOS GERENTES ---------- #
 @api.route('/manager_user_clients/<int:id>/<int:client_id>', methods=['GET'])
-@jwt_required()
-def get_manager_user_clients(id, client_id):    
-    clientes = Cliente.query.filter_by(user_id = id, client_id = client_id)
-    clientes_dictionaries = []
-    for cliente in clientes:
-        clientes_dictionaries.append(cliente.serialize())
-    return jsonify(clientes_dictionaries), 200
+@any_user
+def get_manager_user_clients(id, client_id):
+    if not can_access_user(current_user(), id):
+        return forbidden()
+    clientes = Cliente.query.filter_by(user_id = id, id = client_id)
+    return jsonify([cliente.serialize() for cliente in clientes]), 200
 
 # ------------------------ API PARA ELIMINAR CLIENTES ------------------------ #
 @api.route('/cliente/<int:id>', methods=['DELETE'])
-@jwt_required()
+@any_user
 def delete_cliente(id):
-    cliente = Cliente.query.get(id)
+    cliente = db.session.get(Cliente, id)
 
     if not cliente:
         return jsonify({"msg": "No existe el cliente"}),404
-    
+    me = current_user()
+    if not (is_admin(me) or cliente.user_id == me.id):
+        return forbidden()
+
     db.session.delete(cliente)
     try:
         db.session.commit()
-        return jsonify({"msg": "Se elimino el cliente"}),200 
+        return jsonify({"msg": "Se elimino el cliente"}),200
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+        return error_response(error)
 
 # ---------------- API PARA CAMBIAR ESTATUS DE LOS PROSPECTOS ---------------- #
 @api.route('/cliente/<int:id>', methods=['PUT'])
-@jwt_required()
+@any_user
 def update_cliente(id):
 
     try:
-        cliente = Cliente.query.get(id)
-        
+        cliente = db.session.get(Cliente, id)
+        if not cliente:
+            return jsonify({"msg": "No existe el cliente"}),404
+        me = current_user()
+        if not (is_admin(me) or cliente.user_id == me.id):
+            return forbidden()
+
         cliente.status = request.json['status']
 
         db.session.commit()
-        return jsonify(cliente.serialize()),200 
+        return jsonify(cliente.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+        return error_response(error)
 
 # ----- API PARA CAMBIAR TODAS LAS DEMÁS CARATERÍSTICAS DE LOS PROSPECTOS ---- #
 @api.route('/modify_cliente/<int:id>', methods=['PUT'])
-@jwt_required()
+@any_user
 def modify_cliente(id):
     body = request.json
 
-    client = Cliente.query.get(id)
+    client = db.session.get(Cliente, id)
+    if not client:
+        return jsonify({"msg": "No existe el cliente"}),404
+    me = current_user()
+    if not (is_admin(me) or client.user_id == me.id):
+        return forbidden()
     name= body.get("name", None)
     birthdate= body.get("birthdate", None)
     email= body.get("email", None)
@@ -308,7 +308,7 @@ def modify_cliente(id):
     status= body.get("status", None)
     notes= body.get("notes", None)
     tag= body.get("tag", None)
-    
+
     if name is not None and name != "":
         client.name = name
     if birthdate is not None and birthdate != "":
@@ -329,28 +329,26 @@ def modify_cliente(id):
         client.tag = tag
     try:
         db.session.commit()
-        return jsonify(client.serialize()),200 
+        return jsonify(client.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+        return error_response(error)
 
 # ------------------------------ API PARA TRAER Y ELIMINAR TAREAS ----------------------------- #
 @api.route('/tareas/', methods=['GET','POST'])
-@jwt_required()
+@any_user
 def post_get_tareas():
-    user_id = get_jwt_identity()
+    user_id = current_user().id
     if request.method == 'GET':
         tareas = Tarea.query.filter_by(user_id = user_id)
-        tareas_dictionaries = []
-        for tarea in tareas:
-            tareas_dictionaries.append(tarea.serialize())
-        return jsonify(tareas_dictionaries), 200
+        return jsonify([tarea.serialize() for tarea in tareas]), 200
     new_tarea_data = request.json
     try:
         if "task" not in new_tarea_data or new_tarea_data["task"] == "":
             raise Exception("No ingresaste la tarea", 400)
         if "status" not in new_tarea_data or new_tarea_data["status"] == "":
             raise Exception("No ingresaste el estatus", 400)
+        new_tarea_data.pop("user_id", None)
         new_tarea = Tarea.create(**new_tarea_data, user_id = user_id)
         return jsonify(new_tarea.serialize()), 201
     except Exception as error:
@@ -358,42 +356,47 @@ def post_get_tareas():
 
 # ------------------------- API PARA MODIFICAR TAREAS ------------------------ #
 @api.route('/tareas/<int:id>', methods=['PUT'])
-@jwt_required()
+@any_user
 def update_tarea(id):
 
     try:
-        tarea = Tarea.query.get(id)
-        
+        tarea = db.session.get(Tarea, id)
+        if not tarea:
+            return jsonify({"msg": "No existe la tarea"}),404
+        if tarea.user_id != current_user().id:
+            return forbidden()
+
         tarea.status = request.json['status']
 
         db.session.commit()
-        return jsonify(tarea.serialize()),200 
+        return jsonify(tarea.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+        return error_response(error)
 
 # ------------------------- API PARA ELIMINAR TAREAS ------------------------- #
 @api.route('/tareas/<int:id>', methods=['DELETE'])
-@jwt_required()
+@any_user
 def delete_tarea(id):
-    tarea = Tarea.query.get(id)
+    tarea = db.session.get(Tarea, id)
 
     if not tarea:
         return jsonify({"msg": "No existe la tarea"}),404
-    
+    if tarea.user_id != current_user().id:
+        return forbidden()
+
     db.session.delete(tarea)
     try:
         db.session.commit()
-        return jsonify({"msg": "Se elimino la tarea"}),200 
+        return jsonify({"msg": "Se elimino la tarea"}),200
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500 
+        return error_response(error)
 
 # -------------------- API DE ACTIVIDADES DE LOS CLIENTES -------------------- #
 @api.route('/client_activity/', methods=['GET'])
-@jwt_required()
+@any_user
 def get_client_activity():
-    user_id = get_jwt_identity()
-    client_activities = Client_Activity.query.filter_by(user_id = user_id)
+    client_activities = Client_Activity.query.filter_by(user_id = current_user().id)
 
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
@@ -401,8 +404,10 @@ def get_client_activity():
 
 # ------- API PARA QUE GERENTES VEAN ACTIVIDAD DE CLIENTES DE ASOCIADOS ------ #
 @api.route('/manager_client_activity/<int:user_id>/', methods=['GET'])
-@jwt_required()
+@any_user
 def get_manager_client_activity(user_id):
+    if not can_access_user(current_user(), user_id):
+        return forbidden()
     client_activities = Client_Activity.query.filter_by(user_id = user_id)
     return jsonify(
             [client_activity.serialize() for client_activity in client_activities]
@@ -410,9 +415,14 @@ def get_manager_client_activity(user_id):
 
 # ----- API PARA QUE LOS USUARIOS CARGUEN LAS ACTIVIDADES DE LOS CLIENTES ---- #
 @api.route('/client_activity/<int:client_id>', methods=['POST'])
-@jwt_required()
+@any_user
 def add_client_activity(client_id):
-    user_id = get_jwt_identity()
+    me = current_user()
+    client = db.session.get(Cliente, client_id)
+    if not client:
+        return jsonify({"msg": "No existe el cliente"}),404
+    if client.user_id != me.id:
+        return forbidden()
     new_client_activity_data = request.json
     try:
         if "date" not in new_client_activity_data or new_client_activity_data["date"] == "":
@@ -422,38 +432,45 @@ def add_client_activity(client_id):
         if "comment" not in new_client_activity_data or new_client_activity_data["comment"] == "":
             raise Exception("No ingresaste el tipo de contacto", 400)
 
-        new_client_activity = Client_Activity.create(**new_client_activity_data, user_id = user_id, client_id = client_id)
+        new_client_activity_data.pop("user_id", None)
+        new_client_activity_data.pop("client_id", None)
+        new_client_activity = Client_Activity.create(**new_client_activity_data, user_id = me.id, client_id = client_id)
         return new_client_activity, 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # ---------------- API PARA ELIMINAR ACTIVIDADES CON LOS CLIENTES ---------------- #
 @api.route('/delete_client_activity/<int:id>', methods=['DELETE'])
-@jwt_required()
+@any_user
 def delete_client_activity(id):
-    client_activity = Client_Activity.query.get(id)
+    client_activity = db.session.get(Client_Activity, id)
 
     if not client_activity:
         return jsonify({"msg": "No existe la acvitidad del cliente"}),404
-    
+    if client_activity.user_id != current_user().id:
+        return forbidden()
+
     db.session.delete(client_activity)
     try:
         db.session.commit()
-        return jsonify({"msg": "Se elimino la acvitidad del cliente"}),200 
+        return jsonify({"msg": "Se elimino la acvitidad del cliente"}),200
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+        return error_response(error)
 
 # ---------------------- API PARA CARGAR LOS CURSOS ---------------------- #
 @api.route('/courses/<int:id>', methods=['GET','POST'])
-@jwt_required()
+@any_user
 def post_get_courses_data(id):
+    me = current_user()
     if request.method == 'GET':
+        # Ven los cursos de un gerente: él mismo, sus asesores y el admin
+        if not (is_admin(me) or me.id == id or me.manager_id == id):
+            return forbidden()
         courses_data = Courses.query.filter_by(manager_id = id)
-        courses_data_dictionary = []
-        for course_data in courses_data:
-            courses_data_dictionary.append(course_data.serialize())
-        return jsonify(courses_data_dictionary), 200
-    
+        return jsonify([course_data.serialize() for course_data in courses_data]), 200
+
+    if not (is_admin(me) or (me.role == Role.manager and me.id == id)):
+        return forbidden()
     new_course_data = request.json
     try:
         if "title" not in new_course_data or new_course_data["title"] == "":
@@ -464,6 +481,7 @@ def post_get_courses_data(id):
             raise Exception("No ingresaste el img_url", 400)
         if "link_url" not in new_course_data or new_course_data["link_url"] == "":
             raise Exception("No ingresaste el link_url", 400)
+        new_course_data.pop("manager_id", None)
         new_course = Courses.create(**new_course_data, manager_id = id)
         return jsonify(new_course.serialize()), 201
     except Exception as error:
@@ -471,22 +489,24 @@ def post_get_courses_data(id):
 
 # -------------------- API PARA CAMBIAR Y ELIMINAR CURSOS -------------------- #
 @api.route('/courses/<int:id>', methods=['DELETE', 'PUT'])
-@jwt_required()
+@any_user
 def delete_put_courses_data(id):
+    me = current_user()
+    course = db.session.get(Courses, id)
+    if not course:
+        return jsonify({"msg": "No existen cursos para este usuario"}),404
+    if not (is_admin(me) or course.manager_id == me.id):
+        return forbidden()
+
     if request.method == 'DELETE':
-        course = Courses.query.get(id)
-        if not course:
-            return jsonify({"msg": "No existen cursos para este usuario"}),404
-    
         db.session.delete(course)
         try:
             db.session.commit()
-            return jsonify({"msg": "Se elimino el curso del usuario correctamente"}),200 
+            return jsonify({"msg": "Se elimino el curso del usuario correctamente"}),200
         except Exception as error:
-            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-    
+            return error_response(error)
+
     body = request.json
-    course = Courses.query.get(id)
 
     title= body.get("title", None)
     description= body.get("description", None)
@@ -494,7 +514,7 @@ def delete_put_courses_data(id):
     link_url= body.get("link_url", None)
     category= body.get("category", None)
     tag= body.get("tag", None)
-    
+
     if title is not None and title != "":
         course.title = title
     if description is not None and description != "":
@@ -509,28 +529,28 @@ def delete_put_courses_data(id):
         course.tag = tag
     try:
         db.session.commit()
-        return jsonify(course.serialize()),200 
+        return jsonify(course.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
-    
+        return error_response(error)
+
 
 
 # ------------------------ API PARA REGRISTRO DE PAGOS ----------------------- #
 @api.route('/get_payments/<int:user_id>', methods=['GET'])
-@jwt_required()
+@any_user
 def get_payments(user_id):
+    me = current_user()
+    if not (is_admin(me) or me.id == user_id):
+        return forbidden()
     payments_data = Payment.query.filter_by(user_id = user_id)
-    payments_data_dictionary = []
-    for payment_data in payments_data:
-        payments_data_dictionary.append(payment_data.serialize())
-    return jsonify(payments_data_dictionary), 200
+    return jsonify([payment_data.serialize() for payment_data in payments_data]), 200
 
 
 @api.route('/payments', methods=['GET','POST'])
-@jwt_required()
+@any_user
 def post_payments():
-    user_id = get_jwt_identity()
+    user_id = current_user().id
     try:
         new_payment_data = request.json
         if "payment_date" not in new_payment_data or new_payment_data["payment_date"] == "":
@@ -543,6 +563,9 @@ def post_payments():
             raise Exception("No ingresaste el monto", 400)
         if "payment_method" not in new_payment_data or new_payment_data["payment_method"] == "":
             raise Exception("No ingresaste el médtodo de pago", 400)
+        # Un usuario no puede auto-aprobar su pago ni registrarlo a nombre de otro
+        new_payment_data.pop("user_id", None)
+        new_payment_data.pop("status", None)
         new_payment = Payment.create(**new_payment_data, user_id = user_id)
         return jsonify(new_payment.serialize()), 201
     except Exception as error:
@@ -550,15 +573,12 @@ def post_payments():
 
 # -------------------------- API PARA CREAR CARGAR PRODUCTOS -------------------------- #
 @api.route('/products', methods=['GET','POST'])
-@jwt_required()
+@any_user
 def post_get_products():
-    user_id = get_jwt_identity()
+    user_id = current_user().id
     if request.method == 'GET':
         products_names = Products.query.filter_by(user_id = user_id)
-        products_names_dictionary = []
-        for product in products_names:
-            products_names_dictionary.append(product.serialize())
-        return jsonify(products_names_dictionary), 200
+        return jsonify([product.serialize() for product in products_names]), 200
     new_product_data = request.json
     try:
         if "company" not in new_product_data or new_product_data["company"] == "":
@@ -567,36 +587,38 @@ def post_get_products():
             raise Exception("No ingresaste el nombre del producto", 400)
         if "product_type" not in new_product_data or new_product_data["product_type"] == "":
             raise Exception("No ingresaste el tipo de producto", 400)
+        new_product_data.pop("user_id", None)
         new_product = Products.create(**new_product_data, user_id = user_id)
         return jsonify(new_product.serialize()), 201
     except Exception as error:
-        print([arg for arg in error.args])
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
 # -------------------- API PARA CAMBIAR Y ELIMINAR PRODUCTOS -------------------- #
 @api.route('/products/<int:product_id>', methods=['DELETE', 'PUT'])
-@jwt_required()
+@any_user
 def delete_put_products(product_id):
+    me = current_user()
+    product = db.session.get(Products, product_id)
+    if not product:
+        return jsonify({"msg": "No existe el producto"}),404
+    if not (is_admin(me) or product.user_id == me.id):
+        return forbidden()
+
     if request.method == 'DELETE':
-        product = Products.query.get(product_id)
-        if not product:
-            return jsonify({"msg": "No existe el producto que deseas eliminar"}),404
-    
         db.session.delete(product)
         try:
             db.session.commit()
-            return jsonify({"msg": "Se eliminó el producto correctamente"}),200 
+            return jsonify({"msg": "Se eliminó el producto correctamente"}),200
         except Exception as error:
-            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-    
+            return error_response(error)
+
     body = request.json
-    product = Products.query.get(product_id)
 
     company= body.get("company", None)
     product_name= body.get("product_name", None)
     product_type= body.get("product_type", None)
     product_description= body.get("product_description", None)
-    
+
     if company is not None and company != "":
         product.company = company
     if product_name is not None and product_name != "":
@@ -607,32 +629,43 @@ def delete_put_products(product_id):
         product.product_description = product_description
     try:
         db.session.commit()
-        return jsonify(product.serialize()),200 
+        return jsonify(product.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500   
+        return error_response(error)
 
 # -------------------------- API PARA CARGAR TODAS LAS POLIZAS QUE TIENE UN CLIENTE -------------------------- #
 @api.route('/get_all_client_products/<int:client_id>', methods=['GET'])
-@jwt_required()
+@any_user
 def get_all_client_products(client_id):
+    client = db.session.get(Cliente, client_id)
+    if not client:
+        return jsonify({"msg": "No existe el cliente"}),404
+    if not can_access_client(current_user(), client):
+        return forbidden()
     client_products = Client_Products.query.filter_by(client_id = client_id)
-    client_products_dictionary = []
-    for client_policy in client_products:
-        client_products_dictionary.append(client_policy.serialize())
-    return jsonify(client_products_dictionary), 200
+    return jsonify([client_policy.serialize() for client_policy in client_products]), 200
 
 
 # -------------------------- API PARA CREAR CARGAR POLIZAS A LOS CLIENTES-------------------------- #
 @api.route('/client_products/<int:client_id>/<int:product_id>', methods=['GET','POST'])
-@jwt_required()
+@any_user
 def post_get_client_products(client_id, product_id):
+    me = current_user()
+    client = db.session.get(Cliente, client_id)
+    if not client:
+        return jsonify({"msg": "No existe el cliente"}),404
     if request.method == 'GET':
+        if not can_access_client(me, client):
+            return forbidden()
         client_products = Client_Products.query.filter_by(product_id = product_id, client_id = client_id)
-        client_products_dictionary = []
-        for client_policy in client_products:
-            client_products_dictionary.append(client_policy.serialize())
-        return jsonify(client_products_dictionary), 200
+        return jsonify([client_policy.serialize() for client_policy in client_products]), 200
+    # Solo el dueño del cliente le carga pólizas, y con un producto propio
+    product = db.session.get(Products, product_id)
+    if not product:
+        return jsonify({"msg": "No existe el producto"}),404
+    if client.user_id != me.id or product.user_id != me.id:
+        return forbidden()
     new_client_policy_data = request.json
     try:
         if "amount" not in new_client_policy_data or new_client_policy_data["amount"] == "":
@@ -642,6 +675,8 @@ def post_get_client_products(client_id, product_id):
         if "payment_recurrence" not in new_client_policy_data or new_client_policy_data["payment_recurrence"] == "":
             raise Exception("No ingresaste la frecuenta de pago", 400)
 
+        new_client_policy_data.pop("product_id", None)
+        new_client_policy_data.pop("client_id", None)
         new_client_policy = Client_Products.create(**new_client_policy_data, product_id = product_id, client_id = client_id)
         return jsonify(new_client_policy.serialize()), 201
     except Exception as error:
@@ -649,29 +684,31 @@ def post_get_client_products(client_id, product_id):
 
 # -------------------- API PARA CAMBIAR Y ELIMINAR PRODUCTOS DE LOS CLIENTES -------------------- #
 @api.route('/client_products/<int:id>', methods=['DELETE', 'PUT'])
-@jwt_required()
+@any_user
 def delete_put_client_products(id):
+    me = current_user()
+    client_product = db.session.get(Client_Products, id)
+    if not client_product:
+        return jsonify({"msg": "No existe el producto para ese cliente"}),404
+    client = db.session.get(Cliente, client_product.client_id)
+    if not (is_admin(me) or (client and client.user_id == me.id)):
+        return forbidden()
+
     if request.method == 'DELETE':
-        client_product = Client_Products.query.get(id)
-        if not client_product:
-            return jsonify({"msg": "No existe el producto para ese cliente"}),404
-    
         db.session.delete(client_product)
         try:
             db.session.commit()
-            return jsonify({"msg": "Se eliminó el producto correctamente"}),200 
+            return jsonify({"msg": "Se eliminó el producto correctamente"}),200
         except Exception as error:
-            return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
-    
+            return error_response(error)
+
     body = request.json
-    client_product = Client_Products.query.get(id)
 
     amount= body.get("amount", None)
     date_of_closing= body.get("date_of_closing", None)
     notes= body.get("notes", None)
     payment_recurrence= body.get("payment_recurrence", None)
-    product_description= body.get("product_description", None)
-    
+
     if amount is not None and amount != "":
         client_product.amount = amount
     if date_of_closing is not None and date_of_closing != "":
@@ -682,10 +719,10 @@ def delete_put_client_products(id):
         client_product.payment_recurrence = payment_recurrence
     try:
         db.session.commit()
-        return jsonify(client_product.serialize()),200 
+        return jsonify(client_product.serialize()),200
 
     except Exception as error:
-        return jsonify({"message": f"Error: {error.args[0]}"}), error.args[1] if len(error.args) > 1 else 500
+        return error_response(error)
 
 # ------------------------------ APIS DESECHADAS ----------------------------- #
     

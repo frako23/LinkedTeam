@@ -21,7 +21,8 @@ services:
       - "5000:5000"
     environment:
       - DATABASE_URL=postgresql://admin:admin123@db:5432/linkedteam # <--- ¡Aquí está el cambio!
-      - FLASK_APP_KEY="any key works"
+      - FLASK_APP_KEY=${FLASK_APP_KEY:?define FLASK_APP_KEY en .env}
+      - FLASK_ENV=${FLASK_ENV:-production}
       # ... otras variables de entorno
     depends_on:
       - db

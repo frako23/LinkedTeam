@@ -6,6 +6,9 @@ from datetime import date
 
 db = SQLAlchemy()
 
+def now_utc():
+    return datetime.datetime.now(datetime.timezone.utc)
+
 class Role(Enum):
     admin = "admin"
     manager = "manager"
@@ -55,8 +58,8 @@ class User(db.Model):
     password = db.Column(db.String(255), unique=False, nullable=False)
     salt = db.Column(db.String(255), unique=False, nullable=False)
     role = db.Column(db.Enum(Role), default=Role.associated)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
     status = db.Column(db.Enum(Status), default = Status.active)
     sales_goal = db.Column(db.Integer, unique=False)
     manager = db.Column(db.String(100), unique=False, nullable=True)
@@ -120,8 +123,8 @@ class Cliente(db.Model):
     notes = db.Column(db.String(1000), unique=False, nullable=True)
     status = db.Column(db.String(50), unique=False, nullable=False)
     tag = db.Column(db.Enum(Color), default=Color.white)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
@@ -170,8 +173,8 @@ class Tarea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(250), unique=False, nullable=False)
     status = db.Column(db.String(20), unique=False, nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
@@ -247,8 +250,8 @@ class Courses(db.Model):
     link_url = db.Column(db.String(250), unique=False, nullable=False)
     category = db.Column(db.String(50), unique=False, nullable=True)
     tag = db.Column(db.Enum(Color), default=Color.white)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
     manager_id = db.Column(db.Integer,unique=False, nullable=False)
 
     def __init__(self, **kwargs):
@@ -295,8 +298,8 @@ class Payment(db.Model):
     amount = db.Column(db.Float)
     status = db.Column(db.Enum(PaymentStatus), default=PaymentStatus.not_approved)
     payment_method = db.Column(db.String(100), unique=False, nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
     user = db.relationship("User", backref = "payment")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
@@ -339,9 +342,9 @@ class Payment(db.Model):
 class Account_Information(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     plan_name = db.Column(db.String(100), unique=False, nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
-    expires_at = db.Column(db.DateTime(timezone=True), default=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
+    expires_at = db.Column(db.DateTime(timezone=True), default=now_utc)
     user = db.relationship("User", backref = "account_information")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     payment = db.relationship("Payment", backref = "account_information")
@@ -422,8 +425,8 @@ class Client_Products(db.Model):
     notes = db.Column(db.String(500), nullable=True)
     payment_recurrence = db.Column(db.String(20), nullable=False)
     product = db.relationship("Products", backref = "client_products")
-    created_at = db.Column(db.DateTime(timezone=True), default=date.today())
-    updated_at = db.Column(db.DateTime(timezone=True), default=date.today(), onupdate=date.today())
+    created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
+    updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
 
     def __init__(self, **kwargs):
         self.amount = kwargs['amount']

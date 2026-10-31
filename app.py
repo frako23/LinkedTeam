@@ -21,7 +21,15 @@ static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)
-app.config["JWT_SECRET_KEY"] = os.environ.get('FLASK_APP_KEY') 
+jwt_secret = os.environ.get('FLASK_APP_KEY')
+WEAK_SECRETS = {"any key works", "sample key", "changeme", "secret"}
+if not jwt_secret:
+    raise RuntimeError("FLASK_APP_KEY no está definido: la app no puede firmar tokens sin un secreto")
+if jwt_secret.strip('"') in WEAK_SECRETS or len(jwt_secret) < 32:
+    if ENV != "development":
+        raise RuntimeError("FLASK_APP_KEY es débil (valor de ejemplo o menos de 32 caracteres). Genera uno con: python -c \"import secrets; print(secrets.token_urlsafe(48))\"")
+    print("ADVERTENCIA: FLASK_APP_KEY es débil; úsalo solo en desarrollo")
+app.config["JWT_SECRET_KEY"] = jwt_secret
 
 jwt = JWTManager(app)
 
