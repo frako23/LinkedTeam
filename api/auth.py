@@ -5,7 +5,7 @@ from api.models import db, User, Role, Status, Cliente
 
 
 def current_user():
-    return db.session.get(User, get_jwt_identity())
+    return db.session.get(User, int(get_jwt_identity()))
 
 
 def roles_required(*roles):

@@ -48,7 +48,7 @@ def login():
         if not check_date(user.updated_at):
             return jsonify({"msg":"debes renovar tu suscripción"}), 401
         if check_password(user.password, password, user.salt):
-            access_token = create_access_token(identity=user.id)
+            access_token = create_access_token(identity=str(user.id))
             return jsonify(access_token=access_token)
         else:
             return jsonify({"msg":"Contraseña incorrecta"}), 401

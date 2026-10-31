@@ -41,7 +41,7 @@ python test_db.py         # solo prueba la conexión a DATABASE_URL
 - Los nombres de tabla se autogeneran desde la clase: `Client_Activity` → `client__activity`, `Account_Information` → `account__information` (doble guion bajo).
 - Varias fechas y montos son `String` (`Cliente.birthdate`, `Cliente.amount`, `Client_Activity.date`, `Client_Products.amount` y `date_of_closing`); el frontend los convierte.
 - Contraseñas: `generate_password_hash(password + salt)` con un salt aleatorio por usuario guardado en `User.salt` (`set_password` / `check_password` en `routes.py`).
-- La identidad del JWT es `user.id` como int. Funciona con el lock actual (flask-jwt-extended 4.4.4, PyJWT 2.6), pero el `Pipfile` usa `*`: si se regenera el lock, PyJWT ≥ 2.10 exige que `sub` sea string y el login se rompe. En ese caso, crear el token con `str(user.id)` y convertir a `int` al leer `get_jwt_identity()`.
+- La identidad del JWT es `str(user.id)` (PyJWT ≥ 2.10 exige `sub` string); `current_user()` la convierte a `int` al leer.
 
 ## Problemas conocidos (pendientes)
 
