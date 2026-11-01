@@ -49,6 +49,8 @@ class Payment_Method(Enum):
     trimestral = 'trimestral'
     mensual = 'mensual'
 
+ESTADOS_CLIENTE = ["Prospecto", "Contactado", "Primera Cita", "Negociación", "Cerrado", "Cliente"]
+
 # ---------------------- TABLAS DE REGISTROS DE USUARIOS --------------------- #
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -126,6 +128,9 @@ class Cliente(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=now_utc)
     updated_at = db.Column(db.DateTime(timezone=True), default=now_utc, onupdate=now_utc)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    offline_id = db.Column(db.String(36), nullable=True)
+    status_changed_at = db.Column(db.DateTime(timezone=True), nullable=True)
+    __table_args__ = (db.UniqueConstraint("user_id", "offline_id", name="uq_cliente_user_offline"),)
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
@@ -138,6 +143,7 @@ class Cliente(db.Model):
         self.status = kwargs['status']
         self.tag = kwargs['tag'] if 'tag' in kwargs else None
         self.user_id = kwargs['user_id']
+        self.offline_id = kwargs['offline_id'] if 'offline_id' in kwargs else None
 
     @classmethod
     def create(cls, **kwargs):
@@ -147,6 +153,7 @@ class Cliente(db.Model):
             db.session.commit()
             return new_cliente
         except Exception as error:
+            db.session.rollback()
             raise Exception(error.args[0], 400)
         
 
@@ -164,7 +171,8 @@ class Cliente(db.Model):
             "tag": self.tag.value,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "offline_id": self.offline_id
             # do not serialize the password, its a security breach
         }
 
@@ -212,6 +220,8 @@ class Client_Activity(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('cliente.id'), nullable=False)
     # created_at = db.Column(db.DateTime(timezone=True), default = date.today())
+    offline_id = db.Column(db.String(36), nullable=True)
+    __table_args__ = (db.UniqueConstraint("user_id", "offline_id", name="uq_client_activity_user_offline"),)
 
     def __init__(self, **kwargs):
         self.date = kwargs['date']
@@ -219,6 +229,7 @@ class Client_Activity(db.Model):
         self.comment = kwargs['comment']
         self.user_id = kwargs['user_id']
         self.client_id = kwargs['client_id']
+        self.offline_id = kwargs['offline_id'] if 'offline_id' in kwargs else None
 
     @classmethod
     def create(cls, **kwargs):
@@ -226,8 +237,9 @@ class Client_Activity(db.Model):
         db.session.add(new_activity)
         try:
             db.session.commit()
-            return jsonify({"msg":"Actividad creada"})
+            return new_activity
         except Exception as error:
+            db.session.rollback()
             raise Exception(error.args[0], 400)
 
     def serialize(self):
@@ -238,6 +250,7 @@ class Client_Activity(db.Model):
             "comment": self.comment,
             "user_id": self.user_id,
             "client_id": self.client_id,
+            "offline_id": self.offline_id,
             # "created_at": self.created_at
         }
 

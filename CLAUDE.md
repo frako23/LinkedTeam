@@ -37,6 +37,7 @@ python test_db.py         # solo prueba la conexión a DATABASE_URL
 
 - `User.role` (Enum `Role`): `admin` / `manager` (gerente) / `associated` (asesor). La relación gerente → asesor no es FK: `User.manager_id` es un entero suelto y `User.manager` guarda el nombre. `Courses.manager_id` funciona igual.
 - `Cliente`: prospecto o cliente de un usuario (`user_id`). `Cliente.status` es texto libre que debe coincidir con las columnas del Kanban del frontend: `Prospecto`, `Contactado`, `Primera Cita`, `Negociación`, `Cerrado`.
+- Sincronización sin conexión: `Cliente` y `Client_Activity` tienen `offline_id` (UUID generado en el teléfono, único junto con `user_id`): un `POST` repetido con el mismo `offline_id` devuelve el registro existente con `200` en vez de crear otro. `Cliente.status_changed_at` (nulo hasta el primer cambio de etapa) y el campo `changed_at` de `PUT /cliente/<id>` resuelven conflictos: si el cambio es anterior al último cambio de etapa aceptado, responde `409` con el mensaje y el cliente vigente; `changed_at` ausente, inválido o futuro se toma como la hora del servidor. `ESTADOS_CLIENTE` (`api/models.py`) es la lista válida de `Cliente.status` (las 5 etapas más `Cliente`) y se valida en `POST /clientes`, `PUT /cliente/<id>` y `PUT /modify_cliente/<id>`. Contratos en `specs/001-pwa-offline-sync/contracts/api.md`.
 - `Client_Activity` (llamada/mensaje/cita con un cliente), `Tarea` (to-do), `Courses` (videos de YouTube que un gerente asigna a su equipo), `Products` (pólizas por aseguradora, por usuario) y `Client_Products` (póliza vendida a un cliente: monto, fecha de cierre, recurrencia de pago). `Payment` y `Account_Information` son del antiguo modelo de suscripción; el frontend ahora muestra una página de suscripción con datos de pago.
 - Los nombres de tabla se autogeneran desde la clase: `Client_Activity` → `client__activity`, `Account_Information` → `account__information` (doble guion bajo).
 - Varias fechas y montos son `String` (`Cliente.birthdate`, `Cliente.amount`, `Client_Activity.date`, `Client_Products.amount` y `date_of_closing`); el frontend los convierte.
@@ -50,6 +51,7 @@ Actualizar esta sección a medida que se corrijan.
 - Sin HTTPS: el servidor de producción se expone por HTTP plano (infraestructura, no código). Falta rotar el `FLASK_APP_KEY` real de producción.
 - El primer admin ya no se puede crear por la API: hay que promover un usuario directamente en la BD (`UPDATE "user" SET role = 'admin' WHERE email = ...`).
 - `Cliente.tag` y `Courses.tag` se inicializan en `None` y `serialize()` hace `self.tag.value`; crear sin `tag` puede fallar. Además `Courses.__init__` mira `'sales_goal'` en vez de `'tag'`.
-- Los `PUT` que asignan `status`/`gerente` desde el body no validan el contenido (solo los de rol y estatus de usuario).
+- Los `PUT` que asignan `gerente` desde el body no validan el contenido (la etapa de `Cliente.status` sí se valida; también los de rol y estatus de usuario).
+- Eliminar un `Cliente` que tiene interacciones (`Client_Activity`) falla por la llave foránea (no hay `cascade`).
 - CORS está abierto a cualquier origen y el Dockerfile corre `flask run` (servidor de desarrollo), no gunicorn.
 - `check_date` está desactivado; `Payment`/`Account_Information` son del modelo de suscripción abandonado y `/approvepayments` no existe.

@@ -3,13 +3,13 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Cliente, Role, Status, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products
+from api.models import db, User, Cliente, Role, Status, Tarea, Client_Activity, Courses, Payment, Account_Information, Products, Client_Products, ESTADOS_CLIENTE, TipoDeContacto
 from api.utils import generate_sitemap, APIException
 from api.auth import current_user, roles_required, any_user, is_admin, can_access_user, can_access_client, not_found, forbidden
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 from flask_jwt_extended import create_access_token
-from datetime import date
+from datetime import date, datetime, timezone
 
 
 api = Blueprint('api', __name__)
@@ -27,6 +27,21 @@ def check_date(user_date):
     # if today - user_date > 90:
     #     return False
     return True
+
+def como_utc(valor):
+    """SQLite devuelve fechas sin zona; se tratan como UTC."""
+    return valor.replace(tzinfo=timezone.utc) if valor.tzinfo is None else valor
+
+def leer_changed_at(valor):
+    """Momento en que el usuario movió el negocio; sin dato válido o en el futuro, la hora del servidor."""
+    ahora = datetime.now(timezone.utc)
+    if not valor or not isinstance(valor, str):
+        return ahora
+    try:
+        momento = como_utc(datetime.fromisoformat(valor.replace("Z", "+00:00")))
+    except ValueError:
+        return ahora
+    return min(momento, ahora)
 
 def error_response(error):
     status = error.args[1] if len(error.args) > 1 and isinstance(error.args[1], int) else 500
@@ -216,15 +231,29 @@ def post_get_clientes():
         clientes = Cliente.query.filter_by(user_id = user_id)
         return jsonify([cliente.serialize() for cliente in clientes]), 200
     new_cliente_data = request.json
+    offline_id = new_cliente_data.get("offline_id")
     try:
-        if "name" not in new_cliente_data or new_cliente_data["name"] == "":
-            raise Exception("No ingresaste el name", 400)
-        if "status" not in new_cliente_data or new_cliente_data["status"] == "":
-            raise Exception("No ingresaste el status", 400)
-        if "trust" not in new_cliente_data or new_cliente_data["trust"] == "":
-            raise Exception("No ingresaste el nivel de trust", 400)
+        if not new_cliente_data.get("name"):
+            raise Exception("Escribe el nombre del negocio.", 400)
+        if new_cliente_data.get("status") not in ESTADOS_CLIENTE:
+            raise Exception("Elige la etapa.", 400)
+        if not new_cliente_data.get("trust"):
+            raise Exception("Elige el nivel de confianza.", 400)
+        if offline_id is not None:
+            if not isinstance(offline_id, str) or len(offline_id) > 36:
+                raise Exception("No se pudo identificar el cambio.", 400)
+            existente = Cliente.query.filter_by(user_id=user_id, offline_id=offline_id).first()
+            if existente:
+                return jsonify(existente.serialize()), 200
         new_cliente_data.pop("user_id", None)
-        new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
+        try:
+            new_cliente = Cliente.create(**new_cliente_data, user_id = user_id)
+        except Exception:
+            # Dos envíos iguales a la vez: el segundo devuelve el negocio ya creado.
+            existente = offline_id and Cliente.query.filter_by(user_id=user_id, offline_id=offline_id).first()
+            if existente:
+                return jsonify(existente.serialize()), 200
+            raise
         return jsonify(new_cliente.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
@@ -279,8 +308,19 @@ def update_cliente(id):
         if not (is_admin(me) or cliente.user_id == me.id):
             return forbidden()
 
-        cliente.status = request.json['status']
+        body = request.get_json(silent=True) or {}
+        if body.get("status") not in ESTADOS_CLIENTE:
+            return jsonify("Elige la etapa."), 400
 
+        momento = leer_changed_at(body.get("changed_at"))
+        if cliente.status_changed_at and momento < como_utc(cliente.status_changed_at):
+            return jsonify({
+                "msg": f"{cliente.name} quedó en {cliente.status} porque se movió ahí después de tu cambio.",
+                "cliente": cliente.serialize(),
+            }), 409
+
+        cliente.status = body["status"]
+        cliente.status_changed_at = momento
         db.session.commit()
         return jsonify(cliente.serialize()),200
 
@@ -322,7 +362,11 @@ def modify_cliente(id):
     if trust is not None and trust != "":
         client.trust = trust
     if status is not None and status != "":
-        client.status = status
+        if status not in ESTADOS_CLIENTE:
+            return jsonify("Elige la etapa."), 400
+        if status != client.status:
+            client.status = status
+            client.status_changed_at = datetime.now(timezone.utc)
     if notes is not None and notes != "":
         client.notes = notes
     if tag is not None and tag != "":
@@ -425,17 +469,31 @@ def add_client_activity(client_id):
         return forbidden()
     new_client_activity_data = request.json
     try:
-        if "date" not in new_client_activity_data or new_client_activity_data["date"] == "":
-            raise Exception("No ingresaste la fecha", 400)
-        if "contact_type" not in new_client_activity_data or new_client_activity_data["contact_type"] == "":
-            raise Exception("No ingresaste el tipo de contacto", 400)
-        if "comment" not in new_client_activity_data or new_client_activity_data["comment"] == "":
-            raise Exception("No ingresaste el tipo de contacto", 400)
+        offline_id = new_client_activity_data.get("offline_id")
+        if not new_client_activity_data.get("date"):
+            raise Exception("Elige la fecha.", 400)
+        if new_client_activity_data.get("contact_type") not in TipoDeContacto._value2member_map_:
+            raise Exception("Elige el tipo de contacto.", 400)
+        if not new_client_activity_data.get("comment"):
+            raise Exception("Escribe un comentario.", 400)
+        if offline_id is not None:
+            if not isinstance(offline_id, str) or len(offline_id) > 36:
+                raise Exception("No se pudo identificar el cambio.", 400)
+            existente = Client_Activity.query.filter_by(user_id=me.id, offline_id=offline_id).first()
+            if existente:
+                return jsonify(existente.serialize()), 200
 
         new_client_activity_data.pop("user_id", None)
         new_client_activity_data.pop("client_id", None)
-        new_client_activity = Client_Activity.create(**new_client_activity_data, user_id = me.id, client_id = client_id)
-        return new_client_activity, 201
+        try:
+            new_client_activity = Client_Activity.create(**new_client_activity_data, user_id = me.id, client_id = client_id)
+        except Exception:
+            # Dos envíos iguales a la vez: el segundo devuelve la interacción ya creada.
+            existente = offline_id and Client_Activity.query.filter_by(user_id=me.id, offline_id=offline_id).first()
+            if existente:
+                return jsonify(existente.serialize()), 200
+            raise
+        return jsonify(new_client_activity.serialize()), 201
     except Exception as error:
         return jsonify(error.args[0]), error.args[1] if len(error.args) > 1 else 500
 
